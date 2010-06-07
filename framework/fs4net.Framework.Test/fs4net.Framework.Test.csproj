@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EE5A753E-0542-4BB3-B11C-3BFBDE0808DF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>fs4net.Framework.Test</RootNamespace>
+    <AssemblyName>fs4net.Framework.Test</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CreateDriveFixture.cs" />
+    <Compile Include="CreateFileNameFixture.cs" />
+    <Compile Include="CreateRelativeDirectoryFixture.cs" />
+    <Compile Include="CreateRelativeFileFixture.cs" />
+    <Compile Include="CreateRootedDirectoryFixture.cs" />
+    <Compile Include="CreateRootedFileFixture.cs" />
+    <Compile Include="DriveFixture.cs" />
+    <Compile Include="EnumerableUtils.cs" />
+    <Compile Include="FileNameFixture.cs" />
+    <Compile Include="FileNameOfRelativeFileFixture.cs" />
+    <Compile Include="FileNameOfRootedFileFixture.cs" />
+    <Compile Include="MockFileSystem.cs" />
+    <Compile Include="PathCombiningOperatorsFixture.cs" />
+    <Compile Include="RelativeCanonicalPathAsStringFixture.cs" />
+    <Compile Include="RelativePathAsStringFixture.cs" />
+    <Compile Include="RootedCanonicalPathAsStringFixture.cs" />
+    <Compile Include="RootedFileSystemItemFixture.cs" />
+    <Compile Include="RootedPathAsStringFixture.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemIOFixture.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\fs4net.Framework\fs4net.Framework.csproj">
+      <Project>{1050CD0E-F451-40F6-BF70-1B91AEC5482D}</Project>
+      <Name>fs4net.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Goals.txt" />
+    <Content Include="TestsToDo.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,28 @@
+﻿Avoid primitive obsession. Value types.
+ * Together with other types, such as Bitmap
+
+
+Mockable
+ * Together with other types, such as Bitmap
+
+
+Better exception handling
+ * Avoid by having Try methods
+ * Throw correct exceptions with good messages
+
+
+
+
+Non-goal (but would be a nice bonus)
+ * Mono support
+ * Abstraction for other file systems, such as a zip file
+ * High performance
+ * 100% atomic: Handle file system race conditions (internal exceptions are ok in that case)
+ * Support for all kinds of file systems (eg. linux)
+
+
+
+Upcoming Frameworks
+ * bitmap4net
+ * settings4net
+ * log4net adapter

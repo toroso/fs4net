@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fs4net.Framework", "framework\fs4net.Framework\fs4net.Framework.csproj", "{1050CD0E-F451-40F6-BF70-1B91AEC5482D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fs4net.Framework.Test", "framework\fs4net.Framework.Test\fs4net.Framework.Test.csproj", "{EE5A753E-0542-4BB3-B11C-3BFBDE0808DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fs4net.Memory", "memory\fs4net.Memory\fs4net.Memory.csproj", "{84F865D5-22B1-4B95-BE4A-EAE663BCB527}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fs4net.Memory.Test", "memory\fs4net.Memory.Test\fs4net.Memory.Test.csproj", "{0823169B-8FEC-484D-9B4E-ED3FC7108CCF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1050CD0E-F451-40F6-BF70-1B91AEC5482D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1050CD0E-F451-40F6-BF70-1B91AEC5482D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1050CD0E-F451-40F6-BF70-1B91AEC5482D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1050CD0E-F451-40F6-BF70-1B91AEC5482D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE5A753E-0542-4BB3-B11C-3BFBDE0808DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE5A753E-0542-4BB3-B11C-3BFBDE0808DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE5A753E-0542-4BB3-B11C-3BFBDE0808DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE5A753E-0542-4BB3-B11C-3BFBDE0808DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84F865D5-22B1-4B95-BE4A-EAE663BCB527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84F865D5-22B1-4B95-BE4A-EAE663BCB527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84F865D5-22B1-4B95-BE4A-EAE663BCB527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84F865D5-22B1-4B95-BE4A-EAE663BCB527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0823169B-8FEC-484D-9B4E-ED3FC7108CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0823169B-8FEC-484D-9B4E-ED3FC7108CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0823169B-8FEC-484D-9B4E-ED3FC7108CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0823169B-8FEC-484D-9B4E-ED3FC7108CCF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
