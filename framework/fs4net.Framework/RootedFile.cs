@@ -63,28 +63,8 @@ namespace fs4net.Framework
 
         #endregion // Interface Implementations
 
-        #region Public Interface
 
-        /// <summary>
-        /// Returns a descriptor where the two descriptors are concatenated.
-        /// </summary>
-        //public static RootedFile operator +(RelativeDirectory lhs, RelativeFile rhs)
-        //{
-        //    return new RelativeFile(Path.Combine(lhs.PathAsString, rhs.PathAsString));
-        //}
-
-        // TODO: More stuff:
-        //  * Parent folder
-
-
-        #endregion // Public Interface
-
-        #region // Implementation Details
-
-        #endregion // Implementation Details
-
-
-        #region Override Object
+        #region Value Object
 
         // TODO: What to do with these...? Extension methods? Skip and have those with better names?
         public bool Equals(RootedFile other)
@@ -110,7 +90,16 @@ namespace fs4net.Framework
             }
         }
 
-        #endregion // Override Object
+        #endregion // Value Object
+
+        #region Debugging
+
+        public override string ToString()
+        {
+            return PathAsString;
+        }
+
+        #endregion Debugging
     }
 
     public static class RootedFileExtensions
@@ -131,15 +120,45 @@ namespace fs4net.Framework
         /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
         public static DateTime LastModified(this RootedFile me)
         {
+            me.VerifyDenotesExistingFile("last modified time");
+            return me.InternalFileSystem().GetFileLastModified(me.CanonicalPathAsString());
+        }
+
+        /// <summary>
+        /// Returns the date and time the file was last accessed.
+        /// </summary>
+        /// TODO: Exceptions!
+        public static DateTime LastAccessed(this RootedFile me)
+        {
+            me.VerifyDenotesExistingFile("last accessed time");
+            return me.InternalFileSystem().GetFileLastAccessed(me.CanonicalPathAsString());
+        }
+
+        /// <summary>
+        /// Sets the LastAccessed property on the file denoted by this descriptor.
+        /// </summary>
+        public static void SetLastAccessed(this RootedFile me, DateTime at)
+        {
+            me.VerifyDenotesExistingFile("last accessed time");
+            me.InternalFileSystem().SetFileLastAccessed(me.CanonicalPathAsString(), at);
+        }
+
+        private static void VerifyDenotesExistingFile(this RootedFile me, string operation)
+        {
             if (me.IsFile() == false)
             {
                 if (me.IsDirectory())
                 {
-                    throw new FileNotFoundException(string.Format("Can't get last modified time for file '{0}' since it denotes a directory.", me.PathAsString));
+                    ThrowFileNotFound(me, operation, "it denotes a directory");
                 }
-                throw new FileNotFoundException(string.Format("Can't get last modified time for file '{0}' since it does not exist.", me.PathAsString));
+                ThrowFileNotFound(me, operation, "it does not exist");
             }
-            return me.InternalFileSystem().GetFileLastModified(me.CanonicalPathAsString());
+        }
+
+        private static void ThrowFileNotFound(RootedFile forFile, string operation, string reason)
+        {
+            string msg = string.Format("Can't get {0} for file '{1}' since {2}.", operation, forFile.PathAsString, reason);
+            throw new FileNotFoundException(msg, forFile.PathAsString);
         }
 
         /// <summary>
@@ -163,7 +182,7 @@ namespace fs4net.Framework
                 var path = me.CanonicalPathAsString();
                 //if (fileSystem.IsFileInUse(path))
                 //{
-                //    // TODO: Better/more specifiec exception?
+                //    // TODO: Better/more specific exception?
                 //    throw new IOException(string.Format("Can't delete the file '{0}' since it's in use.", me.PathAsString));
                 //}
                 //// Attributes: Archive, ReadOnly, Hidden, System, Device, ...
@@ -191,31 +210,16 @@ namespace fs4net.Framework
         /// </returns>
         public static bool TryDelete(this RootedFile me)
         {
-            if (me.Exists())
+            try
             {
-                var fileSystem = me.InternalFileSystem();
-                var path = me.CanonicalPathAsString();
-                //if (fileSystem.IsFileInUse(path))
-                //{
-                //    return false;
-                //}
-                //if (fileSystem.GetAttributes(path) == FileAttributes.ReadOnly)
-                //{
-                //    return false;
-                //}
-                //if (fileSystem.IsReady(me.DriveName()))
-                //{
-                //    return false;
-                //}
-                try
-                {
-                    fileSystem.DeleteFile(path);
-                }
-// ReSharper disable EmptyGeneralCatchClause
-                catch { }
-// ReSharper restore EmptyGeneralCatchClause
+                me.Delete();
             }
-            return me.Exists();
+                // ReSharper disable EmptyGeneralCatchClause
+            catch
+            {
+            }
+            // ReSharper restore EmptyGeneralCatchClause
+            return !me.Exists();
         }
 
         /// <summary>
@@ -233,10 +237,10 @@ namespace fs4net.Framework
         {
             if (me.IsDirectory())
             {
-                // TODO: Better/more specifiec exception?
+                // TODO: Better/more specific exception?
                 throw new IOException(string.Format("Can't open a file '{0}' for reading since the path denotes a directory.", me.PathAsString));
             }
-            if (me.IsFile() == false)
+            if (!me.IsFile())
             {
                 throw new FileNotFoundException(string.Format("Can't open the file '{0}' for reading since it does not exists.", me.PathAsString));
             }
@@ -257,11 +261,41 @@ namespace fs4net.Framework
         {
             if (me.IsDirectory())
             {
-                // TODO: Better/more specifiec exception?
+                // TODO: Better/more specific exception?
                 throw new IOException(string.Format("Can't create the file '{0}' since the path denotes an existing directory.", me.PathAsString));
             }
             // TODO: Check if parent directory exists
             return me.InternalFileSystem().CreateWriteStream(me.CanonicalPathAsString());
+        }
+
+        /// <summary>
+        /// Returns a RootedFile where the filename is replaced with the given filename. That is, it points to a file
+        /// in the same directory.
+        /// </summary>
+        public static RootedFile WithFileName(this RootedFile me, FileName newName)
+        {
+            return me.ParentDirectory() + newName;
+        }
+    }
+
+    public static class RootedFileUtilities
+    {
+        public static string ReadText(this RootedFile me)
+        {
+            using (var stream = me.CreateReadStream())
+            using (var reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
+        }
+
+        public static void WriteText(this RootedFile me, string text)
+        {
+            using (var stream = me.CreateWriteStream())
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.Write(text);
+            }
         }
     }
 }

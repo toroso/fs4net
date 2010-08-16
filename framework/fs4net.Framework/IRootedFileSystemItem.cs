@@ -1,3 +1,4 @@
+using System.IO;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
@@ -10,15 +11,23 @@ namespace fs4net.Framework
     public static class RootedFileSystemItemExtensions
     {
         /// <summary>
-        /// Returns the drive that the denoted item is located on. If the path is relative it returns the drive of the
-        /// current directory.
-        /// This property succeeds whether the file exists or not.
+        /// Returns the drive that the denoted item is located on.
+        /// This property succeeds whether the denoted item exists or not.
         /// </summary>
         /// <exception cref="System.IO.PathTooLongException">If the file's path is relative and concatenated
         /// with the current directory it exceeds the system-defined maximum length.</exception>
         public static Drive Drive<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>
         {
             return new Drive(me.InternalFileSystem(), CanonicalPathBuilder.GetDriveName(me.PathAsString));
+        }
+
+        /// <summary>
+        /// Returns the parent directory of the denoted item.
+        /// </summary>
+        public static RootedDirectory ParentDirectory<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>
+        {
+            // TODO: Throw if there is no parent...?
+            return new RootedDirectory(me.InternalFileSystem(), Path.GetDirectoryName(me.PathAsString), me.PathWasher);
         }
 
         internal static bool IsFile<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>

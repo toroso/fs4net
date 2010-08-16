@@ -1,4 +1,4 @@
-﻿namespace fs4net.Framework
+namespace fs4net.Framework
 {
     public interface IFileSystem
     {

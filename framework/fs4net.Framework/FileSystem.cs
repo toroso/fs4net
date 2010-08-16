@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace fs4net.Framework
 {
-    internal class FileSystem : IInternalFileSystem
+    public class FileSystem : IInternalFileSystem
     {
         // Cleans the paths before validation.
         private readonly Func<string, string> _pathWasher;
@@ -71,6 +73,31 @@ namespace fs4net.Framework
             return System.IO.Directory.GetLastWriteTime(path.FullPath);
         }
 
+        public DateTime GetFileLastAccessed(RootedCanonicalPath path)
+        {
+            return System.IO.File.GetLastAccessTime(path.FullPath);
+        }
+
+        public void SetFileLastAccessed(RootedCanonicalPath path, DateTime at)
+        {
+            System.IO.File.SetLastAccessTime(path.FullPath, at);
+        }
+
+        public DateTime GetDirectoryLastAccessed(RootedCanonicalPath path)
+        {
+            return System.IO.Directory.GetLastAccessTime(path.FullPath);
+        }
+
+        public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
+        {
+            return System.IO.Directory.GetFiles(path.FullPath).Select(filePath => CreateFileDescribing(filePath));
+        }
+
+        public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path)
+        {
+            return System.IO.Directory.GetDirectories(path.FullPath).Select(filePath => CreateDirectoryDescribing(filePath));
+        }
+
         public void CreateDirectory(RootedCanonicalPath path)
         {
             System.IO.Directory.CreateDirectory(path.FullPath);
@@ -81,9 +108,9 @@ namespace fs4net.Framework
             System.IO.File.Delete(path.FullPath);
         }
 
-        public void DeleteDirectory(RootedCanonicalPath path)
+        public void DeleteDirectory(RootedCanonicalPath path, bool recursive)
         {
-            System.IO.Directory.Delete(path.FullPath);
+            System.IO.Directory.Delete(path.FullPath, recursive);
         }
 
         public System.IO.Stream CreateReadStream(RootedCanonicalPath path)

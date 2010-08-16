@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace fs4net.Framework.Test
@@ -57,6 +58,31 @@ namespace fs4net.Framework.Test
             throw new NotImplementedException();
         }
 
+        public DateTime GetFileLastAccessed(RootedCanonicalPath path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetFileLastAccessed(RootedCanonicalPath path, DateTime at)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetDirectoryLastAccessed(RootedCanonicalPath path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path)
+        {
+            throw new NotImplementedException();
+        }
+
         public void CreateDirectory(RootedCanonicalPath path)
         {
             throw new NotImplementedException();
@@ -67,7 +93,7 @@ namespace fs4net.Framework.Test
             throw new NotImplementedException();
         }
 
-        public void DeleteDirectory(RootedCanonicalPath path)
+        public void DeleteDirectory(RootedCanonicalPath path, bool recursive)
         {
             throw new NotImplementedException();
         }

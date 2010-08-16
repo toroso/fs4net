@@ -22,6 +22,11 @@ namespace fs4net.Framework
             return new FileName(fullName);
         }
 
+        public static FileName FromNameAndExtension(string name, string extension)
+        {
+            return new FileName(name + extension);
+        }
+
         /// <summary>
         /// Returns the whole filename, including the extension if it exists.
         /// </summary>

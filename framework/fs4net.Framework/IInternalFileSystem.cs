@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace fs4net.Framework
@@ -10,11 +11,17 @@ namespace fs4net.Framework
 
         DateTime GetFileLastModified(RootedCanonicalPath path);
         DateTime GetDirectoryLastModified(RootedCanonicalPath path);
+        DateTime GetFileLastAccessed(RootedCanonicalPath path);
+        void SetFileLastAccessed(RootedCanonicalPath path, DateTime at);
+        DateTime GetDirectoryLastAccessed(RootedCanonicalPath path);
+
+        IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path);
+        IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path);
 
         void CreateDirectory(RootedCanonicalPath path);
 
         void DeleteFile(RootedCanonicalPath path);
-        void DeleteDirectory(RootedCanonicalPath path);
+        void DeleteDirectory(RootedCanonicalPath path, bool recursive);
 
         Stream CreateReadStream(RootedCanonicalPath path);
         Stream CreateWriteStream(RootedCanonicalPath path);

@@ -73,6 +73,14 @@ namespace fs4net.Framework
             return lhs.Append(rhs);
         }
 
+        /// <summary>
+        /// Concatenates the two descriptors into one and returns it.
+        /// </summary>
+        public static RootedFile operator +(RootedDirectory lhs, FileName rhs)
+        {
+            return lhs.Append(rhs);
+        }
+
         #endregion // Public Interface
 
         #region Value Object
