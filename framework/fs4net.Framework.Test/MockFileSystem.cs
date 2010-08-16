@@ -57,6 +57,11 @@ namespace fs4net.Framework.Test
             throw new NotImplementedException();
         }
 
+        public void CreateDirectory(RootedCanonicalPath path)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteFile(RootedCanonicalPath path)
         {
             throw new NotImplementedException();

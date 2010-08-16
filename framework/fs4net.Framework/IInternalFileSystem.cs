@@ -11,6 +11,8 @@ namespace fs4net.Framework
         DateTime GetFileLastModified(RootedCanonicalPath path);
         DateTime GetDirectoryLastModified(RootedCanonicalPath path);
 
+        void CreateDirectory(RootedCanonicalPath path);
+
         void DeleteFile(RootedCanonicalPath path);
         void DeleteDirectory(RootedCanonicalPath path);
 

@@ -71,6 +71,11 @@ namespace fs4net.Framework
             return System.IO.Directory.GetLastWriteTime(path.FullPath);
         }
 
+        public void CreateDirectory(RootedCanonicalPath path)
+        {
+            System.IO.Directory.CreateDirectory(path.FullPath);
+        }
+
         public void DeleteFile(RootedCanonicalPath path)
         {
             System.IO.File.Delete(path.FullPath);

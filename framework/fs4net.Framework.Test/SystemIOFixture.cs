@@ -115,7 +115,6 @@ namespace fs4net.Framework.Test
         public void ListInvalidPathChars()
         {
             Path.GetInvalidPathChars().ForEach(Console.WriteLine); // result: " < > |
-
         }
 
         [Test]
@@ -128,6 +127,7 @@ namespace fs4net.Framework.Test
         public void LastModifiedTime()
         {
             Assert.That(Directory.GetLastWriteTime(@"c:\this\path\clearly\does\not\exist"), Is.EqualTo(DateTime.FromFileTime(0)));
+            Assert.DoesNotThrow(() => Directory.GetLastWriteTime(@"c:\windows\regedit.exe"));
         }
 
         [Test]

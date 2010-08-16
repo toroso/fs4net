@@ -31,7 +31,7 @@ namespace fs4net.Framework
         /// </summary>
         public static bool Exists<T>(this IRootedDirectory<T> me) where T : IRootedDirectory<T>
         {
-            return me.IsFile();
+            return me.IsDirectory();
         }
 
         /// <summary>
@@ -50,6 +50,25 @@ namespace fs4net.Framework
                 throw new FileNotFoundException(string.Format("Can't get last modified time for directory '{0}' since it does not exist.", me.PathAsString));
             }
             return me.InternalFileSystem().GetDirectoryLastModified(me.CanonicalPathAsString());
+        }
+
+        /// <summary>
+        /// Creates the directory denoted by this descriptor. It creats the leaf folder as well as any non-existin
+        /// parent folders. If the directory already exists this method does nothing.
+        /// </summary>
+        /// TODO: Exceptions!
+        public static void Create<T>(this IRootedDirectory<T> me) where T : IRootedDirectory<T>
+        {
+            if (me.IsFile())
+            {
+                throw new IOException(string.Format("Can't create the directory '{0}' since it denotes a file.", me.PathAsString));
+            }
+            if (! me.Exists())
+            {
+                var fileSystem = me.InternalFileSystem();
+                var path = me.CanonicalPathAsString();
+                fileSystem.CreateDirectory(path);
+            }
         }
 
         /// <summary>

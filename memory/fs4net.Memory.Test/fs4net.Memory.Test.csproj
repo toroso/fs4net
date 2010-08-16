@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -46,7 +50,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Directory\ExistsFixture.cs" />
+    <Compile Include="Directory\LastModifiedFixture.cs" />
+    <Compile Include="File\ExistsFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\framework\fs4net.Framework\fs4net.Framework.csproj">
+      <Project>{1050CD0E-F451-40F6-BF70-1B91AEC5482D}</Project>
+      <Name>fs4net.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\fs4net.Memory\fs4net.Memory.csproj">
+      <Project>{84F865D5-22B1-4B95-BE4A-EAE663BCB527}</Project>
+      <Name>fs4net.Memory</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

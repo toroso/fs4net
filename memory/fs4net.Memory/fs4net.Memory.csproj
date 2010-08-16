@@ -46,7 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\FileSystemBuilder.cs" />
+    <Compile Include="Builder\IBuildable.cs" />
+    <Compile Include="MemoryFileSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\framework\fs4net.Framework\fs4net.Framework.csproj">
+      <Project>{1050CD0E-F451-40F6-BF70-1B91AEC5482D}</Project>
+      <Name>fs4net.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
