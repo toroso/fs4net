@@ -55,7 +55,7 @@ namespace fs4net.Memory
 
         public DateTime GetFileLastModified(RootedCanonicalPath path)
         {
-            throw new NotImplementedException();
+            return FindFileNodeByPath(path.FullPath).LastModified;
         }
 
         public DateTime GetDirectoryLastModified(RootedCanonicalPath path)
@@ -110,17 +110,18 @@ namespace fs4net.Memory
 
         public Stream CreateWriteStream(RootedCanonicalPath path)
         {
-            var currentNode = _rootNode;
-
-            var parser = new PathParser(path.FullPath);
-            parser.WithEachButLastFileSystemNodeNameDo(folderName => currentNode = currentNode.CreateOrReuseFolderNode(folderName));
-            parser.WithLastFileSystemNodeNameDo(filename => currentNode.CreateFileNode(filename));
+            CreateFile(path.FullPath);
             return null;
         }
 
         #endregion // Implementation of IInternalFileSystem
 
         #region Implementation of IBuildable
+
+        public void BuildFile(string path)
+        {
+            CreateFile(path);
+        }
 
         public void BuildDirectory(string path)
         {
@@ -133,6 +134,15 @@ namespace fs4net.Memory
         }
 
         #endregion
+
+        private void CreateFile(string path)
+        {
+            var currentNode = _rootNode;
+
+            var parser = new PathParser(path);
+            parser.WithEachButLastFileSystemNodeNameDo(folderName => currentNode = currentNode.CreateOrReuseFolderNode(folderName));
+            parser.WithLastFileSystemNodeNameDo(filename => currentNode.CreateFileNode(filename));
+        }
 
         private void CreateDirectory(string path)
         {

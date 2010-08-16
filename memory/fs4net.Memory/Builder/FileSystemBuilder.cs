@@ -17,11 +17,9 @@ namespace fs4net.Memory.Builder
             return new RootedDirectoryBuilder(path, _buildable);
         }
 
-        public RootedFile WithFile(string path)
+        public RootedFileBuilder WithFile(string path)
         {
-            RootedFile result = _buildable.CreateFileDescribing(path);
-            using (result.CreateWriteStream()) { }
-            return result;
+            return new RootedFileBuilder(path, _buildable);
         }
     }
 
@@ -46,6 +44,30 @@ namespace fs4net.Memory.Builder
         public static implicit operator RootedDirectory (RootedDirectoryBuilder me)
         {
             return me._buildable.CreateDirectoryDescribing(me._path);
+        }
+    }
+
+    public class RootedFileBuilder
+    {
+        private readonly string _path;
+        private readonly IBuildable _buildable;
+
+        public RootedFileBuilder(string path, IBuildable buildable)
+        {
+            _path = path;
+            _buildable = buildable;
+            _buildable.BuildFile(_path);
+        }
+
+        public RootedFileBuilder LastModifiedAt(DateTime at)
+        {
+            _buildable.SetLastModified(_path, at);
+            return this;
+        }
+
+        public static implicit operator RootedFile(RootedFileBuilder me)
+        {
+            return me._buildable.CreateFileDescribing(me._path);
         }
     }
 }

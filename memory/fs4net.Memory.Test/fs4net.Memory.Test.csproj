@@ -53,6 +53,7 @@
     <Compile Include="Directory\ExistsFixture.cs" />
     <Compile Include="Directory\LastModifiedFixture.cs" />
     <Compile Include="File\ExistsFixture.cs" />
+    <Compile Include="File\LastModifiedFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
