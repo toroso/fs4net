@@ -50,7 +50,10 @@
     <Compile Include="Builder\FileSystemItemBuilder.cs" />
     <Compile Include="Builder\RootedDirectoryBuilder.cs" />
     <Compile Include="Builder\RootedFileBuilder.cs" />
+    <Compile Include="Node\FileNode.cs" />
+    <Compile Include="Node\FileSystemNode.cs" />
     <Compile Include="MemoryFileSystem.cs" />
+    <Compile Include="Node\FolderNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
