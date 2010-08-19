@@ -26,5 +26,12 @@ namespace fs4net.Memory.Test.Directory
             // TODO: Don't like this exception: DirectoryNotFound?
             Assert.Throws<FileNotFoundException>(() => NonExistingDirectory.LastModified());
         }
+
+        // TODO: Set LastModified:
+        //  * Create the folder
+        //  * Create or rename a file inside the folder
+        // NOT by:
+        //  * Modify contents of a file inside the folder
+        //  * Rename the folder
     }
 }
