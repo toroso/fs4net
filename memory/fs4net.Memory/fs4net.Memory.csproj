@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builder\FileSystemBuilder.cs" />
-    <Compile Include="Builder\IBuildable.cs" />
     <Compile Include="MemoryFileSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

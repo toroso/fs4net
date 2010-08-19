@@ -30,5 +30,11 @@ namespace fs4net.Memory.Test
             ExistingFile = populateFileSystem.WithFile(@"c:\path\to\file.txt").LastModifiedAt(ExistingFileLastModified);
             NonExistingFile = FileSystem.CreateFileDescribing(@"c:\another\path\to\file.txt");
         }
+
+        [TestFixtureTearDown]
+        public void TearDownFileSystem()
+        {
+            FileSystem.Dispose();
+        }
     }
 }

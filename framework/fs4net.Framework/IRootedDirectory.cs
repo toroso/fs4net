@@ -68,6 +68,18 @@ namespace fs4net.Framework
         }
 
         /// <summary>
+        /// Sets the date and time the directory was last written to.
+        /// </summary>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
+        public static void SetLastModified<T>(this IRootedDirectory<T> me, DateTime at)
+            where T : IRootedDirectory<T>
+        {
+            me.VerifyDenotesExistingDirectory("set last modified time");
+            me.InternalFileSystem().SetDirectoryLastModified(me.CanonicalPathAsString(), at);
+        }
+
+        /// <summary>
         /// Returns the date and time the directory was last accessed.
         /// </summary>
         /// TODO: Exceptions!
@@ -79,7 +91,7 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Creates the directory denoted by this descriptor. It creats the leaf folder as well as any non-existin
+        /// Creates the directory denoted by this descriptor. It creates the leaf folder as well as any non-existing
         /// parent folders. If the directory already exists this method does nothing.
         /// </summary>
         /// TODO: Exceptions!

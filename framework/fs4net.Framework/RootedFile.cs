@@ -120,8 +120,19 @@ namespace fs4net.Framework
         /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
         public static DateTime LastModified(this RootedFile me)
         {
-            me.VerifyDenotesExistingFile("last modified time");
+            me.VerifyDenotesExistingFile("get last modified time");
             return me.InternalFileSystem().GetFileLastModified(me.CanonicalPathAsString());
+        }
+
+        /// <summary>
+        /// Sets the date and time the file was last written to.
+        /// </summary>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
+        public static void SetLastModified(this RootedFile me, DateTime at)
+        {
+            me.VerifyDenotesExistingFile("set last modified time");
+            me.InternalFileSystem().SetFileLastModified(me.CanonicalPathAsString(), at);
         }
 
         /// <summary>
@@ -130,16 +141,17 @@ namespace fs4net.Framework
         /// TODO: Exceptions!
         public static DateTime LastAccessed(this RootedFile me)
         {
-            me.VerifyDenotesExistingFile("last accessed time");
+            me.VerifyDenotesExistingFile("get last accessed time");
             return me.InternalFileSystem().GetFileLastAccessed(me.CanonicalPathAsString());
         }
 
         /// <summary>
         /// Sets the LastAccessed property on the file denoted by this descriptor.
         /// </summary>
+        /// TODO: Exceptions!
         public static void SetLastAccessed(this RootedFile me, DateTime at)
         {
-            me.VerifyDenotesExistingFile("last accessed time");
+            me.VerifyDenotesExistingFile("get last accessed time");
             me.InternalFileSystem().SetFileLastAccessed(me.CanonicalPathAsString(), at);
         }
 
@@ -157,7 +169,7 @@ namespace fs4net.Framework
 
         private static void ThrowFileNotFound(RootedFile forFile, string operation, string reason)
         {
-            string msg = string.Format("Can't get {0} for file '{1}' since {2}.", operation, forFile.PathAsString, reason);
+            string msg = string.Format("Can't {0} for file '{1}' since {2}.", operation, forFile.PathAsString, reason);
             throw new FileNotFoundException(msg, forFile.PathAsString);
         }
 

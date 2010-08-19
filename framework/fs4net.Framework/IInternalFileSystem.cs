@@ -10,7 +10,9 @@ namespace fs4net.Framework
         bool IsDirectory(RootedCanonicalPath path);
 
         DateTime GetFileLastModified(RootedCanonicalPath path);
+        void SetFileLastModified(RootedCanonicalPath path, DateTime at);
         DateTime GetDirectoryLastModified(RootedCanonicalPath path);
+        void SetDirectoryLastModified(RootedCanonicalPath path, DateTime at);
         DateTime GetFileLastAccessed(RootedCanonicalPath path);
         void SetFileLastAccessed(RootedCanonicalPath path, DateTime at);
         DateTime GetDirectoryLastAccessed(RootedCanonicalPath path);

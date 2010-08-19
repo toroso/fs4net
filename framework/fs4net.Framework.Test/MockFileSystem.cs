@@ -53,7 +53,17 @@ namespace fs4net.Framework.Test
             throw new NotImplementedException();
         }
 
+        public void SetFileLastModified(RootedCanonicalPath path, DateTime at)
+        {
+            throw new NotImplementedException();
+        }
+
         public DateTime GetDirectoryLastModified(RootedCanonicalPath path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetDirectoryLastModified(RootedCanonicalPath path, DateTime at)
         {
             throw new NotImplementedException();
         }

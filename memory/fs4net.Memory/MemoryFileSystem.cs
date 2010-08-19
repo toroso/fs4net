@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using fs4net.Framework;
-using fs4net.Memory.Builder;
 
 namespace fs4net.Memory
 {
-    public class MemoryFileSystem : IInternalFileSystem, IBuildable
+    public class MemoryFileSystem : IInternalFileSystem, IDisposable
     {
         private readonly FolderNode _rootNode = FolderNode.CreateRoot();
 
+        public void Dispose()
+        {
+            _rootNode.Dispose();
+        }
         
         #region Implementation of IFileSystem
 
@@ -58,9 +61,19 @@ namespace fs4net.Memory
             return FindFileNodeByPath(path.FullPath).LastModified;
         }
 
+        public void SetFileLastModified(RootedCanonicalPath path, DateTime at)
+        {
+            FindFileNodeByPath(path.FullPath).LastModified = at;
+        }
+
         public DateTime GetDirectoryLastModified(RootedCanonicalPath path)
         {
             return FindFolderNodeByPath(path.FullPath).LastModified;
+        }
+
+        public void SetDirectoryLastModified(RootedCanonicalPath path, DateTime at)
+        {
+            FindFolderNodeByPath(path.FullPath).LastModified = at;
         }
 
         public DateTime GetFileLastAccessed(RootedCanonicalPath path)
@@ -110,38 +123,20 @@ namespace fs4net.Memory
 
         public Stream CreateWriteStream(RootedCanonicalPath path)
         {
-            CreateFile(path.FullPath);
-            return null;
+            return CreateFile(path.FullPath).CreateWriteStream();
         }
 
         #endregion // Implementation of IInternalFileSystem
 
-        #region Implementation of IBuildable
-
-        public void BuildFile(string path)
+        private FileNode CreateFile(string path)
         {
-            CreateFile(path);
-        }
-
-        public void BuildDirectory(string path)
-        {
-            CreateDirectory(path);
-        }
-
-        public void SetLastModified(string path, DateTime at)
-        {
-            FindNodeByPath(path).LastModified = at;
-        }
-
-        #endregion
-
-        private void CreateFile(string path)
-        {
+            FileNode resultNode = null;
             var currentNode = _rootNode;
 
             var parser = new PathParser(path);
             parser.WithEachButLastFileSystemNodeNameDo(folderName => currentNode = currentNode.CreateOrReuseFolderNode(folderName));
-            parser.WithLastFileSystemNodeNameDo(filename => currentNode.CreateFileNode(filename));
+            parser.WithLastFileSystemNodeNameDo(filename => resultNode = currentNode.CreateFileNode(filename));
+            return resultNode;
         }
 
         private void CreateDirectory(string path)
@@ -217,13 +212,13 @@ namespace fs4net.Memory
         }
     }
 
-    internal class FileSystemNode
+    internal abstract class FileSystemNode : IDisposable
     {
         public FolderNode Parent { get; private set; }
         public string Name { get; private set; }
         public DateTime LastModified { get; set; }
 
-        public FileSystemNode(FolderNode parent, string name)
+        protected FileSystemNode(FolderNode parent, string name)
         {
             Parent = parent;
             Name = name;
@@ -233,6 +228,8 @@ namespace fs4net.Memory
             }
             LastModified = DateTime.MinValue;
         }
+
+        public abstract void Dispose();
     }
 
     internal class FolderNode : FileSystemNode
@@ -247,6 +244,11 @@ namespace fs4net.Memory
         private FolderNode()
             : base(null, "root")
         {
+        }
+
+        public override void Dispose()
+        {
+            _children.ForEach(node => node.Dispose());
         }
 
         public FolderNode CreateOrReuseFolderNode(string name)
@@ -281,9 +283,60 @@ namespace fs4net.Memory
 
     internal class FileNode : FileSystemNode
     {
+        private readonly NonDisposingStream _content = new NonDisposingStream(new MemoryStream());
+
         public FileNode(FolderNode parent, string name)
             : base(parent, name)
         {
         }
+
+        public override void Dispose()
+        {
+            _content.DisposeForReal();
+        }
+
+        internal Stream CreateReadStream()
+        {
+            _content.Seek(0, SeekOrigin.Begin);
+            return _content;
+        }
+
+        internal Stream CreateWriteStream()
+        {
+            _content.Seek(0, SeekOrigin.Begin);
+            return _content;
+        }
+    }
+
+    // Note: This class is really scary and should not be used in production code.
+    internal class NonDisposingStream : Stream
+    {
+        private readonly Stream _inner;
+
+        public NonDisposingStream(Stream inner)
+        {
+            _inner = inner;
+        }
+
+        public void DisposeForReal()
+        {
+            _inner.Dispose();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            // Do nothing... that's the charm!
+        }
+
+        public override void Flush() { _inner.Flush(); }
+        public override long Seek(long offset, SeekOrigin origin) { return _inner.Seek(offset, origin); }
+        public override void SetLength(long value) { _inner.SetLength(value); }
+        public override int Read(byte[] buffer, int offset, int count) { return _inner.Read(buffer, offset, count); }
+        public override void Write(byte[] buffer, int offset, int count) { _inner.Write(buffer, offset, count); }
+        public override bool CanRead { get { return _inner.CanRead; } }
+        public override bool CanSeek { get { return _inner.CanSeek; } }
+        public override bool CanWrite { get { return _inner.CanWrite; } }
+        public override long Length { get { return _inner.Length; } }
+        public override long Position { get { return _inner.Position; } set { _inner.Position = value; } }
     }
 }

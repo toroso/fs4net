@@ -5,69 +5,86 @@ namespace fs4net.Memory.Builder
 {
     public class FileSystemBuilder
     {
-        private readonly IBuildable _buildable;
+        private readonly IFileSystem _fileSystem;
 
-        public FileSystemBuilder(IBuildable buildable)
+        public FileSystemBuilder(IFileSystem fileSystem)
         {
-            _buildable = buildable;
+            _fileSystem = fileSystem;
         }
 
         public RootedDirectoryBuilder WithDir(string path)
         {
-            return new RootedDirectoryBuilder(path, _buildable);
+            return new RootedDirectoryBuilder(_fileSystem, path);
         }
 
         public RootedFileBuilder WithFile(string path)
         {
-            return new RootedFileBuilder(path, _buildable);
+            return new RootedFileBuilder(_fileSystem, path);
         }
     }
 
     public class RootedDirectoryBuilder
     {
+        private readonly IFileSystem _fileSystem;
         private readonly string _path;
-        private readonly IBuildable _buildable;
+        private DateTime _lastModified = DateTime.Now;
 
-        public RootedDirectoryBuilder(string path, IBuildable buildable)
+        public RootedDirectoryBuilder(IFileSystem fileSystem, string path)
         {
+            _fileSystem = fileSystem;
             _path = path;
-            _buildable = buildable;
-            _buildable.BuildDirectory(_path);
         }
 
         public RootedDirectoryBuilder LastModifiedAt(DateTime at)
         {
-            _buildable.SetLastModified(_path, at);
+            _lastModified = at;
             return this;
         }
 
         public static implicit operator RootedDirectory (RootedDirectoryBuilder me)
         {
-            return me._buildable.CreateDirectoryDescribing(me._path);
+            return me.Build();
+        }
+
+        private RootedDirectory Build()
+        {
+            var dir = _fileSystem.CreateDirectoryDescribing(_path);
+            dir.Create();
+            dir.SetLastModified(_lastModified);
+            return dir;
         }
     }
 
     public class RootedFileBuilder
     {
+        private readonly IFileSystem _fileSystem;
         private readonly string _path;
-        private readonly IBuildable _buildable;
+        private DateTime _lastModified = DateTime.Now;
+        private string _content = string.Empty;
 
-        public RootedFileBuilder(string path, IBuildable buildable)
+        public RootedFileBuilder(IFileSystem fileSystem, string path)
         {
+            _fileSystem = fileSystem;
             _path = path;
-            _buildable = buildable;
-            _buildable.BuildFile(_path);
         }
 
         public RootedFileBuilder LastModifiedAt(DateTime at)
         {
-            _buildable.SetLastModified(_path, at);
+            _lastModified = at;
             return this;
         }
 
         public static implicit operator RootedFile(RootedFileBuilder me)
         {
-            return me._buildable.CreateFileDescribing(me._path);
+            return me.Build();
+        }
+
+        private RootedFile Build()
+        {
+            var file = _fileSystem.CreateFileDescribing(_path);
+            file.WriteText(_content);
+            file.SetLastModified(_lastModified);
+            return file;
         }
     }
 }
