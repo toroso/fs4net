@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builder\FileSystemBuilder.cs" />
+    <Compile Include="Builder\FileSystemItemBuilder.cs" />
+    <Compile Include="Builder\RootedDirectoryBuilder.cs" />
+    <Compile Include="Builder\RootedFileBuilder.cs" />
     <Compile Include="MemoryFileSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
