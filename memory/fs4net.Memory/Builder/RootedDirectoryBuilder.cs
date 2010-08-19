@@ -4,9 +4,12 @@ namespace fs4net.Memory.Builder
 {
     public class RootedDirectoryBuilder : FileSystemItemBuilder<RootedDirectoryBuilder>
     {
-        public RootedDirectoryBuilder(IFileSystem fileSystem, string path)
-            : base(fileSystem, path)
+        private readonly RootedDirectory _dir;
+
+        public RootedDirectoryBuilder(IFileSystem fileSystem, RootedDirectory dir)
+            : base(fileSystem)
         {
+            _dir = dir;
         }
 
         protected override RootedDirectoryBuilder Me()
@@ -21,10 +24,9 @@ namespace fs4net.Memory.Builder
 
         private RootedDirectory Build()
         {
-            var dir = FileSystem.CreateDirectoryDescribing(Path);
-            dir.Create();
-            dir.SetLastModified(LastModified);
-            return dir;
+            _dir.Create();
+            _dir.SetLastModified(LastModified);
+            return _dir;
         }
     }
 }

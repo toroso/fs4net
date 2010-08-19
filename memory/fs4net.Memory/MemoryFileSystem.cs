@@ -9,6 +9,9 @@ namespace fs4net.Memory
 {
     public class MemoryFileSystem : IInternalFileSystem, IDisposable
     {
+        // TODO: Make configurable from test with setter
+        private const string TemporaryPathName = @"c:\temp";
+
         private readonly FolderNode _rootNode = FolderNode.CreateRoot();
 
         public void Dispose()
@@ -30,7 +33,7 @@ namespace fs4net.Memory
 
         public RootedDirectory CreateDirectoryDescribingTemporaryDirectory()
         {
-            throw new NotImplementedException();
+            return CreateDirectoryDescribing(TemporaryPathName);
         }
 
         public RootedDirectory CreateDirectoryDescribingCurrentDirectory()
@@ -114,7 +117,8 @@ namespace fs4net.Memory
 
         public void DeleteDirectory(RootedCanonicalPath path, bool recursive)
         {
-            throw new NotImplementedException();
+            // TODO: Tolerant if it doesn't exist; Support recursive.
+            FindFolderNodeByPath(path.FullPath).Delete();
         }
 
         public Stream CreateReadStream(RootedCanonicalPath path)

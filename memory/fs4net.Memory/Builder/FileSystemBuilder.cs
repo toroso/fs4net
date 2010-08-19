@@ -5,20 +5,22 @@ namespace fs4net.Memory.Builder
     public class FileSystemBuilder
     {
         private readonly IFileSystem _fileSystem;
+        private readonly RootedDirectory _rootDir;
 
-        public FileSystemBuilder(IFileSystem fileSystem)
+        public FileSystemBuilder(IFileSystem fileSystem, RootedDirectory rootDir)
         {
             _fileSystem = fileSystem;
+            _rootDir = rootDir;
         }
 
         public RootedDirectoryBuilder WithDir(string path)
         {
-            return new RootedDirectoryBuilder(_fileSystem, path);
+            return new RootedDirectoryBuilder(_fileSystem, _rootDir + RelativeDirectory.FromString(path));
         }
 
         public RootedFileBuilder WithFile(string path)
         {
-            return new RootedFileBuilder(_fileSystem, path);
+            return new RootedFileBuilder(_fileSystem, _rootDir + RelativeFile.FromString(path));
         }
     }
 }

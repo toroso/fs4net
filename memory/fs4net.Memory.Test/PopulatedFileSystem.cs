@@ -8,6 +8,7 @@ namespace fs4net.Memory.Test
     public class PopulatedFileSystem
     {
         protected MemoryFileSystem FileSystem { get; private set; }
+        private RootedDirectory _tempDir;
 
         protected RootedDirectory ExistingLeafDirectory { get; private set; }
         protected DateTime ExistingLeafDirectoryLastModified { get { return new DateTime(13243546576879); } }
@@ -23,17 +24,29 @@ namespace fs4net.Memory.Test
         {
             FileSystem = new MemoryFileSystem();
 
-            var populateFileSystem = new FileSystemBuilder(FileSystem);
-            ExistingLeafDirectory = populateFileSystem.WithDir(@"c:\path\to").LastModifiedAt(ExistingLeafDirectoryLastModified);
+            _tempDir = FileSystem.CreateDirectoryDescribingTemporaryDirectory() + RelativeDirectory.FromString("PopulatedFileSystem");
+
+            var populateFileSystem = new FileSystemBuilder(FileSystem, _tempDir);
+            ExistingLeafDirectory = populateFileSystem
+                .WithDir(@"path\to")
+                .LastModifiedAt(ExistingLeafDirectoryLastModified);
             ParentOfExistingLeafDirectory = ExistingLeafDirectory.ParentDirectory();
-            NonExistingDirectory = FileSystem.CreateDirectoryDescribing(@"c:\another\path\to");
-            ExistingFile = populateFileSystem.WithFile(@"c:\path\to\file.txt").LastModifiedAt(ExistingFileLastModified);
-            NonExistingFile = FileSystem.CreateFileDescribing(@"c:\another\path\to\file.txt");
+            NonExistingDirectory = FileSystem.CreateDirectoryDescribing(InTemp(@"another\path\to"));
+            ExistingFile = populateFileSystem
+                .WithFile(@"path\to\file.txt")
+                .LastModifiedAt(ExistingFileLastModified);
+            NonExistingFile = FileSystem.CreateFileDescribing(InTemp(@"another\path\to\file.txt"));
+        }
+
+        private string InTemp(string relativePath)
+        {
+            return (_tempDir + RelativeDirectory.FromString(relativePath)).PathAsString;
         }
 
         [TestFixtureTearDown]
         public void TearDownFileSystem()
         {
+            _tempDir.DeleteRecursively();
             FileSystem.Dispose();
         }
     }

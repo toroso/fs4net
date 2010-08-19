@@ -6,13 +6,11 @@ namespace fs4net.Memory.Builder
     public abstract class FileSystemItemBuilder<T> where T : FileSystemItemBuilder<T>
     {
         protected IFileSystem FileSystem { get; private set; }
-        protected string Path { get; private set; }
         protected DateTime LastModified { get; private set; }
 
-        protected FileSystemItemBuilder(IFileSystem fileSystem, string path)
+        protected FileSystemItemBuilder(IFileSystem fileSystem)
         {
             FileSystem = fileSystem;
-            Path = path;
             LastModified = DateTime.Now;
         }
 

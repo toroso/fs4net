@@ -20,5 +20,10 @@ namespace fs4net.Memory.Node
         }
 
         public abstract void Dispose();
+
+        public override string ToString()
+        {
+            return Parent + Name;
+        }
     }
 }

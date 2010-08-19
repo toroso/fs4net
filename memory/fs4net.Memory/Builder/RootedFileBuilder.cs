@@ -4,11 +4,13 @@ namespace fs4net.Memory.Builder
 {
     public class RootedFileBuilder : FileSystemItemBuilder<RootedFileBuilder>
     {
+        private readonly RootedFile _file;
         public string Content { get; private set; }
 
-        public RootedFileBuilder(IFileSystem fileSystem, string path)
-            : base(fileSystem, path)
+        public RootedFileBuilder(IFileSystem fileSystem, RootedFile file)
+            : base(fileSystem)
         {
+            _file = file;
             Content = string.Empty;
         }
 
@@ -24,10 +26,9 @@ namespace fs4net.Memory.Builder
 
         private RootedFile Build()
         {
-            var file = FileSystem.CreateFileDescribing(Path);
-            file.WriteText(Content);
-            file.SetLastModified(LastModified);
-            return file;
+            _file.WriteText(Content);
+            _file.SetLastModified(LastModified);
+            return _file;
         }
     }
 }

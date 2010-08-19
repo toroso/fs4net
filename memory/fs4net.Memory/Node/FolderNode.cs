@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,6 +50,24 @@ namespace fs4net.Memory.Node
         public FileNode CreateFileNode(string filename)
         {
             return new FileNode(this, filename);
+        }
+
+        public void Delete()
+        {
+            Parent.RemoveChild(this);
+        }
+
+        private void RemoveChild(FileSystemNode nodeToRemove)
+        {
+            nodeToRemove.Dispose();
+            if (_children.Remove(nodeToRemove) == false)
+                throw new InvalidOperationException(string.Format("Trying to remove a node '{0}' that doesn't exist.", nodeToRemove));
+        }
+
+        public override string ToString()
+        {
+            if (Parent == null) return string.Empty;
+            return base.ToString() + @"\";
         }
     }
 }
