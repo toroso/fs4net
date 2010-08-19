@@ -1,13 +1,13 @@
 using System;
+using fs4net.CommonTest.Builder;
 using fs4net.Framework;
-using fs4net.Memory.Builder;
 using NUnit.Framework;
 
-namespace fs4net.Memory.Test
+namespace fs4net.CommonTest.Template
 {
-    public class PopulatedFileSystem
+    public abstract class PopulatedFileSystem
     {
-        protected MemoryFileSystem FileSystem { get; private set; }
+        protected IFileSystem FileSystem { get; private set; }
         private RootedDirectory _tempDir;
 
         protected RootedDirectory ExistingLeafDirectory { get; private set; }
@@ -22,7 +22,7 @@ namespace fs4net.Memory.Test
         [TestFixtureSetUp]
         public void PopulateFileSystem()
         {
-            FileSystem = new MemoryFileSystem();
+            FileSystem = CreateFileSystem();
 
             _tempDir = FileSystem.CreateDirectoryDescribingTemporaryDirectory() + RelativeDirectory.FromString("PopulatedFileSystem");
 
@@ -47,7 +47,10 @@ namespace fs4net.Memory.Test
         public void TearDownFileSystem()
         {
             _tempDir.DeleteRecursively();
-            FileSystem.Dispose();
+            DisposeFileSystem();
         }
+
+        protected abstract IFileSystem CreateFileSystem();
+        protected virtual void DisposeFileSystem() { }
     }
 }

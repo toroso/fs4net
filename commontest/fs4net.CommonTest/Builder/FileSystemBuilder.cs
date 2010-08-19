@@ -1,6 +1,6 @@
 using fs4net.Framework;
 
-namespace fs4net.Memory.Builder
+namespace fs4net.CommonTest.Builder
 {
     public class FileSystemBuilder
     {

@@ -1,28 +1,13 @@
-using System.IO;
+using Template = fs4net.CommonTest.Template;
 using fs4net.Framework;
-using NUnit.Framework;
 
 namespace fs4net.Memory.Test.File
 {
-    [TestFixture]
-    public class LastModifiedFixture : PopulatedFileSystem
+    public class LastModifiedFixture : Template.File.LastModifiedFixture
     {
-        [Test]
-        public void LastModified_For_File_Is_Correct()
+        protected override IFileSystem CreateFileSystem()
         {
-            Assert.That(ExistingFile.LastModified(), Is.EqualTo(ExistingFileLastModified));
-        }
-
-        [Test]
-        public void LastModified_On_File_For_Existing_Directory_Throws()
-        {
-            Assert.Throws<FileNotFoundException>(() => FileSystem.CreateFileDescribing(ExistingLeafDirectory.PathAsString).LastModified());
-        }
-
-        [Test]
-        public void LastModified_On_NonExisting_File_Throws()
-        {
-            Assert.Throws<FileNotFoundException>(() => NonExistingFile.LastModified());
+            return new MemoryFileSystem();
         }
     }
 }

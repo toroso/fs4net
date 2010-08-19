@@ -1,7 +1,7 @@
 using System;
 using fs4net.Framework;
 
-namespace fs4net.Memory.Builder
+namespace fs4net.CommonTest.Builder
 {
     public abstract class FileSystemItemBuilder<T> where T : FileSystemItemBuilder<T>
     {

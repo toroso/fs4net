@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fs4net.Memory", "memory\fs4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fs4net.Memory.Test", "memory\fs4net.Memory.Test\fs4net.Memory.Test.csproj", "{0823169B-8FEC-484D-9B4E-ED3FC7108CCF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fs4net.CommonTest", "commontest\fs4net.CommonTest\fs4net.CommonTest.csproj", "{B7D15700-67FD-4FAB-97D1-7A5DA8C5C079}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{0823169B-8FEC-484D-9B4E-ED3FC7108CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0823169B-8FEC-484D-9B4E-ED3FC7108CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0823169B-8FEC-484D-9B4E-ED3FC7108CCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7D15700-67FD-4FAB-97D1-7A5DA8C5C079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7D15700-67FD-4FAB-97D1-7A5DA8C5C079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7D15700-67FD-4FAB-97D1-7A5DA8C5C079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7D15700-67FD-4FAB-97D1-7A5DA8C5C079}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

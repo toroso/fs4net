@@ -1,27 +1,13 @@
+using Template = fs4net.CommonTest.Template;
 using fs4net.Framework;
-using NUnit.Framework;
 
 namespace fs4net.Memory.Test.File
 {
-    [TestFixture]
-    public class ExistsFixture : PopulatedFileSystem
+    public class ExistsFixture : Template.File.ExistsFixture
     {
-        [Test]
-        public void Existing_File_Exists()
+        protected override IFileSystem CreateFileSystem()
         {
-            Assert.That(ExistingFile.Exists(), Is.True);
-        }
-
-        [Test]
-        public void NonExisting_File_Does_Not_Exists()
-        {
-            Assert.That(NonExistingFile.Exists(), Is.False);
-        }
-
-        [Test]
-        public void Existing_Directory_Does_Not_Exists_As_File()
-        {
-            Assert.That(FileSystem.CreateFileDescribing(ExistingLeafDirectory.PathAsString).Exists(), Is.False);
+            return new MemoryFileSystem();
         }
     }
 }
