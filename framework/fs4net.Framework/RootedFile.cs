@@ -131,6 +131,10 @@ namespace fs4net.Framework
         /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
         public static void SetLastModified(this RootedFile me, DateTime at)
         {
+            if (at.IsBefore(PathUtils.MinimumDate))
+            {
+                throw new ArgumentOutOfRangeException("at", string.Format("The modified date '{0}' is not valid for a file.", at));
+            }
             me.VerifyDenotesExistingFile("set last modified time");
             me.InternalFileSystem().SetFileLastModified(me.CanonicalPathAsString(), at);
         }
