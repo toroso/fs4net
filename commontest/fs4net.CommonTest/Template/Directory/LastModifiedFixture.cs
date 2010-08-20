@@ -33,5 +33,7 @@ namespace fs4net.CommonTest.Template.Directory
         // NOT by:
         //  * Modify contents of a file inside the folder
         //  * Rename the folder
+
+        // Allowed dates, or ArgumentOutOfRangeException
     }
 }

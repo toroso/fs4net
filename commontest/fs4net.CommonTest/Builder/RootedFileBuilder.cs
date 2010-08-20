@@ -26,6 +26,7 @@ namespace fs4net.CommonTest.Builder
 
         private RootedFile Build()
         {
+            _file.ParentDirectory().Create();
             _file.WriteText(Content);
             _file.SetLastModified(LastModified);
             return _file;
