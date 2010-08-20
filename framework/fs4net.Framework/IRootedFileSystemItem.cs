@@ -50,5 +50,13 @@ namespace fs4net.Framework
         {
             return ((IInternalFileSystem)me.FileSystem);
         }
+
+        internal static void VerifyDateTime(DateTime at, string operation, string itemType)
+        {
+            if (at.IsBefore(PathUtils.MinimumDate))
+            {
+                throw new ArgumentOutOfRangeException("at", string.Format("Can't {0} to '{1}' since it's not valid for a {2}.", operation, at, itemType));
+            }
+        }
     }
 }

@@ -120,7 +120,7 @@ namespace fs4net.Framework
         /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
         public static DateTime LastModified(this RootedFile me)
         {
-            me.VerifyDenotesExistingFile("get last modified time");
+            me.VerifyDenotesExistingFile("get last modified time for");
             return me.InternalFileSystem().GetFileLastModified(me.CanonicalPathAsString());
         }
 
@@ -129,13 +129,12 @@ namespace fs4net.Framework
         /// </summary>
         /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
         /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">If the time value is outside the range of dates or
+        /// times permitted for this operation.</exception>
         public static void SetLastModified(this RootedFile me, DateTime at)
         {
-            if (at.IsBefore(PathUtils.MinimumDate))
-            {
-                throw new ArgumentOutOfRangeException("at", string.Format("The modified date '{0}' is not valid for a file.", at));
-            }
-            me.VerifyDenotesExistingFile("set last modified time");
+            RootedFileSystemItemExtensions.VerifyDateTime(at, "set modified date", "file");
+            me.VerifyDenotesExistingFile("set last modified time for");
             me.InternalFileSystem().SetFileLastModified(me.CanonicalPathAsString(), at);
         }
 
@@ -145,7 +144,7 @@ namespace fs4net.Framework
         /// TODO: Exceptions!
         public static DateTime LastAccessed(this RootedFile me)
         {
-            me.VerifyDenotesExistingFile("get last accessed time");
+            me.VerifyDenotesExistingFile("get last accessed time for");
             return me.InternalFileSystem().GetFileLastAccessed(me.CanonicalPathAsString());
         }
 
@@ -155,7 +154,7 @@ namespace fs4net.Framework
         /// TODO: Exceptions!
         public static void SetLastAccessed(this RootedFile me, DateTime at)
         {
-            me.VerifyDenotesExistingFile("get last accessed time");
+            me.VerifyDenotesExistingFile("get last accessed time for");
             me.InternalFileSystem().SetFileLastAccessed(me.CanonicalPathAsString(), at);
         }
 
@@ -163,17 +162,22 @@ namespace fs4net.Framework
         {
             if (me.IsFile() == false)
             {
-                if (me.IsDirectory())
-                {
-                    ThrowFileNotFound(me, operation, "it denotes a directory");
-                }
+                me.VerifyIsNotADirectory(operation);
                 ThrowFileNotFound(me, operation, "it does not exist");
+            }
+        }
+
+        private static void VerifyIsNotADirectory(this RootedFile me, string operation)
+        {
+            if (me.IsDirectory())
+            {
+                ThrowFileNotFound(me, operation, "it denotes a directory");
             }
         }
 
         private static void ThrowFileNotFound(RootedFile forFile, string operation, string reason)
         {
-            string msg = string.Format("Can't {0} for file '{1}' since {2}.", operation, forFile.PathAsString, reason);
+            string msg = string.Format("Can't {0} file '{1}' since {2}.", operation, forFile.PathAsString, reason);
             throw new FileNotFoundException(msg, forFile.PathAsString);
         }
 
@@ -188,10 +192,7 @@ namespace fs4net.Framework
         /// is on an unmapped drive).</exception>
         public static void Delete(this RootedFile me)
         {
-            if (me.IsDirectory())
-            {
-                throw new IOException(string.Format("Can't delete the file '{0}' since it denotes a directory.", me.PathAsString));
-            }
+            me.VerifyIsNotADirectory("delete the");
             if (me.Exists())
             {
                 var fileSystem = me.InternalFileSystem();
