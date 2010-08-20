@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using fs4net.Framework;
 using NUnit.Framework;
@@ -27,13 +28,32 @@ namespace fs4net.CommonTest.Template.Directory
             Assert.Throws<FileNotFoundException>(() => NonExistingDirectory.LastModified());
         }
 
-        // TODO: Set LastModified:
+        [Test]
+        public void Set_LastModified_Below_Min_Value_Throws()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => ExistingLeafDirectory.SetLastModified(MinimumDate.AddMilliseconds(-1)));
+            Assert.That(ExistingLeafDirectory.LastModified(), Is.EqualTo(ExistingLeafDirectoryLastModified));
+        }
+
+        [Test]
+        public void Set_LastModified_To_Min_Value()
+        {
+            ExistingLeafDirectory.SetLastModified(MinimumDate);
+            Assert.That(ExistingLeafDirectory.LastModified(), Is.EqualTo(MinimumDate));
+        }
+
+        [Test]
+        public void Set_LastModified_To_Max_Value()
+        {
+            ExistingLeafDirectory.SetLastModified(MaximumDate);
+            Assert.That(ExistingLeafDirectory.LastModified(), Is.EqualTo(MaximumDate));
+        }
+
+        // TODO: Sets LastModified:
         //  * Create the folder
         //  * Create or rename a file inside the folder
         // NOT by:
         //  * Modify contents of a file inside the folder
         //  * Rename the folder
-
-        // Allowed dates, or ArgumentOutOfRangeException
     }
 }

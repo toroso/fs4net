@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using fs4net.Framework.Impl;
 

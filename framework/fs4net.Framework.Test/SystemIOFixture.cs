@@ -7,6 +7,21 @@ namespace fs4net.Framework.Test
     [TestFixture]
     public class SystemIOFixture
     {
+        private string _tempFile;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _tempFile = Path.Combine(Path.GetTempPath(), "mytempfile.tmp");
+            using (File.Create(_tempFile)) {}
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            File.Delete(_tempFile);
+        }
+
         [Test]
         public void GetPathRoot()
         {
@@ -128,6 +143,36 @@ namespace fs4net.Framework.Test
         {
             Assert.That(Directory.GetLastWriteTime(@"c:\this\path\clearly\does\not\exist"), Is.EqualTo(DateTime.FromFileTime(0)));
             Assert.DoesNotThrow(() => Directory.GetLastWriteTime(@"c:\windows\regedit.exe"));
+
+            //DateTime minimum = new DateTime(1601, 1, 1, 0, 0, 0);
+            DateTime minimum = new DateTime(1601, 1, 1, 0, 0, 0).AddMilliseconds(1).ToLocalTime();
+            SetLastModifiedWorksFine(minimum, "Higher");
+            SetLastModifiedFails(minimum.AddMilliseconds(-1), "Lower");
+
+            DateTime maximum = DateTime.MaxValue;
+            SetLastModifiedWorksFine(maximum, "Lower");
+        }
+
+        private void SetLastModifiedWorksFine(DateTime at, string message)
+        {
+            Assert.DoesNotThrow(() => Directory.SetLastWriteTime(_tempFile, at), message);
+            Assert.That(Directory.GetLastWriteTime(_tempFile), Is.EqualTo(at), message);
+        }
+
+        private void SetLastModifiedFails(DateTime at, string message)
+        {
+            Assert.DoesNotThrow(delegate
+                {
+                    try
+                    {
+                        Directory.SetLastWriteTime(_tempFile, at);
+                        Assert.That(Directory.GetLastWriteTime(_tempFile), Is.Not.EqualTo(at), message);
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        // Fine!
+                    }
+                }, message);
         }
 
         [Test]

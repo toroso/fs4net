@@ -55,6 +55,7 @@
     <Compile Include="Impl\CanonicalPathBuilder.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="IInternalFileSystem.cs" />
+    <Compile Include="Impl\DateTimeExtensions.cs" />
     <Compile Include="Impl\DriveParser.cs" />
     <Compile Include="Impl\FilenameParser.cs" />
     <Compile Include="Impl\ThrowHelper.cs" />

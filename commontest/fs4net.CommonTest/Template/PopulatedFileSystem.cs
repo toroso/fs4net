@@ -19,6 +19,10 @@ namespace fs4net.CommonTest.Template
         protected RootedDirectory ParentOfExistingLeafDirectory { get; private set; }
         protected RootedDirectory NonExistingDirectory { get; private set; }
 
+        protected readonly DateTime MinimumDate = new DateTime(1601, 1, 1).AddMilliseconds(1).ToLocalTime();
+        protected readonly DateTime MaximumDate = DateTime.MaxValue.ToLocalTime();
+
+
         [TestFixtureSetUp]
         public void PopulateFileSystem()
         {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
@@ -75,6 +76,10 @@ namespace fs4net.Framework
         public static void SetLastModified<T>(this IRootedDirectory<T> me, DateTime at)
             where T : IRootedDirectory<T>
         {
+            if (at.IsBefore(PathUtils.MinimumDate))
+            {
+                throw new ArgumentOutOfRangeException("at", string.Format("The modified date '{0}' is not valid for a directory.", at));
+            }
             me.VerifyDenotesExistingDirectory("set last modified time");
             me.InternalFileSystem().SetDirectoryLastModified(me.CanonicalPathAsString(), at);
         }
