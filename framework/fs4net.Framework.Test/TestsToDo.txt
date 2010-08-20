@@ -1,0 +1,299 @@
+﻿------------ New Order...
+
+IRootedFileSystemItem, RootedFileSystemItemExtensions
+    [x] FileSystem
+    [x] Drive -- through Drive
+
+IFileSystemItem, FileSystemItemExtensions
+    [x] PathAsString { get; }
+    [x] AsCanonical();
+    ( ) ParentDirectory
+  IFile, FileExtensions
+      [x] FileName
+    RelativeFile, RelativeFileExtensions
+        [x] Creation (FromString)
+        [ ] Equals, GetHashCode
+            Compare canonical: .., ., ending \ etc.
+            Drive: should ask FileSystem!
+    RootedFile, RootedFileExtensions
+        [x] Creation
+        [ ] Equals, GetHashCode
+        [x] Exists
+        [?] LastModified -- see if modify changes time
+        [ ] Delete
+        [ ] TryDelete
+        [ ] CreateReadStream
+        [ ] CreateWriteStream
+  IDirectory, DirectoryExtensions
+      ( ) LeafFolder
+    RelativeDirectory, RelativeDirectoryExtensions
+        [x] Creation (FromString)
+        [ ] Equals, GetHashCode
+    RootedDirectory, RootedDirectoryExtensions
+        [x] Creation
+        [ ] Equals, GetHashCode
+        [x] Exists
+        [?] LastModified -- see if modify changes time
+        [ ] Delete
+        [ ] TryDelete
+        [ ] Create
+
+FileName, FileNameExtensions
+    [x] Creation (FromString)
+    [x] Creation (From RelativeFile)
+    [x] Creation (From RootedFile)
+    [ ] Equals, GetHashCode
+    [x] FullName
+    [x] Extension
+    [x] Name
+
+Drive
+    [x] Creation (FromString)
+    [ ] Equals, GetHashCode
+    [x] Name
+
+operators...
+  RootedDirectory + RelativeFile => RootedFile
+  RootedDirectory + RelativeDirectory => RootedDirectory
+  RelativeDirectory + RelativeFile => RelativeFile
+  RelativeDirectory + RelativeDirectory => RelativeDirectory
+  Drive + RelativeDirectory => RootedDirectory
+  Drive + RelativeFile => RootedFile
+
+named...
+  RootedDirectory.RelativeFrom RootedDirectory => RelativeDirectory
+  RootedFile.RelativeFrom RootedDirectory => RelativeFile
+  ...
+
+
+------------ Tests ToDo:
+
+TryDeleteRecursive, Delete, DeleteRecursive
+ * Directory w/ and w/o directories and/or files
+ * File
+ * Relative path
+ * Unauthorized access throws
+ * Too long path (CD + relative path) throws
+
+CopyTo, MoveTo
+
+CreateDirectory, TryCreateDirectory, CreateFullDirectory
+
+CreateReadStream, CreateWriteStream, CreateAppendStream
+WithReadStreamDo, WithWriteStreamDo, WithAppendStreamDo
+
+GetFiles, GetFolders, Root, Parent, Drive
+
+Attributes, LastAccessTime, CreationTime, LastModifiedTime, Length
+
+ChangeName, ChangeExtension, CreateUniqueFileSystemItemWithExtention
+GetAsRelativeTo, ConcatenateTo
+IsAbsolute, AsAbsolute, AsCanonical
+
+
+
+
+Given_File_Is_In_Use
+  Then_Delete_Throws
+
+Given_File_Does_Not_Exist
+  Then_Last_Modified_Throws (?)
+
+
+---------- Ubiquitous Language!
+
+c:\my\path\to
+c:\my\path\to\file.txt
+
+Directory, DirectoryPath: c:\my\path\to, c:\my\path\to\
+Extension: txt
+File: file.txt
+Filename: file.txt
+FilenameWithoutExtension: file
+FilePath: c:\my\path\to\file.txt
+Folder: c:, my, path, to
+Path, FullPath: DirectoryPath or FilePath
+FileSystemItem: 
+
+
+---------- All Interfaces
+
+IFileSystem
+  Constants: FolderSeparator, FilePathSeparator
+
+  FileDescriptor CreateFileDescriptor(string);
+    Does not throw if relative -- can't tell until using it
+  FileDescriptor CreateFileDescriptorToTemporaryFile(); // Move to FileDescriptor? Create temp file within directory?
+  FileDescriptor CreateFileDescriptorToTemporaryDirectory();
+  FileDescriptor CreateSpecialDirectoryFileDescriptor(Environment.SpecialFolder.System);
+
+  FileDescriptor CurrentDirectory { get; set; }
+  FileDescriptor[] Roots { get; }
+  IDriveDescriptor[] Drives { get; }
+
+  bool IsValidPath(string);
+  char[] GetInvalidPathChars();
+
+FileDescriptor
+  string CanonicalFullPath { get; } // Necessary? There is AsCanonical
+  string Extension { get; }
+  string FullPath { get; }
+  string Name { get; }
+  string NameWithoutExtension { get; }
+  bool Exists { get; }
+    Throws_PathTooLongException_CurrentDirectory_Plus_Relative_Path
+  bool IsDirectory { get; }
+  bool IsFile { get; }
+
+  IFileAttributes Attributes { get; set; }
+  DateTime LastAccessTime { get; set; }
+  DateTime CreationTime { get; set; }
+  DateTime LastModifiedTime { get; set; }
+  long Length { get; }
+
+  IEnumerable<FileDescriptor> GetFiles();
+  IEnumerable<FileDescriptor> GetFiles(Predicate);
+  IEnumerable<FileDescriptor> GetFilesRecursive();
+  IEnumerable<FileDescriptor> GetFilesRecursive(Predicate);
+  IEnumerable<FileDescriptor> GetFolders();
+  IEnumerable<FileDescriptor> GetFolders(Predicate);
+  IEnumerable<FileDescriptor> GetFoldersRecursive();
+  IEnumerable<FileDescriptor> GetFoldersRecursive(Predicate);
+  IEnumerable<FileDescriptor> GetFileSystemItems();
+  IEnumerable<FileDescriptor> GetFileSystemItems(Predicate);
+  FileDescriptor Root { get; }
+  FileDescriptor Parent { get; }
+  IDriveDescriptor Drive { get; }
+
+  void CopyTo(FileDescriptor); // Check with FileSystem if optimized file operations are supported for the FileDescriptor pair
+  void MoveTo(FileDescriptor); // -- || --
+  void Delete();
+  void DeleteRecursive(); // What happens if it's not a directory?
+  bool TryDelete();
+  bool TryDeleteRecursive(); // What happens if it's not a directory?
+
+  // Support for ReadWrite? File sharing?
+  Stream CreateReadStream();
+  Stream CreateWriteStream();
+  Stream CreateAppendStream();
+
+  // Preferred way
+  void WithReadStreamDo(Action<Stream>);
+  void WithWriteStreamDo(Action<Stream>);
+  void WithAppendStreamDo(Action<Stream>);
+
+  void CreateDirectory();
+  void CreateFullDirectory();
+  bool TryCreateDirectory(); // ?
+
+  FileDescriptor ChangeName(string); // Or reuse property?
+  FileDescriptor ChangeExtension(string); // Or reuse property?
+  FileDescriptor CreateUniqueFileSystemItem();
+  FileDescriptor CreateUniqueFileSystemItemWithExtention(string);
+
+  FileDescriptor GetAsRelativeTo(FileDescriptor); // 'c:\my\path\to\file.txt'.Get('c:\my\other\path') => '..\..\path\to\file.txt'
+  FileDescriptor ConcatenateTo(FileDescriptor); // '..\..\path\to\file.txt'.Get('c:\my\other\path') => 'c:\my\path\to\file.txt'
+    // Also with two relative paths
+
+  bool IsAbsolute { get; }
+  FileDescriptor AsAbsolute(); // Uses Current Directory, which means that an FileDescriptor changes depending on the CD
+  FileDescriptor AsCanonical();
+
+  Equals() // ToDo -- canonical
+  operator==()
+
+
+IDriveDescriptor
+	long AvailableFreeSpace { get; }
+	DriveType DriveType { get; }
+	bool IsReady { get; }
+	FileDescriptor Root { get; }
+	long TotalFreeSpace { get; }
+	long TotalSize { get; }
+	string VolumeLabel { get; }
+
+
+IFileAttributes
+  bool Hidden { get; set; }
+  bool ReadOnly { get; set; }
+  bool Archive { get; set; }
+  bool System { get; set; }
+
+
+
+-------------- Structure of tests...
+
+abstract Given_Blah
+  Given_Blah_In_FileSystem
+  Given_Blah_In_MemoryFileSystem
+  Given_Blah_In_TableOfContentFileSystem
+
+
+
+------------ OLD STUFF
+
+
+Write by append
+Write binary
+Open by delete existing
+Open file in non-existing path
+
+Full Path
+Filename
+Extension
+IsDirectory on e.g c:
+
+Attributes: readonly, hidden
+Access Time
+Creation Time
+Length
+
+Directory Listings
+Root
+Parent Directory (file and directory)
+
+Delete -- also non-empty folder
+Copy
+Move
+
+FileSystem.CurrentDirectory
+FileSystem.Roots
+FileSystem.Drives (name, size, free, name, etc)
+FileSystem.SpecialFolder
+
+
+Relative Paths
+ * Create file using...
+ * Get delta between paths?
+ * Append folder on path factory method
+
+-----
+
+Given_File
+ * CanonicalPath
+ * Extension
+ * FullPath
+ * Name
+ * NameWithoutExtension
+
+Given_File_With_No_Extension
+
+
+Given_Directory
+
+
+Given_File_With_Maximum_Name_Length
+
+
+Given_File_With_Too_Long_Name
+
+
+
+Given_Normal_File_Exists
+ * Exists
+ * Delete
+ 
+
+
+
+
