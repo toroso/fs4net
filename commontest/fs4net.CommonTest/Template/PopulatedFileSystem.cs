@@ -11,19 +11,20 @@ namespace fs4net.CommonTest.Template
         private RootedDirectory _tempDir;
 
         protected RootedFile ExistingFile { get; private set; }
-        protected DateTime ExistingFileLastModified { get { return new DateTime(2010, 08, 20, 18, 37, 00); } }
+        protected DateTime ExistingFileLastModified { get { return new DateTime(2010, 08, 20); } }
         protected RootedFile NonExistingFile { get; private set; }
 
         protected RootedDirectory ExistingLeafDirectory { get; private set; }
-        protected DateTime ExistingLeafDirectoryLastModified { get { return new DateTime(1998, 11, 15, 11, 15, 00); } }
+        protected DateTime ExistingLeafDirectoryLastModified { get { return new DateTime(1998, 11, 15); } }
         protected RootedDirectory ParentOfExistingLeafDirectory { get; private set; }
+        protected DateTime ParentOfExistingLeafDirectoryLastModified { get { return new DateTime(1984, 12, 25); } }
         protected RootedDirectory NonExistingDirectory { get; private set; }
 
         protected readonly DateTime MinimumDate = new DateTime(1601, 1, 1).AddMilliseconds(1).ToLocalTime();
         protected readonly DateTime MaximumDate = DateTime.MaxValue.ToLocalTime();
 
 
-        [TestFixtureSetUp]
+        [SetUp]
         public void PopulateFileSystem()
         {
             FileSystem = CreateFileSystem();
@@ -41,7 +42,9 @@ namespace fs4net.CommonTest.Template
             ExistingLeafDirectory = populateFileSystem
                 .WithDir(@"path\to")
                 .LastModifiedAt(ExistingLeafDirectoryLastModified);
-            ParentOfExistingLeafDirectory = ExistingLeafDirectory.ParentDirectory();
+            ParentOfExistingLeafDirectory = populateFileSystem
+                .WithDir(@"path")
+                .LastModifiedAt(ParentOfExistingLeafDirectoryLastModified);
             NonExistingDirectory = FileSystem.CreateDirectoryDescribing(InTemp(@"another\path\to"));
         }
 
@@ -50,7 +53,7 @@ namespace fs4net.CommonTest.Template
             return (_tempDir + RelativeDirectory.FromString(relativePath)).PathAsString;
         }
 
-        [TestFixtureTearDown]
+        [TearDown]
         public void TearDownFileSystem()
         {
             _tempDir.DeleteRecursively();

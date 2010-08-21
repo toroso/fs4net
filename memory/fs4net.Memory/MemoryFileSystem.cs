@@ -112,7 +112,8 @@ namespace fs4net.Memory
 
         public void DeleteFile(RootedCanonicalPath path)
         {
-            throw new NotImplementedException();
+            // TODO: Tolerant if it doesn't exist.
+            FindFileNodeByPath(path.FullPath).Delete();
         }
 
         public void DeleteDirectory(RootedCanonicalPath path, bool recursive)

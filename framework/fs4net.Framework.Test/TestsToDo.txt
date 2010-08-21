@@ -19,11 +19,12 @@ IFileSystemItem, FileSystemItemExtensions
         [x] Creation
         [ ] Equals, GetHashCode
         [x] Exists
-        [?] LastModified -- see if modify changes time
+        [?] LastModified -- some operations missing...
         [ ] Delete
         [ ] TryDelete
         [ ] CreateReadStream
         [ ] CreateWriteStream
+        [ ] CreateAppendStream
   IDirectory, DirectoryExtensions
       ( ) LeafFolder
     RelativeDirectory, RelativeDirectoryExtensions
@@ -33,7 +34,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] Creation
         [ ] Equals, GetHashCode
         [x] Exists
-        [?] LastModified -- see if modify changes time
+        [?] LastModified -- some operations missing...
         [ ] Delete
         [ ] TryDelete
         [ ] Create
@@ -53,12 +54,12 @@ Drive
     [x] Name
 
 operators...
-  RootedDirectory + RelativeFile => RootedFile
-  RootedDirectory + RelativeDirectory => RootedDirectory
-  RelativeDirectory + RelativeFile => RelativeFile
-  RelativeDirectory + RelativeDirectory => RelativeDirectory
-  Drive + RelativeDirectory => RootedDirectory
-  Drive + RelativeFile => RootedFile
+  [x] RootedDirectory + RelativeFile => RootedFile
+  [x] RootedDirectory + RelativeDirectory => RootedDirectory
+  [x] RelativeDirectory + RelativeFile => RelativeFile
+  [x] RelativeDirectory + RelativeDirectory => RelativeDirectory
+  [x] Drive + RelativeDirectory => RootedDirectory
+  [x] Drive + RelativeFile => RootedFile
 
 named...
   RootedDirectory.RelativeFrom RootedDirectory => RelativeDirectory

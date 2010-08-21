@@ -45,6 +45,7 @@ namespace fs4net.Memory.Node
         public void AddChild(FileSystemNode node)
         {
             _children.Add(node);
+            TouchLastModified();
         }
 
         public FileNode CreateFileNode(string filename)
@@ -52,16 +53,12 @@ namespace fs4net.Memory.Node
             return new FileNode(this, filename);
         }
 
-        public void Delete()
-        {
-            Parent.RemoveChild(this);
-        }
-
-        private void RemoveChild(FileSystemNode nodeToRemove)
+        protected internal void RemoveChild(FileSystemNode nodeToRemove)
         {
             nodeToRemove.Dispose();
             if (_children.Remove(nodeToRemove) == false)
                 throw new InvalidOperationException(string.Format("Trying to remove a node '{0}' that doesn't exist.", nodeToRemove));
+            TouchLastModified();
         }
 
         public override string ToString()

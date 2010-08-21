@@ -49,11 +49,85 @@ namespace fs4net.CommonTest.Template.Directory
             Assert.That(ExistingLeafDirectory.LastModified(), Is.EqualTo(MaximumDate));
         }
 
-        // TODO: Sets LastModified:
-        //  * Create the folder
-        //  * Create or rename a file inside the folder
-        // NOT by:
-        //  * Modify contents of a file inside the folder
-        //  * Rename the folder
+        [Test]
+        public void Create_Directory_Sets_LastModified()
+        {
+            var newDir = ExistingLeafDirectory + RelativeDirectory.FromString("new dir");
+            DateTime before = DateTime.Now.AddSeconds(-1);
+            newDir.Create();
+            DateTime after = DateTime.Now.AddSeconds(1);
+            Assert.That(newDir.LastModified(), Is.InRange(before, after));
+        }
+
+        [Test]
+        public void Create_Directory_Sets_Parent_Directory_LastModified()
+        {
+            var newDir = ExistingLeafDirectory + RelativeDirectory.FromString("new dir");
+            DateTime before = DateTime.Now.AddSeconds(-1);
+            newDir.Create();
+            DateTime after = DateTime.Now.AddSeconds(1);
+            Assert.That(ExistingLeafDirectory.LastModified(), Is.InRange(before, after));
+        }
+
+        [Test]
+        public void Create_Directory_Does_Not_Set_Parent_Parent_Directory_LastModified()
+        {
+            var newDir = ExistingLeafDirectory + RelativeDirectory.FromString("new dir");
+            DateTime before = DateTime.Now.AddSeconds(-1);
+            newDir.Create();
+            DateTime after = DateTime.Now.AddSeconds(1);
+            Assert.That(ExistingLeafDirectory.ParentDirectory().LastModified(), Is.Not.InRange(before, after));
+        }
+
+        // TODO: Rename Directory
+        //[Test]
+        //public void Rename_Directory_Does_Not_Set_LastModified()
+        //{
+        //    DateTime before = DateTime.Now.AddSeconds(-1);
+        //    ExistingLeafDirectory.Move(...);
+        //    DateTime after = DateTime.Now.AddSeconds(1);
+        //    Assert.That(ExistingLeafDirectory.LastModified(), Is.Not.InRange(before, after));
+        //}
+
+        [Test]
+        public void Create_File_Sets_Parent_Directory_LastModified()
+        {
+            var newFile = ExistingLeafDirectory + RelativeFile.FromString("new file.txt");
+            DateTime before = DateTime.Now.AddSeconds(-1);
+            newFile.WriteText(string.Empty);
+            DateTime after = DateTime.Now.AddSeconds(1);
+            Assert.That(ExistingLeafDirectory.LastModified(), Is.InRange(before, after));
+        }
+
+        [Test]
+        public void Delete_File_Sets_Parent_Directory_LastModified()
+        {
+            DateTime before = DateTime.Now.AddSeconds(-1);
+            ExistingFile.Delete();
+            DateTime after = DateTime.Now.AddSeconds(1);
+            Assert.That(ExistingFile.ParentDirectory().LastModified(), Is.InRange(before, after));
+        }
+
+        // TODO: Append
+        //[Test]
+        //public void Modify_File_Contents_Does_Not_Set_Parent_Directory_LastModified()
+        //{
+        //    DateTime before = DateTime.Now.AddSeconds(-1);
+        //    ExistingFile.AppendText("tomte");
+        //    DateTime after = DateTime.Now.AddSeconds(1);
+        //    Assert.That(ExistingFile.ParentDirectory().LastModified(), Is.Not.InRange(before, after));
+        //}
+
+        // TODO: Rename File
+        //[Test]
+        //public void Rename_File_Sets_Parent_Directory_LastModified()
+        //{
+        //    DateTime before = DateTime.Now.AddSeconds(-1);
+        //    ExistingFile.Move(...);
+        //    DateTime after = DateTime.Now.AddSeconds(1);
+        //    Assert.That(ExistingFile.ParentDirectory().LastModified(), Is.InRange(before, after));
+        //}
+
+        // TODO: Move file from one dir to another -- modified source and target directories?
     }
 }

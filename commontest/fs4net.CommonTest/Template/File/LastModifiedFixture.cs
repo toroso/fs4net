@@ -46,5 +46,37 @@ namespace fs4net.CommonTest.Template.File
             ExistingFile.SetLastModified(MaximumDate);
             Assert.That(ExistingFile.LastModified(), Is.EqualTo(MaximumDate));
         }
+
+        [Test]
+        public void Create_File_Sets_LastModified()
+        {
+            var newFile = ExistingLeafDirectory + RelativeFile.FromString("new file.txt");
+            DateTime before = DateTime.Now.AddSeconds(-1);
+            newFile.WriteText(string.Empty);
+            DateTime after = DateTime.Now.AddSeconds(1);
+            Assert.That(newFile.LastModified(), Is.InRange(before, after));
+        }
+
+        // TODO: Rename File
+        //[Test]
+        //public void Rename_File_Sets_LastModified()
+        //{
+        //    DateTime before = DateTime.Now.AddSeconds(-1);
+        //    ExistingFile.Move(...);
+        //    DateTime after = DateTime.Now.AddSeconds(1);
+        //    Assert.That(ExistingFile.LastModified(), Is.InRange(before, after));
+        //}
+
+        // TODO: Append
+        //[Test]
+        //public void Modify_File_Contents_Sets_LastModified()
+        //{
+        //    DateTime before = DateTime.Now.AddSeconds(-1);
+        //    ExistingFile.AppendText("tomte");
+        //    DateTime after = DateTime.Now.AddSeconds(1);
+        //    Assert.That(ExistingFile..LastModified(), Is.InRange(before, after));
+        //}
+
+        // TODO: Move file from one dir to another -- file modified?
     }
 }

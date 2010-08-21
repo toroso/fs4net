@@ -16,7 +16,17 @@ namespace fs4net.Memory.Node
             {
                 Parent.AddChild(this);
             }
-            LastModified = DateTime.MinValue;
+            TouchLastModified();
+        }
+
+        public void Delete()
+        {
+            Parent.RemoveChild(this);
+        }
+
+        protected void TouchLastModified()
+        {
+            LastModified = DateTime.Now; // TODO: Get from a mockable clock
         }
 
         public abstract void Dispose();

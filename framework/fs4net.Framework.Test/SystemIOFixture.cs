@@ -13,13 +13,13 @@ namespace fs4net.Framework.Test
         public void SetUp()
         {
             _tempFile = Path.Combine(Path.GetTempPath(), "mytempfile.tmp");
-            using (File.Create(_tempFile)) {}
+            using (System.IO.File.Create(_tempFile)) { }
         }
 
         [TearDown]
         public void TearDown()
         {
-            File.Delete(_tempFile);
+            System.IO.File.Delete(_tempFile);
         }
 
         [Test]
@@ -141,8 +141,8 @@ namespace fs4net.Framework.Test
         [Test]
         public void LastModifiedTime()
         {
-            Assert.That(Directory.GetLastWriteTime(@"c:\this\path\clearly\does\not\exist"), Is.EqualTo(DateTime.FromFileTime(0)));
-            Assert.DoesNotThrow(() => Directory.GetLastWriteTime(@"c:\windows\regedit.exe"));
+            Assert.That(System.IO.Directory.GetLastWriteTime(@"c:\this\path\clearly\does\not\exist"), Is.EqualTo(DateTime.FromFileTime(0)));
+            Assert.DoesNotThrow(() => System.IO.Directory.GetLastWriteTime(@"c:\windows\regedit.exe"));
 
             //DateTime minimum = new DateTime(1601, 1, 1, 0, 0, 0);
             DateTime minimum = new DateTime(1601, 1, 1, 0, 0, 0).AddMilliseconds(1).ToLocalTime();
@@ -155,8 +155,8 @@ namespace fs4net.Framework.Test
 
         private void SetLastModifiedWorksFine(DateTime at, string message)
         {
-            Assert.DoesNotThrow(() => Directory.SetLastWriteTime(_tempFile, at), message);
-            Assert.That(Directory.GetLastWriteTime(_tempFile), Is.EqualTo(at), message);
+            Assert.DoesNotThrow(() => System.IO.Directory.SetLastWriteTime(_tempFile, at), message);
+            Assert.That(System.IO.Directory.GetLastWriteTime(_tempFile), Is.EqualTo(at), message);
         }
 
         private void SetLastModifiedFails(DateTime at, string message)
@@ -165,8 +165,8 @@ namespace fs4net.Framework.Test
                 {
                     try
                     {
-                        Directory.SetLastWriteTime(_tempFile, at);
-                        Assert.That(Directory.GetLastWriteTime(_tempFile), Is.Not.EqualTo(at), message);
+                        System.IO.Directory.SetLastWriteTime(_tempFile, at);
+                        Assert.That(System.IO.Directory.GetLastWriteTime(_tempFile), Is.Not.EqualTo(at), message);
                     }
                     catch (ArgumentOutOfRangeException)
                     {
@@ -179,7 +179,7 @@ namespace fs4net.Framework.Test
         public void ValidPaths()
         {
             //using (File.Create(@"C:\Users\busen\temp\fi*le.txt")) { }
-            Directory.CreateDirectory(@"C:\Users\busen\temp\ space");
+            System.IO.Directory.CreateDirectory(@"C:\Users\busen\temp\ space");
         }
     }
 }

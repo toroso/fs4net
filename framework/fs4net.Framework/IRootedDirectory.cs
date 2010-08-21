@@ -73,6 +73,8 @@ namespace fs4net.Framework
         /// </summary>
         /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
         /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">If the time value is outside the range of dates or
+        /// times permitted for this operation.</exception>
         public static void SetLastModified<T>(this IRootedDirectory<T> me, DateTime at)
             where T : IRootedDirectory<T>
         {
