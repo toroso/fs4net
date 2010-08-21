@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Text;
 
 namespace fs4net.Memory.Node
 {

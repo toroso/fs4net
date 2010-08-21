@@ -123,6 +123,11 @@ namespace fs4net.Framework
             System.IO.Directory.Delete(path.FullPath, recursive);
         }
 
+        public void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination)
+        {
+            System.IO.Directory.Move(source.FullPath, destination.FullPath);
+        }
+
         public System.IO.Stream CreateReadStream(RootedCanonicalPath path)
         {
             return new System.IO.FileStream(path.FullPath, System.IO.FileMode.Open);

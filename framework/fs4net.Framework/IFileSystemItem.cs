@@ -34,7 +34,7 @@ namespace fs4net.Framework
             return baseRelativeFrom.Concat(toRelativeBase).MergeToPath();
         }
 
-        private static string RemoveEndingBackslash(this string me)
+        internal static string RemoveEndingBackslash(this string me)
         {
             return me.EndsWith(@"\") ? me.Substring(0, me.Length - 1) : me;
         }

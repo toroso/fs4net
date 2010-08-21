@@ -8,5 +8,10 @@ namespace fs4net.Framework
         {
             FullPath = fullPath;
         }
+
+        public override string ToString()
+        {
+            return FullPath;
+        }
     }
 }

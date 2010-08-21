@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace fs4net.Memory.Node
 {
@@ -61,10 +62,33 @@ namespace fs4net.Memory.Node
             TouchLastModified();
         }
 
+        public void MoveTo(FolderNode destParentNode, string destName)
+        {
+            Parent.Move(this, destParentNode, destName);
+        }
+
+        private void Move(FolderNode source, FolderNode destParentNode, string destName)
+        {
+            _children.Remove(source);
+            source.Name = destName;
+            destParentNode.AddChild(source);
+        }
+
         public override string ToString()
         {
             if (Parent == null) return string.Empty;
             return base.ToString() + @"\";
+        }
+
+        public override string TreeAsString(int indentLevel)
+        {
+            var builder = new StringBuilder();
+            builder.Append(base.TreeAsString(indentLevel));
+            foreach (var node in _children)
+            {
+                builder.Append(node.TreeAsString(indentLevel + 1));
+            }
+            return builder.ToString();
         }
     }
 }

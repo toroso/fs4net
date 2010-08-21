@@ -122,6 +122,19 @@ namespace fs4net.Memory
             FindFolderNodeByPath(path.FullPath).Delete();
         }
 
+        public void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination)
+        {
+            var sourceNode = FindFolderNodeByPath(source.FullPath);
+
+            var destParentNode = _rootNode;
+            var parser = new PathParser(destination.FullPath);
+            parser.WithEachButLastFileSystemNodeNameDo(folderName => destParentNode = (FolderNode) destParentNode.FindChildNodeNamed(folderName));
+            string destName = null;
+            parser.WithLastFileSystemNodeNameDo(last => destName = last);
+
+            sourceNode.MoveTo(destParentNode, destName);
+        }
+
         public Stream CreateReadStream(RootedCanonicalPath path)
         {
             throw new NotImplementedException();
@@ -178,6 +191,11 @@ namespace fs4net.Memory
             });
 
             return currentNode;
+        }
+
+        public override string ToString()
+        {
+            return _rootNode.TreeAsString(0);
         }
     }
 

@@ -25,6 +25,8 @@ namespace fs4net.Framework
         void DeleteFile(RootedCanonicalPath path);
         void DeleteDirectory(RootedCanonicalPath path, bool recursive);
 
+        void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination);
+
         Stream CreateReadStream(RootedCanonicalPath path);
         Stream CreateWriteStream(RootedCanonicalPath path);
 

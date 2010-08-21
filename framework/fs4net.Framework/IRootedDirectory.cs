@@ -187,7 +187,7 @@ namespace fs4net.Framework
                 //{
                 //    return false;
                 //}
-                TryDeleteDirectory(fileSystem, path, true);
+                TryDelete(fileSystem, path, true);
             }
             return !me.Exists();
         }
@@ -208,12 +208,12 @@ namespace fs4net.Framework
             {
                 var fileSystem = me.InternalFileSystem();
                 var path = me.CanonicalPathAsString();
-                TryDeleteDirectory(fileSystem, path, false);
+                TryDelete(fileSystem, path, false);
             }
             return !me.Exists();
         }
 
-        private static void TryDeleteDirectory(IInternalFileSystem fileSystem, RootedCanonicalPath path, bool recursive)
+        private static void TryDelete(IInternalFileSystem fileSystem, RootedCanonicalPath path, bool recursive)
         {
             try
             {
@@ -223,6 +223,59 @@ namespace fs4net.Framework
             // DirectoryNotFoundException, ArgumentException, NotSupportedException, IOException, UnauthorizedAccessException...
             catch { } // To fulfil the nothrow contract...
 // ReSharper restore EmptyGeneralCatchClause
+        }
+
+        /// <summary>
+        /// Moves the directory and its contents to a new location. After the move, the source directory will have the
+        /// name specified by the destination parameter.
+        /// </summary>
+        /// TODO: Exceptions
+        public static void MoveTo<T>(this IRootedDirectory<T> me, IRootedDirectory<T> destination)
+            where T : IRootedDirectory<T>
+        {
+            me.VerifyOnSameFileSystemAs(destination);
+            me.VerifyOnSameDriveAs(destination, string.Format("Can't move the directory '{0}' to '{1}' since they are located on different drives.", me, destination));
+            me.VerifyIsNotAFile2(string.Format("Can't move the directory '{0}' since it denotes a file.", me));
+            me.VerifyIsADirectory(string.Format("Can't move the directory '{0}' since it does not exist.", me));
+            destination.ParentDirectory().VerifyIsADirectory(string.Format("Can't move the directory since the destination's parent directory '{0}' does not exist.", destination.ParentDirectory()));
+            if (destination.IsFile())
+            {
+                throw new IOException(string.Format("Can't move the directory to the destination '{0}' since a directory with that name already exists.", destination));
+            }
+            if (destination.IsDirectory())
+            {
+                throw new IOException(string.Format("Can't move the directory to the destination '{0}' since a file with that name already exists.", destination));
+            }
+            if (me.Equals(destination))
+            {
+                throw new IOException(string.Format("Can't move the directory '{0}' the source and destination denotes the same directory.", destination));
+            }
+            var src = me.CanonicalPathAsString();
+            var dst = destination.CanonicalPathAsString();
+            if (dst.FullPath.StartsWith(src.FullPath))
+            {
+                throw new IOException(string.Format("Can't move the directory to the destination '{0}' since it is located inside the source directory.", destination));
+            }
+            var fileSystem = me.InternalFileSystem();
+            fileSystem.MoveDirectory(src, dst);
+        }
+
+        private static void VerifyIsNotAFile2<T>(this IRootedDirectory<T> me, string message)
+            where T : IRootedDirectory<T>
+        {
+            if (me.IsFile())
+            {
+                throw new DirectoryNotFoundException(message);
+            }
+        }
+
+        private static void VerifyIsADirectory<T>(this IRootedDirectory<T> me, string message)
+            where T : IRootedDirectory<T>
+        {
+            if (! me.IsDirectory())
+            {
+                throw new DirectoryNotFoundException(message);
+            }
         }
 
         /// <summary>
@@ -270,13 +323,13 @@ namespace fs4net.Framework
         private static void VerifyDenotesExistingDirectory<T>(this IRootedDirectory<T> me, string operation)
             where T : IRootedDirectory<T>
         {
+            if (me.IsFile())
+            {
+                ThrowFileNotFound(me, operation, "it denotes a file");
+            }
             if (me.IsDirectory() == false)
             {
-                if (me.IsFile())
-                {
-                    ThrowFileNotFound(me, operation, "it denotes a file");
-                }
-                ThrowFileNotFound(me, operation, "it does not exist");
+                ThrowFileNotFound(me, operation, "it does not exist"); // ThrowDirectoryNotFound ?
             }
         }
 

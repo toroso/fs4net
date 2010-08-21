@@ -28,7 +28,7 @@ namespace fs4net.Framework
         public static RootedDirectory ParentDirectory<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>
         {
             // TODO: Throw if there is no parent...?
-            return new RootedDirectory(me.InternalFileSystem(), Path.GetDirectoryName(me.PathAsString), me.PathWasher);
+            return new RootedDirectory(me.InternalFileSystem(), Path.GetDirectoryName(me.PathAsString).RemoveEndingBackslash(), me.PathWasher);
         }
 
         internal static bool IsFile<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>
@@ -51,13 +51,32 @@ namespace fs4net.Framework
             return ((IInternalFileSystem)me.FileSystem);
         }
 
-        public static void VerifyOnSameDriveAs<T, TOther>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<TOther> other)
+        internal static void VerifyOnSameFileSystemAs<T>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<T> destination)
+            where T : IRootedDirectory<T>
+        {
+            if (me.FileSystem != destination.FileSystem)
+            {
+                throw new InvalidOperationException("The source and destination are associated with different file systems, something that is not allowed.");
+            }
+        }
+
+        internal static void VerifyOnSameDriveAs<T, TOther>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<TOther> other)
             where T : IRootedFileSystemItem<T>
             where TOther : IRootedFileSystemItem<TOther>
         {
             if (me.Drive() != other.Drive())
             {
                 throw new ArgumentException(string.Format("Can't find a relative path since '{0}' and '{1}' have different drives.", me.PathAsString, other.PathAsString));
+            }
+        }
+
+        internal static void VerifyOnSameDriveAs<T, TOther>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<TOther> other, string message)
+            where T : IRootedFileSystemItem<T>
+            where TOther : IRootedFileSystemItem<TOther>
+        {
+            if (me.Drive() != other.Drive())
+            {
+                throw new IOException(message);
             }
         }
 

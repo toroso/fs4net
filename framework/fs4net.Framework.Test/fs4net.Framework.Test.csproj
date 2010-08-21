@@ -51,6 +51,7 @@
     <Compile Include="CreateRootedFileFixture.cs" />
     <Compile Include="Directory\ExistsFixture.cs" />
     <Compile Include="Directory\LastModifiedFixture.cs" />
+    <Compile Include="Directory\MoveToFixture.cs" />
     <Compile Include="DriveFixture.cs" />
     <Compile Include="EnumerableUtils.cs" />
     <Compile Include="FileNameFixture.cs" />
