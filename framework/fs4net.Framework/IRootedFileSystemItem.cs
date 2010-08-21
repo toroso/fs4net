@@ -50,9 +50,12 @@ namespace fs4net.Framework
         {
             return ((IInternalFileSystem)me.FileSystem);
         }
+    }
 
+    internal static class RootedFileSystemItemVerifications
+    {
         internal static void VerifyOnSameFileSystemAs<T>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<T> destination)
-            where T : IRootedDirectory<T>
+            where T : IRootedFileSystemItem<T>
         {
             if (me.FileSystem != destination.FileSystem)
             {
@@ -60,27 +63,6 @@ namespace fs4net.Framework
             }
         }
 
-        internal static void VerifyOnSameDriveAs<T, TOther>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<TOther> other)
-            where T : IRootedFileSystemItem<T>
-            where TOther : IRootedFileSystemItem<TOther>
-        {
-            if (me.Drive() != other.Drive())
-            {
-                throw new ArgumentException(string.Format("Can't find a relative path since '{0}' and '{1}' have different drives.", me.PathAsString, other.PathAsString));
-            }
-        }
-
-        internal static void VerifyDateTime(DateTime at, string operation, string itemType)
-        {
-            if (at.IsBefore(PathUtils.MinimumDate))
-            {
-                throw new ArgumentOutOfRangeException("at", string.Format("Can't {0} to '{1}' since it's not valid for a {2}.", operation, at, itemType));
-            }
-        }
-    }
-
-    internal static class RootedFileSystemItemVerifications
-    {
         internal static void VerifyOnSameDriveAs<T, TOther>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<TOther> other, Func<Exception> createException)
             where T : IRootedFileSystemItem<T>
             where TOther : IRootedFileSystemItem<TOther>
@@ -92,7 +74,7 @@ namespace fs4net.Framework
         }
 
         internal static void VerifyIsNotAFile<T>(this IRootedFileSystemItem<T> me, Func<Exception> createException)
-            where T : IRootedDirectory<T>
+            where T : IRootedFileSystemItem<T>
         {
             if (me.IsFile())
             {
@@ -101,7 +83,7 @@ namespace fs4net.Framework
         }
 
         internal static void VerifyIsNotADirectory<T>(this IRootedFileSystemItem<T> me, Func<Exception> createException)
-            where T : IRootedDirectory<T>
+            where T : IRootedFileSystemItem<T>
         {
             if (me.IsDirectory())
             {
@@ -109,8 +91,17 @@ namespace fs4net.Framework
             }
         }
 
+        internal static void VerifyIsAFile<T>(this IRootedFileSystemItem<T> me, Func<Exception> createException)
+            where T : IRootedFileSystemItem<T>
+        {
+            if (!me.IsFile())
+            {
+                throw createException();
+            }
+        }
+
         internal static void VerifyIsADirectory<T>(this IRootedFileSystemItem<T> me, Func<Exception> createException)
-            where T : IRootedDirectory<T>
+            where T : IRootedFileSystemItem<T>
         {
             if (!me.IsDirectory())
             {
@@ -119,7 +110,7 @@ namespace fs4net.Framework
         }
 
         internal static void VerifyIsNotTheSameAs<T>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<T> other, Func<Exception> createException)
-            where T : IRootedDirectory<T>
+            where T : IRootedFileSystemItem<T>
         {
             if (me.Equals(other))
             {
@@ -128,13 +119,21 @@ namespace fs4net.Framework
         }
 
         internal static void VerifyIsNotAParentOf<T>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<T> other, Func<Exception> createException)
-            where T : IRootedDirectory<T>
+            where T : IRootedFileSystemItem<T>
         {
             var lhs = me.CanonicalPathAsString();
             var rhs = other.CanonicalPathAsString();
             if (rhs.FullPath.StartsWith(lhs.FullPath))
             {
                 throw createException();
+            }
+        }
+
+        internal static void VerifyDateTime(DateTime at, string operation, string itemType)
+        {
+            if (at.IsBefore(PathUtils.MinimumDate))
+            {
+                throw new ArgumentOutOfRangeException("at", string.Format("Can't {0} to '{1}' since it's not valid for a {2}.", operation, at, itemType));
             }
         }
     }

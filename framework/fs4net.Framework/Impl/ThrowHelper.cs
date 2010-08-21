@@ -30,5 +30,15 @@ namespace fs4net.Framework.Impl
         {
             return () => new DirectoryNotFoundException(string.Format(template, args));
         }
+
+        public static Func<Exception> CreateFileNotFoundException(string fileName, string template, params object[] args)
+        {
+            return () => new FileNotFoundException(string.Format(template, args), fileName);
+        }
+
+        public static Func<Exception> CreateArgumentException(string template, params object[] args)
+        {
+            return () => new ArgumentException(string.Format(template, args));
+        }
     }
 }

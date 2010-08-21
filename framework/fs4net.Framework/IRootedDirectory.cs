@@ -50,7 +50,8 @@ namespace fs4net.Framework
             where T : IRootedDirectory<T>
             where TOther : IRootedDirectory<TOther>
         {
-            me.VerifyOnSameDriveAs(other);
+            me.VerifyOnSameDriveAs(other, ThrowHelper.CreateArgumentException("Can't find a relative path since '{0}' and '{1}' have different drives.", me.PathAsString, other.PathAsString));
+
             var relative = PathUtils.MakeRelativeFrom(me.CanonicalPathAsString().FullPath, other.CanonicalPathAsString().FullPath);
             return RelativeDirectory.FromString(other.PathAsString.EndsWith(@"\") ? relative + @"\" : relative);
         }
@@ -73,7 +74,9 @@ namespace fs4net.Framework
         public static DateTime LastModified<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
-            me.VerifyDenotesExistingDirectory("get last modified time");
+            me.VerifyIsNotAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last modified time for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last modified time for directory '{0}' since it does not exist.", me.PathAsString));
+
             return me.InternalFileSystem().GetDirectoryLastModified(me.CanonicalPathAsString());
         }
 
@@ -87,8 +90,10 @@ namespace fs4net.Framework
         public static void SetLastModified<T>(this IRootedDirectory<T> me, DateTime at)
             where T : IRootedDirectory<T>
         {
-            RootedFileSystemItemExtensions.VerifyDateTime(at, "set modified date", "directory");
-            me.VerifyDenotesExistingDirectory("set last modified time");
+            RootedFileSystemItemVerifications.VerifyDateTime(at, "set modified date", "directory");
+            me.VerifyIsNotAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last modified time for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last modified time for directory '{0}' since it does not exist.", me.PathAsString));
+
             me.InternalFileSystem().SetDirectoryLastModified(me.CanonicalPathAsString(), at);
         }
 
@@ -99,7 +104,9 @@ namespace fs4net.Framework
         public static DateTime LastAccessed<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
-            me.VerifyDenotesExistingDirectory("get last accessed time");
+            me.VerifyIsNotAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last accessed time for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last accessed time for directory '{0}' since it does not exist.", me.PathAsString));
+
             return me.InternalFileSystem().GetDirectoryLastAccessed(me.CanonicalPathAsString());
         }
 
@@ -111,7 +118,7 @@ namespace fs4net.Framework
         public static void Create<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
-            me.VerifyIsNotAFile("create");
+            me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't create the directory '{0}' since it denotes a file.", me.PathAsString));
             if (! me.Exists())
             {
                 var fileSystem = me.InternalFileSystem();
@@ -135,7 +142,8 @@ namespace fs4net.Framework
         public static void DeleteRecursively<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
-            me.VerifyIsNotAFile("delete");
+            // DirectoryNotFoundException?
+            me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
             if (me.Exists())
             {
                 var fileSystem = me.InternalFileSystem();
@@ -267,7 +275,9 @@ namespace fs4net.Framework
         public static IEnumerable<RootedFile> Files<T>(this IRootedDirectory<T> me, Func<RootedFile, bool> predicate)
             where T : IRootedDirectory<T>
         {
-            VerifyDenotesExistingDirectory(me, "get all files");
+            me.VerifyIsNotAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get all files for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get all files for directory '{0}' since it does not exist.", me.PathAsString));
+
             return me.InternalFileSystem().GetFilesInDirectory(me.CanonicalPathAsString()).Where(predicate);
         }
 
@@ -288,37 +298,10 @@ namespace fs4net.Framework
         public static IEnumerable<RootedDirectory> Directories<T>(this IRootedDirectory<T> me, Func<RootedDirectory, bool> predicate)
             where T : IRootedDirectory<T>
         {
-            VerifyDenotesExistingDirectory(me, "get all directories");
+            me.VerifyIsNotAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get all directories for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get all directories for directory '{0}' since it does not exist.", me.PathAsString));
+
             return me.InternalFileSystem().GetDirectoriesInDirectory(me.CanonicalPathAsString()).Where(predicate);
-        }
-
-        private static void VerifyDenotesExistingDirectory<T>(this IRootedDirectory<T> me, string operation)
-            where T : IRootedDirectory<T>
-        {
-            if (me.IsFile())
-            {
-                ThrowFileNotFound(me, operation, "it denotes a file");
-            }
-            if (me.IsDirectory() == false)
-            {
-                ThrowFileNotFound(me, operation, "it does not exist"); // ThrowDirectoryNotFound ?
-            }
-        }
-
-        private static void ThrowFileNotFound<T>(IRootedDirectory<T> forFile, string operation, string reason)
-            where T : IRootedDirectory<T>
-        {
-            string msg = string.Format("Can't {0} for directory '{1}' since {2}.", operation, forFile.PathAsString, reason);
-            throw new FileNotFoundException(msg, forFile.PathAsString);
-        }
-
-        private static void VerifyIsNotAFile<T>(this IRootedDirectory<T> me, string operation)
-            where T : IRootedDirectory<T>
-        {
-            if (me.IsFile())
-            {
-                throw new IOException(string.Format("Can't {0} the directory '{1}' since it denotes a file.", operation, me.PathAsString));
-            }
         }
     }
 }

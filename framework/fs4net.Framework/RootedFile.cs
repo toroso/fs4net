@@ -119,7 +119,9 @@ namespace fs4net.Framework
         /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
         public static DateTime LastModified(this RootedFile me)
         {
-            me.VerifyDenotesExistingFile("get last modified time for");
+            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last modified time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last modified time for file '{0}' since it does not exist.", me.PathAsString));
+
             return me.InternalFileSystem().GetFileLastModified(me.CanonicalPathAsString());
         }
 
@@ -132,8 +134,10 @@ namespace fs4net.Framework
         /// times permitted for this operation.</exception>
         public static void SetLastModified(this RootedFile me, DateTime at)
         {
-            RootedFileSystemItemExtensions.VerifyDateTime(at, "set modified date", "file");
-            me.VerifyDenotesExistingFile("set last modified time for");
+            RootedFileSystemItemVerifications.VerifyDateTime(at, "set modified date", "file");
+            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last modified time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last modified time for file '{0}' since it does not exist.", me.PathAsString));
+
             me.InternalFileSystem().SetFileLastModified(me.CanonicalPathAsString(), at);
         }
 
@@ -143,7 +147,9 @@ namespace fs4net.Framework
         /// TODO: Exceptions!
         public static DateTime LastAccessed(this RootedFile me)
         {
-            me.VerifyDenotesExistingFile("get last accessed time for");
+            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last accessed time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last accessed time for file '{0}' since it does not exist.", me.PathAsString));
+
             return me.InternalFileSystem().GetFileLastAccessed(me.CanonicalPathAsString());
         }
 
@@ -153,31 +159,10 @@ namespace fs4net.Framework
         /// TODO: Exceptions!
         public static void SetLastAccessed(this RootedFile me, DateTime at)
         {
-            me.VerifyDenotesExistingFile("get last accessed time for");
+            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last accessed time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last accessed time for file '{0}' since it does not exist.", me.PathAsString));
+
             me.InternalFileSystem().SetFileLastAccessed(me.CanonicalPathAsString(), at);
-        }
-
-        private static void VerifyDenotesExistingFile(this RootedFile me, string operation)
-        {
-            if (me.IsFile() == false)
-            {
-                me.VerifyIsNotADirectory(operation);
-                ThrowFileNotFound(me, operation, "it does not exist");
-            }
-        }
-
-        private static void VerifyIsNotADirectory(this RootedFile me, string operation)
-        {
-            if (me.IsDirectory())
-            {
-                ThrowFileNotFound(me, operation, "it denotes a directory");
-            }
-        }
-
-        private static void ThrowFileNotFound(RootedFile forFile, string operation, string reason)
-        {
-            string msg = string.Format("Can't {0} file '{1}' since {2}.", operation, forFile.PathAsString, reason);
-            throw new FileNotFoundException(msg, forFile.PathAsString);
         }
 
         /// <summary>
@@ -191,7 +176,7 @@ namespace fs4net.Framework
         /// is on an unmapped drive).</exception>
         public static void Delete(this RootedFile me)
         {
-            me.VerifyIsNotADirectory("delete the");
+            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
             if (me.Exists())
             {
                 var fileSystem = me.InternalFileSystem();
@@ -251,15 +236,10 @@ namespace fs4net.Framework
         /// <returns></returns>
         public static Stream CreateReadStream(this RootedFile me)
         {
-            if (me.IsDirectory())
-            {
-                // TODO: Better/more specific exception?
-                throw new IOException(string.Format("Can't open a file '{0}' for reading since the path denotes a directory.", me.PathAsString));
-            }
-            if (!me.IsFile())
-            {
-                throw new FileNotFoundException(string.Format("Can't open the file '{0}' for reading since it does not exists.", me.PathAsString));
-            }
+            // TODO: Better/more specific exception?
+            me.VerifyIsNotADirectory(ThrowHelper.CreateIOException("Can't open a file '{0}' for reading since the path denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.CreateIOException("Can't open the file '{0}' for reading since it does not exists.", me.PathAsString));
+
             return me.InternalFileSystem().CreateReadStream(me.CanonicalPathAsString());
         }
 
@@ -275,11 +255,9 @@ namespace fs4net.Framework
         /// <returns></returns>
         public static Stream CreateWriteStream(this RootedFile me)
         {
-            if (me.IsDirectory())
-            {
-                // TODO: Better/more specific exception?
-                throw new IOException(string.Format("Can't create the file '{0}' since the path denotes an existing directory.", me.PathAsString));
-            }
+            // TODO: Better/more specific exception?
+            me.VerifyIsNotADirectory(ThrowHelper.CreateIOException("Can't create the file '{0}' since the path denotes an existing directory.", me.PathAsString));
+
             // TODO: Check if parent directory exists
             return me.InternalFileSystem().CreateWriteStream(me.CanonicalPathAsString());
         }
@@ -299,7 +277,8 @@ namespace fs4net.Framework
         /// </summary>
         public static RelativeFile RelativeFrom(this RootedFile me, RootedDirectory other)
         {
-            me.VerifyOnSameDriveAs(other);
+            me.VerifyOnSameDriveAs(other, ThrowHelper.CreateArgumentException("Can't find a relative path since '{0}' and '{1}' have different drives.", me.PathAsString, other.PathAsString));
+
             return RelativeFile.FromString(PathUtils.MakeRelativeFrom(me.CanonicalPathAsString().FullPath, other.CanonicalPathAsString().FullPath));
         }
     }
