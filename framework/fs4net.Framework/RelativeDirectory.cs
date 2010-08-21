@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
@@ -70,28 +69,7 @@ namespace fs4net.Framework
             return lhs.Append(rhs);
         }
 
-        // TODO: Doable? Smart?
-        ///// <summary>
-        ///// Returns this descriptor as relative to the other descriptor.
-        ///// Example: [my/path/to] - [path/to] => [my]
-        ///// </summary>
-        //public static RelativeDirectory operator -(RelativeDirectory lhs, RelativeDirectory rhs)
-        //{
-        //    throw new System.NotImplementedException();
-        //    //return new RelativeDirectory(Path.Combine(lhs.PathAsString, rhs.PathAsString));
-        //}
-
-        // TODO: More stuff:
-        //  * Parent folder
-        //  * Leaf folder
-
         #endregion // Public Interface
-
-
-        #region // Implementation Details
-
-        #endregion // Implementation Details
-
 
         #region Value Object
 

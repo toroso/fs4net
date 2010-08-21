@@ -44,5 +44,53 @@ namespace fs4net.Framework
         }
 
         #endregion // Public Interface
+
+
+        #region Value Object
+
+        public bool Equals(Drive other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other._fileSystem, _fileSystem) && Equals(other._name, _name);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Drive)) return false;
+            return Equals((Drive) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (_fileSystem.GetHashCode()*397) ^ _name.GetHashCode();
+            }
+        }
+
+        public static bool operator ==(Drive left, Drive right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Drive left, Drive right)
+        {
+            return !Equals(left, right);
+        }
+
+        #endregion // Value Object
+
+
+        #region Debugging
+
+        public override string ToString()
+        {
+            return PathAsString;
+        }
+
+        #endregion Debugging
     }
 }

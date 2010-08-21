@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
@@ -21,5 +24,42 @@ namespace fs4net.Framework
             string rhsWithoutLeadingBackslash = rhs.StartsWith(@"\") ? rhs.Substring(1) : rhs;
             return lhsWithoutEndingBackslash + @"\" + rhsWithoutLeadingBackslash;
         }
+
+        public static string MakeRelativeFrom(string to, string from)
+        {
+            var toFolders = to.Split(new[] { '\\' });
+            var fromFolders = from.RemoveEndingBackslash().Split(new[] { '\\' });
+            IEnumerable<string> baseRelativeFrom = fromFolders.SkipFirstEqualTo(toFolders).Select(each => "..");
+            IEnumerable<string> toRelativeBase = toFolders.SkipFirstEqualTo(fromFolders).Select(each => each);
+            return baseRelativeFrom.Concat(toRelativeBase).MergeToPath();
+        }
+
+        private static string RemoveEndingBackslash(this string me)
+        {
+            return me.EndsWith(@"\") ? me.Substring(0, me.Length - 1) : me;
+        }
+
+        private static IEnumerable<T> SkipFirstEqualTo<T>(this IEnumerable<T> me, IEnumerable<T> other)
+        {
+            using (IEnumerator<T> meEnum = me.GetEnumerator(), otherEnum = other.GetEnumerator())
+            {
+                bool meHasMore = false;
+                bool done = false;
+                while (!done)
+                {
+                    meHasMore = meEnum.MoveNext();
+                    bool otherHasMore = otherEnum.MoveNext();
+                    done = !(meHasMore && otherHasMore && meEnum.Current.Equals(otherEnum.Current));
+                }
+                if (meHasMore)
+                {
+                    yield return meEnum.Current;
+                    while (meEnum.MoveNext())
+                    {
+                        yield return meEnum.Current;
+                    }
+                }
+            }
+        }
     }
- }
+}

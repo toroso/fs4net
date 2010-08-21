@@ -210,16 +210,21 @@ namespace fs4net.Framework.Test
             try
             {
                 action();
+                FailOnWrongException<T>(testData, "no exception");
             }
             catch (Exception ex)
             {
                 if (ex.GetType() != typeof(T))
                 {
-                    string forString = (testData == string.Empty) ? string.Empty : string.Format(" for '{0}'", testData);
-                    Console.WriteLine("Expected '{0}'{1} but got: {2}", typeof(T), forString, ex.GetType());
-                    throw;
+                    FailOnWrongException<T>(testData, ex.GetType().ToString());
                 }
             }
+        }
+
+        private static void FailOnWrongException<T>(string testData, string exception)
+        {
+            string forString = (testData == string.Empty) ? string.Empty : string.Format(" for '{0}'", testData);
+            Assert.Fail(string.Format("Expected {0}{1} but got {2}.", typeof(T), forString, exception));
         }
     }
 }

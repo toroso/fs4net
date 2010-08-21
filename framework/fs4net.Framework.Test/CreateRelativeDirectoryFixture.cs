@@ -13,9 +13,9 @@ namespace fs4net.Framework.Test
         }
 
         [Test]
-        public void Throws_If_Path_Is_Empty()
+        public void Does_Not_Throw_If_Path_Is_Empty()
         {
-            AssertThrows<InvalidPathException>(() => RelativeDirectory.FromString(string.Empty));
+            Assert.DoesNotThrow(() => RelativeDirectory.FromString(string.Empty));
         }
 
 
@@ -107,26 +107,26 @@ namespace fs4net.Framework.Test
             AssertThrows<RootedPathException>(() => RelativeDirectory.FromString(invalidPath), invalidPath);
         }
 
-        private static void AssertThrows<T>(Action action)
-        {
-            AssertThrows<T>(action, string.Empty);
-        }
-
         private static void AssertThrows<T>(Action action, string testData)
         {
             try
             {
                 action();
+                FailOnWrongException<T>(testData, "no exception");
             }
             catch (Exception ex)
             {
                 if (ex.GetType() != typeof(T))
                 {
-                    string forString = (testData == string.Empty) ? string.Empty : string.Format(" for '{0}'", testData);
-                    Console.WriteLine("Expected '{0}'{1} but got: {2}", typeof(T), forString, ex.GetType());
-                    throw;
+                    FailOnWrongException<T>(testData, ex.GetType().ToString());
                 }
             }
+        }
+
+        private static void FailOnWrongException<T>(string testData, string exception)
+        {
+            string forString = (testData == string.Empty) ? string.Empty : string.Format(" for '{0}'", testData);
+            Assert.Fail(string.Format("Expected {0}{1} but got {2}.", typeof(T), forString, exception));
         }
 
         private static void AssertThrowsInvalidPathExceptionFor(string invalidPath)

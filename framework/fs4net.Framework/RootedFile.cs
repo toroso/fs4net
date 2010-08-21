@@ -24,7 +24,7 @@ namespace fs4net.Framework
             _canonicalFullPath = new CanonicalPathBuilder(_rootedPath).BuildForRootedFile();
         }
 
-        #region Interface Implementations
+        #region Public Interface
 
         /// <summary>
         /// Returns the FileSystem with which this descriptor is associated.
@@ -61,8 +61,7 @@ namespace fs4net.Framework
             return new RootedFile(_fileSystem, _canonicalFullPath, PathWasher);
         }
 
-        #endregion // Interface Implementations
-
+        #endregion // Public Interface
 
         #region Value Object
 
@@ -292,6 +291,16 @@ namespace fs4net.Framework
         public static RootedFile WithFileName(this RootedFile me, FileName newName)
         {
             return me.ParentDirectory() + newName;
+        }
+
+        /// <summary>
+        /// Returns this file name on a form relative to the given directory.
+        /// <example>(c:\path\to\file.txt, c:\path\in) => ..\to\file.txt</example>
+        /// </summary>
+        public static RelativeFile RelativeFrom(this RootedFile me, RootedDirectory other)
+        {
+            me.VerifyOnSameDriveAs(other);
+            return RelativeFile.FromString(PathUtils.MakeRelativeFrom(me.CanonicalPathAsString().FullPath, other.CanonicalPathAsString().FullPath));
         }
     }
 

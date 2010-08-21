@@ -56,18 +56,9 @@ namespace fs4net.Framework
             return new RelativeFile(_canonicalFullPath);
         }
 
-        // TODO: More stuff:
-        //  * Parent folder
-
         #endregion // Public Interface
 
-
-        #region // Implementation Details
-
-        #endregion // Implementation Details
-
-
-        #region Override Object
+        #region Value Object
 
         // TODO: Move to extension methods?
         public bool Equals(RelativeFile other)
@@ -90,6 +81,16 @@ namespace fs4net.Framework
             return _canonicalFullPath.GetHashCode();
         }
 
-        #endregion // Override Object
+        #endregion // Value Object
+
+
+        #region Debugging
+
+        public override string ToString()
+        {
+            return PathAsString;
+        }
+
+        #endregion Debugging
     }
 }

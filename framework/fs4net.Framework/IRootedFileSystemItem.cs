@@ -51,6 +51,16 @@ namespace fs4net.Framework
             return ((IInternalFileSystem)me.FileSystem);
         }
 
+        public static void VerifyOnSameDriveAs<T, TOther>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<TOther> other)
+            where T : IRootedFileSystemItem<T>
+            where TOther : IRootedFileSystemItem<TOther>
+        {
+            if (me.Drive() != other.Drive())
+            {
+                throw new ArgumentException(string.Format("Can't find a relative path since '{0}' and '{1}' have different drives.", me.PathAsString, other.PathAsString));
+            }
+        }
+
         internal static void VerifyDateTime(DateTime at, string operation, string itemType)
         {
             if (at.IsBefore(PathUtils.MinimumDate))

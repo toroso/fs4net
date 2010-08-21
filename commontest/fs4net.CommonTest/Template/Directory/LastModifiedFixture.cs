@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace fs4net.CommonTest.Template.Directory
 {
-    [TestFixture]
     public abstract class LastModifiedFixture : PopulatedFileSystem
     {
         [Test]
@@ -129,5 +128,6 @@ namespace fs4net.CommonTest.Template.Directory
         //}
 
         // TODO: Move file from one dir to another -- modified source and target directories?
+        // TODO: Access denied?
     }
 }

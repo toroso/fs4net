@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace fs4net.CommonTest.Template.File
 {
-    [TestFixture]
     public abstract class LastModifiedFixture : PopulatedFileSystem
     {
         [Test]

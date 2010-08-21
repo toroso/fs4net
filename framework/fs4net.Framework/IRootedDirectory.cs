@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
@@ -44,6 +43,15 @@ namespace fs4net.Framework
             var lastBackslashIndex = canonicalPath.LastIndexOf('\\');
 //            if (lastBackslashIndex == -1) return RelativeDirectory.Empty;
             return RelativeDirectory.FromString(canonicalPath.Substring(lastBackslashIndex + 1));
+        }
+
+        public static RelativeDirectory RelativeFrom<T, TOther>(this IRootedDirectory<T> me, IRootedDirectory<TOther> other)
+            where T : IRootedDirectory<T>
+            where TOther : IRootedDirectory<TOther>
+        {
+            me.VerifyOnSameDriveAs(other);
+            var relative = PathUtils.MakeRelativeFrom(me.CanonicalPathAsString().FullPath, other.CanonicalPathAsString().FullPath);
+            return RelativeDirectory.FromString(other.PathAsString.EndsWith(@"\") ? relative + @"\" : relative);
         }
 
         /// <summary>

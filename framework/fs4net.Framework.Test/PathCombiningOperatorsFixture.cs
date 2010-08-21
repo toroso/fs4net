@@ -1,4 +1,3 @@
-using System;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test
@@ -6,39 +5,39 @@ namespace fs4net.Framework.Test
     [TestFixture]
     public class PathCombiningOperatorsFixture
     {
-        private static IFileSystem _fileSystem = new MockFileSystem();
+// ReSharper disable InconsistentNaming
+        private static readonly IFileSystem FileSystem = new MockFileSystem();
 
         // Original data
-        private static RootedDirectory Drive_WithoutBackslash = _fileSystem.CreateDirectoryDescribing(@"c:");
-        private static RootedDirectory Drive_WithBackslash = _fileSystem.CreateDirectoryDescribing(@"c:\");
-        private static RootedDirectory RootedDirectory_WithoutBackslash = _fileSystem.CreateDirectoryDescribing(@"c:\path\is");
-        private static RootedDirectory RootedDirectory_WithBackslash = _fileSystem.CreateDirectoryDescribing(@"c:\path\is\");
+        private static readonly RootedDirectory Drive_WithoutBackslash = FileSystem.CreateDirectoryDescribing(@"c:");
+        private static readonly RootedDirectory Drive_WithBackslash = FileSystem.CreateDirectoryDescribing(@"c:\");
+        private static readonly RootedDirectory RootedDirectory_WithoutBackslash = FileSystem.CreateDirectoryDescribing(@"c:\path\is");
+        private static readonly RootedDirectory RootedDirectory_WithBackslash = FileSystem.CreateDirectoryDescribing(@"c:\path\is\");
 
-        private static RelativeDirectory RelativeDirectory_WithStartBackslash_WithoutEndBackslash = RelativeDirectory.FromString(@"\relative\to");
-        private static RelativeDirectory RelativeDirectory_WithoutStartBackslash_WithEndBackslash = RelativeDirectory.FromString(@"relative\to\");
+        private static readonly RelativeDirectory RelativeDirectory_WithStartBackslash_WithoutEndBackslash = RelativeDirectory.FromString(@"\relative\to");
+        private static readonly RelativeDirectory RelativeDirectory_WithoutStartBackslash_WithEndBackslash = RelativeDirectory.FromString(@"relative\to\");
 
-        private static RelativeFile FilenameOnly_WithoutBackslash = RelativeFile.FromString(@"file.txt");
-        private static RelativeFile FilenameOnly_WithBackslash = RelativeFile.FromString(@"\file.txt");
-        private static RelativeFile RelativeFile_WithoutBackslash = RelativeFile.FromString(@"my\file.txt");
-        private static RelativeFile RelativeFile_WithBackslash = RelativeFile.FromString(@"\my\file.txt");
+        private static readonly RelativeFile FilenameOnly_WithoutBackslash = RelativeFile.FromString(@"file.txt");
+        private static readonly RelativeFile FilenameOnly_WithBackslash = RelativeFile.FromString(@"\file.txt");
+        private static readonly RelativeFile RelativeFile_WithoutBackslash = RelativeFile.FromString(@"my\file.txt");
+        private static readonly RelativeFile RelativeFile_WithBackslash = RelativeFile.FromString(@"\my\file.txt");
 
 
         // Expected data
-        private static RootedDirectory DriveAndRelativeDirectory_WithoutEndBackslash = _fileSystem.CreateDirectoryDescribing(@"c:\relative\to");
-        private static RootedDirectory DriveAndRelativeDirectory_WithEndBackslash = _fileSystem.CreateDirectoryDescribing(@"c:\relative\to\");
-        private static RootedDirectory RootedDirectoryAndRelativeDirectory_WithoutEndBackslash = _fileSystem.CreateDirectoryDescribing(@"c:\path\is\relative\to");
-        private static RootedDirectory RootedDirectoryAndRelativeDirectory_WithEndBackslash = _fileSystem.CreateDirectoryDescribing(@"c:\path\is\relative\to\");
+        private static readonly RootedDirectory DriveAndRelativeDirectory_WithoutEndBackslash = FileSystem.CreateDirectoryDescribing(@"c:\relative\to");
+        private static readonly RootedDirectory DriveAndRelativeDirectory_WithEndBackslash = FileSystem.CreateDirectoryDescribing(@"c:\relative\to\");
+        private static readonly RootedDirectory RootedDirectoryAndRelativeDirectory_WithoutEndBackslash = FileSystem.CreateDirectoryDescribing(@"c:\path\is\relative\to");
+        private static readonly RootedDirectory RootedDirectoryAndRelativeDirectory_WithEndBackslash = FileSystem.CreateDirectoryDescribing(@"c:\path\is\relative\to\");
 
-        private static RootedFile DriveAndFilename = _fileSystem.CreateFileDescribing(@"c:\file.txt");
-        private static RootedFile RootedDirectoryAndFilename = _fileSystem.CreateFileDescribing(@"c:\path\is\file.txt");
-        private static RootedFile DriveAndRelativeFile = _fileSystem.CreateFileDescribing(@"c:\my\file.txt");
-        private static RootedFile RootedDirectoryAndRelativeFile = _fileSystem.CreateFileDescribing(@"c:\path\is\my\file.txt");
+        private static readonly RootedFile DriveAndFilename = FileSystem.CreateFileDescribing(@"c:\file.txt");
+        private static readonly RootedFile RootedDirectoryAndFilename = FileSystem.CreateFileDescribing(@"c:\path\is\file.txt");
+        private static readonly RootedFile DriveAndRelativeFile = FileSystem.CreateFileDescribing(@"c:\my\file.txt");
+        private static readonly RootedFile RootedDirectoryAndRelativeFile = FileSystem.CreateFileDescribing(@"c:\path\is\my\file.txt");
 
-        private static RelativeFile RelativeDirectoryAndFilename_WithStartBackslash = RelativeFile.FromString(@"\relative\to\file.txt");
-        private static RelativeFile RelativeDirectoryAndFilename_WithoutStartBackslash = RelativeFile.FromString(@"relative\to\file.txt");
-        private static RelativeFile RelativeDirectoryAndRelativeFile_WithStartBackslash = RelativeFile.FromString(@"\relative\to\my\file.txt");
-        private static RelativeFile RelativeDirectoryAndRelativeFile_WithoutStartBackslash = RelativeFile.FromString(@"relative\to\my\file.txt");
-        
+        private static readonly RelativeFile RelativeDirectoryAndFilename_WithStartBackslash = RelativeFile.FromString(@"\relative\to\file.txt");
+        private static readonly RelativeFile RelativeDirectoryAndFilename_WithoutStartBackslash = RelativeFile.FromString(@"relative\to\file.txt");
+        private static readonly RelativeFile RelativeDirectoryAndRelativeFile_WithStartBackslash = RelativeFile.FromString(@"\relative\to\my\file.txt");
+        private static readonly RelativeFile RelativeDirectoryAndRelativeFile_WithoutStartBackslash = RelativeFile.FromString(@"relative\to\my\file.txt");
 
 
         private static readonly object[][] RootedDirectory_And_RelativeDirectory =
@@ -146,5 +145,6 @@ namespace fs4net.Framework.Test
         }
 
         // TODO: RelativeFile and RelativeFile
+// ReSharper restore InconsistentNaming
     }
 }

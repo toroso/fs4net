@@ -19,12 +19,16 @@ IFileSystemItem, FileSystemItemExtensions
         [x] Creation
         [ ] Equals, GetHashCode
         [x] Exists
+        [ ] Created
+        [ ] LastAccessed
         [?] LastModified -- some operations missing...
         [ ] Delete
         [ ] TryDelete
         [ ] CreateReadStream
         [ ] CreateWriteStream
         [ ] CreateAppendStream
+        [ ] CopyTo -- Check so that the source and the destination are on the same file system
+        [ ] MoveTo -- Check so that the source and the destination are on the same file system
   IDirectory, DirectoryExtensions
       ( ) LeafFolder
     RelativeDirectory, RelativeDirectoryExtensions
@@ -34,10 +38,22 @@ IFileSystemItem, FileSystemItemExtensions
         [x] Creation
         [ ] Equals, GetHashCode
         [x] Exists
+        [ ] Created
+        [ ] LastAccessed
         [?] LastModified -- some operations missing...
         [ ] Delete
         [ ] TryDelete
         [ ] Create
+        [ ] CopyTo -- Check so that the source and the destination are on the same file system
+        [ ] MoveTo -- Check so that the source and the destination are on the same file system
+             * Source contains files and folders
+             * Non-existing source
+             * Source represents a file
+             * Non-existing destination
+             * Destination already exists (folder or file)
+             * Different file systems throws
+             * Access denied (source and destination)
+             - Do not support only specifying destination folder. Should be new name!
 
 FileName, FileNameExtensions
     [x] Creation (FromString)

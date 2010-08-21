@@ -3,7 +3,6 @@ using NUnit.Framework;
 
 namespace fs4net.CommonTest.Template.Directory
 {
-    [TestFixture]
     public abstract class ExistsFixture : PopulatedFileSystem
     {
         [Test]
