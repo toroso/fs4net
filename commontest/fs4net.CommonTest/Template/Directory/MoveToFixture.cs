@@ -111,5 +111,6 @@ namespace fs4net.CommonTest.Template.Directory
         }
 
         // TODO: Access denied (source and destination)
+        //- Do not support only specifying destination folder. Should be new name!
     }
 }

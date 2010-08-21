@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace fs4net.Framework.Impl
 {
@@ -18,6 +19,16 @@ namespace fs4net.Framework.Impl
             {
                 throw new ArgumentException(errorMessage);
             }
+        }
+
+        internal static Func<Exception> CreateIOException(string template, params object[] args)
+        {
+            return () => new IOException(string.Format(template, args));
+        }
+
+        internal static Func<Exception> CreateDirectoryNotFoundException(string template, params object[] args)
+        {
+            return () => new DirectoryNotFoundException(string.Format(template, args));
         }
     }
 }

@@ -70,21 +70,71 @@ namespace fs4net.Framework
             }
         }
 
-        internal static void VerifyOnSameDriveAs<T, TOther>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<TOther> other, string message)
-            where T : IRootedFileSystemItem<T>
-            where TOther : IRootedFileSystemItem<TOther>
-        {
-            if (me.Drive() != other.Drive())
-            {
-                throw new IOException(message);
-            }
-        }
-
         internal static void VerifyDateTime(DateTime at, string operation, string itemType)
         {
             if (at.IsBefore(PathUtils.MinimumDate))
             {
                 throw new ArgumentOutOfRangeException("at", string.Format("Can't {0} to '{1}' since it's not valid for a {2}.", operation, at, itemType));
+            }
+        }
+    }
+
+    internal static class RootedFileSystemItemVerifications
+    {
+        internal static void VerifyOnSameDriveAs<T, TOther>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<TOther> other, Func<Exception> createException)
+            where T : IRootedFileSystemItem<T>
+            where TOther : IRootedFileSystemItem<TOther>
+        {
+            if (me.Drive() != other.Drive())
+            {
+                throw createException();
+            }
+        }
+
+        internal static void VerifyIsNotAFile<T>(this IRootedFileSystemItem<T> me, Func<Exception> createException)
+            where T : IRootedDirectory<T>
+        {
+            if (me.IsFile())
+            {
+                throw createException();
+            }
+        }
+
+        internal static void VerifyIsNotADirectory<T>(this IRootedFileSystemItem<T> me, Func<Exception> createException)
+            where T : IRootedDirectory<T>
+        {
+            if (me.IsDirectory())
+            {
+                throw createException();
+            }
+        }
+
+        internal static void VerifyIsADirectory<T>(this IRootedFileSystemItem<T> me, Func<Exception> createException)
+            where T : IRootedDirectory<T>
+        {
+            if (!me.IsDirectory())
+            {
+                throw createException();
+            }
+        }
+
+        internal static void VerifyIsNotTheSameAs<T>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<T> other, Func<Exception> createException)
+            where T : IRootedDirectory<T>
+        {
+            if (me.Equals(other))
+            {
+                throw createException();
+            }
+        }
+
+        internal static void VerifyIsNotAParentOf<T>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<T> other, Func<Exception> createException)
+            where T : IRootedDirectory<T>
+        {
+            var lhs = me.CanonicalPathAsString();
+            var rhs = other.CanonicalPathAsString();
+            if (rhs.FullPath.StartsWith(lhs.FullPath))
+            {
+                throw createException();
             }
         }
     }
