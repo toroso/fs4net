@@ -6,9 +6,7 @@ namespace fs4net.Memory.Test
     {
         internal static IFileSystem CreateFileSystemWithDrives()
         {
-            var fileSystem = new MemoryFileSystem();
-            fileSystem.AddDrive("c:");
-            return fileSystem;
+            return new MemoryFileSystem().WithDrives("c:");
         }
     }
 }

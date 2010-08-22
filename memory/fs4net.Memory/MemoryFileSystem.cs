@@ -148,9 +148,10 @@ namespace fs4net.Memory
         #endregion // Implementation of IInternalFileSystem
 
 
-        public void AddDrive(string driveName)
+        public MemoryFileSystem WithDrives(params string[] driveNames)
         {
-            _rootNode.CreateOrReuseFolderNode(driveName);
+            Array.ForEach(driveNames, drive => _rootNode.CreateOrReuseFolderNode(drive));
+            return this;
         }
 
         private FileNode CreateFile(string path)
