@@ -54,7 +54,7 @@ namespace fs4net.CommonTest.Template.Directory
         public void Move_Directory_To_Existing_Directory_Throws()
         {
             var source = ExistingLeafDirectory;
-            var destination = ExistingLeafDirectory2;
+            var destination = ExistingEmptyDirectory;
 
             Assert.Throws<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
@@ -63,7 +63,7 @@ namespace fs4net.CommonTest.Template.Directory
         [Test]
         public void Move_Directory_To_Existing_File_Throws()
         {
-            var source = ExistingLeafDirectory2;
+            var source = ExistingEmptyDirectory;
             var destination = FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString);
 
             Assert.Throws<IOException>(() => source.MoveTo(destination));

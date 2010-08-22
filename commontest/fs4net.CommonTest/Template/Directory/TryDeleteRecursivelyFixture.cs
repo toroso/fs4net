@@ -1,16 +1,15 @@
-using System.IO;
 using fs4net.Framework;
 using NUnit.Framework;
 
 namespace fs4net.CommonTest.Template.Directory
 {
     [TestFixture]
-    public abstract class DeleteRecursivelyFixture : PopulatedFileSystem
+    public abstract class TryDeleteRecursivelyFixture : PopulatedFileSystem
     {
         [Test]
         public void Delete_Existing_With_SubFolders_And_Files()
         {
-            ParentOfExistingLeafDirectory.DeleteRecursively();
+            Assert.That(ParentOfExistingLeafDirectory.TryDeleteRecursively(), Is.True);
             Assert.That(ParentOfExistingLeafDirectory.Exists(), Is.False);
             Assert.That(ExistingLeafDirectory.Exists(), Is.False);
             Assert.That(ExistingFile.Exists(), Is.False);
@@ -19,7 +18,7 @@ namespace fs4net.CommonTest.Template.Directory
         [Test]
         public void Delete_NonExisting_Directory()
         {
-            Assert.DoesNotThrow(() => NonExistingDirectory.DeleteRecursively());
+            Assert.That(NonExistingDirectory.TryDeleteRecursively(), Is.True);
             Assert.That(NonExistingDirectory.Exists(), Is.False);
         }
 
@@ -27,7 +26,7 @@ namespace fs4net.CommonTest.Template.Directory
         public void Delete_Directory_That_Denotes_A_File_Throws()
         {
             var fileAsDirectory = FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString);
-            Assert.Throws<IOException>(() => fileAsDirectory.DeleteRecursively());
+            Assert.That(fileAsDirectory.TryDeleteRecursively(), Is.True); // Disputable... There's still a file with that name.
             Assert.That(ExistingFile.Exists(), Is.True);
         }
 
@@ -35,7 +34,7 @@ namespace fs4net.CommonTest.Template.Directory
         public void Delete_Directory_On_NonExisting_Drive_Throws()
         {
             var toBeCreated = FileSystem.CreateDirectoryDescribing(@"z:\drive\does\no\exist");
-            Assert.DoesNotThrow(() => toBeCreated.DeleteRecursively());
+            Assert.That(toBeCreated.TryDeleteRecursively(), Is.True);
         }
 
         // TODO: Access denied

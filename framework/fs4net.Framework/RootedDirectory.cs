@@ -180,8 +180,6 @@ namespace fs4net.Framework
         /// <summary>
         /// Tries to delete the directory denoted by this descriptor.
         /// </summary>
-        /// <exception cref="System.IO.PathTooLongException">If the file descriptor is relative and concatenated
-        /// with the current directory it exceeds the system-defined maximum length.</exception>
         /// <returns>
         /// True if the file no longer exists. That is, the file was either deleted, or it
         /// did not exist to start with. If the file descriptor denotes a directory this method

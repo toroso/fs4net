@@ -18,7 +18,7 @@ namespace fs4net.CommonTest.Template
         protected DateTime ExistingLeafDirectoryLastModified { get { return new DateTime(1998, 11, 15); } }
         protected RootedDirectory ParentOfExistingLeafDirectory { get; private set; }
         protected DateTime ParentOfExistingLeafDirectoryLastModified { get { return new DateTime(1984, 12, 25); } }
-        protected RootedDirectory ExistingLeafDirectory2 { get; private set; }
+        protected RootedDirectory ExistingEmptyDirectory { get; private set; }
         protected RootedDirectory NonExistingDirectory { get; private set; }
 
         protected readonly DateTime MinimumDate = new DateTime(1601, 1, 1).AddMilliseconds(1).ToLocalTime();
@@ -46,7 +46,7 @@ namespace fs4net.CommonTest.Template
             ParentOfExistingLeafDirectory = populateFileSystem
                 .WithDir(@"path")
                 .LastModifiedAt(ParentOfExistingLeafDirectoryLastModified);
-            ExistingLeafDirectory2 = populateFileSystem
+            ExistingEmptyDirectory = populateFileSystem
                 .WithDir(@"my\path");
             NonExistingDirectory = FileSystem.CreateDirectoryDescribing(InTemp(@"another\path\to"));
         }
