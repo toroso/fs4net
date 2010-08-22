@@ -119,4 +119,151 @@ namespace fs4net.Framework
 
         #endregion Debugging
     }
+
+    public static class RootedDirectoryExtensions
+    {
+
+        /// <summary>
+        /// Creates the directory denoted by this descriptor. It creates the leaf folder as well as any non-existing
+        /// parent folders. If the directory already exists this method does nothing.
+        /// </summary>
+        /// TODO: Exceptions!
+        public static void Create(this RootedDirectory me)
+        {
+            me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't create the directory '{0}' since it denotes a file.", me.PathAsString));
+            if (!me.Exists())
+            {
+                var fileSystem = me.InternalFileSystem();
+                var path = me.CanonicalPathAsString();
+                fileSystem.CreateDirectory(path);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the directory denoted by this descriptor. If the directory does not exists this method does
+        /// nothing.
+        /// </summary>
+        /// TODO: Revise these exceptions! More specific?
+        /// <exception cref="System.IO.IOException">There is an open handle on the directory or on one of its files,
+        /// and the operating system is Windows XP or earlier; A file is denoted by this directory descriptor; The
+        /// directory is not empty; The directory is the application's current working directory; The directory is
+        /// read-only.</exception>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The specified path is invalid (for example, it
+        /// is on an unmapped drive).</exception>
+        public static void DeleteRecursively(this RootedDirectory me)
+        {
+            // DirectoryNotFoundException?
+            me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
+            if (me.Exists())
+            {
+                var fileSystem = me.InternalFileSystem();
+                var path = me.CanonicalPathAsString();
+                //if (fileSystem.DirectoryInUse(path))
+                //{
+                //    // TODO: Better/more specifiec exception?
+                //    throw new IOException(string.Format("Can't delete directory '{0}' since it's in use.", me.PathAsString));
+                //}
+                // Attributes: Archive, ReadOnly, Hidden, System, Device, ...
+                //if (fileSystem.GetAttributes(path) == FileAttributes.ReadOnly)
+                //{
+                //    throw new UnauthorizedAccessException(string.Format("Can't delete read-only directory '{0}'.", me.PathAsString));
+                //}
+                //if (fileSystem.IsReady(me.DriveName()) == false)
+                //{
+                //    throw new DirectoryNotFoundException(string.Format("Can't delete the directory '{0}' since the drive is not ready.", me.PathAsString));
+                //}
+                fileSystem.DeleteDirectory(path, true);
+            }
+        }
+
+        /// <summary>
+        /// Tries to delete the directory denoted by this descriptor.
+        /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">If the file descriptor is relative and concatenated
+        /// with the current directory it exceeds the system-defined maximum length.</exception>
+        /// <returns>
+        /// True if the file no longer exists. That is, the file was either deleted, or it
+        /// did not exist to start with. If the file descriptor denotes a directory this method
+        /// returns true.
+        /// </returns>
+        /// TODO: Exceptions
+        public static bool TryDeleteRecursively(this RootedDirectory me)
+        {
+            if (me.Exists())
+            {
+                var fileSystem = me.InternalFileSystem();
+                var path = me.CanonicalPathAsString();
+                //if (fileSystem.IsDirectoryInUse(path))
+                //{
+                //    return false;
+                //}
+                //if (fileSystem.GetAttributes(path) == FileAttributes.ReadOnly)
+                //{
+                //    return false;
+                //}
+                //if (fileSystem.IsReady(me.DriveName()))
+                //{
+                //    return false;
+                //}
+                TryDelete(fileSystem, path, true);
+            }
+            return !me.Exists();
+        }
+
+        /// <summary>
+        /// Tries to delete the directory denoted by this descriptor.
+        /// </summary>
+        /// <returns>
+        /// True if the file no longer exists. That is, the file was either deleted, or it
+        /// did not exist to start with. If the file descriptor denotes a directory this method
+        /// returns true.
+        /// </returns>
+        /// TODO: Exceptions
+        public static bool TryDeleteIfEmpty(this RootedDirectory me)
+        {
+            if (me.Exists())
+            {
+                var fileSystem = me.InternalFileSystem();
+                var path = me.CanonicalPathAsString();
+                TryDelete(fileSystem, path, false);
+            }
+            return !me.Exists();
+        }
+
+        private static void TryDelete(IInternalFileSystem fileSystem, RootedCanonicalPath path, bool recursive)
+        {
+            try
+            {
+                fileSystem.DeleteDirectory(path, recursive);
+            }
+            // ReSharper disable EmptyGeneralCatchClause
+            // DirectoryNotFoundException, ArgumentException, NotSupportedException, IOException, UnauthorizedAccessException...
+            catch { } // To fulfil the nothrow contract...
+            // ReSharper restore EmptyGeneralCatchClause
+        }
+
+        /// <summary>
+        /// Moves the directory and its contents to a new location. After the move, the source directory will have the
+        /// name specified by the destination parameter.
+        /// </summary>
+        /// TODO: Exceptions
+        public static void MoveTo(this RootedDirectory me, RootedDirectory destination)
+        {
+            me.VerifyOnSameFileSystemAs(destination);
+            me.VerifyOnSameDriveAs(destination, ThrowHelper.CreateIOException("Can't move the directory '{0}' to '{1}' since they are located on different drives.", me, destination));
+            me.VerifyIsNotAFile(ThrowHelper.CreateDirectoryNotFoundException("Can't move the directory '{0}' since it denotes a file.", me));
+            me.VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't move the directory '{0}' since it does not exist.", me));
+            destination.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't move the directory since the destination's parent directory '{0}' does not exist.", destination.ParentDirectory()));
+            destination.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't move the directory to the destination '{0}' since a file with that name already exists.", destination));
+            destination.VerifyIsNotADirectory(ThrowHelper.CreateIOException("Can't move the directory to the destination '{0}' since a directory with that name already exists.", destination));
+            me.VerifyIsNotTheSameAs(destination, ThrowHelper.CreateIOException("Can't move the directory '{0}' the source and destination denotes the same directory.", destination));
+            me.VerifyIsNotAParentOf(destination, ThrowHelper.CreateIOException("Can't move the directory to the destination '{0}' since it is located inside the source directory.", destination));
+
+            var src = me.CanonicalPathAsString();
+            var dst = destination.CanonicalPathAsString();
+            var fileSystem = me.InternalFileSystem();
+            fileSystem.MoveDirectory(src, dst);
+        }
+    }
 }

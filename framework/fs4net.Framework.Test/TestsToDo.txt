@@ -41,11 +41,13 @@ IFileSystemItem, FileSystemItemExtensions
         [ ] Created
         [ ] LastAccessed
         [?] LastModified -- some operations missing...
-        [ ] Delete
-        [ ] TryDelete
-        [ ] Create
+        [x] DeleteRecursively
+        [ ] DeleteIfEmpty
+        [ ] TryDeleteRecursively
+        [ ] TryDeleteIfEmpty
+        [x] Create
         [ ] CopyTo -- Check so that the source and the destination are on the same file system
-        [?] MoveTo -- access denied stuff left
+        [x] MoveTo
 
 FileName, FileNameExtensions
     [x] Creation (FromString)
@@ -72,6 +74,9 @@ operators...
 named...
   [x] RootedDirectory.RelativeFrom RootedDirectory => RelativeDirectory
   [x] RootedFile.RelativeFrom RootedDirectory => RelativeFile
+
+
+TODO: Access Denied on most operations
 
 
 ------------ Tests ToDo:
