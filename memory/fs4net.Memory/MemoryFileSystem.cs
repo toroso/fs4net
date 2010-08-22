@@ -147,6 +147,12 @@ namespace fs4net.Memory
 
         #endregion // Implementation of IInternalFileSystem
 
+
+        public void AddDrive(string driveName)
+        {
+            _rootNode.CreateOrReuseFolderNode(driveName);
+        }
+
         private FileNode CreateFile(string path)
         {
             FileNode resultNode = null;
@@ -160,10 +166,12 @@ namespace fs4net.Memory
 
         private void CreateDirectory(string path)
         {
-            var currentNode = _rootNode;
+            FolderNode currentNode = null;
 
             var parser = new PathParser(path);
-            parser.WithEachFileSystemNodeNameDo(folderName => currentNode = currentNode.CreateOrReuseFolderNode(folderName));
+            parser.WithFirstFileSystemNodeNameDo(driveName => currentNode = (FolderNode) _rootNode.FindChildNodeNamed(driveName));
+            if (currentNode == null) throw new DirectoryNotFoundException(string.Format("Can't create the directory '{0}' since the drive does not exist.", path));
+            parser.WithEachButFirstFileSystemNodeNameDo(folderName => currentNode = currentNode.CreateOrReuseFolderNode(folderName));
         }
 
         private FolderNode FindFolderNodeByPath(string path)
@@ -222,12 +230,25 @@ namespace fs4net.Memory
             }
         }
 
+        internal void WithEachButFirstFileSystemNodeNameDo(Action<string> action)
+        {
+            foreach (string nodeName in _fileSystemNodeNames.Skip(1))
+            {
+                action(nodeName);
+            }
+        }
+
         internal void WithEachButLastFileSystemNodeNameDo(Action<string> action)
         {
             foreach (string nodeName in _fileSystemNodeNames.Take(_fileSystemNodeNames.Length - 1))
             {
                 action(nodeName);
             }
+        }
+
+        internal void WithFirstFileSystemNodeNameDo(Action<string> action)
+        {
+            action(_fileSystemNodeNames.First());
         }
 
         internal TResult WithLastFileSystemNodeNameDo<TResult>(Func<string, TResult> action)

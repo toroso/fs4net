@@ -9,7 +9,7 @@ namespace fs4net.Memory.Test.Directory
     {
         protected override IFileSystem CreateFileSystem()
         {
-            return new MemoryFileSystem();
+            return FileSystemFactory.CreateFileSystemWithDrives();
         }
     }
 }

@@ -70,7 +70,7 @@ namespace fs4net.Framework
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other._fileSystem, _fileSystem) && Equals(other._rootedPath, _rootedPath);
+            return Equals(other._fileSystem, _fileSystem) && Equals(other._canonicalFullPath, _canonicalFullPath);
         }
 
         public override bool Equals(object obj)
@@ -85,7 +85,7 @@ namespace fs4net.Framework
         {
             unchecked
             {
-                return (_fileSystem.GetHashCode() * 397) ^ _rootedPath.GetHashCode();
+                return (_fileSystem.GetHashCode() * 397) ^ _canonicalFullPath.GetHashCode();
             }
         }
 

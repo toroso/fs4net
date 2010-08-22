@@ -1,15 +1,14 @@
-using fs4net.Framework;
 using NUnit.Framework;
 using Template = fs4net.CommonTest.Template;
 
-namespace fs4net.Memory.Test.File
+namespace fs4net.Framework.Test.Directory
 {
     [TestFixture]
-    public class ExistsFixture : Template.File.ExistsFixture
+    public class CreateFixture : Template.Directory.CreateFixture
     {
         protected override IFileSystem CreateFileSystem()
         {
-            return FileSystemFactory.CreateFileSystemWithDrives();
+            return new FileSystem();
         }
     }
 }

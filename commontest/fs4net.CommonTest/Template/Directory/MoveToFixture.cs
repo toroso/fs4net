@@ -110,7 +110,7 @@ namespace fs4net.CommonTest.Template.Directory
             Assert.That(source.Exists(), Is.True);
         }
 
+        // TODO: Destination is on non-existing drive
         // TODO: Access denied (source and destination)
-        //- Do not support only specifying destination folder. Should be new name!
     }
 }

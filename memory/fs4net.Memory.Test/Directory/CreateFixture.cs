@@ -5,7 +5,7 @@ using Template = fs4net.CommonTest.Template;
 namespace fs4net.Memory.Test.Directory
 {
     [TestFixture]
-    public class ExistsFixture : Template.Directory.ExistsFixture
+    public class CreateFixture : Template.Directory.CreateFixture
     {
         protected override IFileSystem CreateFileSystem()
         {

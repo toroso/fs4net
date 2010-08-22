@@ -49,6 +49,7 @@
     <Compile Include="CreateRelativeFileFixture.cs" />
     <Compile Include="CreateRootedDirectoryFixture.cs" />
     <Compile Include="CreateRootedFileFixture.cs" />
+    <Compile Include="Directory\CreateFixture.cs" />
     <Compile Include="Directory\ExistsFixture.cs" />
     <Compile Include="Directory\LastModifiedFixture.cs" />
     <Compile Include="Directory\MoveToFixture.cs" />
