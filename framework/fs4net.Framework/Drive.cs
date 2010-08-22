@@ -43,6 +43,30 @@ namespace fs4net.Framework
             get { return _fileSystem; }
         }
 
+        /// <summary>
+        /// Concatenates the two descriptors into one and returns it.
+        /// </summary>
+        public static RootedDirectory operator +(Drive lhs, RelativeDirectory rhs)
+        {
+            return lhs.Append(rhs);
+        }
+
+        /// <summary>
+        /// Concatenates the two descriptors into one and returns it.
+        /// </summary>
+        public static RootedFile operator +(Drive lhs, RelativeFile rhs)
+        {
+            return lhs.Append(rhs);
+        }
+
+        /// <summary>
+        /// Concatenates the two descriptors into one and returns it.
+        /// </summary>
+        public static RootedFile operator +(Drive lhs, FileName rhs)
+        {
+            return lhs.Append(rhs);
+        }
+
         #endregion // Public Interface
 
 

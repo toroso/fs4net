@@ -9,7 +9,8 @@ namespace fs4net.Framework.Test
         private static readonly IFileSystem FileSystem = new MockFileSystem();
 
         // Original data
-        private static readonly RootedDirectory Drive_WithoutBackslash = FileSystem.CreateDirectoryDescribing(@"c:");
+        private static readonly Drive Drive_WithoutBackslash = FileSystem.CreateDriveDescribing(@"c:");
+
         private static readonly RootedDirectory Drive_WithBackslash = FileSystem.CreateDirectoryDescribing(@"c:\");
         private static readonly RootedDirectory RootedDirectory_WithoutBackslash = FileSystem.CreateDirectoryDescribing(@"c:\path\is");
         private static readonly RootedDirectory RootedDirectory_WithBackslash = FileSystem.CreateDirectoryDescribing(@"c:\path\is\");
@@ -40,14 +41,36 @@ namespace fs4net.Framework.Test
         private static readonly RelativeFile RelativeDirectoryAndRelativeFile_WithoutStartBackslash = RelativeFile.FromString(@"relative\to\my\file.txt");
 
 
-        private static readonly object[][] RootedDirectory_And_RelativeDirectory =
+        private static readonly object[][] Drive_And_RelativeDirectory =
             {
                 new object[] { Drive_WithoutBackslash, RelativeDirectory_WithStartBackslash_WithoutEndBackslash, DriveAndRelativeDirectory_WithoutEndBackslash },
+                new object[] { Drive_WithoutBackslash, RelativeDirectory_WithoutStartBackslash_WithEndBackslash, DriveAndRelativeDirectory_WithEndBackslash },
+            };
+
+        [Test]
+        public void Combine_Drive_And_RelativeDirectory()
+        {
+            Drive_And_RelativeDirectory.ForEach(Combine_Drive_And_RelativeDirectory);
+        }
+
+        public void Combine_Drive_And_RelativeDirectory(object[] testData)
+        {
+            Combine_Drive_And_RelativeDirectory((Drive)testData[0], (RelativeDirectory)testData[1], (RootedDirectory)testData[2]);
+        }
+
+        [Test, TestCaseSource("Drive_And_RelativeDirectory")]
+        private void Combine_Drive_And_RelativeDirectory(Drive lhs, RelativeDirectory rhs, RootedDirectory expected)
+        {
+            Assert.That((lhs + rhs).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", lhs, rhs));
+        }
+
+
+        private static readonly object[][] RootedDirectory_And_RelativeDirectory =
+            {
                 new object[] { Drive_WithBackslash, RelativeDirectory_WithStartBackslash_WithoutEndBackslash, DriveAndRelativeDirectory_WithoutEndBackslash },
                 new object[] { RootedDirectory_WithoutBackslash, RelativeDirectory_WithStartBackslash_WithoutEndBackslash, RootedDirectoryAndRelativeDirectory_WithoutEndBackslash },
                 new object[] { RootedDirectory_WithBackslash, RelativeDirectory_WithStartBackslash_WithoutEndBackslash, RootedDirectoryAndRelativeDirectory_WithoutEndBackslash },
 
-                new object[] { Drive_WithoutBackslash, RelativeDirectory_WithoutStartBackslash_WithEndBackslash, DriveAndRelativeDirectory_WithEndBackslash },
                 new object[] { Drive_WithBackslash, RelativeDirectory_WithoutStartBackslash_WithEndBackslash, DriveAndRelativeDirectory_WithEndBackslash },
                 new object[] { RootedDirectory_WithoutBackslash, RelativeDirectory_WithoutStartBackslash_WithEndBackslash, RootedDirectoryAndRelativeDirectory_WithEndBackslash },
                 new object[] { RootedDirectory_WithBackslash, RelativeDirectory_WithoutStartBackslash_WithEndBackslash, RootedDirectoryAndRelativeDirectory_WithEndBackslash },
@@ -71,24 +94,46 @@ namespace fs4net.Framework.Test
         }
 
 
-        private static readonly object[][] RootedDirectory_And_RelativeFile =
+        private static readonly object[][] Drive_And_RelativeFile =
             {
                 new object[] { Drive_WithoutBackslash, FilenameOnly_WithoutBackslash, DriveAndFilename },
+                new object[] { Drive_WithoutBackslash, FilenameOnly_WithBackslash, DriveAndFilename },
+                new object[] { Drive_WithoutBackslash, RelativeFile_WithoutBackslash, DriveAndRelativeFile },
+                new object[] { Drive_WithoutBackslash, RelativeFile_WithBackslash, DriveAndRelativeFile },
+            };
+
+        [Test]
+        public void Combine_Drive_And_RelativeFile()
+        {
+            Drive_And_RelativeFile.ForEach(Combine_Drive_And_RelativeFile);
+        }
+
+        public void Combine_Drive_And_RelativeFile(object[] testData)
+        {
+            Combine_Drive_And_RelativeFile((Drive)testData[0], (RelativeFile)testData[1], (RootedFile)testData[2]);
+        }
+
+        [Test, TestCaseSource("Drive_And_RelativeFile")]
+        private void Combine_Drive_And_RelativeFile(Drive lhs, RelativeFile rhs, RootedFile expected)
+        {
+            Assert.That((lhs + rhs).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", lhs, rhs));
+        }
+
+
+        private static readonly object[][] RootedDirectory_And_RelativeFile =
+            {
                 new object[] { Drive_WithBackslash, FilenameOnly_WithoutBackslash, DriveAndFilename },
                 new object[] { RootedDirectory_WithoutBackslash, FilenameOnly_WithoutBackslash, RootedDirectoryAndFilename },
                 new object[] { RootedDirectory_WithBackslash, FilenameOnly_WithoutBackslash, RootedDirectoryAndFilename },
 
-                new object[] { Drive_WithoutBackslash, FilenameOnly_WithBackslash, DriveAndFilename },
                 new object[] { Drive_WithBackslash, FilenameOnly_WithBackslash, DriveAndFilename },
                 new object[] { RootedDirectory_WithoutBackslash, FilenameOnly_WithBackslash, RootedDirectoryAndFilename },
                 new object[] { RootedDirectory_WithBackslash, FilenameOnly_WithBackslash, RootedDirectoryAndFilename },
 
-                new object[] { Drive_WithoutBackslash, RelativeFile_WithoutBackslash, DriveAndRelativeFile },
                 new object[] { Drive_WithBackslash, RelativeFile_WithoutBackslash, DriveAndRelativeFile },
                 new object[] { RootedDirectory_WithoutBackslash, RelativeFile_WithoutBackslash, RootedDirectoryAndRelativeFile },
                 new object[] { RootedDirectory_WithBackslash, RelativeFile_WithoutBackslash, RootedDirectoryAndRelativeFile },
 
-                new object[] { Drive_WithoutBackslash, RelativeFile_WithBackslash, DriveAndRelativeFile },
                 new object[] { Drive_WithBackslash, RelativeFile_WithBackslash, DriveAndRelativeFile },
                 new object[] { RootedDirectory_WithoutBackslash, RelativeFile_WithBackslash, RootedDirectoryAndRelativeFile },
                 new object[] { RootedDirectory_WithBackslash, RelativeFile_WithBackslash, RootedDirectoryAndRelativeFile },

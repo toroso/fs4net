@@ -21,6 +21,8 @@ namespace fs4net.CommonTest.Template
         protected RootedDirectory ExistingEmptyDirectory { get; private set; }
         protected RootedDirectory NonExistingDirectory { get; private set; }
 
+        protected Drive NonExistingDrive { get; private set; }
+
         protected readonly DateTime MinimumDate = new DateTime(1601, 1, 1).AddMilliseconds(1).ToLocalTime();
         protected readonly DateTime MaximumDate = DateTime.MaxValue.ToLocalTime();
 
@@ -49,6 +51,8 @@ namespace fs4net.CommonTest.Template
             ExistingEmptyDirectory = populateFileSystem
                 .WithDir(@"my\path");
             NonExistingDirectory = FileSystem.CreateDirectoryDescribing(InTemp(@"another\path\to"));
+
+            NonExistingDrive = FileSystem.CreateDriveDescribing("c:");
         }
 
         private string InTemp(string relativePath)

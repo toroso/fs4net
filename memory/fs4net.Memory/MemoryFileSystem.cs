@@ -43,7 +43,7 @@ namespace fs4net.Memory
 
         public Drive CreateDriveDescribing(string driveName)
         {
-            throw new NotImplementedException();
+            return new Drive(this, driveName);
         }
 
         #endregion // Implementation of IFileSystem

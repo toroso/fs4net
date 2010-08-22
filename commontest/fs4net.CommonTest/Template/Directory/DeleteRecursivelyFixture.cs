@@ -34,7 +34,7 @@ namespace fs4net.CommonTest.Template.Directory
         [Test]
         public void Delete_Directory_On_NonExisting_Drive_Throws()
         {
-            var toBeCreated = FileSystem.CreateDirectoryDescribing(@"z:\drive\does\no\exist");
+            var toBeCreated = NonExistingDrive + RelativeDirectory.FromString(@"drive\does\no\exist");
             Assert.DoesNotThrow(() => toBeCreated.DeleteRecursively());
         }
 
