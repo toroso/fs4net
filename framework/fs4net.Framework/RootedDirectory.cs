@@ -123,7 +123,6 @@ namespace fs4net.Framework
 
     public static class RootedDirectoryExtensions
     {
-
         /// <summary>
         /// Creates the directory denoted by this descriptor. It creates the leaf folder as well as any non-existing
         /// parent folders. If the directory already exists this method does nothing.
@@ -154,21 +153,18 @@ namespace fs4net.Framework
         /// is on an unmapped drive).</exception>
         public static void DeleteRecursively(this RootedDirectory me)
         {
-            // DirectoryNotFoundException?
             me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
-            if (me.Exists())
-            {
-                me.Delete(true);
-            }
+            me.VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't delete the directory '{0}' since it does not exist.", me.PathAsString));
+
+            me.Delete(true);
         }
 
         /// <summary>
         /// Tries to delete the directory denoted by this descriptor.
         /// </summary>
         /// <returns>
-        /// True if the file no longer exists. That is, the file was either deleted, or it
-        /// did not exist to start with. If the file descriptor denotes a directory this method
-        /// returns true.
+        /// True if the file no longer exists. That is, the directory was either deleted, or it
+        /// did not exist to start with. If the descriptor denotes a file this method returns true.
         /// </returns>
         public static bool TryDeleteRecursively(this RootedDirectory me)
         {
@@ -180,28 +176,24 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Deletes the directory denoted by this descriptor. If the directory does not exists this method does
-        /// nothing.
+        /// Deletes the directory denoted by this descriptor.
         /// </summary>
         /// TODO: Exceptions
         public static void DeleteIfEmpty(this RootedDirectory me)
         {
             me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
-            if (me.Exists())
-            {
-                me.VerifyIsEmpty(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it's not empty.", me));
-                bool recursive = false;
-                me.Delete(recursive);
-            }
+            me.VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't delete the directory '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsEmpty(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it's not empty.", me));
+
+            me.Delete(false);
         }
 
         /// <summary>
         /// Tries to delete the directory denoted by this descriptor.
         /// </summary>
         /// <returns>
-        /// True if the file no longer exists. That is, the file was either deleted, or it
-        /// did not exist to start with. If the file descriptor denotes a directory this method
-        /// returns true.
+        /// True if the file no longer exists. That is, the directory was either deleted, or it
+        /// did not exist to start with. If the descriptor denotes a file this method returns true.
         /// </returns>
         public static bool TryDeleteIfEmpty(this RootedDirectory me)
         {

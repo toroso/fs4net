@@ -33,8 +33,8 @@ namespace fs4net.CommonTest.Template.Directory
         [Test]
         public void Delete_Directory_On_NonExisting_Drive_Succeeds()
         {
-            var toBeCreated = NonExistingDrive + RelativeDirectory.FromString(@"drive\does\no\exist");
-            Assert.That(toBeCreated.TryDeleteRecursively(), Is.True);
+            var toBeDeleted = NonExistingDrive + RelativeDirectory.FromString(@"drive\does\no\exist");
+            Assert.That(toBeDeleted.TryDeleteRecursively(), Is.True);
         }
 
         // TODO: Access denied

@@ -17,10 +17,18 @@ namespace fs4net.CommonTest.Template.Directory
         }
 
         [Test]
-        public void Delete_NonExisting_Directory()
+        public void Delete_NonExisting_Directory_Throws()
         {
-            Assert.DoesNotThrow(() => NonExistingDirectory.DeleteRecursively());
+            var toBeDeleted = (ExistingLeafDirectory + RelativeDirectory.FromString("nonexisting"));
+            Assert.Throws<DirectoryNotFoundException>(() => toBeDeleted.DeleteRecursively()); // Not sure if I like this, but that's how .NET works...
             Assert.That(NonExistingDirectory.Exists(), Is.False);
+        }
+
+        [Test]
+        public void Delete_NonExisting_Folder_In_NonExisting_Directory_Throws()
+        {
+            var toBeDeleted = (NonExistingDirectory + RelativeDirectory.FromString("nonexisting"));
+            Assert.Throws<DirectoryNotFoundException>(() => toBeDeleted.DeleteRecursively());
         }
 
         [Test]
@@ -34,8 +42,8 @@ namespace fs4net.CommonTest.Template.Directory
         [Test]
         public void Delete_Directory_On_NonExisting_Drive_Throws()
         {
-            var toBeCreated = NonExistingDrive + RelativeDirectory.FromString(@"drive\does\no\exist");
-            Assert.DoesNotThrow(() => toBeCreated.DeleteRecursively());
+            var toBeDeleted = NonExistingDrive + RelativeDirectory.FromString(@"drive\does\no\exist");
+            Assert.Throws<DirectoryNotFoundException>(() => toBeDeleted.DeleteRecursively());
         }
 
         // TODO: Access denied
