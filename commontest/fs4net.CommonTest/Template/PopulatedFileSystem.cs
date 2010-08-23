@@ -40,7 +40,7 @@ namespace fs4net.CommonTest.Template
             ExistingFile = populateFileSystem
                 .WithFile(@"path\to\file.txt")
                 .LastModifiedAt(ExistingFileLastModified);
-            NonExistingFile = FileSystem.CreateFileDescribing(InTemp(@"path\to\file.txt"));
+            NonExistingFile = FileSystem.CreateFileDescribing(InTemp(@"path\to\another.txt"));
 
             ExistingLeafDirectory = populateFileSystem
                 .WithDir(@"path\to")
