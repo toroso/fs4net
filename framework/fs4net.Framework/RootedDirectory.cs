@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
@@ -210,6 +211,23 @@ namespace fs4net.Framework
         }
 
         /// <summary>
+        /// Deletes the directory denoted by this descriptor. If the directory does not exists this method does
+        /// nothing.
+        /// </summary>
+        /// TODO: Exceptions
+        public static void DeleteIfEmpty(this RootedDirectory me)
+        {
+            me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
+            if (me.Exists())
+            {
+                me.VerifyIsEmpty(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it's not empty.", me));
+                var fileSystem = me.InternalFileSystem();
+                var path = me.CanonicalPathAsString();
+                fileSystem.DeleteDirectory(path, false);
+            }
+        }
+
+        /// <summary>
         /// Tries to delete the directory denoted by this descriptor.
         /// </summary>
         /// <returns>
@@ -262,6 +280,17 @@ namespace fs4net.Framework
             var dst = destination.CanonicalPathAsString();
             var fileSystem = me.InternalFileSystem();
             fileSystem.MoveDirectory(src, dst);
+        }
+    }
+
+    internal static class RootedDirectoryVerifications
+    {
+        internal static void VerifyIsEmpty(this RootedDirectory me, Func<Exception> createException)
+        {
+            if (me.Files().Any() || me.Directories().Any())
+            {
+                throw createException();
+            }
         }
     }
 }

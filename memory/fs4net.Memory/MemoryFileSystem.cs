@@ -97,12 +97,18 @@ namespace fs4net.Memory
 
         public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
         {
-            throw new NotImplementedException();
+            return FindFolderNodeByPath(path.FullPath)
+                .Children
+                .Where(child => child is FileNode)
+                .Select(child => CreateFileDescribing(child.FullPath));
         }
 
         public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path)
         {
-            throw new NotImplementedException();
+            return FindFolderNodeByPath(path.FullPath)
+                .Children
+                .Where(child => child is FolderNode)
+                .Select(child => CreateDirectoryDescribing(child.FullPath));
         }
 
         public void CreateDirectory(RootedCanonicalPath path)

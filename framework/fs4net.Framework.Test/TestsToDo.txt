@@ -42,8 +42,8 @@ IFileSystemItem, FileSystemItemExtensions
         [ ] LastAccessed
         [?] LastModified -- some operations missing...
         [x] DeleteRecursively
-        [ ] DeleteIfEmpty
-        [ ] TryDeleteRecursively
+        [x] DeleteIfEmpty
+        [x] TryDeleteRecursively
         [ ] TryDeleteIfEmpty
         [x] Create
         [ ] CopyTo -- Check so that the source and the destination are on the same file system

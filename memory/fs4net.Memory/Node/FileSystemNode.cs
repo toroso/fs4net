@@ -20,6 +20,20 @@ namespace fs4net.Memory.Node
             TouchLastModified();
         }
 
+        public virtual string FullPath
+        {
+            get
+            {
+                if (Parent == null) return string.Empty;
+
+                var builder = new StringBuilder();
+                builder.Append(Parent.FullPath);
+                if (Parent.FullPath.Length > 0) builder.Append(@"\");
+                builder.Append(Name);
+                return builder.ToString();
+            }
+        }
+
         public void Delete()
         {
             Parent.RemoveChild(this);
@@ -34,7 +48,7 @@ namespace fs4net.Memory.Node
 
         public override string ToString()
         {
-            return Parent + Name;
+            return FullPath;
         }
 
         public virtual string TreeAsString(int indentLevel)
