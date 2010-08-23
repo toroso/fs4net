@@ -29,7 +29,7 @@ namespace fs4net.CommonTest.Template.Directory
         }
 
         [Test]
-        public void Delete_Directory_That_Denotes_A_File_Succeeds()
+        public void Delete_Directory_That_Is_A_File_Succeeds()
         {
             var fileAsDirectory = FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString);
             Assert.That(fileAsDirectory.TryDeleteIfEmpty(), Is.True);

@@ -55,6 +55,7 @@
     <Compile Include="Template\Directory\MoveToFixture.cs" />
     <Compile Include="Template\Directory\TryDeleteIfEmptyFixture.cs" />
     <Compile Include="Template\Directory\TryDeleteRecursivelyFixture.cs" />
+    <Compile Include="Template\File\DeleteFixture.cs" />
     <Compile Include="Template\File\ExistsFixture.cs" />
     <Compile Include="Template\File\LastModifiedFixture.cs" />
     <Compile Include="Template\PopulatedFileSystem.cs" />

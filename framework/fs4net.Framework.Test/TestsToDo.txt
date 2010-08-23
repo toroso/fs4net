@@ -8,6 +8,7 @@ IFileSystemItem, FileSystemItemExtensions
     [x] PathAsString { get; }
     [x] AsCanonical();
     ( ) ParentDirectory
+    ( ) Drive
   IFile, FileExtensions
       [x] FileName
     RelativeFile, RelativeFileExtensions
@@ -22,7 +23,7 @@ IFileSystemItem, FileSystemItemExtensions
         [ ] Created
         [ ] LastAccessed
         [?] LastModified -- some operations missing...
-        [ ] Delete
+        [x] Delete
         [ ] TryDelete
         [ ] CreateReadStream
         [ ] CreateWriteStream
@@ -76,7 +77,7 @@ named...
   [x] RootedFile.RelativeFrom RootedDirectory => RelativeFile
 
 
-TODO: Access Denied on most operations
+TODO: Access Denied on most operations -- enough to fake it in one way, e.g. making it read-only
 
 
 ------------ Tests ToDo:
