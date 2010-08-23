@@ -35,7 +35,7 @@ namespace fs4net.CommonTest.Template.Directory
         [Test]
         public void Create_Directory_On_NonExisting_Drive_Throws()
         {
-            var toBeCreated = FileSystem.CreateDirectoryDescribing(@"z:\drive\does\no\exist");
+            var toBeCreated = FileSystem.CreateDirectoryDescribing(@"z:\drive\does\not\exist");
             Assert.Throws<DirectoryNotFoundException>(() => toBeCreated.Create());
         }
 

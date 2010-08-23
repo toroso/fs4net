@@ -24,7 +24,7 @@ IFileSystemItem, FileSystemItemExtensions
         [ ] LastAccessed
         [?] LastModified -- some operations missing...
         [x] Delete
-        [ ] TryDelete
+        [x] TryDelete
         [ ] CreateReadStream
         [ ] CreateWriteStream
         [ ] CreateAppendStream

@@ -39,7 +39,7 @@ namespace fs4net.CommonTest.Template.Directory
         [Test]
         public void Delete_Directory_On_NonExisting_Drive_Succeeds()
         {
-            var toBeDeleted = NonExistingDrive + RelativeDirectory.FromString(@"drive\does\no\exist");
+            var toBeDeleted = NonExistingDrive + RelativeDirectory.FromString(@"drive\does\not\exist");
             Assert.That(toBeDeleted.TryDeleteIfEmpty(), Is.True);
         }
 

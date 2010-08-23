@@ -203,8 +203,6 @@ namespace fs4net.Framework
         /// <summary>
         /// Tries to deletes the file denoted by this descriptor.
         /// </summary>
-        /// <exception cref="System.IO.PathTooLongException">If the file descriptor is relative and concatenated
-        /// with the current directory it exceeds the system-defined maximum length.</exception>
         /// <returns>
         /// True if the file no longer exists. That is, the file was either deleted, or it
         /// did not exist to start with. If the file descriptor denotes a directory this method
@@ -212,15 +210,18 @@ namespace fs4net.Framework
         /// </returns>
         public static bool TryDelete(this RootedFile me)
         {
-            try
+            if (me.Exists())
             {
-                me.Delete();
+                //try
+                {
+                    me.Delete();
+                }
+// ReSharper disable EmptyGeneralCatchClause
+                //catch
+                //{
+                //}
+// ReSharper restore EmptyGeneralCatchClause
             }
-                // ReSharper disable EmptyGeneralCatchClause
-            catch
-            {
-            }
-            // ReSharper restore EmptyGeneralCatchClause
             return !me.Exists();
         }
 
@@ -228,8 +229,6 @@ namespace fs4net.Framework
         /// Opens a read stream with the file denoted by this file descriptor as source.
         /// </summary>
         /// <exception cref="System.IO.FileNotFoundException">The file cannot be found</exception>
-        /// <exception cref="System.IO.PathTooLongException">If the file descriptor is relative and concatenated
-        /// with the current directory it exceeds the system-defined maximum length.</exception>
         /// <exception cref="System.Security.SecurityException">The caller does not have the required permission.
         /// </exception>
         /// <exception cref="System.IO.DirectoryNotFoundException">The specified path is invalid (for example, it
@@ -248,8 +247,6 @@ namespace fs4net.Framework
         /// Opens a write stream with the file denoted by this file descriptor as source. If the file already exists
         /// the file is overwritten.
         /// </summary>
-        /// <exception cref="System.IO.PathTooLongException">If the file descriptor is relative and concatenated
-        /// with the current directory it exceeds the system-defined maximum length.</exception>
         /// <exception cref="System.Security.SecurityException">The caller does not have the required permission.
         /// </exception>
         /// <exception cref="System.IO.DirectoryNotFoundException">The specified path is invalid.</exception>
