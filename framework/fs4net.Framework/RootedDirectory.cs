@@ -158,23 +158,7 @@ namespace fs4net.Framework
             me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
             if (me.Exists())
             {
-                var fileSystem = me.InternalFileSystem();
-                var path = me.CanonicalPathAsString();
-                //if (fileSystem.DirectoryInUse(path))
-                //{
-                //    // TODO: Better/more specifiec exception?
-                //    throw new IOException(string.Format("Can't delete directory '{0}' since it's in use.", me.PathAsString));
-                //}
-                // Attributes: Archive, ReadOnly, Hidden, System, Device, ...
-                //if (fileSystem.GetAttributes(path) == FileAttributes.ReadOnly)
-                //{
-                //    throw new UnauthorizedAccessException(string.Format("Can't delete read-only directory '{0}'.", me.PathAsString));
-                //}
-                //if (fileSystem.IsReady(me.DriveName()) == false)
-                //{
-                //    throw new DirectoryNotFoundException(string.Format("Can't delete the directory '{0}' since the drive is not ready.", me.PathAsString));
-                //}
-                fileSystem.DeleteDirectory(path, true);
+                me.Delete(true);
             }
         }
 
@@ -186,26 +170,11 @@ namespace fs4net.Framework
         /// did not exist to start with. If the file descriptor denotes a directory this method
         /// returns true.
         /// </returns>
-        /// TODO: Exceptions
         public static bool TryDeleteRecursively(this RootedDirectory me)
         {
             if (me.Exists())
             {
-                var fileSystem = me.InternalFileSystem();
-                var path = me.CanonicalPathAsString();
-                //if (fileSystem.IsDirectoryInUse(path))
-                //{
-                //    return false;
-                //}
-                //if (fileSystem.GetAttributes(path) == FileAttributes.ReadOnly)
-                //{
-                //    return false;
-                //}
-                //if (fileSystem.IsReady(me.DriveName()))
-                //{
-                //    return false;
-                //}
-                TryDelete(fileSystem, path, true);
+                me.TryDelete(true);
             }
             return !me.Exists();
         }
@@ -221,9 +190,8 @@ namespace fs4net.Framework
             if (me.Exists())
             {
                 me.VerifyIsEmpty(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it's not empty.", me));
-                var fileSystem = me.InternalFileSystem();
-                var path = me.CanonicalPathAsString();
-                fileSystem.DeleteDirectory(path, false);
+                bool recursive = false;
+                me.Delete(recursive);
             }
         }
 
@@ -235,28 +203,33 @@ namespace fs4net.Framework
         /// did not exist to start with. If the file descriptor denotes a directory this method
         /// returns true.
         /// </returns>
-        /// TODO: Exceptions
         public static bool TryDeleteIfEmpty(this RootedDirectory me)
         {
             if (me.Exists())
             {
-                var fileSystem = me.InternalFileSystem();
-                var path = me.CanonicalPathAsString();
-                TryDelete(fileSystem, path, false);
+                if (!me.Empty()) return false;
+                me.TryDelete(false);
             }
             return !me.Exists();
         }
 
-        private static void TryDelete(IInternalFileSystem fileSystem, RootedCanonicalPath path, bool recursive)
+        private static void Delete(this RootedDirectory me, bool recursive)
         {
-            try
+            me.InternalFileSystem().DeleteDirectory(me.CanonicalPathAsString(), recursive);
+        }
+
+        private static void TryDelete(this RootedDirectory me, bool recursive)
+        {
+            var fileSystem = me.InternalFileSystem();
+            var path = me.CanonicalPathAsString();
+//            try
             {
                 fileSystem.DeleteDirectory(path, recursive);
             }
-            // ReSharper disable EmptyGeneralCatchClause
+// ReSharper disable EmptyGeneralCatchClause
             // DirectoryNotFoundException, ArgumentException, NotSupportedException, IOException, UnauthorizedAccessException...
-            catch { } // To fulfil the nothrow contract...
-            // ReSharper restore EmptyGeneralCatchClause
+//            catch { } // To fulfil the nothrow contract...
+// ReSharper restore EmptyGeneralCatchClause
         }
 
         /// <summary>
@@ -280,17 +253,6 @@ namespace fs4net.Framework
             var dst = destination.CanonicalPathAsString();
             var fileSystem = me.InternalFileSystem();
             fileSystem.MoveDirectory(src, dst);
-        }
-    }
-
-    internal static class RootedDirectoryVerifications
-    {
-        internal static void VerifyIsEmpty(this RootedDirectory me, Func<Exception> createException)
-        {
-            if (me.Files().Any() || me.Directories().Any())
-            {
-                throw createException();
-            }
         }
     }
 }

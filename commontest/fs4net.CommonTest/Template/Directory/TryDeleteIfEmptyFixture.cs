@@ -4,21 +4,27 @@ using NUnit.Framework;
 namespace fs4net.CommonTest.Template.Directory
 {
     [TestFixture]
-    public abstract class TryDeleteRecursivelyFixture : PopulatedFileSystem
+    public abstract class TryDeleteIfEmptyFixture : PopulatedFileSystem
     {
         [Test]
-        public void Delete_Existing_With_SubFolders_And_Files_Succeeds()
+        public void Delete_Empty_Directory_Succeeds()
         {
-            Assert.That(ParentOfExistingLeafDirectory.TryDeleteRecursively(), Is.True);
-            Assert.That(ParentOfExistingLeafDirectory.Exists(), Is.False);
-            Assert.That(ExistingLeafDirectory.Exists(), Is.False);
-            Assert.That(ExistingFile.Exists(), Is.False);
+            Assert.That(ExistingEmptyDirectory.TryDeleteIfEmpty(), Is.True);
+            Assert.That(ExistingEmptyDirectory.Exists(), Is.False);
+        }
+
+        [Test]
+        public void Delete_Directory_Containing_File_Fails()
+        {
+            Assert.That(ExistingLeafDirectory.TryDeleteIfEmpty(), Is.False);
+            Assert.That(ExistingLeafDirectory.Exists(), Is.True);
+            Assert.That(ExistingFile.Exists(), Is.True);
         }
 
         [Test]
         public void Delete_NonExisting_Directory_Succeeds()
         {
-            Assert.That(NonExistingDirectory.TryDeleteRecursively(), Is.True);
+            Assert.That(NonExistingDirectory.TryDeleteIfEmpty(), Is.True);
             Assert.That(NonExistingDirectory.Exists(), Is.False);
         }
 
@@ -26,7 +32,7 @@ namespace fs4net.CommonTest.Template.Directory
         public void Delete_Directory_That_Denotes_A_File_Succeeds()
         {
             var fileAsDirectory = FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString);
-            Assert.That(fileAsDirectory.TryDeleteRecursively(), Is.True); // Disputable... There's still a file with that name.
+            Assert.That(fileAsDirectory.TryDeleteIfEmpty(), Is.True);
             Assert.That(ExistingFile.Exists(), Is.True);
         }
 
@@ -34,8 +40,9 @@ namespace fs4net.CommonTest.Template.Directory
         public void Delete_Directory_On_NonExisting_Drive_Succeeds()
         {
             var toBeCreated = NonExistingDrive + RelativeDirectory.FromString(@"drive\does\no\exist");
-            Assert.That(toBeCreated.TryDeleteRecursively(), Is.True);
+            Assert.That(toBeCreated.TryDeleteIfEmpty(), Is.True);
         }
+
 
         // TODO: Access denied
         // e.g. Current Directory, file is open, directory is in use, read-only

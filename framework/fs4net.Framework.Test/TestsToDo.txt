@@ -44,7 +44,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] DeleteRecursively
         [x] DeleteIfEmpty
         [x] TryDeleteRecursively
-        [ ] TryDeleteIfEmpty
+        [x] TryDeleteIfEmpty
         [x] Create
         [ ] CopyTo -- Check so that the source and the destination are on the same file system
         [x] MoveTo

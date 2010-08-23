@@ -110,6 +110,15 @@ namespace fs4net.Framework
         }
 
         /// <summary>
+        /// Returns true if there are no files or folders in the given directory.
+        /// </summary>
+        public static bool Empty<T>(this IRootedDirectory<T> me)
+            where T : IRootedDirectory<T>
+        {
+            return !(me.Files().Any() || me.Directories().Any());
+        }
+
+        /// <summary>
         /// Returns all files that exist in this directory.
         /// </summary>
         /// TODO: Exceptions
@@ -153,6 +162,18 @@ namespace fs4net.Framework
             me.VerifyIsADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get all directories for directory '{0}' since it does not exist.", me.PathAsString));
 
             return me.InternalFileSystem().GetDirectoriesInDirectory(me.CanonicalPathAsString()).Where(predicate);
+        }
+    }
+
+    internal static class RootedDirectoryInterfaceVerifications
+    {
+        internal static void VerifyIsEmpty<T>(this IRootedDirectory<T> me, Func<Exception> createException)
+            where T : IRootedDirectory<T>
+        {
+            if (!me.Empty())
+            {
+                throw createException();
+            }
         }
     }
 }
