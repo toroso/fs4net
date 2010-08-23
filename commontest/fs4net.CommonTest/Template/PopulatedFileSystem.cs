@@ -64,10 +64,10 @@ namespace fs4net.CommonTest.Template
         public void TearDownFileSystem()
         {
             _tempDir.DeleteRecursively();
-            DisposeFileSystem();
+            DisposeFileSystem(FileSystem);
         }
 
         protected abstract IFileSystem CreateFileSystem();
-        protected virtual void DisposeFileSystem() { }
+        protected virtual void DisposeFileSystem(IFileSystem fileSystem) { }
     }
 }

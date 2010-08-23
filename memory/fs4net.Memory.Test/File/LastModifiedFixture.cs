@@ -11,5 +11,10 @@ namespace fs4net.Memory.Test.File
         {
             return FileSystemFactory.CreateFileSystemWithDrives();
         }
+
+        protected override void DisposeFileSystem(IFileSystem fileSystem)
+        {
+            ((MemoryFileSystem)fileSystem).Dispose();
+        }
     }
 }
