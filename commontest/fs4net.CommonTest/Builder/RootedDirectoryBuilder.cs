@@ -18,12 +18,15 @@ namespace fs4net.CommonTest.Builder
             return this;
         }
 
+        protected override void UpdateDates()
+        {
+            _dir.SetLastAccessed(LastAccessed);
+            _dir.SetLastModified(LastModified);
+        }
+
         public static implicit operator RootedDirectory (RootedDirectoryBuilder me)
         {
             return me._dir;
         }
-
-        protected override DateTime LastAccessed { set { _dir.SetLastAccessed(value); } }
-        protected override DateTime LastModified { set { _dir.SetLastModified(value); } }
     }
 }

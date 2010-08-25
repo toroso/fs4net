@@ -234,11 +234,12 @@ namespace fs4net.Framework
         /// <exception cref="System.IO.DirectoryNotFoundException">The specified path is invalid (for example, it
         /// is on an unmapped drive).</exception>
         /// <returns></returns>
+        /// TODO: Revise exceptions
         public static Stream CreateReadStream(this RootedFile me)
         {
-            // TODO: Better/more specific exception?
-            me.VerifyIsNotADirectory(ThrowHelper.CreateIOException("Can't open a file '{0}' for reading since the path denotes a directory.", me.PathAsString));
-            me.VerifyIsAFile(ThrowHelper.CreateIOException("Can't open the file '{0}' for reading since it does not exists.", me.PathAsString));
+            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't open the file '{0}' for reading since it's parent directory does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.CreateUnauthorizedAccessException("Can't open a file '{0}' for reading since the path denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException("Can't open the file '{0}' for reading since it does not exists.", me.PathAsString));
 
             return me.InternalFileSystem().CreateReadStream(me.CanonicalPathAsString());
         }
@@ -251,12 +252,12 @@ namespace fs4net.Framework
         /// </exception>
         /// <exception cref="System.IO.DirectoryNotFoundException">The specified path is invalid.</exception>
         /// <returns></returns>
+        /// TODO: Revise exceptions
         public static Stream CreateWriteStream(this RootedFile me)
         {
-            // TODO: Better/more specific exception?
-            me.VerifyIsNotADirectory(ThrowHelper.CreateIOException("Can't create the file '{0}' since the path denotes an existing directory.", me.PathAsString));
+            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't create the file '{0}' since it's parent directory does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.CreateUnauthorizedAccessException("Can't create the file '{0}' since the path denotes an existing directory.", me.PathAsString));
 
-            // TODO: Check if parent directory exists
             return me.InternalFileSystem().CreateWriteStream(me.CanonicalPathAsString());
         }
 

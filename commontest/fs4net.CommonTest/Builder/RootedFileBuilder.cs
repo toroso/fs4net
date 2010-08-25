@@ -11,9 +11,7 @@ namespace fs4net.CommonTest.Builder
         {
             _file = file;
             _file.ParentDirectory().Create();
-            Content = string.Empty;
-            LastAccessed = DateTime.Now;
-            LastModified = DateTime.Now;
+            Containing(string.Empty); // Creates the file
         }
 
         protected override RootedFileBuilder Me()
@@ -21,13 +19,22 @@ namespace fs4net.CommonTest.Builder
             return this;
         }
 
+        protected override void UpdateDates()
+        {
+            _file.SetLastAccessed(LastAccessed);
+            _file.SetLastModified(LastModified);
+        }
+
+        public RootedFileBuilder Containing(string contents)
+        {
+            _file.WriteText(contents);
+            UpdateDates();
+            return Me();
+        }
+
         public static implicit operator RootedFile(RootedFileBuilder me)
         {
             return me._file;
         }
-
-        private string Content { set { _file.WriteText(value); } }
-        protected override DateTime LastAccessed { set { _file.SetLastAccessed(value); } }
-        protected override DateTime LastModified { set { _file.SetLastModified(value); } }
     }
 }
