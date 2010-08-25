@@ -76,7 +76,7 @@ namespace fs4net.Framework.Test
             ValidDrives.ForEach(Create_With_Valid_Drive);
         }
 
-        [Test, TestCaseSource("InvalidDrives")]
+        [Test, TestCaseSource("ValidDrives")]
         public void Create_With_Valid_Drive(string validDrive)
         {
             Assert.DoesNotThrow(() => _fileSystem.CreateDriveDescribing(validDrive), string.Format("for '{0}'", validDrive));

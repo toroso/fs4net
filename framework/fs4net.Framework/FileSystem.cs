@@ -98,6 +98,11 @@ namespace fs4net.Framework
             return System.IO.Directory.GetLastAccessTime(path.FullPath);
         }
 
+        public void SetDirectoryLastAccessed(RootedCanonicalPath path, DateTime at)
+        {
+            System.IO.Directory.SetLastAccessTime(path.FullPath, at);
+        }
+
         public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
         {
             return System.IO.Directory.GetFiles(path.FullPath).Select(filePath => CreateFileDescribing(filePath));

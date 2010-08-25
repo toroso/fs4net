@@ -7,6 +7,12 @@ namespace fs4net.CommonTest.Builder
         private readonly IFileSystem _fileSystem;
         private readonly RootedDirectory _rootDir;
 
+        public FileSystemBuilder(IFileSystem fileSystem)
+        {
+            _fileSystem = fileSystem;
+            _rootDir = null;
+        }
+
         public FileSystemBuilder(IFileSystem fileSystem, RootedDirectory rootDir)
         {
             _fileSystem = fileSystem;
@@ -15,12 +21,16 @@ namespace fs4net.CommonTest.Builder
 
         public RootedDirectoryBuilder WithDir(string path)
         {
-            return new RootedDirectoryBuilder(_fileSystem, _rootDir + RelativeDirectory.FromString(path));
+            return _rootDir == null
+                ? new RootedDirectoryBuilder(_fileSystem.CreateDirectoryDescribing(path))
+                : new RootedDirectoryBuilder(_rootDir + RelativeDirectory.FromString(path));
         }
 
         public RootedFileBuilder WithFile(string path)
         {
-            return new RootedFileBuilder(_fileSystem, _rootDir + RelativeFile.FromString(path));
+            return _rootDir == null
+                ? new RootedFileBuilder(_fileSystem.CreateFileDescribing(path))
+                : new RootedFileBuilder(_rootDir + RelativeFile.FromString(path));
         }
     }
 }

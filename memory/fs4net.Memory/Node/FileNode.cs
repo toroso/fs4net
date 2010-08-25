@@ -1,16 +1,16 @@
-using System;
 using System.IO;
-using System.Text;
 
 namespace fs4net.Memory.Node
 {
     internal class FileNode : FileSystemNode
     {
-        private readonly NonDisposingStream _content = new NonDisposingStream(new MemoryStream());
+        private readonly NonDisposingStream _content;
+        private bool _isOpen;
 
         public FileNode(FolderNode parent, string name)
             : base(parent, name)
         {
+            _content = new NonDisposingStream(new MemoryStream(), this);
         }
 
         public override void Dispose()
@@ -20,14 +20,26 @@ namespace fs4net.Memory.Node
 
         internal Stream CreateReadStream()
         {
+            _isOpen = true;
             _content.Seek(0, SeekOrigin.Begin);
             return _content;
         }
 
         internal Stream CreateWriteStream()
         {
+            _isOpen = true;
             _content.Seek(0, SeekOrigin.Begin);
             return _content;
+        }
+
+        public override void VerifyCanBeRemoved()
+        {
+            if (_isOpen) throw new IOException("The file is in use.");
+        }
+
+        private void NotifyClose()
+        {
+            _isOpen = false;
         }
 
 
@@ -35,10 +47,12 @@ namespace fs4net.Memory.Node
         private class NonDisposingStream : Stream
         {
             private readonly Stream _inner;
+            private readonly FileNode _creator;
 
-            public NonDisposingStream(Stream inner)
+            public NonDisposingStream(Stream inner, FileNode creator)
             {
                 _inner = inner;
+                _creator = creator;
             }
 
             public void DisposeForReal()
@@ -49,6 +63,12 @@ namespace fs4net.Memory.Node
             protected override void Dispose(bool disposing)
             {
                 // Do nothing... that's the charm!
+            }
+
+            public override void Close()
+            {
+                base.Close();
+                _creator.NotifyClose();
             }
 
             public override void Flush() { _inner.Flush(); }

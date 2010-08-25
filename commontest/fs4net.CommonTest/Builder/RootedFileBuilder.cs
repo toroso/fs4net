@@ -1,17 +1,19 @@
+using System;
 using fs4net.Framework;
 
 namespace fs4net.CommonTest.Builder
 {
-    public class RootedFileBuilder : FileSystemItemBuilder<RootedFileBuilder>
+    public sealed class RootedFileBuilder : FileSystemItemBuilder<RootedFileBuilder>
     {
         private readonly RootedFile _file;
-        public string Content { get; private set; }
 
-        public RootedFileBuilder(IFileSystem fileSystem, RootedFile file)
-            : base(fileSystem)
+        public RootedFileBuilder(RootedFile file)
         {
             _file = file;
+            _file.ParentDirectory().Create();
             Content = string.Empty;
+            LastAccessed = DateTime.Now;
+            LastModified = DateTime.Now;
         }
 
         protected override RootedFileBuilder Me()
@@ -21,15 +23,11 @@ namespace fs4net.CommonTest.Builder
 
         public static implicit operator RootedFile(RootedFileBuilder me)
         {
-            return me.Build();
+            return me._file;
         }
 
-        private RootedFile Build()
-        {
-            _file.ParentDirectory().Create();
-            _file.WriteText(Content);
-            _file.SetLastModified(LastModified);
-            return _file;
-        }
+        private string Content { set { _file.WriteText(value); } }
+        protected override DateTime LastAccessed { set { _file.SetLastAccessed(value); } }
+        protected override DateTime LastModified { set { _file.SetLastModified(value); } }
     }
 }

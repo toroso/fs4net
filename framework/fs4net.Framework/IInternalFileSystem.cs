@@ -16,6 +16,7 @@ namespace fs4net.Framework
         DateTime GetFileLastAccessed(RootedCanonicalPath path);
         void SetFileLastAccessed(RootedCanonicalPath path, DateTime at);
         DateTime GetDirectoryLastAccessed(RootedCanonicalPath path);
+        void SetDirectoryLastAccessed(RootedCanonicalPath path, DateTime at);
 
         IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path);
         IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path);

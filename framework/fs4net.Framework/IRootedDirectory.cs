@@ -110,6 +110,23 @@ namespace fs4net.Framework
         }
 
         /// <summary>
+        /// Sets the date and time the directory was last accessed.
+        /// </summary>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">If the time value is outside the range of dates or
+        /// times permitted for this operation.</exception>
+        public static void SetLastAccessed<T>(this IRootedDirectory<T> me, DateTime at)
+            where T : IRootedDirectory<T>
+        {
+            RootedFileSystemItemVerifications.VerifyDateTime(at, "set last accessed date", "directory");
+            me.VerifyIsNotAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last accessed time for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last accessed time for directory '{0}' since it does not exist.", me.PathAsString));
+
+            me.InternalFileSystem().SetDirectoryLastAccessed(me.CanonicalPathAsString(), at);
+        }
+
+        /// <summary>
         /// Returns true if there are no files or folders in the given directory.
         /// </summary>
         public static bool Empty<T>(this IRootedDirectory<T> me)

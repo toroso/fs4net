@@ -1,3 +1,4 @@
+using System;
 using fs4net.Framework;
 
 namespace fs4net.CommonTest.Builder
@@ -6,10 +7,10 @@ namespace fs4net.CommonTest.Builder
     {
         private readonly RootedDirectory _dir;
 
-        public RootedDirectoryBuilder(IFileSystem fileSystem, RootedDirectory dir)
-            : base(fileSystem)
+        public RootedDirectoryBuilder(RootedDirectory dir)
         {
             _dir = dir;
+            _dir.Create();
         }
 
         protected override RootedDirectoryBuilder Me()
@@ -19,14 +20,10 @@ namespace fs4net.CommonTest.Builder
 
         public static implicit operator RootedDirectory (RootedDirectoryBuilder me)
         {
-            return me.Build();
+            return me._dir;
         }
 
-        private RootedDirectory Build()
-        {
-            _dir.Create();
-            _dir.SetLastModified(LastModified);
-            return _dir;
-        }
+        protected override DateTime LastAccessed { set { _dir.SetLastAccessed(value); } }
+        protected override DateTime LastModified { set { _dir.SetLastModified(value); } }
     }
 }

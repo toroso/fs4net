@@ -82,24 +82,29 @@ namespace fs4net.Memory
 
         public DateTime GetFileLastAccessed(RootedCanonicalPath path)
         {
-            throw new NotImplementedException();
+            return FindFileNodeByPath(path.FullPath).LastAccessed;
         }
 
         public void SetFileLastAccessed(RootedCanonicalPath path, DateTime at)
         {
-            throw new NotImplementedException();
+            FindFileNodeByPath(path.FullPath).LastAccessed = at;
         }
 
         public DateTime GetDirectoryLastAccessed(RootedCanonicalPath path)
         {
-            throw new NotImplementedException();
+            return FindFolderNodeByPath(path.FullPath).LastAccessed;
+        }
+
+        public void SetDirectoryLastAccessed(RootedCanonicalPath path, DateTime at)
+        {
+            FindFolderNodeByPath(path.FullPath).LastAccessed = at;
         }
 
         public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
         {
             return FindFolderNodeByPath(path.FullPath)
                 .Children
-                .Where(child => child is FileNode)
+                .OfType<FileNode>()
                 .Select(child => CreateFileDescribing(child.FullPath));
         }
 
@@ -107,7 +112,7 @@ namespace fs4net.Memory
         {
             return FindFolderNodeByPath(path.FullPath)
                 .Children
-                .Where(child => child is FolderNode)
+                .OfType<FolderNode>()
                 .Select(child => CreateDirectoryDescribing(child.FullPath));
         }
 
@@ -143,7 +148,7 @@ namespace fs4net.Memory
 
         public Stream CreateReadStream(RootedCanonicalPath path)
         {
-            throw new NotImplementedException();
+            return FindFileNodeByPath(path.FullPath).CreateReadStream();
         }
 
         public Stream CreateWriteStream(RootedCanonicalPath path)
@@ -197,13 +202,13 @@ namespace fs4net.Memory
 
             var parser = new PathParser(path);
             parser.WithEachFileSystemNodeNameDo(delegate(string folderName)
-            {
-                if (currentNode != null && currentNode is FolderNode)
                 {
-                    var folderNode = (FolderNode)currentNode;
-                    currentNode = folderNode.FindChildNodeNamed(folderName);
-                }
-            });
+                    if (currentNode != null && currentNode is FolderNode)
+                    {
+                        var folderNode = (FolderNode)currentNode;
+                        currentNode = folderNode.FindChildNodeNamed(folderName);
+                    }
+                });
 
             return currentNode;
         }

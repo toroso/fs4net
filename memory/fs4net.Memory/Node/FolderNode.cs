@@ -9,14 +9,14 @@ namespace fs4net.Memory.Node
     {
         public List<FileSystemNode> Children { get; private set; }
 
-        public FolderNode(FolderNode parent, string name)
-            : base(parent, name)
+        private FolderNode()
+            : base(null, "root")
         {
             Children = new List<FileSystemNode>();
         }
 
-        private FolderNode()
-            : base(null, "root")
+        private FolderNode(FolderNode parent, string name)
+            : base(parent, name)
         {
             Children = new List<FileSystemNode>();
         }
@@ -53,11 +53,20 @@ namespace fs4net.Memory.Node
 
         public FileNode CreateFileNode(string filename)
         {
+            // TODO: Should not be possible if the node is a directory
+            RemoveNodeIfExists(filename);
             return new FileNode(this, filename);
+        }
+
+        private void RemoveNodeIfExists(string nodeName)
+        {
+            var toDelete = Children.Find(node => node.Name == nodeName);
+            if (toDelete != null) Children.Remove(toDelete);
         }
 
         protected internal void RemoveChild(FileSystemNode nodeToRemove)
         {
+            nodeToRemove.VerifyCanBeRemoved();
             nodeToRemove.Dispose();
             if (Children.Remove(nodeToRemove) == false)
                 throw new InvalidOperationException(string.Format("Trying to remove a node '{0}' that doesn't exist.", nodeToRemove));
@@ -74,6 +83,11 @@ namespace fs4net.Memory.Node
             Children.Remove(source);
             source.Name = destName;
             destParentNode.AddChild(source);
+        }
+
+        public override void VerifyCanBeRemoved()
+        {
+            Children.ForEach(node => node.VerifyCanBeRemoved());
         }
 
         public override string TreeAsString(int indentLevel)
