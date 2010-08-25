@@ -12,7 +12,7 @@ namespace fs4net.CommonTest.Template
 
         protected RootedFile ExistingFile { get; private set; }
         protected DateTime ExistingFileLastModified { get { return new DateTime(2010, 08, 20); } }
-        protected string ExistingFileContents { get { return "Septiembre"; } }
+        protected string ExistingFileContents { get { return "Noviembre"; } }
         protected RootedFile NonExistingFile { get; private set; }
 
         protected RootedDirectory ExistingLeafDirectory { get; private set; }

@@ -156,6 +156,11 @@ namespace fs4net.Memory
             return CreateFile(path.FullPath).CreateWriteStream();
         }
 
+        public Stream CreateModifyStream(RootedCanonicalPath path)
+        {
+            return CreateOrReuseFile(path.FullPath).CreateWriteStream();
+        }
+
         #endregion // Implementation of IInternalFileSystem
 
 
@@ -167,12 +172,22 @@ namespace fs4net.Memory
 
         private FileNode CreateFile(string path)
         {
+            return CreateFile(path, (parent, filename) => parent.CreateFileNode(filename));
+        }
+
+        private FileNode CreateOrReuseFile(string path)
+        {
+            return CreateFile(path, (parent, filename) => parent.CreateOrReuseFileNode(filename));
+        }
+
+        private FileNode CreateFile(string path, Func<FolderNode, string, FileNode> createStrategy)
+        {
             FileNode resultNode = null;
             var currentNode = _rootNode;
 
             var parser = new PathParser(path);
             parser.WithEachButLastFileSystemNodeNameDo(folderName => currentNode = currentNode.CreateOrReuseFolderNode(folderName));
-            parser.WithLastFileSystemNodeNameDo(filename => resultNode = currentNode.CreateFileNode(filename));
+            parser.WithLastFileSystemNodeNameDo(filename => resultNode = createStrategy(currentNode, filename));
             return resultNode;
         }
 

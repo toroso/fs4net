@@ -262,6 +262,24 @@ namespace fs4net.Framework
         }
 
         /// <summary>
+        /// Opens a write stream with the file denoted by this file descriptor as source. The file is opened in
+        /// read/write mode and the stream is positioned at the beginning of the file. If the file does not exist it is
+        /// created.
+        /// </summary>
+        /// <exception cref="System.Security.SecurityException">The caller does not have the required permission.
+        /// </exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The specified path is invalid.</exception>
+        /// <returns></returns>
+        /// TODO: Revise exceptions
+        public static Stream CreateModifyStream(this RootedFile me)
+        {
+            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't modify the file '{0}' since it's parent directory does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.CreateUnauthorizedAccessException("Can't modify the file '{0}' since the path denotes an existing directory.", me.PathAsString));
+
+            return me.InternalFileSystem().CreateModifyStream(me.CanonicalPathAsString());
+        }
+
+        /// <summary>
         /// Returns a RootedFile where the filename is replaced with the given filename. That is, it points to a file
         /// in the same directory.
         /// </summary>

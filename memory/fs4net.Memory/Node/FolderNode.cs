@@ -29,7 +29,6 @@ namespace fs4net.Memory.Node
         public FolderNode CreateOrReuseFolderNode(string name)
         {
             var childNode = FindChildNodeNamed(name);
-            // TODO: if (childNode is FileNode) throw...
             if (childNode != null) return (FolderNode)childNode;
 
             return new FolderNode(this, name);
@@ -53,8 +52,15 @@ namespace fs4net.Memory.Node
 
         public FileNode CreateFileNode(string filename)
         {
-            // TODO: Should not be possible if the node is a directory
             RemoveNodeIfExists(filename);
+            return new FileNode(this, filename);
+        }
+
+        public FileNode CreateOrReuseFileNode(string filename)
+        {
+            var childNode = FindChildNodeNamed(filename);
+            if (childNode != null) return (FileNode)childNode;
+
             return new FileNode(this, filename);
         }
 

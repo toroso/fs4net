@@ -143,6 +143,11 @@ namespace fs4net.Framework
             return new System.IO.FileStream(path.FullPath, System.IO.FileMode.Create);
         }
 
+        public System.IO.Stream CreateModifyStream(RootedCanonicalPath path)
+        {
+            return new System.IO.FileInfo(path.FullPath).Open(System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.ReadWrite);
+        }
+
         #endregion // Implementation of IInternalFileSystem
     }
 }

@@ -30,6 +30,7 @@ namespace fs4net.Framework
 
         Stream CreateReadStream(RootedCanonicalPath path);
         Stream CreateWriteStream(RootedCanonicalPath path);
+        Stream CreateModifyStream(RootedCanonicalPath path);
 
         /// <summary>
         /// Should return true if the drive is ready to use. A drive that is not ready could be for example an ejected

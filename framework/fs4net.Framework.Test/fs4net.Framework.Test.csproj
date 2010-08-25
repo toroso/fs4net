@@ -62,6 +62,7 @@
     <Compile Include="FileNameFixture.cs" />
     <Compile Include="FileNameOfRelativeFileFixture.cs" />
     <Compile Include="FileNameOfRootedFileFixture.cs" />
+    <Compile Include="File\CreateModifyStreamFixture.cs" />
     <Compile Include="File\CreateReadStreamFixture.cs" />
     <Compile Include="File\CreateWriteStreamFixture.cs" />
     <Compile Include="File\DeleteFixture.cs" />

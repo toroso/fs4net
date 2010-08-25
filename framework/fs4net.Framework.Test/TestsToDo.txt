@@ -25,8 +25,9 @@ IFileSystemItem, FileSystemItemExtensions
         [?] LastModified -- some operations missing...
         [x] Delete
         [x] TryDelete
-        [ ] CreateReadStream
-        [ ] CreateWriteStream
+        [x] CreateReadStream
+        [x] CreateWriteStream
+        [x] CreateModifyStream
         [ ] CreateAppendStream
         [ ] CopyTo -- Check so that the source and the destination are on the same file system
         [ ] MoveTo -- Check so that the source and the destination are on the same file system

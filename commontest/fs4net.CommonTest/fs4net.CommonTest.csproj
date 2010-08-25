@@ -55,6 +55,7 @@
     <Compile Include="Template\Directory\MoveToFixture.cs" />
     <Compile Include="Template\Directory\TryDeleteIfEmptyFixture.cs" />
     <Compile Include="Template\Directory\TryDeleteRecursivelyFixture.cs" />
+    <Compile Include="Template\File\CreateModifyStreamFixture.cs" />
     <Compile Include="Template\File\CreateReadStreamFixture.cs" />
     <Compile Include="Template\File\CreateWriteStreamFixture.cs" />
     <Compile Include="Template\File\DeleteFixture.cs" />
