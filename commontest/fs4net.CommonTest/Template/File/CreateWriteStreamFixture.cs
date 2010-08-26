@@ -50,7 +50,30 @@ namespace fs4net.CommonTest.Template.File
             Assert.That(file.Exists(), Is.False);
         }
 
-        // TODO: Seek, read
+        [Test]
+        public void Seek_In_Write_Stream_Has_No_Effect()
+        {
+            var newFile = ExistingEmptyDirectory + RelativeFile.FromString("newfile.txt");
+            using (var stream = newFile.CreateWriteStream())
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.Write("Scuba Diving");
+                stream.Seek(0, SeekOrigin.Begin);
+                writer.Write(" is Fun!");
+            }
+            Assert.That(newFile.ReadText(), Is.EqualTo("Scuba Diving is Fun!"));
+        }
+
+        [Test]
+        public void Read_From_Write_Stream_Throws()
+        {
+            var newFile = ExistingEmptyDirectory + RelativeFile.FromString("newfile.txt");
+            using (var stream = newFile.CreateWriteStream())
+            {
+                Assert.Throws<ArgumentException>(() => new StreamReader(stream));
+            }
+        }
+
         // TODO: Access denied
         // e.g. file is in use, read-only
     }

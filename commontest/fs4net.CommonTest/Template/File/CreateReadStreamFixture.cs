@@ -45,7 +45,29 @@ namespace fs4net.CommonTest.Template.File
             Assert.That(file.Exists(), Is.False);
         }
 
-        // TODO: Seek, write
+        [Test]
+        public void Seek_In_Read_Stream()
+        {
+            using (var stream = ExistingFile.CreateReadStream())
+            using (var reader = new StreamReader(stream))
+            {
+                string wholeContents = reader.ReadToEnd();
+                const int readOffset = 4;
+                stream.Seek(readOffset, SeekOrigin.Begin);
+                string endPart = reader.ReadToEnd();
+                Assert.That(wholeContents.Substring(readOffset), Is.EqualTo(endPart));
+            }
+        }
+
+        [Test]
+        public void Write_To_Read_Stream_Throws()
+        {
+            using (var stream = ExistingFile.CreateReadStream())
+            {
+                Assert.Throws<ArgumentException>(() => new StreamWriter(stream));
+            }
+        }
+
         // TODO: Access denied
         // e.g. file is in use for writing
     }

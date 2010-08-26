@@ -67,7 +67,26 @@ namespace fs4net.CommonTest.Template.File
             Assert.That(ExistingFile.ReadText(), Is.EqualTo(newText));
         }
 
-        // TODO: Read
+        [Test]
+        public void Read_Does_Not_Read_Written_Contents()
+        {
+            var newFile = ExistingEmptyDirectory + RelativeFile.FromString("newfile.txt");
+            const string newContents = "Keep on Movin";
+            using (var stream = newFile.CreateModifyStream())
+            {
+                var writer = new StreamWriter(stream);
+                writer.Write(newContents);
+                writer.Flush();
+
+                stream.Seek(0, SeekOrigin.Begin);
+                var reader = new StreamReader(stream);
+                string contents = reader.ReadToEnd();
+
+                Assert.That(contents, Is.EqualTo(newContents));
+            }
+            Assert.That(newFile.ReadText(), Is.EqualTo(newContents));
+        }
+
         // TODO: Access denied
     }
 

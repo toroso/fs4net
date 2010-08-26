@@ -22,19 +22,25 @@ namespace fs4net.Memory.Node
         internal Stream CreateReadStream()
         {
             _isOpen = true;
-            return WrappingStream.CreateSeekableReadStream(_content, this);
+            return WrappingStream.CreateReadStream(_content, this);
         }
 
         internal Stream CreateWriteStream()
         {
             _isOpen = true;
-            return WrappingStream.CreateSeekableWriteStream(_content, this);
+            return WrappingStream.CreateWriteStream(_content, this);
         }
 
         internal Stream CreateAppendStream()
         {
             _isOpen = true;
-            return WrappingStream.CreateNonSeekableAppendStream(_content, this);
+            return WrappingStream.CreateAppendStream(_content, this);
+        }
+
+        public Stream CreateModifyStream()
+        {
+            _isOpen = true;
+            return WrappingStream.CreateModifyStream(_content, this);
         }
 
         public override void VerifyCanBeRemoved()
@@ -94,19 +100,24 @@ namespace fs4net.Memory.Node
             public override long Length { get { return _inner.Length; } }
             public override long Position { get { return _inner.Position; } set { _inner.Position = value; } }
 
-            public static Stream CreateSeekableReadStream(Stream inner, FileNode creator)
+            public static Stream CreateReadStream(Stream inner, FileNode creator)
             {
                 return new WrappingStream(inner, creator, true, false, true, SeekOrigin.Begin);
             }
 
-            public static Stream CreateSeekableWriteStream(Stream inner, FileNode creator)
+            public static Stream CreateWriteStream(Stream inner, FileNode creator)
             {
                 return new WrappingStream(inner, creator, false, true, true, SeekOrigin.Begin);
             }
 
-            public static Stream CreateNonSeekableAppendStream(Stream inner, FileNode creator)
+            public static Stream CreateAppendStream(Stream inner, FileNode creator)
             {
                 return new WrappingStream(inner, creator, false, true, false, SeekOrigin.End);
+            }
+
+            public static Stream CreateModifyStream(Stream inner, FileNode creator)
+            {
+                return new WrappingStream(inner, creator, true, true, true, SeekOrigin.Begin);
             }
         }
     }

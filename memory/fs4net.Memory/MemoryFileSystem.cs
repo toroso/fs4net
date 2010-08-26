@@ -163,7 +163,7 @@ namespace fs4net.Memory
 
         public Stream CreateModifyStream(RootedCanonicalPath path)
         {
-            return CreateOrReuseFile(path.FullPath).CreateWriteStream();
+            return CreateOrReuseFile(path.FullPath).CreateModifyStream();
         }
 
         #endregion // Implementation of IInternalFileSystem

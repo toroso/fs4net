@@ -135,12 +135,12 @@ namespace fs4net.Framework
 
         public System.IO.Stream CreateReadStream(RootedCanonicalPath path)
         {
-            return new System.IO.FileStream(path.FullPath, System.IO.FileMode.Open);
+            return new System.IO.FileInfo(path.FullPath).Open(System.IO.FileMode.Open, System.IO.FileAccess.Read);
         }
 
         public System.IO.Stream CreateWriteStream(RootedCanonicalPath path)
         {
-            return new System.IO.FileStream(path.FullPath, System.IO.FileMode.Create);
+            return new System.IO.FileInfo(path.FullPath).Open(System.IO.FileMode.Create, System.IO.FileAccess.Write);
         }
 
         public System.IO.Stream CreateAppendStream(RootedCanonicalPath path)
