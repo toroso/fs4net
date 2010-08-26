@@ -50,6 +50,7 @@ namespace fs4net.CommonTest.Template.File
             Assert.That(file.Exists(), Is.False);
         }
 
+        // TODO: Seek, read
         // TODO: Access denied
         // e.g. file is in use, read-only
     }

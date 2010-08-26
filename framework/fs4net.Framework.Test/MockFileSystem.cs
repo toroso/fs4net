@@ -49,6 +49,7 @@ namespace fs4net.Framework.Test
         public void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination) { throw new NotImplementedException(); }
         public Stream CreateReadStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateWriteStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public Stream CreateAppendStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateModifyStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
 
         #endregion // Implementation of IInternalFileSystem

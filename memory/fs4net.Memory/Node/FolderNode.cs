@@ -67,7 +67,11 @@ namespace fs4net.Memory.Node
         private void RemoveNodeIfExists(string nodeName)
         {
             var toDelete = Children.Find(node => node.Name == nodeName);
-            if (toDelete != null) Children.Remove(toDelete);
+            if (toDelete != null)
+            {
+                toDelete.Dispose();
+                Children.Remove(toDelete);
+            }
         }
 
         protected internal void RemoveChild(FileSystemNode nodeToRemove)

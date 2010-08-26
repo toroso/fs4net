@@ -156,6 +156,11 @@ namespace fs4net.Memory
             return CreateFile(path.FullPath).CreateWriteStream();
         }
 
+        public Stream CreateAppendStream(RootedCanonicalPath path)
+        {
+            return CreateOrReuseFile(path.FullPath).CreateAppendStream();
+        }
+
         public Stream CreateModifyStream(RootedCanonicalPath path)
         {
             return CreateOrReuseFile(path.FullPath).CreateWriteStream();

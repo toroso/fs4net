@@ -30,6 +30,7 @@ namespace fs4net.Framework
 
         Stream CreateReadStream(RootedCanonicalPath path);
         Stream CreateWriteStream(RootedCanonicalPath path);
+        Stream CreateAppendStream(RootedCanonicalPath path);
         Stream CreateModifyStream(RootedCanonicalPath path);
 
         /// <summary>

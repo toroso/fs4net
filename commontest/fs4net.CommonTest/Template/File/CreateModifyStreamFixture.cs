@@ -66,6 +66,9 @@ namespace fs4net.CommonTest.Template.File
             ExistingFile.OverwriteText(newText);
             Assert.That(ExistingFile.ReadText(), Is.EqualTo(newText));
         }
+
+        // TODO: Read
+        // TODO: Access denied
     }
 
     internal static class RootedFileTestUtilities

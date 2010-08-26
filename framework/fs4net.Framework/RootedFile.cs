@@ -263,6 +263,23 @@ namespace fs4net.Framework
 
         /// <summary>
         /// Opens a write stream with the file denoted by this file descriptor as source. The file is opened in
+        /// write mode and the stream is position at the end of the file.
+        /// </summary>
+        /// <exception cref="System.Security.SecurityException">The caller does not have the required permission.
+        /// </exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The specified path is invalid.</exception>
+        /// <returns></returns>
+        /// TODO: Revise exceptions
+        public static Stream CreateAppendStream(this RootedFile me)
+        {
+            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't append to the file '{0}' since it's parent directory does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.CreateUnauthorizedAccessException("Can't append to the file '{0}' since the path denotes an existing directory.", me.PathAsString));
+
+            return me.InternalFileSystem().CreateAppendStream(me.CanonicalPathAsString());
+        }
+
+        /// <summary>
+        /// Opens a write stream with the file denoted by this file descriptor as source. The file is opened in
         /// read/write mode and the stream is positioned at the beginning of the file. If the file does not exist it is
         /// created.
         /// </summary>
@@ -314,6 +331,15 @@ namespace fs4net.Framework
         public static void WriteText(this RootedFile me, string text)
         {
             using (var stream = me.CreateWriteStream())
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.Write(text);
+            }
+        }
+
+        public static void AppendText(this RootedFile me, string text)
+        {
+            using (var stream = me.CreateAppendStream())
             using (var writer = new StreamWriter(stream))
             {
                 writer.Write(text);

@@ -59,6 +59,7 @@
     <Compile Include="Directory\TryDeleteIfEmptyFixture.cs" />
     <Compile Include="Directory\TryDeleteRecursivelyFixture.cs" />
     <Compile Include="FileSystemFactory.cs" />
+    <Compile Include="File\CreateAppendStreamFixture.cs" />
     <Compile Include="File\CreateModifyStreamFixture.cs" />
     <Compile Include="File\CreateReadStreamFixture.cs" />
     <Compile Include="File\CreateWriteStreamFixture.cs" />
