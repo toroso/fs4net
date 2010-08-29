@@ -78,6 +78,7 @@
     <Compile Include="RelativePathAsStringFixture.cs" />
     <Compile Include="RootedCanonicalPathAsStringFixture.cs" />
     <Compile Include="RootedDirectoryEqualityFixture.cs" />
+    <Compile Include="RootedFileEqualityFixture.cs" />
     <Compile Include="RootedFileSystemItemFixture.cs" />
     <Compile Include="RootedPathAsStringFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

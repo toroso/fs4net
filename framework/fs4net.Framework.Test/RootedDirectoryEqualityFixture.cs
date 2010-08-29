@@ -71,8 +71,8 @@ namespace fs4net.Framework.Test
         [Test]
         public void Directories_On_Different_FileSystems_Are_Not_Equal()
         {
-            var dirA = FileSystem.CreateDirectoryDescribing("c:");
-            var dirB = new MockFileSystem().CreateDirectoryDescribing("c:");
+            var dirA = FileSystem.CreateDirectoryDescribing(@"c:\path\to");
+            var dirB = new MockFileSystem().CreateDirectoryDescribing(@"c:\path\to");
             AssertEqualityNotEquals(dirA, dirB);
             AssertOperatorNotEquals(dirA, dirB);
         }

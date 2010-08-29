@@ -65,12 +65,11 @@ namespace fs4net.Framework
 
         #region Value Object
 
-        // TODO: What to do with these...? Extension methods? Skip and have those with better names?
         public bool Equals(RootedFile other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other._fileSystem, _fileSystem) && Equals(other._canonicalFullPath, _canonicalFullPath);
+            return Equals(other.FileSystem, FileSystem) && Equals(other.CanonicalPathAsString(), this.CanonicalPathAsString());
         }
 
         public override bool Equals(object obj)
@@ -85,8 +84,18 @@ namespace fs4net.Framework
         {
             unchecked
             {
-                return (_fileSystem.GetHashCode() * 397) ^ _canonicalFullPath.GetHashCode();
+                return (FileSystem.GetHashCode() * 397) ^ this.CanonicalPathAsString().GetHashCode();
             }
+        }
+
+        public static bool operator ==(RootedFile left, RootedFile right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(RootedFile left, RootedFile right)
+        {
+            return !Equals(left, right);
         }
 
         #endregion // Value Object
