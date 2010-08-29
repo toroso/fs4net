@@ -67,25 +67,17 @@ namespace fs4net.Framework
 
         public bool Equals(RootedFile other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.FileSystem, FileSystem) && Equals(other.CanonicalPathAsString(), this.CanonicalPathAsString());
+            return this.DenotesSamePathAs(other);
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(RootedFile)) return false;
-            return Equals((RootedFile)obj);
+            return this.DenotesSamePathAs(obj);
         }
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return (FileSystem.GetHashCode() * 397) ^ this.CanonicalPathAsString().GetHashCode();
-            }
+            return this.InternalGetHashCode();
         }
 
         public static bool operator ==(RootedFile left, RootedFile right)

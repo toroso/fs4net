@@ -84,10 +84,7 @@ namespace fs4net.Framework
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return (FileSystem.GetHashCode() * 397) ^ this.CanonicalPathAsString().GetHashCode();
-            }
+            return this.InternalGetHashCode();
         }
 
         public static bool operator ==(Drive left, Drive right)

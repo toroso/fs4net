@@ -12,6 +12,44 @@ namespace fs4net.Framework
     public static class RootedFileSystemItemExtensions
     {
         /// <summary>
+        /// Determines whether two different paths are actually the same.
+        /// </summary>
+        public static bool DenotesSamePathAs<T1, T2>(this IRootedFileSystemItem<T1> me, IRootedFileSystemItem<T2> other)
+            where T1 : IRootedFileSystemItem<T1>
+            where T2 : IRootedFileSystemItem<T2>
+        {
+            if (ReferenceEquals(null, me)) return false;
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(me, other)) return true;
+            return Equals(me.FileSystem, other.FileSystem) && Equals(me.CanonicalPathAsString(), other.CanonicalPathAsString());
+        }
+
+        /// <summary>
+        /// Determines whether two different paths are actually the same.
+        /// </summary>
+        public static bool DenotesSamePathAs<T>(this IRootedFileSystemItem<T> me, object obj)
+            where T : IRootedFileSystemItem<T>
+        {
+            if (ReferenceEquals(null, me)) return false;
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(me, obj)) return true;
+            // Is there another way to do this, not violating OCP?
+            if (obj.GetType() == typeof(Drive)) return me.DenotesSamePathAs((Drive)obj);
+            if (obj.GetType() == typeof(RootedDirectory)) return me.DenotesSamePathAs((RootedDirectory)obj);
+            if (obj.GetType() == typeof(RootedFile)) return me.DenotesSamePathAs((RootedFile)obj);
+            return false;
+        }
+
+        internal static int InternalGetHashCode<T>(this IRootedFileSystemItem<T> me)
+            where T : IRootedFileSystemItem<T>
+        {
+            unchecked
+            {
+                return (me.FileSystem.GetHashCode() * 397) ^ me.CanonicalPathAsString().GetHashCode();
+            }
+        }
+
+        /// <summary>
         /// Returns the drive that the denoted item is located on.
         /// This property succeeds whether the denoted item exists or not.
         /// </summary>

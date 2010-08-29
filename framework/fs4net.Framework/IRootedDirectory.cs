@@ -180,34 +180,6 @@ namespace fs4net.Framework
 
             return me.InternalFileSystem().GetDirectoriesInDirectory(me.CanonicalPathAsString()).Where(predicate);
         }
-
-        /// <summary>
-        /// Determines whether two different paths are actually the same.
-        /// </summary>
-        public static bool DenotesSamePathAs<T1, T2>(this IRootedDirectory<T1> me, IRootedDirectory<T2> other)
-            where T1 : IRootedDirectory<T1>
-            where T2 : IRootedDirectory<T2>
-        {
-            if (ReferenceEquals(null, me)) return false;
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(me, other)) return true;
-            return Equals(me.FileSystem, other.FileSystem) && Equals(me.CanonicalPathAsString(), other.CanonicalPathAsString());
-        }
-
-        /// <summary>
-        /// Determines whether two different paths are actually the same.
-        /// </summary>
-        public static bool DenotesSamePathAs<T>(this IRootedDirectory<T> me, object obj)
-            where T : IRootedDirectory<T>
-        {
-            if (ReferenceEquals(null, me)) return false;
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(me, obj)) return true;
-            // Is there another way to do this, not violating OCP?
-            if (obj.GetType() == typeof(Drive)) return me.DenotesSamePathAs((Drive)obj);
-            if (obj.GetType() == typeof(RootedDirectory)) return me.DenotesSamePathAs((RootedDirectory)obj);
-            return false;
-        }
     }
 
     internal static class RootedDirectoryInterfaceVerifications
