@@ -60,6 +60,7 @@
     <Compile Include="DriveEqualityFixture.cs" />
     <Compile Include="DriveFixture.cs" />
     <Compile Include="EnumerableUtils.cs" />
+    <Compile Include="FileNameEqualityFixture.cs" />
     <Compile Include="FileNameFixture.cs" />
     <Compile Include="FileNameOfRelativeFileFixture.cs" />
     <Compile Include="FileNameOfRootedFileFixture.cs" />

@@ -52,7 +52,8 @@ namespace fs4net.Framework
 
         #endregion // Public Interface
 
-        public bool Equals(FileName other)
+        public bool Equals<T>(IRelativeFile<T> other)
+            where T : IRelativeFile<T>
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -63,8 +64,9 @@ namespace fs4net.Framework
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (FileName)) return false;
-            return Equals((FileName) obj);
+            if (obj.GetType() == typeof (FileName)) return Equals((FileName) obj);
+            if (obj.GetType() == typeof (RelativeFile)) return Equals((RelativeFile) obj);
+            return false;
         }
 
         public override int GetHashCode()
