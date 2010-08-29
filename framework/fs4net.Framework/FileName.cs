@@ -35,10 +35,6 @@ namespace fs4net.Framework
             get { return _fullName; }
         }
 
-        #endregion // Public Interface
-
-        #region Implementation of IFileSystemItem<FileName>
-
         public string PathAsString
         {
             get { return _fullName; }
@@ -54,7 +50,46 @@ namespace fs4net.Framework
             return this;
         }
 
-        #endregion
+        #endregion // Public Interface
+
+        public bool Equals(FileName other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.CanonicalPathAsString(), this.CanonicalPathAsString());
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (FileName)) return false;
+            return Equals((FileName) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.CanonicalPathAsString().GetHashCode();
+        }
+
+        public static bool operator ==(FileName left, FileName right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(FileName left, FileName right)
+        {
+            return !Equals(left, right);
+        }
+
+        #region Debugging
+
+        public override string ToString()
+        {
+            return PathAsString;
+        }
+
+        #endregion Debugging
     }
 
     public static class FileNameExtensions

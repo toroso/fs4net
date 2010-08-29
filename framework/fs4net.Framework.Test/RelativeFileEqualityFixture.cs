@@ -32,6 +32,14 @@ namespace fs4net.Framework.Test
             AssertOperatorNotEquals(fileA, fileB);
         }
 
+        [Test]
+        public void RelativeFile_FileName_And_FileName_Are_Equal()
+        {
+            var file = RelativeFile.FromString("file.txt");
+            var filename = FileName.FromString("file.txt");
+            AssertEqualityEquals(file, filename);
+        }
+
 
         private static void AssertEqualityEquals(RelativeFile lhs, object rhs)
         {

@@ -60,8 +60,8 @@ namespace fs4net.Framework
 
         #region Value Object
 
-        // TODO: Move to extension methods?
-        public bool Equals(RelativeFile other)
+        public bool Equals<T>(IRelativeFile<T> other)
+            where T : IRelativeFile<T>
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -72,13 +72,14 @@ namespace fs4net.Framework
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(RelativeFile)) return false;
-            return Equals((RelativeFile)obj);
+            if (obj.GetType() == typeof(FileName)) return Equals((FileName)obj);
+            if (obj.GetType() == typeof(RelativeFile)) return Equals((RelativeFile)obj);
+            return false;
         }
 
         public override int GetHashCode()
         {
-            return _canonicalFullPath.GetHashCode();
+            return this.CanonicalPathAsString().GetHashCode();
         }
 
         public static bool operator ==(RelativeFile left, RelativeFile right)
