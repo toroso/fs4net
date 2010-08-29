@@ -77,7 +77,7 @@ namespace fs4net.Framework
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other._canonicalFullPath, _canonicalFullPath);
+            return Equals(other.CanonicalPathAsString(), this.CanonicalPathAsString());
         }
 
         public override bool Equals(object obj)

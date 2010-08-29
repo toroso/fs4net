@@ -65,7 +65,7 @@ namespace fs4net.Framework
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other._canonicalFullPath, _canonicalFullPath);
+            return Equals(other.CanonicalPathAsString(), this.CanonicalPathAsString());
         }
 
         public override bool Equals(object obj)
@@ -79,6 +79,16 @@ namespace fs4net.Framework
         public override int GetHashCode()
         {
             return _canonicalFullPath.GetHashCode();
+        }
+
+        public static bool operator ==(RelativeFile left, RelativeFile right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(RelativeFile left, RelativeFile right)
+        {
+            return !Equals(left, right);
         }
 
         #endregion // Value Object
