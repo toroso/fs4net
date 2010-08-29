@@ -86,18 +86,20 @@ namespace fs4net.Framework
 
         #region Value Object
 
-        public bool Equals(RootedDirectory other)
+        public bool Equals<T>(IRootedDirectory<T> other) where T : IRootedDirectory<T>
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other._fileSystem, _fileSystem) && Equals(other._canonicalFullPath, _canonicalFullPath);
+            return Equals(other.FileSystem, FileSystem) && Equals(other.CanonicalPathAsString(), this.CanonicalPathAsString());
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (RootedDirectory)) return false;
+            // Isn't there any other way to do this, not violating OCP?
+            if (obj.GetType() == typeof(Drive)) return Equals((Drive)obj);
+            if (obj.GetType() == typeof(RootedDirectory)) return Equals((RootedDirectory)obj);
             return Equals((RootedDirectory) obj);
         }
 
@@ -105,8 +107,18 @@ namespace fs4net.Framework
         {
             unchecked
             {
-                return (_fileSystem.GetHashCode()*397) ^ _canonicalFullPath.GetHashCode();
+                return (FileSystem.GetHashCode() * 397) ^ this.CanonicalPathAsString().GetHashCode();
             }
+        }
+
+        public static bool operator ==(RootedDirectory left, RootedDirectory right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(RootedDirectory left, RootedDirectory right)
+        {
+            return !Equals(left, right);
         }
 
         #endregion // Value Object
