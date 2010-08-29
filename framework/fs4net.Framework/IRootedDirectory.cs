@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace fs4net.Framework
 {
-    public interface IRootedDirectory<T> : IRootedFileSystemItem<T> where T: IRootedDirectory<T>
+    public interface IRootedDirectory<T> : IRootedFileSystemItem<T>, IDirectory<T> where T: IRootedDirectory<T>
     {
     }
 

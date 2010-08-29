@@ -60,6 +60,7 @@
     <Compile Include="Impl\FilenameParser.cs" />
     <Compile Include="Impl\ThrowHelper.cs" />
     <Compile Include="IRelativeFile.cs" />
+    <Compile Include="IRelativeFileSystemItem.cs" />
     <Compile Include="IRootedDirectory.cs" />
     <Compile Include="IRootedFileSystemItem.cs" />
     <Compile Include="InvalidPathException.cs" />

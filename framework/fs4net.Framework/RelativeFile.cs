@@ -60,26 +60,20 @@ namespace fs4net.Framework
 
         #region Value Object
 
-        public bool Equals<T>(IRelativeFile<T> other)
-            where T : IRelativeFile<T>
+        public bool Equals<T>(IRelativeFileSystemItem<T> other)
+            where T : IRelativeFileSystemItem<T>
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.CanonicalPathAsString(), this.CanonicalPathAsString());
+            return this.DenotesSamePathAs(other);
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() == typeof(FileName)) return Equals((FileName)obj);
-            if (obj.GetType() == typeof(RelativeFile)) return Equals((RelativeFile)obj);
-            return false;
+            return this.DenotesSamePathAs(obj);
         }
 
         public override int GetHashCode()
         {
-            return this.CanonicalPathAsString().GetHashCode();
+            return this.InternalGetHashCode();
         }
 
         public static bool operator ==(RelativeFile left, RelativeFile right)

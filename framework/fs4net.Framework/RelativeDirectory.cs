@@ -3,7 +3,7 @@ using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
-    public class RelativeDirectory : IDirectory<RelativeDirectory>
+    public class RelativeDirectory : IDirectory<RelativeDirectory>, IRelativeFileSystemItem<RelativeDirectory>
     {
         private readonly string _relativePath;
         private readonly string _canonicalFullPath;
@@ -58,7 +58,6 @@ namespace fs4net.Framework
         public static RelativeDirectory operator +(RelativeDirectory lhs, RelativeDirectory rhs)
         {
             return lhs.Append(rhs);
-            //return new RelativeDirectory(Path.Combine(lhs.PathAsString, rhs.PathAsString));
         }
 
         /// <summary>
@@ -75,22 +74,17 @@ namespace fs4net.Framework
 
         public bool Equals(RelativeDirectory other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.CanonicalPathAsString(), this.CanonicalPathAsString());
+            return this.DenotesSamePathAs(other);
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(RelativeDirectory)) return false;
-            return Equals((RelativeDirectory)obj);
+            return this.DenotesSamePathAs(obj);
         }
 
         public override int GetHashCode()
         {
-            return _canonicalFullPath.GetHashCode();
+            return this.InternalGetHashCode();
         }
 
         public static bool operator ==(RelativeDirectory left, RelativeDirectory right)
