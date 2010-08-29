@@ -74,6 +74,7 @@
     <Compile Include="MockFileSystem.cs" />
     <Compile Include="PathCombiningOperatorsFixture.cs" />
     <Compile Include="RelativeCanonicalPathAsStringFixture.cs" />
+    <Compile Include="RelativeDirectoryEqualityFixture.cs" />
     <Compile Include="RelativeFromFixture.cs" />
     <Compile Include="RelativePathAsStringFixture.cs" />
     <Compile Include="RootedCanonicalPathAsStringFixture.cs" />

@@ -93,6 +93,16 @@ namespace fs4net.Framework
             return _canonicalFullPath.GetHashCode();
         }
 
+        public static bool operator ==(RelativeDirectory left, RelativeDirectory right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(RelativeDirectory left, RelativeDirectory right)
+        {
+            return !Equals(left, right);
+        }
+
         #endregion // Value Object
 
         #region Debugging
