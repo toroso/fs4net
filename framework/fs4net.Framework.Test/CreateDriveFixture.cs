@@ -46,6 +46,7 @@ namespace fs4net.Framework.Test
                 @"\\colon\in:share\name",
                 @"\\network",
                 @"\\network\",
+                @"\\network\share\",
             };
 
         [Test]

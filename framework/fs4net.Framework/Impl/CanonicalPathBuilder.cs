@@ -98,10 +98,10 @@ namespace fs4net.Framework.Impl
         private string GetCanonicalPath(string driveName, string filename, bool includeEndingBackslash, bool mustBeRooted)
         {
             string folderPath = _fullPath.Center(driveName.Length, filename.Length);
-            bool hasLeadingBackslash = folderPath.Length > 0 && folderPath.StartsWith(@"\");
+            bool hasLeadingBackslash = folderPath.Length > 1 && folderPath.StartsWith(@"\");
             bool hasEndingBackslash = folderPath.Length > 1 && folderPath.EndsWith(@"\");
 
-            if (mustBeRooted && folderPath.Length > 0 && !hasLeadingBackslash) throw new InvalidPathException(string.Format("Expected a '\\' after the drive but found a '{0}' in the path '{1}'.", folderPath.First(), _fullPath));
+            if (mustBeRooted && folderPath.Length > 1 && !hasLeadingBackslash) throw new InvalidPathException(string.Format("Expected a '\\' after the drive but found a '{0}' in the path '{1}'.", folderPath.First(), _fullPath));
 
             string canonicalFolderPath = GetCanonicalFolderPath(folderPath, hasLeadingBackslash, hasEndingBackslash);
             string canonicalPath = driveName + (hasLeadingBackslash ? @"\" : string.Empty) + canonicalFolderPath + (hasEndingBackslash && includeEndingBackslash ? @"\" : string.Empty) + filename;
@@ -120,7 +120,7 @@ namespace fs4net.Framework.Impl
                     .MergeToPath();
             }
 
-            return folderPath;
+            return string.Empty;
         }
 
         private static void ValidatePathLength(string fullPath)

@@ -5,13 +5,13 @@ namespace fs4net.Framework.Test
     [TestFixture]
     public class RootedCanonicalPathAsStringFixture
     {
-        private IFileSystem _fileSystem;
+        private IFileSystem FileSystem { get; set; }
 
 
         [SetUp]
         public void CreateMockFileSystem()
         {
-            _fileSystem = new MockFileSystem();
+            FileSystem = new MockFileSystem();
         }
 
 
@@ -37,7 +37,7 @@ namespace fs4net.Framework.Test
         [Test, TestCaseSource("OriginalAndExpected")]
         public void RootedFile_Canonical_PathAsString(string original, string expected)
         {
-            Assert.That(_fileSystem.CreateFileDescribing(original).AsCanonical().PathAsString, Is.EqualTo(expected));
+            AssertCanonicalEquals(FileSystem.CreateFileDescribing(original), expected);
         }
 
         [Test]
@@ -54,32 +54,44 @@ namespace fs4net.Framework.Test
         [Test, TestCaseSource("OriginalAndExpected")]
         public void RootedDirectory_Canonical_PathAsString(string original, string expected)
         {
-            Assert.That(_fileSystem.CreateDirectoryDescribing(original).AsCanonical().PathAsString, Is.EqualTo(expected));
+            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(original), expected);
         }
 
 
         [Test]
         public void RelativeDirectory_Not_Ending_With_Backslash_Is_Intact_In_Canonical_Form()
         {
-            Assert.That(_fileSystem.CreateDirectoryDescribing(@"c:\path\to").AsCanonical().PathAsString, Is.EqualTo(@"c:\path\to"));
+            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(@"c:\path\to"), @"c:\path\to");
         }
 
         [Test]
         public void RootedDirectory_Ending_Backslash_Removed_In_Canonical_Form()
         {
-            Assert.That(_fileSystem.CreateDirectoryDescribing(@"c:\path\to\").AsCanonical().PathAsString, Is.EqualTo(@"c:\path\to"));
+            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(@"c:\path\to\"), @"c:\path\to");
+        }
+
+        [Test]
+        public void Drive_As_RootedDirectory_Ending_Backslash_Removed_In_Canonical_Form()
+        {
+            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(@"c:\"), @"c:");
         }
 
         [Test]
         public void RootedDirectory_Ending_Dot_Removed_In_Canonical_Form()
         {
-            Assert.That(_fileSystem.CreateDirectoryDescribing(@"c:\path\to\.").AsCanonical().PathAsString, Is.EqualTo(@"c:\path\to"));
+            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(@"c:\path\to\."), @"c:\path\to");
         }
 
         [Test]
         public void RootedDirectory_Ending_DoubleDots_Removed_In_Canonical_Form()
         {
-            Assert.That(_fileSystem.CreateDirectoryDescribing(@"c:\path\to\..").AsCanonical().PathAsString, Is.EqualTo(@"c:\path"));
+            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(@"c:\path\to\.."), @"c:\path");
+        }
+
+
+        private static void AssertCanonicalEquals<T>(IFileSystemItem<T> file, string expected) where T : IFileSystemItem<T>
+        {
+            Assert.That(file.AsCanonical().PathAsString, Is.EqualTo(expected));
         }
     }
 }
