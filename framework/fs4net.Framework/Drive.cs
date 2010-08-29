@@ -72,26 +72,28 @@ namespace fs4net.Framework
 
         #region Value Object
 
-        public bool Equals(Drive other)
+        public bool Equals<T>(IRootedDirectory<T> other) where T : IRootedDirectory<T>
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other._fileSystem, _fileSystem) && Equals(other._name, _name);
+            return Equals(other.FileSystem, FileSystem) && Equals(other.CanonicalPathAsString(), this.CanonicalPathAsString());
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (Drive)) return false;
-            return Equals((Drive) obj);
+            // Isn't there any other way to do this, not violating OCP?
+            if (obj.GetType() == typeof(Drive)) return Equals((Drive) obj);
+            if (obj.GetType() == typeof(RootedDirectory)) return Equals((RootedDirectory) obj);
+            return false;
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (_fileSystem.GetHashCode()*397) ^ _name.GetHashCode();
+                return (FileSystem.GetHashCode() * 397) ^ this.CanonicalPathAsString().GetHashCode();
             }
         }
 

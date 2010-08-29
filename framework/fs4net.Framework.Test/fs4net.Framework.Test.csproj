@@ -57,6 +57,7 @@
     <Compile Include="Directory\MoveToFixture.cs" />
     <Compile Include="Directory\TryDeleteIfEmptyFixture.cs" />
     <Compile Include="Directory\TryDeleteRecursivelyFixture.cs" />
+    <Compile Include="DriveEqualityFixture.cs" />
     <Compile Include="DriveFixture.cs" />
     <Compile Include="EnumerableUtils.cs" />
     <Compile Include="FileNameFixture.cs" />
