@@ -1,7 +1,6 @@
-using System;
 using fs4net.Framework;
 
-namespace fs4net.CommonTest.Builder
+namespace fs4net.Builder
 {
     public sealed class RootedFileBuilder : FileSystemItemBuilder<RootedFileBuilder>
     {

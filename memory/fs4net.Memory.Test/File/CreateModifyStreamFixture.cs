@@ -1,6 +1,6 @@
 using fs4net.Framework;
 using NUnit.Framework;
-using Template = fs4net.CommonTest.Template;
+using Template = fs4net.TestTemplates;
 
 namespace fs4net.Memory.Test.File
 {

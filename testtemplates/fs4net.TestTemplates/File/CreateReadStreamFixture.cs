@@ -3,7 +3,7 @@ using System.IO;
 using fs4net.Framework;
 using NUnit.Framework;
 
-namespace fs4net.CommonTest.Template.File
+namespace fs4net.TestTemplates.File
 {
     public abstract class CreateReadStreamFixture : PopulatedFileSystem
     {

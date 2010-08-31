@@ -1,6 +1,6 @@
 using System;
 
-namespace fs4net.CommonTest.Builder
+namespace fs4net.Builder
 {
     public abstract class FileSystemItemBuilder<T> where T : FileSystemItemBuilder<T>
     {

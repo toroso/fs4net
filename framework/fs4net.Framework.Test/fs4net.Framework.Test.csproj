@@ -88,9 +88,9 @@
     <Compile Include="SystemIOFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\commontest\fs4net.CommonTest\fs4net.CommonTest.csproj">
-      <Project>{B7D15700-67FD-4FAB-97D1-7A5DA8C5C079}</Project>
-      <Name>fs4net.CommonTest</Name>
+    <ProjectReference Include="..\..\testtemplates\fs4net.TestTemplates\fs4net.TestTemplates.csproj">
+      <Project>{61F93391-D538-405C-B03E-0E3C3602F611}</Project>
+      <Name>fs4net.TestTemplates</Name>
     </ProjectReference>
     <ProjectReference Include="..\fs4net.Framework\fs4net.Framework.csproj">
       <Project>{1050CD0E-F451-40F6-BF70-1B91AEC5482D}</Project>

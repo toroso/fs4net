@@ -1,9 +1,9 @@
 using System;
-using fs4net.CommonTest.Builder;
+using fs4net.Builder;
 using fs4net.Framework;
 using NUnit.Framework;
 
-namespace fs4net.CommonTest.Template
+namespace fs4net.TestTemplates
 {
     public abstract class PopulatedFileSystem
     {

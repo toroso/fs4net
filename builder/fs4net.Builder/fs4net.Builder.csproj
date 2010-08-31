@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0823169B-8FEC-484D-9B4E-ED3FC7108CCF}</ProjectGuid>
+    <ProjectGuid>{2D20D6D8-8902-4843-B4FA-2CDB6D3942F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>fs4net.Memory.Test</RootNamespace>
-    <AssemblyName>fs4net.Memory.Test</AssemblyName>
+    <RootNamespace>fs4net.Builder</RootNamespace>
+    <AssemblyName>fs4net.Builder</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,10 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -43,37 +38,16 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Directory\CreateFixture.cs" />
-    <Compile Include="Directory\DeleteIfEmptyFixture.cs" />
-    <Compile Include="Directory\DeleteRecursivelyFixture.cs" />
-    <Compile Include="Directory\ExistsFixture.cs" />
-    <Compile Include="Directory\LastModifiedFixture.cs" />
-    <Compile Include="Directory\MoveToFixture.cs" />
-    <Compile Include="Directory\TryDeleteIfEmptyFixture.cs" />
-    <Compile Include="Directory\TryDeleteRecursivelyFixture.cs" />
-    <Compile Include="FileSystemFactory.cs" />
-    <Compile Include="File\CreateAppendStreamFixture.cs" />
-    <Compile Include="File\CreateModifyStreamFixture.cs" />
-    <Compile Include="File\CreateReadStreamFixture.cs" />
-    <Compile Include="File\CreateWriteStreamFixture.cs" />
-    <Compile Include="File\DeleteFixture.cs" />
-    <Compile Include="File\ExistsFixture.cs" />
-    <Compile Include="File\LastModifiedFixture.cs" />
-    <Compile Include="File\TryDeleteFixture.cs" />
+    <Compile Include="FileSystemBuilder.cs" />
+    <Compile Include="FileSystemItemBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RootedDirectoryBuilder.cs" />
+    <Compile Include="RootedFileBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\framework\fs4net.Framework\fs4net.Framework.csproj">
       <Project>{1050CD0E-F451-40F6-BF70-1B91AEC5482D}</Project>
       <Name>fs4net.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\testtemplates\fs4net.TestTemplates\fs4net.TestTemplates.csproj">
-      <Project>{61F93391-D538-405C-B03E-0E3C3602F611}</Project>
-      <Name>fs4net.TestTemplates</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\fs4net.Memory\fs4net.Memory.csproj">
-      <Project>{84F865D5-22B1-4B95-BE4A-EAE663BCB527}</Project>
-      <Name>fs4net.Memory</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

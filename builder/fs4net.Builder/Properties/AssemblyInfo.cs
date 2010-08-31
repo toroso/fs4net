@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("fs4net.CommonTest")]
+[assembly: AssemblyTitle("fs4net.Builder")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("fs4net.CommonTest")]
+[assembly: AssemblyProduct("fs4net.Builder")]
 [assembly: AssemblyCopyright("Copyright ©  2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("77aaf04e-5b6e-43a3-86f0-4104d320480e")]
+[assembly: Guid("9a436280-bcb6-4587-b6b0-fe1df6b84038")]
 
 // Version information for an assembly consists of the following four values:
 //

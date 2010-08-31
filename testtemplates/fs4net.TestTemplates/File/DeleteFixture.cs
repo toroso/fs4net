@@ -1,44 +1,46 @@
+using System;
+using System.IO;
 using fs4net.Framework;
 using NUnit.Framework;
 
-namespace fs4net.CommonTest.Template.File
+namespace fs4net.TestTemplates.File
 {
-    public abstract class TryDeleteFixture : PopulatedFileSystem
+    public abstract class DeleteFixture : PopulatedFileSystem
     {
         [Test]
-        public void Delete_Existing_File_Succeeds()
+        public void Delete_Existing_File()
         {
-            Assert.That(ExistingFile.TryDelete(), Is.True);
+            ExistingFile.Delete();
             Assert.That(ExistingFile.Exists(), Is.False);
         }
 
         [Test]
-        public void Delete_NonExisting_File_Succeeds()
+        public void Delete_NonExisting_File()
         {
-            Assert.That(NonExistingFile.TryDelete(), Is.True);
+            NonExistingFile.Delete();
             Assert.That(NonExistingFile.Exists(), Is.False);
         }
 
         [Test]
-        public void Delete_NonExisting_File_In_NonExisting_Directory_Succeeds()
+        public void Delete_NonExisting_File_In_NonExisting_Directory_Throws()
         {
             var toBeDeleted = (NonExistingDirectory + FileName.FromString("file.txt"));
-            Assert.That(toBeDeleted.TryDelete(), Is.True);
+            Assert.Throws<DirectoryNotFoundException>(() => toBeDeleted.Delete());
         }
 
         [Test]
-        public void Delete_File_That_Is_A_Directory_Succeeds()
+        public void Delete_File_That_Is_A_Directory_Throws()
         {
             var directoryAsFile = FileSystem.CreateFileDescribing(ExistingEmptyDirectory.PathAsString);
-            Assert.That(directoryAsFile.TryDelete(), Is.True); // Disputable... There's still a directory with that name.
+            Assert.Throws<UnauthorizedAccessException>(() => directoryAsFile.Delete());
             Assert.That(ExistingEmptyDirectory.Exists(), Is.True);
         }
 
         [Test]
-        public void Delete_File_On_NonExisting_Drive_Succeeds()
+        public void Delete_File_On_NonExisting_Drive_Throws()
         {
             var toBeDeleted = NonExistingDrive + RelativeFile.FromString(@"drive\does\not\exist.txt");
-            Assert.That(toBeDeleted.TryDelete(), Is.True);
+            Assert.Throws<DirectoryNotFoundException>(() => toBeDeleted.Delete());
         }
 
         // TODO: Access denied

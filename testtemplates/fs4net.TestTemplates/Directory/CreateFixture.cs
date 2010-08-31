@@ -2,7 +2,7 @@ using System.IO;
 using fs4net.Framework;
 using NUnit.Framework;
 
-namespace fs4net.CommonTest.Template.Directory
+namespace fs4net.TestTemplates.Directory
 {
     [TestFixture]
     public abstract class CreateFixture : PopulatedFileSystem
