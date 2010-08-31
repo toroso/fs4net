@@ -8,7 +8,7 @@ namespace fs4net.Framework
         private readonly IInternalFileSystem _fileSystem;
         private readonly string _name;
 
-        public Drive(IInternalFileSystem fileSystem, string name) // TODO: public only for unit tests... necessary? Use InternalsVisibleTo attribute?
+        public Drive(IInternalFileSystem fileSystem, string name)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             _fileSystem = fileSystem;

@@ -10,7 +10,7 @@ namespace fs4net.Framework
         private readonly Func<string, string> _pathWasher;
         private readonly string _canonicalFullPath;
 
-        public RootedDirectory(IInternalFileSystem fileSystem, string rootedPath, Func<string, string> pathWasher) // TODO: public only for unit tests... necessary? Use InternalsVisibleTo attribute?
+        public RootedDirectory(IInternalFileSystem fileSystem, string rootedPath, Func<string, string> pathWasher)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             _fileSystem = fileSystem;

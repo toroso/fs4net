@@ -11,18 +11,6 @@ namespace fs4net.Framework.Impl
 
         private readonly string _fullPath;
 
-        // TODO: How forgiving should the validation be?
-        //  * Multiple folder separators (backslashes)?
-        //  * Use of (forward) slash as folder separator?
-        //  * Redundant spaces, e.g. space before or after the path or a folder name ending with a space
-        //  * Empty extensions (filename ends with a dot)
-        // SOLUTION: Introduce PathWasher:
-        //  * Default passed into FileSystem
-        //  * Can be specified on IFileSystemItem factory methods
-        //  * Passed into IFileSystemItem constructors
-        //  * Func<string, string>
-        // After that, the CanonicalPathBuilder is strict
-        // TODO: How system dependent should the validation be? Linux allows file names to end with a space while Windows does not. Ask FileSystem?
         public CanonicalPathBuilder(string fullPath)
         {
             _fullPath = fullPath;
@@ -33,8 +21,6 @@ namespace fs4net.Framework.Impl
         public static string GetDriveName(string fullPath)
         {
             var driveName = new DriveParser(fullPath);
-            //if (!driveName.Exists) throw new RootedPathException(string.Format("The path '{0}' is rooted.", fullPath));
-            //if (!driveName.IsValid) throw new InvalidPathException(driveName.InvalidErrorMessage);
             return driveName.DriveName;
         }
 

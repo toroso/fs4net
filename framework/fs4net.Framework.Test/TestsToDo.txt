@@ -13,12 +13,12 @@ IFileSystemItem, FileSystemItemExtensions
       [x] FileName
     RelativeFile, RelativeFileExtensions
         [x] Creation (FromString)
-        [ ] Equals, GetHashCode
+        [x] Equals, GetHashCode
             Compare canonical: .., ., ending \ etc.
-            Drive: should ask FileSystem!
+            Drive: are they the same? should ask FileSystem!
     RootedFile, RootedFileExtensions
         [x] Creation
-        [ ] Equals, GetHashCode
+        [x] Equals, GetHashCode
         [x] Exists
         [ ] Created
         [ ] LastAccessed
@@ -35,10 +35,10 @@ IFileSystemItem, FileSystemItemExtensions
       ( ) LeafFolder
     RelativeDirectory, RelativeDirectoryExtensions
         [x] Creation (FromString)
-        [ ] Equals, GetHashCode
+        [x] Equals, GetHashCode
     RootedDirectory, RootedDirectoryExtensions
         [x] Creation
-        [ ] Equals, GetHashCode
+        [x] Equals, GetHashCode
         [x] Exists
         [ ] Created
         [ ] LastAccessed
