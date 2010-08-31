@@ -158,6 +158,11 @@ namespace fs4net.Framework.Test
             Assert.Throws<PathTooLongException>(() => _fileSystem.CreateDirectoryDescribing(almostTooLongPath)); // 260 chars in total
         }
 
+        [Test]
+        public void Throws_If_Path_Accends_Above_Root()
+        {
+            Assert.Throws<InvalidPathException>(() => _fileSystem.CreateDirectoryDescribing(@"c:\path\..\..\to"));
+        }
 
         private static readonly string[] ValidPaths =
             {

@@ -103,20 +103,27 @@ namespace fs4net.Framework.Impl
 
             if (mustBeRooted && folderPath.Length > 1 && !hasLeadingBackslash) throw new InvalidPathException(string.Format("Expected a '\\' after the drive but found a '{0}' in the path '{1}'.", folderPath.First(), _fullPath));
 
-            string canonicalFolderPath = GetCanonicalFolderPath(folderPath, hasLeadingBackslash, hasEndingBackslash);
+            string canonicalFolderPath = GetCanonicalFolderPath(folderPath, hasLeadingBackslash, hasEndingBackslash, !mustBeRooted);
             string canonicalPath = driveName + (hasLeadingBackslash ? @"\" : string.Empty) + canonicalFolderPath + (hasEndingBackslash && includeEndingBackslash ? @"\" : string.Empty) + filename;
 
             ValidatePathLength(canonicalPath); // TODO: Should path length be validated for relative paths?
             return canonicalPath;
         }
 
-        private string GetCanonicalFolderPath(string folderPath, bool hasLeadingBackslash, bool hasEndingBackslash)
+        private string GetCanonicalFolderPath(string folderPath, bool hasLeadingBackslash, bool hasEndingBackslash, bool canonicalCanStartWithDoubleDots)
         {
             if (folderPath.Length > 1)
             {
-                return folderPath.Center(hasLeadingBackslash ? 1 : 0, hasEndingBackslash ? 1 : 0)
+                var canonicalFolders = folderPath
+                    .Center(hasLeadingBackslash ? 1 : 0, hasEndingBackslash ? 1 : 0)
                     .TokenizeToFolders(_fullPath)
                     .Canonify()
+                    .ToList();
+                if (!canonicalCanStartWithDoubleDots && canonicalFolders.First() == "..")
+                {
+                    throw new InvalidPathException(string.Format("The path '{0}' ascends into a folder above the root level.", _fullPath));
+                }
+                return canonicalFolders
                     .MergeToPath();
             }
 
