@@ -1,28 +1,71 @@
-﻿Avoid primitive obsession. Value types.
- * Together with other types, such as Bitmap
+﻿Avoid primitive obsession
+-------------------------
+The .NET framework mainly uses strings for representing paths. While at first glance this might sound like a nice and simple solution, it smells of what Martin Fowler calls Primitive Obsession: usage of primitive types for something that deserves to be a custom tailored class.
+
+fs4net does this and paths are represented as Value Objects.
 
 
 Mockable
- * Together with other types, such as Bitmap
+--------
+The .NET framework actually does have built in value types that represent paths as well: FileInfo and DirectoryInfo. While this is good, they have one big flaw: they are not mockable.
+
+If you call FileInfo.Delete(), the file represented by the FileInfo will get deleted. That's a good thing in production code but can cause problems in a test environment.
+
+fs4net supports automatic tests by allowing you to have e.g. an in-memory file system in your test fixture and a real file system for your production code.
 
 
-Better exception handling
- * Avoid by having Try methods
- * Throw correct exceptions with good messages
+Exception Handling
+------------------
+The .NET framework is not that well designed when it comes to exception handling. According to good programming practice, exceptions should be used for exceptional conditions, something that is difficult to adhere to using the .NET framework. (A tip is to always enable break-on-throw in Visual Studio).
+
+Say you want to delete a file but it's no big deal if it doesn't work. .NET always throws an exception if Delete() fails, an exception that you have to swallow. That's using exceptions for program flow, which is bad.
+
+fs4net provides Try-methods that return true on success and false on fail and that never throws.
+
+Also, the exceptions thrown from fs4net are specific and have good error messages.
 
 
+Non-Goals
+=========
+
+There are a few things that would be really nice to have but that fs4net will only support if they are cheap and don't stand in conflict with any of the goals. These are:
+
+Mono support
+------------
+Considering my Linux background, that I use Ubuntu at home and have a small fetish for Mac, it's with great regret that I don't have this as a goal. I might change this one day when I find the energy to set up an automatic test environment where I can do all Mono compatibility validations.
 
 
-Non-goal (but would be a nice bonus)
- * Mono support
- * Abstraction for other file systems, such as a zip file
- * High performance
- * 100% atomic: Handle file system race conditions (internal exceptions are ok in that case)
- * Support for all kinds of file systems (eg. linux)
+Abstraction for other file systems
+----------------------------------
+It would be nice if a e.g. zip file could be treated as it's own file system. However, I'm not sure that abstraction will work all the way.
+
+
+High performance
+----------------
+Using fs4net will most likely be somewhat slower than using the .NET framework directly. For instance, to avoid internal exceptions in the Try-methods, fs4net does a lot of checks before performing the actual operation.
+
+
+100% atomic
+-----------
+As mentioned, the Try-methods does checks before performing the actual operation to avoid internal exceptions. This is done without locking up the file system which means that there might be race conditions resulting in internal exceptions.
+
+fs4net will however not malfunction in these cases.
+
+
+Support for all kinds of file systems
+-------------------------------------
+The rules for what paths look like are different on different file systems. Generally they are the same, but there are some small differences between e.g. Linux and Windows.
+
+The Value Objects representing paths always represent a valid path. This path is validated against the Windows file system rules. This means that a path that is valid in Linux might be judged as being invalid by fs4net.
+
+The rules on Windows are a subset of the rules on Linux. That means that a fs4net path is always valid on a Linux file system.
+
+I haven't investigated the rules on Mac, although I suspect they are similar to the Linux rules.
 
 
 
 Upcoming Frameworks
+===================
  * bitmap4net
  * settings4net
  * log4net adapter
