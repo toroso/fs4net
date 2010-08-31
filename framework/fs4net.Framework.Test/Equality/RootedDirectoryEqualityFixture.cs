@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace fs4net.Framework.Test
+namespace fs4net.Framework.Test.Equality
 {
     [TestFixture]
     public class RootedDirectoryEqualityFixture

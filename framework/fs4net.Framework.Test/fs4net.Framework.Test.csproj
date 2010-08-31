@@ -43,12 +43,12 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateDriveFixture.cs" />
-    <Compile Include="CreateFileNameFixture.cs" />
-    <Compile Include="CreateRelativeDirectoryFixture.cs" />
-    <Compile Include="CreateRelativeFileFixture.cs" />
-    <Compile Include="CreateRootedDirectoryFixture.cs" />
-    <Compile Include="CreateRootedFileFixture.cs" />
+    <Compile Include="Creation\CreateDriveFixture.cs" />
+    <Compile Include="Creation\CreateFileNameFixture.cs" />
+    <Compile Include="Creation\CreateRelativeDirectoryFixture.cs" />
+    <Compile Include="Creation\CreateRelativeFileFixture.cs" />
+    <Compile Include="Creation\CreateRootedDirectoryFixture.cs" />
+    <Compile Include="Creation\CreateRootedFileFixture.cs" />
     <Compile Include="Directory\CreateFixture.cs" />
     <Compile Include="Directory\DeleteIfEmptyFixture.cs" />
     <Compile Include="Directory\DeleteRecursivelyFixture.cs" />
@@ -57,13 +57,13 @@
     <Compile Include="Directory\MoveToFixture.cs" />
     <Compile Include="Directory\TryDeleteIfEmptyFixture.cs" />
     <Compile Include="Directory\TryDeleteRecursivelyFixture.cs" />
-    <Compile Include="DriveEqualityFixture.cs" />
+    <Compile Include="Equality\DriveEqualityFixture.cs" />
     <Compile Include="DriveFixture.cs" />
     <Compile Include="EnumerableUtils.cs" />
-    <Compile Include="FileNameEqualityFixture.cs" />
+    <Compile Include="Equality\FileNameEqualityFixture.cs" />
     <Compile Include="FileNameFixture.cs" />
-    <Compile Include="FileNameOfRelativeFileFixture.cs" />
-    <Compile Include="FileNameOfRootedFileFixture.cs" />
+    <Compile Include="Creation\FileNameOfRelativeFileFixture.cs" />
+    <Compile Include="Creation\FileNameOfRootedFileFixture.cs" />
     <Compile Include="File\CreateAppendStreamFixture.cs" />
     <Compile Include="File\CreateModifyStreamFixture.cs" />
     <Compile Include="File\CreateReadStreamFixture.cs" />
@@ -73,17 +73,17 @@
     <Compile Include="File\LastModifiedFixture.cs" />
     <Compile Include="File\TryDeleteFixture.cs" />
     <Compile Include="MockFileSystem.cs" />
-    <Compile Include="PathCombiningOperatorsFixture.cs" />
-    <Compile Include="RelativeCanonicalPathAsStringFixture.cs" />
-    <Compile Include="RelativeDirectoryEqualityFixture.cs" />
-    <Compile Include="RelativeFileEqualityFixture.cs" />
-    <Compile Include="RelativeFromFixture.cs" />
-    <Compile Include="RelativePathAsStringFixture.cs" />
-    <Compile Include="RootedCanonicalPathAsStringFixture.cs" />
-    <Compile Include="RootedDirectoryEqualityFixture.cs" />
-    <Compile Include="RootedFileEqualityFixture.cs" />
+    <Compile Include="Combine\PathCombiningOperatorsFixture.cs" />
+    <Compile Include="PathAsString\RelativeCanonicalPathAsStringFixture.cs" />
+    <Compile Include="Equality\RelativeDirectoryEqualityFixture.cs" />
+    <Compile Include="Equality\RelativeFileEqualityFixture.cs" />
+    <Compile Include="Combine\RelativeFromFixture.cs" />
+    <Compile Include="PathAsString\RelativePathAsStringFixture.cs" />
+    <Compile Include="PathAsString\RootedCanonicalPathAsStringFixture.cs" />
+    <Compile Include="Equality\RootedDirectoryEqualityFixture.cs" />
+    <Compile Include="Equality\RootedFileEqualityFixture.cs" />
     <Compile Include="RootedFileSystemItemFixture.cs" />
-    <Compile Include="RootedPathAsStringFixture.cs" />
+    <Compile Include="PathAsString\RootedPathAsStringFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemIOFixture.cs" />
   </ItemGroup>

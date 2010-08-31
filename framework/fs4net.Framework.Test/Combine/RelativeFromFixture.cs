@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace fs4net.Framework.Test
+namespace fs4net.Framework.Test.Combine
 {
     [TestFixture]
     public class RelativeFromFixture

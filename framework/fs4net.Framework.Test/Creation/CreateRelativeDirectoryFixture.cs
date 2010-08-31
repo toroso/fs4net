@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace fs4net.Framework.Test
+namespace fs4net.Framework.Test.Creation
 {
     [TestFixture]
     public class CreateRelativeDirectoryFixture
