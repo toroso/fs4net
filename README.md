@@ -26,20 +26,20 @@ Using fs4net is a piece of cake. First you need to create a file system instance
 
     IFileSystem fs = new FileSystem();
 
-This line should preferrably be in the `Main()` method of your application, or better yet, be created by your IOC container. It's a good thing to have a single instance in your application, although there's nothing that actually stops you from having several.
+This line should preferrably be in the Main() method of your application, or better yet, be created by your IOC container. It's a good thing to have a single instance in your application, although there's nothing that actually stops you from having several.
 
 Now that you have a file system you might want to do something with it, like create a directory. Tada:
 
-    RootedDirectory dir = fs.CreateDirectoryDescribing(@"c:\my\path\\to\heaven");
+    RootedDirectory dir = fs.CreateDirectoryDescribing(@"c:\my\path\to\heaven");
     dir.Create();
 
-Here, the `CreateDirectoryDescribing()` method creates a reference to the directory, but it does not actually create the directory. You could say that the `RootedDirectory` is nothing but a fancy string containing the given path.
+Here, the CreateDirectoryDescribing() method creates a reference to the directory, but it does not actually create the directory. You could say that the RootedDirectory is nothing but a fancy string containing the given path.
 
-The `Create()` method on the other hand does create the directory. You could say corresponds to the .NET framework (static) method `Directory.CreateDirectory()`.
+The Create() method on the other hand does create the directory. You could say corresponds to the .NET framework (static) method Directory.CreateDirectory().
 
-The `RootedDirectory` class has got all kinds of handy methods on it, pretty much the same that you can find on the `Directory` and `DirectoryInfo` classes together.
+The RootedDirectory class has got all kinds of handy methods on it, pretty much the same that you can find on the Directory and DirectoryInfo classes together.
 
-The `RootedDirectory` has some sibling classes for representing other file system entities:
+The RootedDirectory has some sibling classes for representing other file system entities:
 
 <table>
   <tr>
@@ -57,11 +57,11 @@ The `RootedDirectory` has some sibling classes for representing other file syste
   </tr>
 </table>
 
-The rooted entities (including `Drive`) are either created from the file system like in the example above, or created from other rooted entities.
+The rooted entities (including Drive) are either created from the file system like in the example above, or created from other rooted entities.
 
-The relative entities (including `FileName`) are created using factory methods. For example:
+The relative entities (including FileName) are created using factory methods. For example:
 
-    RelativeFile file = RelativeFile.FromString(@"path\\to\\file.txt");
+    RelativeFile file = RelativeFile.FromString(@"path\to\file.txt");
 
 
 Testing
@@ -73,11 +73,11 @@ The biggest advantage of using fs4net is that it's really easy to mock the file 
 
 This memory file system is a so-called [Fake Object](http://xunitpatterns.com/Fake%20Object.html): it works exactly the same as the real one except for that the folder structure and the file contents are cached in memory.
 
-To start with, the memory file system is empty. With the `WithDrives()` thingy you tell it what drives it has, but you might want to populate it with files and folders as well. This is done with a `FileSystemBuilder`:
+To start with, the memory file system is empty. With the WithDrives() thingy you tell it what drives it has, but you might want to populate it with files and folders as well. This is done with a FileSystemBuilder:
 
     FileSystemBuilder populateFileSystem = new FileSystemBuilder(fs);
     RootedFile file = populateFileSystem
-        .WithFile(@"c:\path\to\\file.txt")
+        .WithFile(@"c:\path\to\file.txt")
         .Containing("Happy joy")
         .LastModifiedAt(DateTime.Now);
     RootedDirectory dir = populateFileSystem
@@ -91,6 +91,6 @@ The builder operates through the normal file system interface so you can use it 
 Licensing and Copyright
 -----------------------
 
-Copyright (c) 2010 Torbjörn Kalin.
+Copyright (c) 2010 Torbj&ouml;rn Kalin.
 
 Released under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html). (Briefly that means that you can do whatever you want with it at long as you give me credit and don't blame me if anything goes wrong. But please read the origial.)
