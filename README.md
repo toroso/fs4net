@@ -39,7 +39,7 @@ The Create() method on the other hand does create the directory. You could say c
 
 The RootedDirectory class has got all kinds of handy methods on it, pretty much the same that you can find on the Directory and DirectoryInfo classes together.
 
-The RootedDirectory has some sibling classes for representing other file system entities:
+The RootedDirectory has some sibling classes for representing file system paths:
 
 <table>
   <tr>
@@ -85,6 +85,29 @@ To start with, the memory file system is empty. With the WithDrives() thingy you
         .LastAccessedAt(DateTime.Now);
 
 The builder operates through the normal file system interface so you can use it with the real FileSystem as well if you'd like.
+
+
+
+Structure
+---------
+
+There are six assemblies in the fs4net solution:
+
+<table>
+  <tr>
+    <td>fs4net.Framework</td><td>Contains all you need when working with the file system in a production environment. Here you have the FileSystem class as well as all classes that encapsulate paths.</td>
+  </tr><tr>
+    <td>fs4net.Memory</td><td>Contains the MemoryFileSystem class, the in-memory file system that you use in automatic tests.</td>
+  </tr><tr>
+    <td>fs4net.Builder</td><td>Contains the FileSystemBuilder class that you can use to populate the file system with files and folders. It's typically used only in automatic tests.</td>
+  </tr><tr>
+    <td>fs4net.Framework.Test</td><td>Unit tests for the classes in fs4net.Framework. You can use it as documentation or as safety net if you want to modify the source code.</td>
+  </tr><tr>
+    <td>fs4net.Memory.Test</td><td>Unit tests for the MemoryFileSystem.</td>
+  </tr><tr>
+    <td>fs4net.TestTemplates</td><td>Contains tests shared between fs4net.Framework.Test and fs4net.Memory.Test. The two file system implementations are verified with the same tests to assure that they have the same behaviour. If you want to create your own IFileSystem implementation you should use these tests to verify it.</td>
+  </tr>
+</table>
 
 
 
