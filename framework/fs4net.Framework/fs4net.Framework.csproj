@@ -51,6 +51,7 @@
     <Compile Include="Impl\DateTimeExtensions.cs" />
     <Compile Include="Impl\DriveParser.cs" />
     <Compile Include="Impl\FilenameParser.cs" />
+    <Compile Include="Impl\StringExtensions.cs" />
     <Compile Include="Impl\ThrowHelper.cs" />
     <Compile Include="IRelativeFile.cs" />
     <Compile Include="IRelativeFileSystemItem.cs" />

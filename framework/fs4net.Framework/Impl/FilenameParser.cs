@@ -30,7 +30,7 @@ namespace fs4net.Framework.Impl
 
         private void ValidateWhiteSpaces()
         {
-            if (_filename == String.Empty) throw new InvalidPathException(String.Format("The filename of the path '{0}' is empty.", _fullPath));
+            if (_filename.IsEmpty()) throw new InvalidPathException(String.Format("The filename of the path '{0}' is empty.", _fullPath));
             if (Char.IsWhiteSpace(_filename.First())) throw new InvalidPathException(String.Format("The filename of the path '{0}' starts with a whitespace which is not allowed.", _fullPath));
             if (Char.IsWhiteSpace(_filename.Last())) throw new InvalidPathException(String.Format("The filename of the path '{0}' ends with a whitespace which is not allowed.", _fullPath));
             if (_filename.EndsWith(".")) throw new InvalidPathException(String.Format("The path '{0}' has an empty extension, which is not allowed.", _fullPath));
@@ -45,7 +45,7 @@ namespace fs4net.Framework.Impl
         private void ValidateExtension()
         {
             string filenameWithoutExtension = Path.GetFileNameWithoutExtension(_filename);
-            if (filenameWithoutExtension == String.Empty) throw new InvalidPathException(String.Format("The filename of the path '{0}' is empty.", _fullPath));
+            if (filenameWithoutExtension.IsEmpty()) throw new InvalidPathException(String.Format("The filename of the path '{0}' is empty.", _fullPath));
             if (Char.IsWhiteSpace(filenameWithoutExtension.Last())) throw new InvalidPathException(String.Format("The filename of the path '{0}' ends with a whitespace which is not allowed.", _fullPath));
         }
 

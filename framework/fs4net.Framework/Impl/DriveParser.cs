@@ -102,7 +102,7 @@ namespace fs4net.Framework.Impl
 
         private void ValidateHostName(string hostName)
         {
-            if (hostName == String.Empty)
+            if (hostName.IsEmpty())
             {
                 SetAsInvalid(String.Format("The path '{0}' has an empty host name.", _fullPath));
                 return;
@@ -126,7 +126,7 @@ namespace fs4net.Framework.Impl
 
         private void ValidateShareName(string shareName)
         {
-            if (shareName == String.Empty)
+            if (shareName.IsEmpty())
             {
                 SetAsInvalid(String.Format("The path '{0}' has an empty share name.", _fullPath));
                 return;
