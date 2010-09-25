@@ -113,11 +113,15 @@ namespace fs4net.Framework
     {
         public static RelativeFile Append(this RelativeDirectory left, RelativeFile right)
         {
+            ThrowHelper.ThrowIfNull(left, "left");
+            ThrowHelper.ThrowIfNull(right, "right");
             return RelativeFile.FromString(PathUtils.Combine(left.PathAsString, right.PathAsString));
         }
 
         public static RelativeDirectory Append(this RelativeDirectory left, RelativeDirectory right)
         {
+            ThrowHelper.ThrowIfNull(left, "left");
+            ThrowHelper.ThrowIfNull(right, "right");
             return RelativeDirectory.FromString(PathUtils.Combine(left.PathAsString, right.PathAsString));
         }
     }

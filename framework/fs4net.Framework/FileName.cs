@@ -105,6 +105,7 @@ namespace fs4net.Framework
         /// </summary>
         public static string Extension(this FileName me) // TODO: Value Object? Support with and without .?
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             return Path.GetExtension(me.FullName);
         }
 
@@ -113,6 +114,7 @@ namespace fs4net.Framework
         /// </summary>
         public static string Name(this FileName me)
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             return Path.GetFileNameWithoutExtension(me.FullName);
         }
     }
