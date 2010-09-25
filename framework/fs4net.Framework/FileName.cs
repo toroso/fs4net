@@ -28,6 +28,8 @@ namespace fs4net.Framework
         // TODO: Exceptions
         public static FileName FromNameAndExtension(string name, string extension)
         {
+            ThrowHelper.ThrowIfNull(name, "name");
+            ThrowHelper.ThrowIfNull(extension, "extension");
             if (extension.Length > 0 && !extension.StartsWith("."))
             {
                 throw new ArgumentException(string.Format("The extension '{0}' does not start with a period.", extension), "extension");

@@ -151,6 +151,18 @@ namespace fs4net.Framework.Test.Creation
             Assert.Throws<InvalidPathException>(() => FileName.FromNameAndExtension("", ".txt"));
         }
 
+        [Test]
+        public void Create_From_Null_Name_And_Extension_Throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => FileName.FromNameAndExtension(null, ".txt"));
+        }
+
+        [Test]
+        public void Create_From_Name_And_Null_Extension_Throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => FileName.FromNameAndExtension("file", null));
+        }
+
         private static void AssertThrowsInvalidPathExceptionFor(string invalidPath)
         {
             Assert.Throws<InvalidPathException>(() => FileName.FromString(invalidPath), string.Format("for '{0}'", invalidPath));
