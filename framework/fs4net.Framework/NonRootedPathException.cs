@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Runtime.Serialization;
 
 namespace fs4net.Framework
 {
@@ -8,6 +9,14 @@ namespace fs4net.Framework
     public sealed class NonRootedPathException : IOException
     {
         public NonRootedPathException() { }
+
+        public NonRootedPathException(String message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        private NonRootedPathException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
 
         public NonRootedPathException(string message) : base(message)
         {
