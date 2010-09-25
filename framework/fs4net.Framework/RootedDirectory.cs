@@ -60,25 +60,25 @@ namespace fs4net.Framework
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
-        public static RootedDirectory operator +(RootedDirectory lhs, RelativeDirectory rhs)
+        public static RootedDirectory operator +(RootedDirectory left, RelativeDirectory right)
         {
-            return lhs.Append(rhs);
+            return left.Append(right);
         }
 
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
-        public static RootedFile operator +(RootedDirectory lhs, RelativeFile rhs)
+        public static RootedFile operator +(RootedDirectory left, RelativeFile right)
         {
-            return lhs.Append(rhs);
+            return left.Append(right);
         }
 
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
-        public static RootedFile operator +(RootedDirectory lhs, FileName rhs)
+        public static RootedFile operator +(RootedDirectory left, FileName right)
         {
-            return lhs.Append(rhs);
+            return left.Append(right);
         }
 
         #endregion // Public Interface

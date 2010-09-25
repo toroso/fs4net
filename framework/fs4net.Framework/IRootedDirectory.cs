@@ -14,20 +14,20 @@ namespace fs4net.Framework
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
-        public static RootedDirectory Append<T>(this IRootedDirectory<T> lhs, RelativeDirectory rhs)
+        public static RootedDirectory Append<T>(this IRootedDirectory<T> left, RelativeDirectory right)
             where T : IRootedDirectory<T>
         {
-            return new RootedDirectory(lhs.InternalFileSystem(), PathUtils.Combine(lhs.PathAsString, rhs.PathAsString), lhs.PathWasher);
+            return new RootedDirectory(left.InternalFileSystem(), PathUtils.Combine(left.PathAsString, right.PathAsString), left.PathWasher);
         }
 
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
-        public static RootedFile Append<TDir, TFile>(this IRootedDirectory<TDir> lhs, IRelativeFile<TFile> rhs)
+        public static RootedFile Append<TDir, TFile>(this IRootedDirectory<TDir> left, IRelativeFile<TFile> right)
             where TDir : IRootedDirectory<TDir>
             where TFile : IRelativeFile<TFile>
         {
-            return new RootedFile(lhs.InternalFileSystem(), PathUtils.Combine(lhs.PathAsString, rhs.PathAsString), lhs.PathWasher);
+            return new RootedFile(left.InternalFileSystem(), PathUtils.Combine(left.PathAsString, right.PathAsString), left.PathWasher);
         }
 
         /// <summary>

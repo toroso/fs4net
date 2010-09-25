@@ -18,11 +18,11 @@ namespace fs4net.Framework
         // It's ok to pass DateTime(1601, 1, 1) as a parameter, but it has no effect.
         internal static DateTime MinimumDate = new DateTime(1601, 1, 1).AddMilliseconds(1).ToLocalTime();
 
-        internal static string Combine(string lhs, string rhs)
+        internal static string Combine(string left, string right)
         {
-            string lhsWithoutEndingBackslash = lhs.EndsWith(@"\") ? lhs.Substring(0, lhs.Length - 1) : lhs;
-            string rhsWithoutLeadingBackslash = rhs.StartsWith(@"\") ? rhs.Substring(1) : rhs;
-            return lhsWithoutEndingBackslash + @"\" + rhsWithoutLeadingBackslash;
+            string leftWithoutEndingBackslash = left.EndsWith(@"\") ? left.Substring(0, left.Length - 1) : left;
+            string rightWithoutLeadingBackslash = right.StartsWith(@"\") ? right.Substring(1) : right;
+            return leftWithoutEndingBackslash + @"\" + rightWithoutLeadingBackslash;
         }
 
         public static string MakeRelativeFrom(string to, string from)

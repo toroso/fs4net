@@ -55,17 +55,17 @@ namespace fs4net.Framework
         /// <summary>
         /// Returns a descriptor where the two descriptors are concatenated.
         /// </summary>
-        public static RelativeDirectory operator +(RelativeDirectory lhs, RelativeDirectory rhs)
+        public static RelativeDirectory operator +(RelativeDirectory left, RelativeDirectory right)
         {
-            return lhs.Append(rhs);
+            return left.Append(right);
         }
 
         /// <summary>
         /// Returns a descriptor where the two descriptors are concatenated.
         /// </summary>
-        public static RelativeFile operator +(RelativeDirectory lhs, RelativeFile rhs)
+        public static RelativeFile operator +(RelativeDirectory left, RelativeFile right)
         {
-            return lhs.Append(rhs);
+            return left.Append(right);
         }
 
         #endregion // Public Interface
@@ -111,14 +111,14 @@ namespace fs4net.Framework
 
     public static class RelativeDirectoryExtensions
     {
-        public static RelativeFile Append(this RelativeDirectory lhs, RelativeFile rhs)
+        public static RelativeFile Append(this RelativeDirectory left, RelativeFile right)
         {
-            return RelativeFile.FromString(PathUtils.Combine(lhs.PathAsString, rhs.PathAsString));
+            return RelativeFile.FromString(PathUtils.Combine(left.PathAsString, right.PathAsString));
         }
 
-        public static RelativeDirectory Append(this RelativeDirectory lhs, RelativeDirectory rhs)
+        public static RelativeDirectory Append(this RelativeDirectory left, RelativeDirectory right)
         {
-            return RelativeDirectory.FromString(PathUtils.Combine(lhs.PathAsString, rhs.PathAsString));
+            return RelativeDirectory.FromString(PathUtils.Combine(left.PathAsString, right.PathAsString));
         }
     }
 }

@@ -41,28 +41,28 @@ namespace fs4net.Framework.Test.Equality
         }
 
 
-        private static void AssertEqualityEquals(FileName lhs, object rhs)
+        private static void AssertEqualityEquals(FileName left, object right)
         {
-            Assert.That(lhs.Equals(rhs), Is.True, string.Format("'{0}'.Equals('{1}')", lhs, rhs));
-            Assert.That(lhs.GetHashCode(), Is.EqualTo(rhs.GetHashCode()), string.Format("'{0}'.GetHashCode() == '{1}'.GetHashCode()", lhs, rhs));
+            Assert.That(left.Equals(right), Is.True, string.Format("'{0}'.Equals('{1}')", left, right));
+            Assert.That(left.GetHashCode(), Is.EqualTo(right.GetHashCode()), string.Format("'{0}'.GetHashCode() == '{1}'.GetHashCode()", left, right));
         }
 
-        private static void AssertEqualityNotEquals(FileName lhs, object rhs)
+        private static void AssertEqualityNotEquals(FileName left, object right)
         {
-            Assert.That(lhs.Equals(rhs), Is.False, string.Format("! '{0}'.Equals('{1}')", lhs, rhs));
-            Assert.That(lhs.GetHashCode(), Is.Not.EqualTo(rhs.GetHashCode()), string.Format("'{0}'.GetHashCode() != '{1}'.GetHashCode()", lhs, rhs));
+            Assert.That(left.Equals(right), Is.False, string.Format("! '{0}'.Equals('{1}')", left, right));
+            Assert.That(left.GetHashCode(), Is.Not.EqualTo(right.GetHashCode()), string.Format("'{0}'.GetHashCode() != '{1}'.GetHashCode()", left, right));
         }
 
-        private static void AssertOperatorEquals(FileName lhs, FileName rhs)
+        private static void AssertOperatorEquals(FileName left, FileName right)
         {
-            Assert.That(lhs == rhs, Is.True, string.Format("'{0}' == '{1}'", lhs, rhs));
-            Assert.That(lhs != rhs, Is.False, string.Format("'{0}' != '{1}'", lhs, rhs));
+            Assert.That(left == right, Is.True, string.Format("'{0}' == '{1}'", left, right));
+            Assert.That(left != right, Is.False, string.Format("'{0}' != '{1}'", left, right));
         }
 
-        private static void AssertOperatorNotEquals(FileName lhs, FileName rhs)
+        private static void AssertOperatorNotEquals(FileName left, FileName right)
         {
-            Assert.That(lhs == rhs, Is.False, string.Format("! '{0}' == '{1}'", lhs, rhs));
-            Assert.That(lhs != rhs, Is.True, string.Format("! '{0}' != '{1}'", lhs, rhs));
+            Assert.That(left == right, Is.False, string.Format("! '{0}' == '{1}'", left, right));
+            Assert.That(left != right, Is.True, string.Format("! '{0}' != '{1}'", left, right));
         }
     }
 }

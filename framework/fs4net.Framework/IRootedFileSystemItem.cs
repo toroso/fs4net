@@ -159,9 +159,9 @@ namespace fs4net.Framework
         internal static void VerifyIsNotAParentOf<T>(this IRootedFileSystemItem<T> me, IRootedFileSystemItem<T> other, Func<Exception> createException)
             where T : IRootedFileSystemItem<T>
         {
-            var lhs = me.CanonicalPathAsString();
-            var rhs = other.CanonicalPathAsString();
-            if (rhs.FullPath.StartsWith(lhs.FullPath))
+            var left = me.CanonicalPathAsString();
+            var right = other.CanonicalPathAsString();
+            if (right.FullPath.StartsWith(left.FullPath))
             {
                 throw createException();
             }

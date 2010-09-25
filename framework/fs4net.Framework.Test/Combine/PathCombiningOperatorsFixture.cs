@@ -59,9 +59,9 @@ namespace fs4net.Framework.Test.Combine
         }
 
         [Test, TestCaseSource("Drive_And_RelativeDirectory")]
-        private void Combine_Drive_And_RelativeDirectory(Drive lhs, RelativeDirectory rhs, RootedDirectory expected)
+        private void Combine_Drive_And_RelativeDirectory(Drive left, RelativeDirectory right, RootedDirectory expected)
         {
-            Assert.That((lhs + rhs).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", lhs, rhs));
+            Assert.That((left + right).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", left, right));
         }
 
 
@@ -88,9 +88,9 @@ namespace fs4net.Framework.Test.Combine
         }
 
         [Test, TestCaseSource("RootedDirectory_And_RelativeDirectory")]
-        private void Combine_RootedDirectory_And_RelativeDirectory(RootedDirectory lhs, RelativeDirectory rhs, RootedDirectory expected)
+        private void Combine_RootedDirectory_And_RelativeDirectory(RootedDirectory left, RelativeDirectory right, RootedDirectory expected)
         {
-            Assert.That((lhs + rhs).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", lhs, rhs));
+            Assert.That((left + right).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", left, right));
         }
 
 
@@ -114,9 +114,9 @@ namespace fs4net.Framework.Test.Combine
         }
 
         [Test, TestCaseSource("Drive_And_RelativeFile")]
-        private void Combine_Drive_And_RelativeFile(Drive lhs, RelativeFile rhs, RootedFile expected)
+        private void Combine_Drive_And_RelativeFile(Drive left, RelativeFile right, RootedFile expected)
         {
-            Assert.That((lhs + rhs).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", lhs, rhs));
+            Assert.That((left + right).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", left, right));
         }
 
 
@@ -151,9 +151,9 @@ namespace fs4net.Framework.Test.Combine
         }
 
         [Test, TestCaseSource("RootedDirectory_And_RelativeFile")]
-        private void Combine_RootedDirectory_And_RelativeFile(RootedDirectory lhs, RelativeFile rhs, RootedFile expected)
+        private void Combine_RootedDirectory_And_RelativeFile(RootedDirectory left, RelativeFile right, RootedFile expected)
         {
-            Assert.That((lhs + rhs).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", lhs, rhs));
+            Assert.That((left + right).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", left, right));
         }
 
 
@@ -184,9 +184,9 @@ namespace fs4net.Framework.Test.Combine
         }
 
         [Test, TestCaseSource("RelativeDirectory_And_RelativeFile")]
-        private void Combine_RelativeDirectory_And_RelativeFile(RelativeDirectory lhs, RelativeFile rhs, RelativeFile expected)
+        private void Combine_RelativeDirectory_And_RelativeFile(RelativeDirectory left, RelativeFile right, RelativeFile expected)
         {
-            Assert.That((lhs + rhs).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", lhs, rhs));
+            Assert.That((left + right).PathAsString, Is.EqualTo(expected.PathAsString), string.Format("for '{0}' + '{1}'", left, right));
         }
 
         // TODO: RelativeFile and RelativeFile
