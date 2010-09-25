@@ -3,7 +3,7 @@ using System.IO;
 
 namespace fs4net.Framework.Impl
 {
-    internal class ThrowHelper
+    internal static class ThrowHelper
     {
         internal static void ThrowIfNull<T>(T parameter, string parameterName) where T: class
         {

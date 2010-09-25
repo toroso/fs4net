@@ -1,9 +1,8 @@
-using System;
 using System.IO;
 
 namespace fs4net.Memory.Node
 {
-    internal class FileNode : FileSystemNode
+    internal sealed class FileNode : FileSystemNode
     {
         private readonly MemoryStream _content;
         private bool _isOpen;

@@ -4,7 +4,7 @@ using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
-    public class FileName : IRelativeFile<FileName>
+    public sealed class FileName : IRelativeFile<FileName>
     {
         private readonly string _fullName;
 

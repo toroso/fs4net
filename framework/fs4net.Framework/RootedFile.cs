@@ -8,7 +8,7 @@ namespace fs4net.Framework
     /// Represents a the full path to a file. The path is rooted, meaning that it starts with a drive (e.g. c:, d:,
     /// \\network\drive, etc).
     /// </summary>
-    public class RootedFile : IFile<RootedFile>, IRootedFileSystemItem<RootedFile>
+    public sealed class RootedFile : IFile<RootedFile>, IRootedFileSystemItem<RootedFile>
     {
         private readonly IInternalFileSystem _fileSystem;
         private readonly string _rootedPath;

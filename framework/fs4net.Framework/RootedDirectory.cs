@@ -3,7 +3,7 @@ using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
-    public class RootedDirectory : IRootedDirectory<RootedDirectory>
+    public sealed class RootedDirectory : IRootedDirectory<RootedDirectory>
     {
         private readonly IInternalFileSystem _fileSystem;
         private readonly string _rootedPath;

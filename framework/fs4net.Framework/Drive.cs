@@ -3,7 +3,7 @@ using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
-    public class Drive : IRootedDirectory<Drive>
+    public sealed class Drive : IRootedDirectory<Drive>
     {
         private readonly IInternalFileSystem _fileSystem;
         private readonly string _name;

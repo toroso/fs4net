@@ -5,7 +5,7 @@ using System.Text;
 
 namespace fs4net.Framework.Impl
 {
-    internal class CanonicalPathBuilder
+    internal sealed class CanonicalPathBuilder
     {
         private const int MaxPath = 259; // TODO Get from FileSystem
 

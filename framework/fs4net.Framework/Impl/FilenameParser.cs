@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace fs4net.Framework.Impl
 {
-    internal class FilenameParser
+    internal sealed class FilenameParser
     {
         private readonly string _fullPath;
         private readonly string _filename;

@@ -7,7 +7,7 @@ using fs4net.Memory.Node;
 
 namespace fs4net.Memory
 {
-    public class MemoryFileSystem : IInternalFileSystem, IDisposable
+    public sealed class MemoryFileSystem : IInternalFileSystem, IDisposable
     {
         // TODO: Make configurable from test with setter
         private const string TemporaryPathName = @"c:\temp";

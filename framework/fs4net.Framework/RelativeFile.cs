@@ -7,7 +7,7 @@ namespace fs4net.Framework
     /// Represents a the relative path to a file. It is relative, or non-rooted, meaning that that it does not start
     /// with a drive (e.g. c:, d:, \\network\drive, etc).
     /// </summary>
-    public class RelativeFile : IRelativeFile<RelativeFile>
+    public sealed class RelativeFile : IRelativeFile<RelativeFile>
     {
         private readonly string _relativePath;
         private readonly string _canonicalFullPath;

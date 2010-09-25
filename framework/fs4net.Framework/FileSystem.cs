@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace fs4net.Framework
 {
-    public class FileSystem : IInternalFileSystem
+    public sealed class FileSystem : IInternalFileSystem
     {
         // Cleans the paths before validation.
         private readonly Func<string, string> _pathWasher;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace fs4net.Memory.Node
 {
-    internal class FolderNode : FileSystemNode
+    internal sealed class FolderNode : FileSystemNode
     {
         public List<FileSystemNode> Children { get; private set; }
 
@@ -74,7 +74,7 @@ namespace fs4net.Memory.Node
             }
         }
 
-        protected internal void RemoveChild(FileSystemNode nodeToRemove)
+        internal void RemoveChild(FileSystemNode nodeToRemove)
         {
             nodeToRemove.VerifyCanBeRemoved();
             nodeToRemove.Dispose();

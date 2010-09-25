@@ -1,6 +1,6 @@
 namespace fs4net.Framework
 {
-    public class RootedCanonicalPath
+    public sealed class RootedCanonicalPath
     {
         public string FullPath { get; private set; }
 

@@ -2,7 +2,7 @@ using fs4net.Framework;
 
 namespace fs4net.Builder
 {
-    public class RootedDirectoryBuilder : FileSystemItemBuilder<RootedDirectoryBuilder>
+    public sealed class RootedDirectoryBuilder : FileSystemItemBuilder<RootedDirectoryBuilder>
     {
         private readonly RootedDirectory _dir;
 

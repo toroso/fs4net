@@ -3,7 +3,7 @@ using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
-    public class RelativeDirectory : IDirectory<RelativeDirectory>, IRelativeFileSystemItem<RelativeDirectory>
+    public sealed class RelativeDirectory : IDirectory<RelativeDirectory>, IRelativeFileSystemItem<RelativeDirectory>
     {
         private readonly string _relativePath;
         private readonly string _canonicalFullPath;
