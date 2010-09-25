@@ -218,6 +218,13 @@ namespace fs4net.Framework.Test.Creation
             _fileSystem.CreateFileDescribing(validPath);
         }
 
+        [Test]
+        public void Create_By_Changing_FileName()
+        {
+            var original = _fileSystem.CreateFileDescribing(@"c:\path\to\file.txt");
+            var changed = original.WithFileName(FileName.FromString("other.zip"));
+            Assert.That(changed.PathAsString, Is.EqualTo(@"c:\path\to\other.zip"));
+        }
 
         private void AssertThrowsInvalidPathExceptionFor(string rootedPath)
         {
