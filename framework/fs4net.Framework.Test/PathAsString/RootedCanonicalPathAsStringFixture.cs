@@ -17,6 +17,7 @@ namespace fs4net.Framework.Test.PathAsString
 
         private static readonly string[][] OriginalAndExpected =
             {
+                new[] { @"c:\file_in_root.txt", @"c:\file_in_root.txt" },
                 new[] { @"c:\standard\case\to\fileOrDirectory.txt", @"c:\standard\case\to\fileOrDirectory.txt" },
                 new[] { @"c:\single\.\dots\to\.\fileOrDirectory.txt", @"c:\single\dots\to\fileOrDirectory.txt" },
                 new[] { @"c:\double\..\dots\to\..\fileOrDirectory.txt", @"c:\dots\fileOrDirectory.txt" },
