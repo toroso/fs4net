@@ -13,14 +13,6 @@ namespace fs4net.Framework.Impl
             }
         }
 
-        internal static void ThrowIfEmpty(string parameter, string errorMessage)
-        {
-            if (parameter == string.Empty)
-            {
-                throw new ArgumentException(errorMessage);
-            }
-        }
-
         internal static Func<Exception> CreateIOException(string template, params object[] args)
         {
             return () => new IOException(string.Format(template, args));
