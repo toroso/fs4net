@@ -114,6 +114,4 @@ There are six assemblies in the fs4net solution:
 Licensing and Copyright
 -----------------------
 
-Copyright (c) 2010 Torbj&ouml;rn Kalin.
-
-Released under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html). (Briefly that means that you can do whatever you want with it at long as you give me credit and don't blame me if anything goes wrong. But please read the origial.)
+Copyright (c) 2010 Torbj&ouml;rn Kalin. Released under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html).
