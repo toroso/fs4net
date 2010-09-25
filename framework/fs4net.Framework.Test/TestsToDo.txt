@@ -18,6 +18,7 @@ IFileSystemItem, FileSystemItemExtensions
             Drive: are they the same? should ask FileSystem!
     RootedFile, RootedFileExtensions
         [x] Creation
+        [ ] Creation (WithFileName)
         [x] Equals, GetHashCode
         [x] Exists
         [ ] Created
@@ -53,6 +54,7 @@ IFileSystemItem, FileSystemItemExtensions
 
 FileName, FileNameExtensions
     [x] Creation (FromString)
+    [x] Creation (FromNameAndExtension)
     [x] Creation (From RelativeFile)
     [x] Creation (From RootedFile)
     [ ] Equals, GetHashCode

@@ -121,6 +121,35 @@ namespace fs4net.Framework.Test.Creation
             Assert.DoesNotThrow(() => new MockFileSystem().CreateFileDescribing(@"c:\path\to\file").FileName());
         }
 
+        [Test]
+        public void Create_From_Name_And_Extension()
+        {
+            Assert.That(FileName.FromNameAndExtension("file", ".txt").FullName, Is.EqualTo("file.txt"));
+        }
+
+        [Test]
+        public void Create_From_Name_And_Empty_Extension()
+        {
+            Assert.That(FileName.FromNameAndExtension("file", "").FullName, Is.EqualTo("file"));
+        }
+
+        [Test]
+        public void Create_From_Name_And_Extension_Without_Dot_Throws()
+        {
+            Assert.Throws<ArgumentException>(() => FileName.FromNameAndExtension("file", "txt"));
+        }
+
+        [Test]
+        public void Create_From_Name_That_Ends_With_Dot_Throws()
+        {
+            Assert.Throws<ArgumentException>(() => FileName.FromNameAndExtension("file.", ".txt"));
+        }
+
+        [Test]
+        public void Create_From_Empty_Name_And_Extension_Throws()
+        {
+            Assert.Throws<InvalidPathException>(() => FileName.FromNameAndExtension("", ".txt"));
+        }
 
         private static void AssertThrowsInvalidPathExceptionFor(string invalidPath)
         {

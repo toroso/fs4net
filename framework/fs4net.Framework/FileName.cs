@@ -22,14 +22,24 @@ namespace fs4net.Framework
             return new FileName(fullName);
         }
 
+        /// <summary>Create by specifying name and extension separately.</summary>
+        /// <param name="name">The name part of the filename.</param>
+        /// <param name="extension">The extension part of the filename, including the period (".").</param>
+        // TODO: Exceptions
         public static FileName FromNameAndExtension(string name, string extension)
         {
+            if (extension.Length > 0 && !extension.StartsWith("."))
+            {
+                throw new ArgumentException(string.Format("The extension '{0}' does not start with a period.", extension), "extension");
+            }
+            if (name.Length > 0 && name.EndsWith("."))
+            {
+                throw new ArgumentException(string.Format("The name '{0}' ends with a period which is not allowed.", extension), "extension");
+            }
             return new FileName(name + extension);
         }
 
-        /// <summary>
-        /// Returns the whole filename, including the extension if it exists.
-        /// </summary>
+        /// <summary>Returns the whole filename, including the extension if it exists.</summary>
         public string FullName
         {
             get { return _fullName; }
