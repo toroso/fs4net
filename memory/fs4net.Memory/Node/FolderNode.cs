@@ -85,12 +85,7 @@ namespace fs4net.Memory.Node
             TouchLastAccessed();
         }
 
-        public void MoveTo(FolderNode destParentNode, string destName)
-        {
-            Parent.Move(this, destParentNode, destName);
-        }
-
-        private void Move(FolderNode source, FolderNode destParentNode, string destName)
+        internal void Move(FileSystemNode source, FolderNode destParentNode, string destName)
         {
             Children.Remove(source);
             source.Name = destName;

@@ -46,6 +46,7 @@ namespace fs4net.Framework.Test
         public void CreateDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void DeleteFile(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void DeleteDirectory(RootedCanonicalPath path, bool recursive) { throw new NotImplementedException(); }
+        public void MoveFile(RootedCanonicalPath source, RootedCanonicalPath destination) { throw new NotImplementedException(); }
         public void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination) { throw new NotImplementedException(); }
         public Stream CreateReadStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateWriteStream(RootedCanonicalPath path) { throw new NotImplementedException(); }

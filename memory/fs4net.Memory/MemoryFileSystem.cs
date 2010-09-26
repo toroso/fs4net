@@ -133,15 +133,23 @@ namespace fs4net.Memory
             FindFolderNodeByPath(path.FullPath).Delete();
         }
 
+        public void MoveFile(RootedCanonicalPath source, RootedCanonicalPath destination)
+        {
+            var sourceNode = FindFileNodeByPath(source.FullPath);
+            MoveFileSystemItem(sourceNode, destination);
+        }
+
         public void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination)
         {
             var sourceNode = FindFolderNodeByPath(source.FullPath);
+            MoveFileSystemItem(sourceNode, destination);
+        }
 
-            var destParentNode = _rootNode;
+        private void MoveFileSystemItem(FileSystemNode sourceNode, RootedCanonicalPath destination)
+        {
             var parser = new PathParser(destination.FullPath);
-            parser.WithEachButLastFileSystemNodeNameDo(folderName => destParentNode = (FolderNode) destParentNode.FindChildNodeNamed(folderName));
-            string destName = null;
-            parser.WithLastFileSystemNodeNameDo(last => destName = last);
+            var destParentNode = parser.GetParentNode(_rootNode);
+            string destName = parser.GetLeafNodeName();
 
             sourceNode.MoveTo(destParentNode, destName);
         }
@@ -286,6 +294,18 @@ namespace fs4net.Memory
         internal TResult WithLastFileSystemNodeNameDo<TResult>(Func<string, TResult> action)
         {
             return action(_fileSystemNodeNames.Last());
+        }
+
+        internal FolderNode GetParentNode(FolderNode rootNode)
+        {
+            var result = rootNode;
+            WithEachButLastFileSystemNodeNameDo(folderName => result = (FolderNode)result.FindChildNodeNamed(folderName));
+            return result;
+        }
+
+        internal string GetLeafNodeName()
+        {
+            return _fileSystemNodeNames.Last();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace fs4net.Memory.Node
     internal abstract class FileSystemNode : IDisposable
     {
         protected FolderNode Parent { get; private set; }
-        public string Name { get; protected set; }
+        public string Name { get; protected internal set; }
         public DateTime LastModified { get; set; }
         public DateTime LastAccessed { get; set; }
 
@@ -41,6 +41,11 @@ namespace fs4net.Memory.Node
         public void Delete()
         {
             Parent.RemoveChild(this);
+        }
+
+        public void MoveTo(FolderNode destParentNode, string destName)
+        {
+            Parent.Move(this, destParentNode, destName);
         }
 
         protected void TouchLastModified()

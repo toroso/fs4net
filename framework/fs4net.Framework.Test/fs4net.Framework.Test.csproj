@@ -73,6 +73,7 @@
     <Compile Include="File\ExistsFixture.cs" />
     <Compile Include="File\LastAccessedFixture.cs" />
     <Compile Include="File\LastModifiedFixture.cs" />
+    <Compile Include="File\MoveToFixture.cs" />
     <Compile Include="File\TryDeleteFixture.cs" />
     <Compile Include="MockFileSystem.cs" />
     <Compile Include="Combine\PathCombiningOperatorsFixture.cs" />

@@ -128,6 +128,11 @@ namespace fs4net.Framework
             System.IO.Directory.Delete(path.FullPath, recursive);
         }
 
+        public void MoveFile(RootedCanonicalPath source, RootedCanonicalPath destination)
+        {
+            System.IO.File.Move(source.FullPath, destination.FullPath);
+        }
+
         public void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination)
         {
             System.IO.Directory.Move(source.FullPath, destination.FullPath);

@@ -239,7 +239,7 @@ namespace fs4net.Framework
             destination.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't move the directory since the destination's parent directory '{0}' does not exist.", destination.ParentDirectory()));
             destination.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't move the directory to the destination '{0}' since a file with that name already exists.", destination));
             destination.VerifyIsNotADirectory(ThrowHelper.CreateIOException("Can't move the directory to the destination '{0}' since a directory with that name already exists.", destination));
-            me.VerifyIsNotTheSameAs(destination, ThrowHelper.CreateIOException("Can't move the directory '{0}' the source and destination denotes the same directory.", destination));
+            me.VerifyIsNotTheSameAs(destination, ThrowHelper.CreateIOException("Can't move the directory '{0}' since the source and destination denotes the same directory.", destination));
             me.VerifyIsNotAParentOf(destination, ThrowHelper.CreateIOException("Can't move the directory to the destination '{0}' since it is located inside the source directory.", destination));
 
             var src = me.CanonicalPathAsString();
