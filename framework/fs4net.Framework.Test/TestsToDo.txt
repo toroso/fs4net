@@ -31,7 +31,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] CreateModifyStream
         [x] CreateAppendStream
         [ ] CopyTo -- Check so that the source and the destination are on the same file system
-        [ ] MoveTo -- Check so that the source and the destination are on the same file system
+        [x] MoveTo
   IDirectory, DirectoryExtensions
       ( ) LeafFolder
     RelativeDirectory, RelativeDirectoryExtensions
@@ -57,14 +57,14 @@ FileName, FileNameExtensions
     [x] Creation (FromNameAndExtension)
     [x] Creation (From RelativeFile)
     [x] Creation (From RootedFile)
-    [ ] Equals, GetHashCode
+    [x] Equals, GetHashCode
     [x] FullName
     [x] Extension
     [x] Name
 
 Drive
     [x] Creation (FromString)
-    [ ] Equals, GetHashCode
+    [x] Equals, GetHashCode
     [x] Name
 
 operators...
@@ -83,6 +83,8 @@ named...
 TODO: Access Denied on most operations -- enough to fake it in one way, e.g. making it read-only
 TODO: Open two streams from same file. Also reference counting on open.
 TODO: More stream tests... length, position, flush.
+TODO: Let MemoryFileSystem.Dispose() verify that all streams are disposed.
+TODO: Equals() is not tested, only GetHashCode()... what to do about that?
 
 
 ------------ Tests ToDo:

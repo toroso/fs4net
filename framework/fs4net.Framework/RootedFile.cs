@@ -228,6 +228,28 @@ namespace fs4net.Framework
         }
 
         /// <summary>
+        /// Moves the file to a new location. After the move, the source file will have the name specified by the
+        /// destination parameter.
+        /// </summary>
+        /// TODO: Exceptions
+        public static void MoveTo(this RootedFile me, RootedFile destination)
+        {
+            me.VerifyOnSameFileSystemAs(destination);
+            me.VerifyOnSameDriveAs(destination, ThrowHelper.CreateIOException("Can't move the file '{0}' to '{1}' since they are located on different drives.", me, destination));
+            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't move the file '{0}' since it denotes a directory.", me));
+            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't move the file '{0}' since it does not exist.", me));
+            destination.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't move the file since the destination's parent directory '{0}' does not exist.", destination.ParentDirectory()));
+            destination.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't move the file to the destination '{0}' since a file with that name already exists.", destination));
+            destination.VerifyIsNotADirectory(ThrowHelper.CreateIOException("Can't move the file to the destination '{0}' since a directory with that name already exists.", destination));
+            me.VerifyIsNotTheSameAs(destination, ThrowHelper.CreateIOException("Can't move the file '{0}' since the source and destination denotes the same directory.", destination));
+
+            var src = me.CanonicalPathAsString();
+            var dst = destination.CanonicalPathAsString();
+            var fileSystem = me.InternalFileSystem();
+            fileSystem.MoveFile(src, dst);
+        }
+
+        /// <summary>
         /// Opens a read stream with the file denoted by this file descriptor as source.
         /// </summary>
         /// <exception cref="System.IO.FileNotFoundException">The file cannot be found</exception>
@@ -296,28 +318,6 @@ namespace fs4net.Framework
             me.VerifyIsNotADirectory(ThrowHelper.CreateUnauthorizedAccessException("Can't modify the file '{0}' since the path denotes an existing directory.", me.PathAsString));
 
             return me.InternalFileSystem().CreateModifyStream(me.CanonicalPathAsString());
-        }
-
-        /// <summary>
-        /// Moves the file to a new location. After the move, the source file will have the name specified by the
-        /// destination parameter.
-        /// </summary>
-        /// TODO: Exceptions
-        public static void MoveTo(this RootedFile me, RootedFile destination)
-        {
-            me.VerifyOnSameFileSystemAs(destination);
-            me.VerifyOnSameDriveAs(destination, ThrowHelper.CreateIOException("Can't move the file '{0}' to '{1}' since they are located on different drives.", me, destination));
-            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't move the file '{0}' since it denotes a directory.", me));
-            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't move the file '{0}' since it does not exist.", me));
-            destination.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't move the file since the destination's parent directory '{0}' does not exist.", destination.ParentDirectory()));
-            destination.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't move the file to the destination '{0}' since a file with that name already exists.", destination));
-            destination.VerifyIsNotADirectory(ThrowHelper.CreateIOException("Can't move the file to the destination '{0}' since a directory with that name already exists.", destination));
-            me.VerifyIsNotTheSameAs(destination, ThrowHelper.CreateIOException("Can't move the file '{0}' since the source and destination denotes the same directory.", destination));
-
-            var src = me.CanonicalPathAsString();
-            var dst = destination.CanonicalPathAsString();
-            var fileSystem = me.InternalFileSystem();
-            fileSystem.MoveFile(src, dst);
         }
 
         /// <summary>
