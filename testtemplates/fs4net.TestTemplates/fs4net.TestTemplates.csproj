@@ -46,6 +46,7 @@
     <Compile Include="Directory\DeleteIfEmptyFixture.cs" />
     <Compile Include="Directory\DeleteRecursivelyFixture.cs" />
     <Compile Include="Directory\ExistsFixture.cs" />
+    <Compile Include="Directory\LastAccessedFixture.cs" />
     <Compile Include="Directory\LastModifiedFixture.cs" />
     <Compile Include="Directory\MoveToFixture.cs" />
     <Compile Include="Directory\TryDeleteIfEmptyFixture.cs" />

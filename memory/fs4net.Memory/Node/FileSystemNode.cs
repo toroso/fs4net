@@ -19,6 +19,7 @@ namespace fs4net.Memory.Node
                 Parent.AddChild(this);
             }
             TouchLastModified();
+            TouchLastAccessed();
         }
 
         public abstract void VerifyCanBeRemoved();
@@ -45,6 +46,11 @@ namespace fs4net.Memory.Node
         protected void TouchLastModified()
         {
             LastModified = DateTime.Now; // TODO: Get from a mockable clock
+        }
+
+        protected void TouchLastAccessed()
+        {
+            LastAccessed = DateTime.Now; // TODO: Get from a mockable clock
         }
 
         public abstract void Dispose();
