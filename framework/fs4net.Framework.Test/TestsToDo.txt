@@ -22,7 +22,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] Equals, GetHashCode
         [x] Exists
         [ ] Created
-        [ ] LastAccessed
+        [?] LastAccessed -- some operations missing...
         [?] LastModified -- some operations missing...
         [x] Delete
         [x] TryDelete
@@ -42,7 +42,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] Equals, GetHashCode
         [x] Exists
         [ ] Created
-        [ ] LastAccessed
+        [?] LastAccessed -- some operations missing...
         [?] LastModified -- some operations missing...
         [x] DeleteRecursively
         [x] DeleteIfEmpty

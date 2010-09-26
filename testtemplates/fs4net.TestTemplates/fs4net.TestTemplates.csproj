@@ -57,6 +57,7 @@
     <Compile Include="File\CreateWriteStreamFixture.cs" />
     <Compile Include="File\DeleteFixture.cs" />
     <Compile Include="File\ExistsFixture.cs" />
+    <Compile Include="File\LastAccessedFixture.cs" />
     <Compile Include="File\LastModifiedFixture.cs" />
     <Compile Include="File\TryDeleteFixture.cs" />
     <Compile Include="PopulatedFileSystem.cs" />

@@ -12,6 +12,7 @@ namespace fs4net.TestTemplates
 
         protected RootedFile ExistingFile { get; private set; }
         protected DateTime ExistingFileLastModified { get { return new DateTime(2010, 08, 20); } }
+        protected DateTime ExistingFileLastAccessed { get { return new DateTime(2005, 09, 07); } }
         protected string ExistingFileContents { get { return "Noviembre"; } }
         protected RootedFile NonExistingFile { get; private set; }
 
@@ -43,7 +44,8 @@ namespace fs4net.TestTemplates
             ExistingFile = populateFileSystem
                 .WithFile(@"path\to\file.txt")
                 .Containing(ExistingFileContents)
-                .LastModifiedAt(ExistingFileLastModified);
+                .LastModifiedAt(ExistingFileLastModified)
+                .LastAccessedAt(ExistingFileLastAccessed);
             NonExistingFile = FileSystem.CreateFileDescribing(InTemp(@"path\to\another.txt"));
 
             ExistingLeafDirectory = populateFileSystem

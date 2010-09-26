@@ -135,7 +135,7 @@ namespace fs4net.Framework
         /// times permitted for this operation.</exception>
         public static void SetLastModified(this RootedFile me, DateTime at)
         {
-            RootedFileSystemItemVerifications.VerifyDateTime(at, "set modified date", "file");
+            RootedFileSystemItemVerifications.VerifyDateTime(at, "set last modified date", "file");
             me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last modified time for file '{0}' since it denotes a directory.", me.PathAsString));
             me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last modified time for file '{0}' since it does not exist.", me.PathAsString));
 
@@ -160,6 +160,7 @@ namespace fs4net.Framework
         /// TODO: Exceptions!
         public static void SetLastAccessed(this RootedFile me, DateTime at)
         {
+            RootedFileSystemItemVerifications.VerifyDateTime(at, "set last accessed date", "file");
             me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last accessed time for file '{0}' since it denotes a directory.", me.PathAsString));
             me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last accessed time for file '{0}' since it does not exist.", me.PathAsString));
 
