@@ -87,6 +87,8 @@ namespace fs4net.Framework.Impl
             bool hasLeadingBackslash = folderPath.Length > 1 && folderPath.StartsWith(@"\");
             bool hasEndingBackslash = folderPath.Length > 0 && folderPath.EndsWith(@"\");
 
+            if (driveName.IsEmpty() && hasLeadingBackslash) throw new InvalidPathException(string.Format("The path '{0}' starts with a '\\' which is not allowed.", _fullPath));
+            if (filename.IsEmpty() && hasEndingBackslash) throw new InvalidPathException(string.Format("The path '{0}' ends with a '\\' which is not allowed.", _fullPath));
             if (mustBeRooted && folderPath.Length > 1 && !hasLeadingBackslash) throw new InvalidPathException(string.Format("Expected a '\\' after the drive but found a '{0}' in the path '{1}'.", folderPath.First(), _fullPath));
 
             string canonicalFolderPath = GetCanonicalFolderPath(folderPath, hasLeadingBackslash, hasEndingBackslash, !mustBeRooted);

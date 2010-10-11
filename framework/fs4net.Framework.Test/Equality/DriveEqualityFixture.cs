@@ -64,7 +64,7 @@ namespace fs4net.Framework.Test.Equality
         public void Drive_And_RootedDirectory_Drive_Are_Equal()
         {
             var drive = FileSystem.DriveDescribing("c:");
-            var driveAsDirectoty = FileSystem.DirectoryDescribing(@"c:\");
+            var driveAsDirectoty = FileSystem.DirectoryDescribing(@"c:");
             AssertEqualityEquals(drive, driveAsDirectoty);
         }
 

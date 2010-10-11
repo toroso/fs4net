@@ -27,7 +27,7 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Canonically_Equal_Directories_Are_Equal()
         {
-            var dirA = FileSystem.DirectoryDescribing(@"c:\my\..\path\to\");
+            var dirA = FileSystem.DirectoryDescribing(@"c:\my\..\path\to");
             var dirB = FileSystem.DirectoryDescribing(@"c:\path\.\from\..\to");
             AssertEqualityEquals(dirA, dirB);
             AssertOperatorEquals(dirA, dirB);
@@ -37,7 +37,7 @@ namespace fs4net.Framework.Test.Equality
         public void Equal_Network_Directories_Are_Equal()
         {
             var dirA = FileSystem.DirectoryDescribing(@"\\network\share\down\in");
-            var dirB = FileSystem.DirectoryDescribing(@"\\network\share\down\in\");
+            var dirB = FileSystem.DirectoryDescribing(@"\\network\share\down\in");
             AssertEqualityEquals(dirA, dirB);
             AssertOperatorEquals(dirA, dirB);
         }
@@ -63,7 +63,7 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void RootedDirectory_Drive_And_Drive_Are_Equal()
         {
-            var driveAsDirectoty = FileSystem.DirectoryDescribing(@"c:\");
+            var driveAsDirectoty = FileSystem.DirectoryDescribing(@"c:");
             var drive = FileSystem.DriveDescribing("c:");
             AssertEqualityEquals(driveAsDirectoty, drive);
         }

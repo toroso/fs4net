@@ -9,13 +9,11 @@ namespace fs4net.Framework.Test.Creation
         private static readonly string[] RelativePaths =
             {
                 @"filename.txt",
-                @"\filename.txt",
                 @".\filename.txt",
                 @"..\filename.txt",
                 @"standard\case\to\filename.txt",
                 @"single\.\dots\to\.\filename.txt",
                 @"double\..\dots\to\..\filename.txt",
-                @"\starting\with\backslash\to\filename.txt",
                 @".\starting\with\single\dot\to\filename.txt",
                 @"..\starting\with\double\dots\to\filename.txt",
             };

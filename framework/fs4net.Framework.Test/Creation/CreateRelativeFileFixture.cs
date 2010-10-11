@@ -33,6 +33,7 @@ namespace fs4net.Framework.Test.Creation
                 @"path\with\double\\backslashes\to\file.txt",
                 @"path\with\space\ \folder\name\to\file.txt",
                 @"path\with\space\three\...\dots\as\folder\name\to\file.txt",
+                @"\path\starting\with\backslash\to\file.txt",
             };
 
         [Test]
@@ -109,7 +110,6 @@ namespace fs4net.Framework.Test.Creation
         private static readonly string[] ValidPaths =
             {
                 @"path\not\starting\with\backslash\to\file.txt",
-                @"\path\starting\with\backslash\to\file.txt",
                 @"filename\with\empty\extension",
                 @"..\path\starting\with\doubledots\to\file.txt",
                 @"path\with\..\doubledots\to\file.txt",

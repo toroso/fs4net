@@ -84,6 +84,9 @@ namespace fs4net.Framework.Test.Creation
 
         private static readonly string[] ContainsInvalidPathCharacters =
             {
+                @"c:\",
+                @"c:\path\with\ending\backslash\to\",
+                @"\\network\path\",
                 @"c:\folder\end\with\space \to",
                 @"c:\folder\contains\a*star\to",
                 @"c:\folder\contains\a?questionmark\to",
@@ -167,12 +170,9 @@ namespace fs4net.Framework.Test.Creation
         private static readonly string[] ValidPaths =
             {
                 @"c:",
-                @"c:\",
                 @"c:\path\without\ending\backslash\to",
-                @"c:\path\with\ending\backslash\to\",
                 @"z:\last\drive\path\to",
                 @"\\network\path",
-                @"\\network\path\",
                 @"\\network\path\to",
                 @"c:\path\with\..\doubledots\to",
                 @"c:\path\ending\with\doubledots\..",

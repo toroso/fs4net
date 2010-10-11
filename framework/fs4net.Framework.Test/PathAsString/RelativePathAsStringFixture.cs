@@ -10,7 +10,6 @@ namespace fs4net.Framework.Test.PathAsString
                 @"standard\case\to\fileOrDirectory.txt",
                 @"single\.\dots\to\.\fileOrDirectory.txt",
                 @"double\..\dots\to\..\fileOrDirectory.txt",
-                @"\starting\with\backslash\to\fileOrDirectory.txt",
             };
 
 
@@ -38,12 +37,6 @@ namespace fs4net.Framework.Test.PathAsString
             Assert.That(RelativeDirectory.FromString(path).PathAsString, Is.EqualTo(path));
         }
 
-
-        [Test]
-        public void RelativeDirectory_Ending_Backslash_Remains_In_PathAsString()
-        {
-            Assert.That(RelativeDirectory.FromString(@"path\to\").PathAsString, Is.EqualTo(@"path\to\"));
-        }
 
         [Test]
         public void RelativeDirectory_Ending_Dot_Remains_In_PathAsString()

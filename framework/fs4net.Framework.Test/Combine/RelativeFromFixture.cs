@@ -33,15 +33,6 @@ namespace fs4net.Framework.Test.Combine
         }
 
         [Test]
-        public void RootedDirectory_Relative_RootedDirectory_That_Ends_With_A_Backslash()
-        {
-            var from = FileSystem.DirectoryDescribing(@"c:\path\is\here\");
-            var to = FileSystem.DirectoryDescribing(@"c:\path\ends\with\backslash\");
-            var expected = RelativeDirectory.FromString(@"..\..\ends\with\backslash\");
-            Assert.That(to.RelativeFrom(from).PathAsString, Is.EqualTo(expected.PathAsString));
-        }
-
-        [Test]
         public void NonCanonical_RootedDirectory_Relative_Other_NonCanonical_RootedDirectory()
         {
             var from = FileSystem.DirectoryDescribing(@"c:\path\is\sleep\..\deep\deep\down");

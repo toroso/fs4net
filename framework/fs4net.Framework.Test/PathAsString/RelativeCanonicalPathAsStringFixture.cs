@@ -10,7 +10,6 @@ namespace fs4net.Framework.Test.PathAsString
                 new[] { @"standard\case\to\fileOrDirectory.txt", @"standard\case\to\fileOrDirectory.txt" },
                 new[] { @"single\.\dots\to\.\fileOrDirectory.txt", @"single\dots\to\fileOrDirectory.txt" },
                 new[] { @"double\..\dots\to\..\fileOrDirectory.txt", @"dots\fileOrDirectory.txt" },
-                new[] { @"\starting\with\backslash\to\fileOrDirectory.txt", @"\starting\with\backslash\to\fileOrDirectory.txt" },
                 new[] { @".\starting\with\single\dot\to\fileOrDirectory.txt", @"starting\with\single\dot\to\fileOrDirectory.txt" },
                 new[] { @"..\starting\with\double\dots\to\fileOrDirectory.txt", @"..\starting\with\double\dots\to\fileOrDirectory.txt" },
             };
@@ -55,12 +54,6 @@ namespace fs4net.Framework.Test.PathAsString
         public void RelativeDirectory_Not_Ending_With_Backslash_Is_Intact_In_Canonical_Form()
         {
             Assert.That(RelativeDirectory.FromString(@"path\to").AsCanonical().PathAsString, Is.EqualTo(@"path\to"));
-        }
-
-        [Test]
-        public void RelativeDirectory_Ending_Backslash_Removed_In_Canonical_Form()
-        {
-            Assert.That(RelativeDirectory.FromString(@"path\to\").AsCanonical().PathAsString, Is.EqualTo(@"path\to"));
         }
 
         [Test]

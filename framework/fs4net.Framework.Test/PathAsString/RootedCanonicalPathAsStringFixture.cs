@@ -66,18 +66,6 @@ namespace fs4net.Framework.Test.PathAsString
         }
 
         [Test]
-        public void RootedDirectory_Ending_Backslash_Removed_In_Canonical_Form()
-        {
-            AssertCanonicalEquals(FileSystem.DirectoryDescribing(@"c:\path\to\"), @"c:\path\to");
-        }
-
-        [Test]
-        public void Drive_As_RootedDirectory_Ending_Backslash_Removed_In_Canonical_Form()
-        {
-            AssertCanonicalEquals(FileSystem.DirectoryDescribing(@"c:\"), @"c:");
-        }
-
-        [Test]
         public void RootedDirectory_Ending_Dot_Removed_In_Canonical_Form()
         {
             AssertCanonicalEquals(FileSystem.DirectoryDescribing(@"c:\path\to\."), @"c:\path\to");

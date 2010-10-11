@@ -17,7 +17,7 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Canonically_Equal_Directories_Are_Equal()
         {
-            var dirA = RelativeDirectory.FromString(@"my\..\path\to\");
+            var dirA = RelativeDirectory.FromString(@"my\..\path\to");
             var dirB = RelativeDirectory.FromString(@"path\.\from\..\to");
             AssertEqualityEquals(dirA, dirB);
             AssertOperatorEquals(dirA, dirB);

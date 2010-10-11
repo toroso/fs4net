@@ -21,6 +21,9 @@ namespace fs4net.Framework.Test.Creation
 
         private static readonly string[] ContainsInvalidPathCharacters =
             {
+                @"path\..\", // canonically empty, ends with backslash
+                @"path\with\ending\backslash\to\",
+                @"\path\starting\with\backslash\to",
                 @"folder\end\with\space \to",
                 @"folder\contains\a*star\to",
                 @"folder\contains\a?questionmark\to",
@@ -75,10 +78,7 @@ namespace fs4net.Framework.Test.Creation
             {
                 @".", // canonically empty
                 @"path\..", // canonically empty
-                @"path\..\", // canonically empty
                 @"path\without\ending\backslash\to",
-                @"path\with\ending\backslash\to\",
-                @"\path\starting\with\backslash\to",
                 @"..\path\starting\with\doubledots\to",
                 @"path\with\..\doubledots\to",
                 @"path\ending\with\doubledots\..",

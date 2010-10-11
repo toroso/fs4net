@@ -35,7 +35,8 @@ namespace fs4net.Framework
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
         {
-            return DirectoryDescribing(System.IO.Path.GetTempPath());
+            var tempPathWithBackslash = System.IO.Path.GetTempPath();
+            return DirectoryDescribing(tempPathWithBackslash.Remove(tempPathWithBackslash.Length - 1));
         }
 
         public RootedDirectory DirectoryDescribingCurrentDirectory()

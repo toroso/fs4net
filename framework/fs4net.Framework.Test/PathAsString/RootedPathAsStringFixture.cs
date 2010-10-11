@@ -49,12 +49,6 @@ namespace fs4net.Framework.Test.PathAsString
 
 
         [Test]
-        public void RootedDirectory_Ending_Backslash_Remains_In_PathAsString()
-        {
-            Assert.That(_fileSystem.DirectoryDescribing(@"c:\path\to\").PathAsString, Is.EqualTo(@"c:\path\to\"));
-        }
-
-        [Test]
         public void RootedDirectory_Ending_Dot_Remains_In_PathAsString()
         {
             Assert.That(_fileSystem.DirectoryDescribing(@"c:\path\to\.").PathAsString, Is.EqualTo(@"c:\path\to\."));
