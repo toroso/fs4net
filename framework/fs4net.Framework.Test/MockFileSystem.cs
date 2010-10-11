@@ -8,20 +8,20 @@ namespace fs4net.Framework.Test
     {
         #region Implementation of IFileSystem
 
-        public RootedFile CreateFileDescribing(string fullPath)
+        public RootedFile FileDescribing(string fullPath)
         {
             return new RootedFile(this, fullPath, PathWashers.NullWasher);
         }
 
-        public RootedDirectory CreateDirectoryDescribing(string fullPath)
+        public RootedDirectory DirectoryDescribing(string fullPath)
         {
             return new RootedDirectory(this, fullPath, PathWashers.NullWasher);
         }
 
-        public RootedDirectory CreateDirectoryDescribingTemporaryDirectory() { throw new NotImplementedException(); }
-        public RootedDirectory CreateDirectoryDescribingCurrentDirectory() { throw new NotImplementedException(); }
+        public RootedDirectory DirectoryDescribingTemporaryDirectory() { throw new NotImplementedException(); }
+        public RootedDirectory DirectoryDescribingCurrentDirectory() { throw new NotImplementedException(); }
 
-        public Drive CreateDriveDescribing(string driveName)
+        public Drive DriveDescribing(string driveName)
         {
             return new Drive(this, driveName);
         }

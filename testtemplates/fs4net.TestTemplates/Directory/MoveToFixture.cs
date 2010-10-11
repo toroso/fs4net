@@ -34,7 +34,7 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void Move_File_As_Directory_Throws()
         {
-            var source = FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString);
+            var source = FileSystem.DirectoryDescribing(ExistingFile.PathAsString);
             var destination = ExistingLeafDirectory + RelativeDirectory.FromString("new name");
 
             Assert.Throws<DirectoryNotFoundException>(() => source.MoveTo(destination));
@@ -64,7 +64,7 @@ namespace fs4net.TestTemplates.Directory
         public void Move_Directory_To_Existing_File_Throws()
         {
             var source = ExistingEmptyDirectory;
-            var destination = FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString);
+            var destination = FileSystem.DirectoryDescribing(ExistingFile.PathAsString);
 
             Assert.Throws<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
@@ -94,7 +94,7 @@ namespace fs4net.TestTemplates.Directory
         public void Move_Directory_To_Another_Drive_Throws()
         {
             var source = ExistingLeafDirectory;
-            var destination = FileSystem.CreateDirectoryDescribing(@"d:\another drive");
+            var destination = FileSystem.DirectoryDescribing(@"d:\another drive");
 
             Assert.Throws<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
@@ -104,7 +104,7 @@ namespace fs4net.TestTemplates.Directory
         public void Move_Between_FileSystems_Throws()
         {
             var source = ParentOfExistingLeafDirectory;
-            var destination = CreateFileSystem().CreateDirectoryDescribing((source.ParentDirectory() + RelativeDirectory.FromString("new name")).PathAsString);
+            var destination = CreateFileSystem().DirectoryDescribing((source.ParentDirectory() + RelativeDirectory.FromString("new name")).PathAsString);
 
             Assert.Throws<InvalidOperationException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);

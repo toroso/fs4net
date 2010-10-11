@@ -16,7 +16,7 @@ namespace fs4net.TestTemplates.File
         [Test]
         public void LastAccessed_On_File_For_Existing_Directory_Throws()
         {
-            Assert.Throws<FileNotFoundException>(() => FileSystem.CreateFileDescribing(ExistingLeafDirectory.PathAsString).LastAccessed());
+            Assert.Throws<FileNotFoundException>(() => FileSystem.FileDescribing(ExistingLeafDirectory.PathAsString).LastAccessed());
         }
 
         [Test]

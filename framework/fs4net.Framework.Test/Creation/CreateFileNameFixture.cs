@@ -112,13 +112,13 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Create_From_Standard_RootedFile()
         {
-            Assert.DoesNotThrow(() => new MockFileSystem().CreateFileDescribing(@"c:\path\to\file.txt").FileName());
+            Assert.DoesNotThrow(() => new MockFileSystem().FileDescribing(@"c:\path\to\file.txt").FileName());
         }
 
         [Test]
         public void Create_From_RootedFile_With_FileName_Without_Extension()
         {
-            Assert.DoesNotThrow(() => new MockFileSystem().CreateFileDescribing(@"c:\path\to\file").FileName());
+            Assert.DoesNotThrow(() => new MockFileSystem().FileDescribing(@"c:\path\to\file").FileName());
         }
 
         [Test]

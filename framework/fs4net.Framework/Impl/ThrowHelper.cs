@@ -13,27 +13,27 @@ namespace fs4net.Framework.Impl
             }
         }
 
-        internal static Func<Exception> CreateIOException(string template, params object[] args)
+        internal static Func<Exception> IOException(string template, params object[] args)
         {
             return () => new IOException(string.Format(template, args));
         }
 
-        internal static Func<Exception> CreateDirectoryNotFoundException(string template, params object[] args)
+        internal static Func<Exception> DirectoryNotFoundException(string template, params object[] args)
         {
             return () => new DirectoryNotFoundException(string.Format(template, args));
         }
 
-        public static Func<Exception> CreateFileNotFoundException(string fileName, string template, params object[] args)
+        public static Func<Exception> FileNotFoundException(string fileName, string template, params object[] args)
         {
             return () => new FileNotFoundException(string.Format(template, args), fileName);
         }
 
-        public static Func<Exception> CreateArgumentException(string template, params object[] args)
+        public static Func<Exception> ArgumentException(string template, params object[] args)
         {
             return () => new ArgumentException(string.Format(template, args));
         }
 
-        public static Func<Exception> CreateUnauthorizedAccessException(string template, params string[] args)
+        public static Func<Exception> UnauthorizedAccessException(string template, params string[] args)
         {
             return () => new UnauthorizedAccessException(string.Format(template, args));
         }

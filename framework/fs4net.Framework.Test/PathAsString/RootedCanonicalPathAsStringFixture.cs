@@ -38,7 +38,7 @@ namespace fs4net.Framework.Test.PathAsString
         [Test, TestCaseSource("OriginalAndExpected")]
         public void RootedFile_Canonical_PathAsString(string original, string expected)
         {
-            AssertCanonicalEquals(FileSystem.CreateFileDescribing(original), expected);
+            AssertCanonicalEquals(FileSystem.FileDescribing(original), expected);
         }
 
         [Test]
@@ -55,38 +55,38 @@ namespace fs4net.Framework.Test.PathAsString
         [Test, TestCaseSource("OriginalAndExpected")]
         public void RootedDirectory_Canonical_PathAsString(string original, string expected)
         {
-            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(original), expected);
+            AssertCanonicalEquals(FileSystem.DirectoryDescribing(original), expected);
         }
 
 
         [Test]
         public void RelativeDirectory_Not_Ending_With_Backslash_Is_Intact_In_Canonical_Form()
         {
-            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(@"c:\path\to"), @"c:\path\to");
+            AssertCanonicalEquals(FileSystem.DirectoryDescribing(@"c:\path\to"), @"c:\path\to");
         }
 
         [Test]
         public void RootedDirectory_Ending_Backslash_Removed_In_Canonical_Form()
         {
-            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(@"c:\path\to\"), @"c:\path\to");
+            AssertCanonicalEquals(FileSystem.DirectoryDescribing(@"c:\path\to\"), @"c:\path\to");
         }
 
         [Test]
         public void Drive_As_RootedDirectory_Ending_Backslash_Removed_In_Canonical_Form()
         {
-            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(@"c:\"), @"c:");
+            AssertCanonicalEquals(FileSystem.DirectoryDescribing(@"c:\"), @"c:");
         }
 
         [Test]
         public void RootedDirectory_Ending_Dot_Removed_In_Canonical_Form()
         {
-            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(@"c:\path\to\."), @"c:\path\to");
+            AssertCanonicalEquals(FileSystem.DirectoryDescribing(@"c:\path\to\."), @"c:\path\to");
         }
 
         [Test]
         public void RootedDirectory_Ending_DoubleDots_Removed_In_Canonical_Form()
         {
-            AssertCanonicalEquals(FileSystem.CreateDirectoryDescribing(@"c:\path\to\.."), @"c:\path");
+            AssertCanonicalEquals(FileSystem.DirectoryDescribing(@"c:\path\to\.."), @"c:\path");
         }
 
 

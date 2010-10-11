@@ -25,13 +25,13 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_Name_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => _fileSystem.CreateDriveDescribing(null));
+            Assert.Throws<ArgumentNullException>(() => _fileSystem.DriveDescribing(null));
         }
 
         [Test]
         public void Throws_If_Name_Is_Empty()
         {
-            Assert.Throws<InvalidPathException>(() => _fileSystem.CreateDriveDescribing(string.Empty));
+            Assert.Throws<InvalidPathException>(() => _fileSystem.DriveDescribing(string.Empty));
         }
 
 
@@ -80,13 +80,13 @@ namespace fs4net.Framework.Test.Creation
         [Test, TestCaseSource("ValidDrives")]
         public void Create_With_Valid_Drive(string validDrive)
         {
-            Assert.DoesNotThrow(() => _fileSystem.CreateDriveDescribing(validDrive), string.Format("for '{0}'", validDrive));
+            Assert.DoesNotThrow(() => _fileSystem.DriveDescribing(validDrive), string.Format("for '{0}'", validDrive));
         }
 
 
         private void AssertThrowsInvalidPathExceptionFor(string invalidDrive)
         {
-            Assert.Throws<InvalidPathException>(() => _fileSystem.CreateDriveDescribing(invalidDrive), string.Format("for '{0}'", invalidDrive));
+            Assert.Throws<InvalidPathException>(() => _fileSystem.DriveDescribing(invalidDrive), string.Format("for '{0}'", invalidDrive));
         }
     }
 }

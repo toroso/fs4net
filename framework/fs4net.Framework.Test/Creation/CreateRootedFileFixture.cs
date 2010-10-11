@@ -26,13 +26,13 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_Path_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => _fileSystem.CreateFileDescribing(null));
+            Assert.Throws<ArgumentNullException>(() => _fileSystem.FileDescribing(null));
         }
 
         [Test]
         public void Throws_If_Path_Is_Empty()
         {
-            Assert.Throws<NonRootedPathException>(() => _fileSystem.CreateFileDescribing(string.Empty));
+            Assert.Throws<NonRootedPathException>(() => _fileSystem.FileDescribing(string.Empty));
         }
 
 
@@ -171,7 +171,7 @@ namespace fs4net.Framework.Test.Creation
                 almostTooLongPath += pathWith10Chars; // 10 * 25 chars
             }
             almostTooLongPath += @"123456"; // 6 chars
-            _fileSystem.CreateFileDescribing(almostTooLongPath); // 259 chars in total
+            _fileSystem.FileDescribing(almostTooLongPath); // 259 chars in total
         }
 
         [Test]
@@ -184,13 +184,13 @@ namespace fs4net.Framework.Test.Creation
                 almostTooLongPath += pathWith10Chars; // 10 * 25 chars
             }
             almostTooLongPath += @"1234567"; // 7 chars
-            Assert.Throws<PathTooLongException>(() => _fileSystem.CreateFileDescribing(almostTooLongPath)); // 260 chars in total
+            Assert.Throws<PathTooLongException>(() => _fileSystem.FileDescribing(almostTooLongPath)); // 260 chars in total
         }
 
         [Test]
         public void Throws_If_Path_Accends_Above_Root()
         {
-            Assert.Throws<InvalidPathException>(() => _fileSystem.CreateDirectoryDescribing(@"c:\..\path\to\file.txt"));
+            Assert.Throws<InvalidPathException>(() => _fileSystem.DirectoryDescribing(@"c:\..\path\to\file.txt"));
         }
 
 
@@ -215,25 +215,25 @@ namespace fs4net.Framework.Test.Creation
         [Test, TestCaseSource("ValidPaths")]
         public void Create_With_Valid_Path(string validPath)
         {
-            _fileSystem.CreateFileDescribing(validPath);
+            _fileSystem.FileDescribing(validPath);
         }
 
         [Test]
         public void Create_By_Changing_FileName()
         {
-            var original = _fileSystem.CreateFileDescribing(@"c:\path\to\file.txt");
+            var original = _fileSystem.FileDescribing(@"c:\path\to\file.txt");
             var changed = original.WithFileName(FileName.FromString("other.zip"));
             Assert.That(changed.PathAsString, Is.EqualTo(@"c:\path\to\other.zip"));
         }
 
         private void AssertThrowsInvalidPathExceptionFor(string rootedPath)
         {
-            Assert.Throws<InvalidPathException>(() => _fileSystem.CreateFileDescribing(rootedPath), string.Format("for '{0}'", rootedPath));
+            Assert.Throws<InvalidPathException>(() => _fileSystem.FileDescribing(rootedPath), string.Format("for '{0}'", rootedPath));
         }
 
         private void AssertThrowsNonRootedPathExceptionFor(string relativePath)
         {
-            Assert.Throws<NonRootedPathException>(() => _fileSystem.CreateFileDescribing(relativePath), string.Format("for '{0}'", relativePath));
+            Assert.Throws<NonRootedPathException>(() => _fileSystem.FileDescribing(relativePath), string.Format("for '{0}'", relativePath));
         }
     }
 }

@@ -21,27 +21,27 @@ namespace fs4net.Memory
         
         #region Implementation of IFileSystem
 
-        public RootedFile CreateFileDescribing(string fullPath)
+        public RootedFile FileDescribing(string fullPath)
         {
             return new RootedFile(this, fullPath, PathWashers.NullWasher);
         }
 
-        public RootedDirectory CreateDirectoryDescribing(string fullPath)
+        public RootedDirectory DirectoryDescribing(string fullPath)
         {
             return new RootedDirectory(this, fullPath, PathWashers.NullWasher);
         }
 
-        public RootedDirectory CreateDirectoryDescribingTemporaryDirectory()
+        public RootedDirectory DirectoryDescribingTemporaryDirectory()
         {
-            return CreateDirectoryDescribing(TemporaryPathName);
+            return DirectoryDescribing(TemporaryPathName);
         }
 
-        public RootedDirectory CreateDirectoryDescribingCurrentDirectory()
+        public RootedDirectory DirectoryDescribingCurrentDirectory()
         {
             throw new NotImplementedException();
         }
 
-        public Drive CreateDriveDescribing(string driveName)
+        public Drive DriveDescribing(string driveName)
         {
             return new Drive(this, driveName);
         }
@@ -105,7 +105,7 @@ namespace fs4net.Memory
             return FindFolderNodeByPath(path.FullPath)
                 .Children
                 .OfType<FileNode>()
-                .Select(child => CreateFileDescribing(child.FullPath));
+                .Select(child => FileDescribing(child.FullPath));
         }
 
         public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path)
@@ -113,7 +113,7 @@ namespace fs4net.Memory
             return FindFolderNodeByPath(path.FullPath)
                 .Children
                 .OfType<FolderNode>()
-                .Select(child => CreateDirectoryDescribing(child.FullPath));
+                .Select(child => DirectoryDescribing(child.FullPath));
         }
 
         public void CreateDirectory(RootedCanonicalPath path)

@@ -26,7 +26,7 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void Create_Directory_That_Denotes_Existing_File_Throws()
         {
-            var fileAsDirectory = FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString);
+            var fileAsDirectory = FileSystem.DirectoryDescribing(ExistingFile.PathAsString);
             Assert.Throws<IOException>(() => fileAsDirectory.Create());
             Assert.That(fileAsDirectory.Exists(), Is.False);
             Assert.That(ExistingFile.Exists(), Is.True);
@@ -35,7 +35,7 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void Create_Directory_On_NonExisting_Drive_Throws()
         {
-            var toBeCreated = FileSystem.CreateDirectoryDescribing(@"z:\drive\does\not\exist");
+            var toBeCreated = FileSystem.DirectoryDescribing(@"z:\drive\does\not\exist");
             Assert.Throws<DirectoryNotFoundException>(() => toBeCreated.Create());
         }
 

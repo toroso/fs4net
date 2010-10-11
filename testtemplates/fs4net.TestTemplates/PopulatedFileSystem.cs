@@ -37,7 +37,7 @@ namespace fs4net.TestTemplates
         {
             FileSystem = CreateFileSystem();
 
-            _tempDir = FileSystem.CreateDirectoryDescribingTemporaryDirectory() + RelativeDirectory.FromString("PopulatedFileSystem");
+            _tempDir = FileSystem.DirectoryDescribingTemporaryDirectory() + RelativeDirectory.FromString("PopulatedFileSystem");
 
             // Note: Must create file system from leaf to root since modifications to an item might modify the parent as well
             var populateFileSystem = new FileSystemBuilder(FileSystem, _tempDir);
@@ -49,7 +49,7 @@ namespace fs4net.TestTemplates
                 .LastAccessedAt(ExistingFileLastAccessed);
             ExistingFile2 = populateFileSystem
                 .WithFile(@"path\to\file2.txt");
-            NonExistingFile = FileSystem.CreateFileDescribing(InTemp(@"path\to\another.txt"));
+            NonExistingFile = FileSystem.FileDescribing(InTemp(@"path\to\another.txt"));
 
             ExistingLeafDirectory = populateFileSystem
                 .WithDir(@"path\to")
@@ -61,9 +61,9 @@ namespace fs4net.TestTemplates
                 .LastAccessedAt(ParentOfExistingLeafDirectoryLastAccessed);
             ExistingEmptyDirectory = populateFileSystem
                 .WithDir(@"my\path");
-            NonExistingDirectory = FileSystem.CreateDirectoryDescribing(InTemp(@"another\path\to"));
+            NonExistingDirectory = FileSystem.DirectoryDescribing(InTemp(@"another\path\to"));
 
-            NonExistingDrive = FileSystem.CreateDriveDescribing("c:");
+            NonExistingDrive = FileSystem.DriveDescribing("c:");
         }
 
         private string InTemp(string relativePath)

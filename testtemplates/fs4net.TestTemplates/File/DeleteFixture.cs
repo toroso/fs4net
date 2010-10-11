@@ -31,7 +31,7 @@ namespace fs4net.TestTemplates.File
         [Test]
         public void Delete_File_That_Is_A_Directory_Throws()
         {
-            var directoryAsFile = FileSystem.CreateFileDescribing(ExistingEmptyDirectory.PathAsString);
+            var directoryAsFile = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
             Assert.Throws<UnauthorizedAccessException>(() => directoryAsFile.Delete());
             Assert.That(ExistingEmptyDirectory.Exists(), Is.True);
         }

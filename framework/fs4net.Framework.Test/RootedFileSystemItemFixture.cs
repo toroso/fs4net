@@ -16,13 +16,13 @@ namespace fs4net.Framework.Test
         [Test]
         public void RootedFile_Has_Correct_FileSystem()
         {
-            Assert.That(_fileSystem.CreateFileDescribing(@"c:\standard\path\to\file.txt").FileSystem, Is.EqualTo(_fileSystem));
+            Assert.That(_fileSystem.FileDescribing(@"c:\standard\path\to\file.txt").FileSystem, Is.EqualTo(_fileSystem));
         }
 
         [Test]
         public void RootedDirectory_Has_Correct_FileSystem()
         {
-            Assert.That(_fileSystem.CreateDirectoryDescribing(@"c:\standard\path\to").FileSystem, Is.EqualTo(_fileSystem));
+            Assert.That(_fileSystem.DirectoryDescribing(@"c:\standard\path\to").FileSystem, Is.EqualTo(_fileSystem));
         }
     }
 }

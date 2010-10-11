@@ -31,7 +31,7 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void Delete_Directory_That_Is_A_File_Succeeds()
         {
-            var fileAsDirectory = FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString);
+            var fileAsDirectory = FileSystem.DirectoryDescribing(ExistingFile.PathAsString);
             Assert.That(fileAsDirectory.TryDeleteIfEmpty(), Is.True); // Disputable... There's still a file with that name.
             Assert.That(ExistingFile.Exists(), Is.True);
         }

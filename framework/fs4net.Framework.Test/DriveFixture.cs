@@ -35,7 +35,7 @@ namespace fs4net.Framework.Test
 
         private void AssertRemainsIntact(string driveName)
         {
-            Assert.That(_fileSystem.CreateDriveDescribing(driveName).Name, Is.EqualTo(driveName));
+            Assert.That(_fileSystem.DriveDescribing(driveName).Name, Is.EqualTo(driveName));
         }
     }
 }

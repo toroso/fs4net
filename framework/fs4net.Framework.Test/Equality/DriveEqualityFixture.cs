@@ -18,8 +18,8 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Equal_Mapped_Drives_Are_Equal()
         {
-            var driveA = FileSystem.CreateDriveDescribing("c:");
-            var driveB = FileSystem.CreateDriveDescribing("c:");
+            var driveA = FileSystem.DriveDescribing("c:");
+            var driveB = FileSystem.DriveDescribing("c:");
             AssertEqualityEquals(driveA, driveB);
             AssertOperatorEquals(driveA, driveB);
         }
@@ -27,8 +27,8 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Different_Mapped_Drives_Are_Not_Equal()
         {
-            var driveA = FileSystem.CreateDriveDescribing("c:");
-            var driveB = FileSystem.CreateDriveDescribing("d:");
+            var driveA = FileSystem.DriveDescribing("c:");
+            var driveB = FileSystem.DriveDescribing("d:");
             AssertEqualityNotEquals(driveA, driveB);
             AssertOperatorNotEquals(driveA, driveB);
         }
@@ -36,8 +36,8 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Equal_Network_Drives_Are_Equal()
         {
-            var driveA = FileSystem.CreateDriveDescribing(@"\\network\drive");
-            var driveB = FileSystem.CreateDriveDescribing(@"\\network\drive");
+            var driveA = FileSystem.DriveDescribing(@"\\network\drive");
+            var driveB = FileSystem.DriveDescribing(@"\\network\drive");
             AssertEqualityEquals(driveA, driveB);
             AssertOperatorEquals(driveA, driveB);
         }
@@ -45,8 +45,8 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Different_Network_Host_Names_In_Drives_Are_Not_Equal()
         {
-            var driveA = FileSystem.CreateDriveDescribing(@"\\network\drive");
-            var driveB = FileSystem.CreateDriveDescribing(@"\\worknet\drive");
+            var driveA = FileSystem.DriveDescribing(@"\\network\drive");
+            var driveB = FileSystem.DriveDescribing(@"\\worknet\drive");
             AssertEqualityNotEquals(driveA, driveB);
             AssertOperatorNotEquals(driveA, driveB);
         }
@@ -54,8 +54,8 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Different_Network_Share_Names_In_Drives_Are_Not_Equal()
         {
-            var driveA = FileSystem.CreateDriveDescribing(@"\\network\drive");
-            var driveB = FileSystem.CreateDriveDescribing(@"\\network\share");
+            var driveA = FileSystem.DriveDescribing(@"\\network\drive");
+            var driveB = FileSystem.DriveDescribing(@"\\network\share");
             AssertEqualityNotEquals(driveA, driveB);
             AssertOperatorNotEquals(driveA, driveB);
         }
@@ -63,16 +63,16 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Drive_And_RootedDirectory_Drive_Are_Equal()
         {
-            var drive = FileSystem.CreateDriveDescribing("c:");
-            var driveAsDirectoty = FileSystem.CreateDirectoryDescribing(@"c:\");
+            var drive = FileSystem.DriveDescribing("c:");
+            var driveAsDirectoty = FileSystem.DirectoryDescribing(@"c:\");
             AssertEqualityEquals(drive, driveAsDirectoty);
         }
 
         [Test]
         public void Drives_On_Different_FileSystems_Are_Not_Equal()
         {
-            var driveA = FileSystem.CreateDriveDescribing("c:");
-            var driveB = new MockFileSystem().CreateDriveDescribing("c:");
+            var driveA = FileSystem.DriveDescribing("c:");
+            var driveB = new MockFileSystem().DriveDescribing("c:");
             AssertEqualityNotEquals(driveA, driveB);
             AssertOperatorNotEquals(driveA, driveB);
         }

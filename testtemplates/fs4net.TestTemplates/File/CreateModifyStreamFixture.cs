@@ -27,7 +27,7 @@ namespace fs4net.TestTemplates.File
         [Test]
         public void Append_To_File_That_Is_An_Existing_Directory()
         {
-            var file = FileSystem.CreateFileDescribing(ExistingEmptyDirectory.PathAsString);
+            var file = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
             Assert.Throws<UnauthorizedAccessException>(() => file.OverwriteText("Nota Bossa"));
         }
 

@@ -12,7 +12,7 @@ namespace fs4net.Framework
         /// <exception cref="System.ArgumentException">The specified path is empty, start or ends with white space,
         /// contains one or more invalid characters or contains an invalid drive letter.</exception>
         /// TODO: The exception list is wrong!
-        RootedFile CreateFileDescribing(string fullPath);
+        RootedFile FileDescribing(string fullPath);
 
         /// <summary>
         /// Creates a descriptor to a directory from the given path. If the given path is relative, the current
@@ -24,17 +24,17 @@ namespace fs4net.Framework
         /// contains one or more invalid characters or contains an invalid drive letter.</exception>
         /// </summary>
         /// TODO: The exception list is wrong!
-        RootedDirectory CreateDirectoryDescribing(string fullPath);
+        RootedDirectory DirectoryDescribing(string fullPath);
 
         /// <summary>
         /// Creates a descriptor to the temporary directory.
         /// </summary>
-        RootedDirectory CreateDirectoryDescribingTemporaryDirectory();
+        RootedDirectory DirectoryDescribingTemporaryDirectory();
 
         /// <summary>
         /// Creates a descriptor to the current directory.
         /// </summary>
-        RootedDirectory CreateDirectoryDescribingCurrentDirectory(); // TODO: There's one per drive, right?
+        RootedDirectory DirectoryDescribingCurrentDirectory(); // TODO: There's one per drive, right?
 
         // TODO:
         //  Descriptors based on Environment.SpecialFolder enumeration
@@ -44,6 +44,6 @@ namespace fs4net.Framework
         /// backslash. Examples: "c:", "\\network\share".
         /// </summary>
         /// TODO: Exception list!
-        Drive CreateDriveDescribing(string driveName);
+        Drive DriveDescribing(string driveName);
     }
 }

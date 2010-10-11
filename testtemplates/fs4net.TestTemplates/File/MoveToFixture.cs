@@ -43,7 +43,7 @@ namespace fs4net.TestTemplates.File
         [Test]
         public void Move_Directory_As_File_Throws()
         {
-            var source = FileSystem.CreateFileDescribing(ExistingEmptyDirectory.PathAsString);
+            var source = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
             var destination = ExistingLeafDirectory + RelativeFile.FromString("new name.dat");
 
             Assert.Throws<FileNotFoundException>(() => source.MoveTo(destination));
@@ -73,7 +73,7 @@ namespace fs4net.TestTemplates.File
         public void Move_File_To_Name_Occupied_By_Existing_Directory_Throws()
         {
             var source = ExistingFile;
-            var destination = FileSystem.CreateFileDescribing(ExistingEmptyDirectory.PathAsString);
+            var destination = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
 
             Assert.Throws<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
@@ -97,7 +97,7 @@ namespace fs4net.TestTemplates.File
             // System.IO.File.Move() allows this but not System.IO.Directory.Move()...
             // I prefer to be consequent
             var source = ExistingFile;
-            var destination = FileSystem.CreateFileDescribing(@"d:\another drive.txt");
+            var destination = FileSystem.FileDescribing(@"d:\another drive.txt");
 
             Assert.Throws<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
@@ -107,7 +107,7 @@ namespace fs4net.TestTemplates.File
         public void Move_Between_FileSystems_Throws()
         {
             var source = ExistingFile;
-            var destination = CreateFileSystem().CreateFileDescribing(source.WithFileName(FileName.FromString("new name.dat")).PathAsString);
+            var destination = CreateFileSystem().FileDescribing(source.WithFileName(FileName.FromString("new name.dat")).PathAsString);
 
             Assert.Throws<InvalidOperationException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);

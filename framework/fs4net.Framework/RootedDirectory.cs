@@ -131,7 +131,7 @@ namespace fs4net.Framework
         /// TODO: Exceptions!
         public static void Create(this RootedDirectory me)
         {
-            me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't create the directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsNotAFile(ThrowHelper.IOException("Can't create the directory '{0}' since it denotes a file.", me.PathAsString));
             if (!me.Exists())
             {
                 var fileSystem = me.InternalFileSystem();
@@ -154,8 +154,8 @@ namespace fs4net.Framework
         /// is on an unmapped drive).</exception>
         public static void DeleteRecursively(this RootedDirectory me)
         {
-            me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
-            me.VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't delete the directory '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsNotAFile(ThrowHelper.IOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't delete the directory '{0}' since it does not exist.", me.PathAsString));
 
             me.Delete(true);
         }
@@ -182,9 +182,9 @@ namespace fs4net.Framework
         /// TODO: Exceptions
         public static void DeleteIfEmpty(this RootedDirectory me)
         {
-            me.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
-            me.VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't delete the directory '{0}' since it does not exist.", me.PathAsString));
-            me.VerifyIsEmpty(ThrowHelper.CreateIOException("Can't delete the directory '{0}' since it's not empty.", me));
+            me.VerifyIsNotAFile(ThrowHelper.IOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't delete the directory '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsEmpty(ThrowHelper.IOException("Can't delete the directory '{0}' since it's not empty.", me));
 
             me.Delete(false);
         }
@@ -233,14 +233,14 @@ namespace fs4net.Framework
         public static void MoveTo(this RootedDirectory me, RootedDirectory destination)
         {
             me.VerifyOnSameFileSystemAs(destination);
-            me.VerifyOnSameDriveAs(destination, ThrowHelper.CreateIOException("Can't move the directory '{0}' to '{1}' since they are located on different drives.", me, destination));
-            me.VerifyIsNotAFile(ThrowHelper.CreateDirectoryNotFoundException("Can't move the directory '{0}' since it denotes a file.", me));
-            me.VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't move the directory '{0}' since it does not exist.", me));
-            destination.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't move the directory since the destination's parent directory '{0}' does not exist.", destination.ParentDirectory()));
-            destination.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't move the directory to the destination '{0}' since a file with that name already exists.", destination));
-            destination.VerifyIsNotADirectory(ThrowHelper.CreateIOException("Can't move the directory to the destination '{0}' since a directory with that name already exists.", destination));
-            me.VerifyIsNotTheSameAs(destination, ThrowHelper.CreateIOException("Can't move the directory '{0}' since the source and destination denotes the same directory.", destination));
-            me.VerifyIsNotAParentOf(destination, ThrowHelper.CreateIOException("Can't move the directory to the destination '{0}' since it is located inside the source directory.", destination));
+            me.VerifyOnSameDriveAs(destination, ThrowHelper.IOException("Can't move the directory '{0}' to '{1}' since they are located on different drives.", me, destination));
+            me.VerifyIsNotAFile(ThrowHelper.DirectoryNotFoundException("Can't move the directory '{0}' since it denotes a file.", me));
+            me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't move the directory '{0}' since it does not exist.", me));
+            destination.ParentDirectory().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't move the directory since the destination's parent directory '{0}' does not exist.", destination.ParentDirectory()));
+            destination.VerifyIsNotAFile(ThrowHelper.IOException("Can't move the directory to the destination '{0}' since a file with that name already exists.", destination));
+            destination.VerifyIsNotADirectory(ThrowHelper.IOException("Can't move the directory to the destination '{0}' since a directory with that name already exists.", destination));
+            me.VerifyIsNotTheSameAs(destination, ThrowHelper.IOException("Can't move the directory '{0}' since the source and destination denotes the same directory.", destination));
+            me.VerifyIsNotAParentOf(destination, ThrowHelper.IOException("Can't move the directory to the destination '{0}' since it is located inside the source directory.", destination));
 
             var src = me.CanonicalPathAsString();
             var dst = destination.CanonicalPathAsString();

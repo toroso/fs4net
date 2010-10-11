@@ -26,13 +26,13 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_Path_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => _fileSystem.CreateDirectoryDescribing(null));
+            Assert.Throws<ArgumentNullException>(() => _fileSystem.DirectoryDescribing(null));
         }
 
         [Test]
         public void Throws_If_Path_Is_Empty()
         {
-            AssertThrows<NonRootedPathException>(() => _fileSystem.CreateDirectoryDescribing(string.Empty));
+            AssertThrows<NonRootedPathException>(() => _fileSystem.DirectoryDescribing(string.Empty));
         }
 
 
@@ -142,7 +142,7 @@ namespace fs4net.Framework.Test.Creation
                 almostTooLongPath += pathWith10Chars; // 10 * 25 chars
             }
             almostTooLongPath += @"123456"; // 6 chars
-            _fileSystem.CreateDirectoryDescribing(almostTooLongPath); // 259 chars in total
+            _fileSystem.DirectoryDescribing(almostTooLongPath); // 259 chars in total
         }
 
         [Test]
@@ -155,13 +155,13 @@ namespace fs4net.Framework.Test.Creation
                 almostTooLongPath += pathWith10Chars; // 10 * 25 chars
             }
             almostTooLongPath += @"1234567"; // 7 chars
-            Assert.Throws<PathTooLongException>(() => _fileSystem.CreateDirectoryDescribing(almostTooLongPath)); // 260 chars in total
+            Assert.Throws<PathTooLongException>(() => _fileSystem.DirectoryDescribing(almostTooLongPath)); // 260 chars in total
         }
 
         [Test]
         public void Throws_If_Path_Accends_Above_Root()
         {
-            Assert.Throws<InvalidPathException>(() => _fileSystem.CreateDirectoryDescribing(@"c:\path\..\..\to"));
+            Assert.Throws<InvalidPathException>(() => _fileSystem.DirectoryDescribing(@"c:\path\..\..\to"));
         }
 
         private static readonly string[] ValidPaths =
@@ -191,18 +191,18 @@ namespace fs4net.Framework.Test.Creation
         public void Create_With_Valid_Path(string validPath)
         {
             Console.WriteLine("Doing " + validPath);
-            _fileSystem.CreateDirectoryDescribing(validPath);
+            _fileSystem.DirectoryDescribing(validPath);
         }
 
 
         private void AssertThrowsInvalidPathExceptionFor(string rootedPath)
         {
-            AssertThrows<InvalidPathException>(() => _fileSystem.CreateDirectoryDescribing(rootedPath), string.Format("for '{0}'", rootedPath));
+            AssertThrows<InvalidPathException>(() => _fileSystem.DirectoryDescribing(rootedPath), string.Format("for '{0}'", rootedPath));
         }
 
         private void AssertThrowsNonRootedPathExceptionFor(string relativePath)
         {
-            AssertThrows<NonRootedPathException>(() => _fileSystem.CreateDirectoryDescribing(relativePath), string.Format("for '{0}'", relativePath));
+            AssertThrows<NonRootedPathException>(() => _fileSystem.DirectoryDescribing(relativePath), string.Format("for '{0}'", relativePath));
         }
 
         private static void AssertThrows<T>(Action action)

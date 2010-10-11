@@ -18,8 +18,8 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Equal_Directories_Are_Equal()
         {
-            var dirA = FileSystem.CreateDirectoryDescribing(@"c:\path\to");
-            var dirB = FileSystem.CreateDirectoryDescribing(@"c:\path\to");
+            var dirA = FileSystem.DirectoryDescribing(@"c:\path\to");
+            var dirB = FileSystem.DirectoryDescribing(@"c:\path\to");
             AssertEqualityEquals(dirA, dirB);
             AssertOperatorEquals(dirA, dirB);
         }
@@ -27,8 +27,8 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Canonically_Equal_Directories_Are_Equal()
         {
-            var dirA = FileSystem.CreateDirectoryDescribing(@"c:\my\..\path\to\");
-            var dirB = FileSystem.CreateDirectoryDescribing(@"c:\path\.\from\..\to");
+            var dirA = FileSystem.DirectoryDescribing(@"c:\my\..\path\to\");
+            var dirB = FileSystem.DirectoryDescribing(@"c:\path\.\from\..\to");
             AssertEqualityEquals(dirA, dirB);
             AssertOperatorEquals(dirA, dirB);
         }
@@ -36,8 +36,8 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Equal_Network_Directories_Are_Equal()
         {
-            var dirA = FileSystem.CreateDirectoryDescribing(@"\\network\share\down\in");
-            var dirB = FileSystem.CreateDirectoryDescribing(@"\\network\share\down\in\");
+            var dirA = FileSystem.DirectoryDescribing(@"\\network\share\down\in");
+            var dirB = FileSystem.DirectoryDescribing(@"\\network\share\down\in\");
             AssertEqualityEquals(dirA, dirB);
             AssertOperatorEquals(dirA, dirB);
         }
@@ -45,8 +45,8 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Different_Directories_Are_Not_Equal()
         {
-            var dirA = FileSystem.CreateDirectoryDescribing(@"c:\my\path\to");
-            var dirB = FileSystem.CreateDirectoryDescribing(@"c:\another\path\to");
+            var dirA = FileSystem.DirectoryDescribing(@"c:\my\path\to");
+            var dirB = FileSystem.DirectoryDescribing(@"c:\another\path\to");
             AssertEqualityNotEquals(dirA, dirB);
             AssertOperatorNotEquals(dirA, dirB);
         }
@@ -54,8 +54,8 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void Directories_On_Different_Drives_Are_Not_Equal()
         {
-            var dirA = FileSystem.CreateDirectoryDescribing(@"c:\my\path\to");
-            var dirB = FileSystem.CreateDirectoryDescribing(@"d:\my\path\to");
+            var dirA = FileSystem.DirectoryDescribing(@"c:\my\path\to");
+            var dirB = FileSystem.DirectoryDescribing(@"d:\my\path\to");
             AssertEqualityNotEquals(dirA, dirB);
             AssertOperatorNotEquals(dirA, dirB);
         }
@@ -63,16 +63,16 @@ namespace fs4net.Framework.Test.Equality
         [Test]
         public void RootedDirectory_Drive_And_Drive_Are_Equal()
         {
-            var driveAsDirectoty = FileSystem.CreateDirectoryDescribing(@"c:\");
-            var drive = FileSystem.CreateDriveDescribing("c:");
+            var driveAsDirectoty = FileSystem.DirectoryDescribing(@"c:\");
+            var drive = FileSystem.DriveDescribing("c:");
             AssertEqualityEquals(driveAsDirectoty, drive);
         }
 
         [Test]
         public void Directories_On_Different_FileSystems_Are_Not_Equal()
         {
-            var dirA = FileSystem.CreateDirectoryDescribing(@"c:\path\to");
-            var dirB = new MockFileSystem().CreateDirectoryDescribing(@"c:\path\to");
+            var dirA = FileSystem.DirectoryDescribing(@"c:\path\to");
+            var dirB = new MockFileSystem().DirectoryDescribing(@"c:\path\to");
             AssertEqualityNotEquals(dirA, dirB);
             AssertOperatorNotEquals(dirA, dirB);
         }

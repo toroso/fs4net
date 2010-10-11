@@ -22,14 +22,14 @@ namespace fs4net.Builder
         public RootedDirectoryBuilder WithDir(string path)
         {
             return _rootDir == null
-                ? new RootedDirectoryBuilder(_fileSystem.CreateDirectoryDescribing(path))
+                ? new RootedDirectoryBuilder(_fileSystem.DirectoryDescribing(path))
                 : new RootedDirectoryBuilder(_rootDir + RelativeDirectory.FromString(path));
         }
 
         public RootedFileBuilder WithFile(string path)
         {
             return _rootDir == null
-                ? new RootedFileBuilder(_fileSystem.CreateFileDescribing(path))
+                ? new RootedFileBuilder(_fileSystem.FileDescribing(path))
                 : new RootedFileBuilder(_rootDir + RelativeFile.FromString(path));
         }
     }

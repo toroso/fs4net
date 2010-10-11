@@ -34,7 +34,7 @@ namespace fs4net.Framework.Test.Creation
         [Test, TestCaseSource("RootedPaths")]
         public void RootedFile_FileName(string path)
         {
-            Assert.That(_fileSystem.CreateFileDescribing(path).FileName().FullName, Is.EqualTo(@"filename.txt"));
+            Assert.That(_fileSystem.FileDescribing(path).FileName().FullName, Is.EqualTo(@"filename.txt"));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace fs4net.TestTemplates.File
         [Test]
         public void Create_File_That_Is_An_Existing_Directory()
         {
-            var file = FileSystem.CreateFileDescribing(ExistingEmptyDirectory.PathAsString);
+            var file = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
             Assert.Throws<UnauthorizedAccessException>(() => file.WriteText("Onom Mweng"));
         }
 

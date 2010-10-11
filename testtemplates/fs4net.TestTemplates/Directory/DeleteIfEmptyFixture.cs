@@ -40,7 +40,7 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void Delete_Directory_That_Is_A_File_Throws()
         {
-            var fileAsDirectory = FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString);
+            var fileAsDirectory = FileSystem.DirectoryDescribing(ExistingFile.PathAsString);
             Assert.Throws<IOException>(() => fileAsDirectory.DeleteIfEmpty());
             Assert.That(ExistingFile.Exists(), Is.True);
         }

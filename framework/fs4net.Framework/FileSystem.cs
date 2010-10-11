@@ -21,29 +21,29 @@ namespace fs4net.Framework
 
         #region Implementation of IFileSystem
 
-        public RootedFile CreateFileDescribing(string fullPath)
+        public RootedFile FileDescribing(string fullPath)
         {
             // TODO: If relative, append it to Current Directory. Or not...?
             return new RootedFile(this, fullPath, _pathWasher);
         }
 
-        public RootedDirectory CreateDirectoryDescribing(string fullPath)
+        public RootedDirectory DirectoryDescribing(string fullPath)
         {
             // TODO: If relative, append it to Current Directory. Or not...?
             return new RootedDirectory(this, fullPath, _pathWasher);
         }
 
-        public RootedDirectory CreateDirectoryDescribingTemporaryDirectory()
+        public RootedDirectory DirectoryDescribingTemporaryDirectory()
         {
-            return CreateDirectoryDescribing(System.IO.Path.GetTempPath());
+            return DirectoryDescribing(System.IO.Path.GetTempPath());
         }
 
-        public RootedDirectory CreateDirectoryDescribingCurrentDirectory()
+        public RootedDirectory DirectoryDescribingCurrentDirectory()
         {
-            return CreateDirectoryDescribing(System.IO.Directory.GetCurrentDirectory());
+            return DirectoryDescribing(System.IO.Directory.GetCurrentDirectory());
         }
 
-        public Drive CreateDriveDescribing(string driveName)
+        public Drive DriveDescribing(string driveName)
         {
             return new Drive(this, driveName);
         }
@@ -105,12 +105,12 @@ namespace fs4net.Framework
 
         public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetFiles(path.FullPath).Select(filePath => CreateFileDescribing(filePath));
+            return System.IO.Directory.GetFiles(path.FullPath).Select(filePath => FileDescribing(filePath));
         }
 
         public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetDirectories(path.FullPath).Select(filePath => CreateDirectoryDescribing(filePath));
+            return System.IO.Directory.GetDirectories(path.FullPath).Select(filePath => DirectoryDescribing(filePath));
         }
 
         public void CreateDirectory(RootedCanonicalPath path)

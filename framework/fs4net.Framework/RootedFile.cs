@@ -120,8 +120,8 @@ namespace fs4net.Framework
         /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
         public static DateTime LastModified(this RootedFile me)
         {
-            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last modified time for file '{0}' since it denotes a directory.", me.PathAsString));
-            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last modified time for file '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last modified time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last modified time for file '{0}' since it does not exist.", me.PathAsString));
 
             return me.InternalFileSystem().GetFileLastModified(me.CanonicalPathAsString());
         }
@@ -136,8 +136,8 @@ namespace fs4net.Framework
         public static void SetLastModified(this RootedFile me, DateTime at)
         {
             RootedFileSystemItemVerifications.VerifyDateTime(at, "set last modified date", "file");
-            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last modified time for file '{0}' since it denotes a directory.", me.PathAsString));
-            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last modified time for file '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last modified time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last modified time for file '{0}' since it does not exist.", me.PathAsString));
 
             me.InternalFileSystem().SetFileLastModified(me.CanonicalPathAsString(), at);
         }
@@ -148,8 +148,8 @@ namespace fs4net.Framework
         /// TODO: Exceptions!
         public static DateTime LastAccessed(this RootedFile me)
         {
-            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last accessed time for file '{0}' since it denotes a directory.", me.PathAsString));
-            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't get last accessed time for file '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last accessed time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last accessed time for file '{0}' since it does not exist.", me.PathAsString));
 
             return me.InternalFileSystem().GetFileLastAccessed(me.CanonicalPathAsString());
         }
@@ -161,8 +161,8 @@ namespace fs4net.Framework
         public static void SetLastAccessed(this RootedFile me, DateTime at)
         {
             RootedFileSystemItemVerifications.VerifyDateTime(at, "set last accessed date", "file");
-            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last accessed time for file '{0}' since it denotes a directory.", me.PathAsString));
-            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't set last accessed time for file '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last accessed time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last accessed time for file '{0}' since it does not exist.", me.PathAsString));
 
             me.InternalFileSystem().SetFileLastAccessed(me.CanonicalPathAsString(), at);
         }
@@ -178,8 +178,8 @@ namespace fs4net.Framework
         /// is on an unmapped drive).</exception>
         public static void Delete(this RootedFile me)
         {
-            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't delete the file '{0}' since the parent directory does not exist.", me.PathAsString));
-            me.VerifyIsNotADirectory(ThrowHelper.CreateUnauthorizedAccessException(me.PathAsString, "Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
+            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't delete the file '{0}' since the parent directory does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.UnauthorizedAccessException(me.PathAsString, "Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
             if (me.Exists())
             {
                 var fileSystem = me.InternalFileSystem();
@@ -235,13 +235,13 @@ namespace fs4net.Framework
         public static void MoveTo(this RootedFile me, RootedFile destination)
         {
             me.VerifyOnSameFileSystemAs(destination);
-            me.VerifyOnSameDriveAs(destination, ThrowHelper.CreateIOException("Can't move the file '{0}' to '{1}' since they are located on different drives.", me, destination));
-            me.VerifyIsNotADirectory(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't move the file '{0}' since it denotes a directory.", me));
-            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException(me.PathAsString, "Can't move the file '{0}' since it does not exist.", me));
-            destination.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't move the file since the destination's parent directory '{0}' does not exist.", destination.ParentDirectory()));
-            destination.VerifyIsNotAFile(ThrowHelper.CreateIOException("Can't move the file to the destination '{0}' since a file with that name already exists.", destination));
-            destination.VerifyIsNotADirectory(ThrowHelper.CreateIOException("Can't move the file to the destination '{0}' since a directory with that name already exists.", destination));
-            me.VerifyIsNotTheSameAs(destination, ThrowHelper.CreateIOException("Can't move the file '{0}' since the source and destination denotes the same directory.", destination));
+            me.VerifyOnSameDriveAs(destination, ThrowHelper.IOException("Can't move the file '{0}' to '{1}' since they are located on different drives.", me, destination));
+            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't move the file '{0}' since it denotes a directory.", me));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't move the file '{0}' since it does not exist.", me));
+            destination.ParentDirectory().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't move the file since the destination's parent directory '{0}' does not exist.", destination.ParentDirectory()));
+            destination.VerifyIsNotAFile(ThrowHelper.IOException("Can't move the file to the destination '{0}' since a file with that name already exists.", destination));
+            destination.VerifyIsNotADirectory(ThrowHelper.IOException("Can't move the file to the destination '{0}' since a directory with that name already exists.", destination));
+            me.VerifyIsNotTheSameAs(destination, ThrowHelper.IOException("Can't move the file '{0}' since the source and destination denotes the same directory.", destination));
 
             var src = me.CanonicalPathAsString();
             var dst = destination.CanonicalPathAsString();
@@ -261,9 +261,9 @@ namespace fs4net.Framework
         /// TODO: Revise exceptions
         public static Stream CreateReadStream(this RootedFile me)
         {
-            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't open the file '{0}' for reading since it's parent directory does not exist.", me.PathAsString));
-            me.VerifyIsNotADirectory(ThrowHelper.CreateUnauthorizedAccessException("Can't open a file '{0}' for reading since the path denotes a directory.", me.PathAsString));
-            me.VerifyIsAFile(ThrowHelper.CreateFileNotFoundException("Can't open the file '{0}' for reading since it does not exists.", me.PathAsString));
+            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't open the file '{0}' for reading since it's parent directory does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.UnauthorizedAccessException("Can't open a file '{0}' for reading since the path denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException("Can't open the file '{0}' for reading since it does not exists.", me.PathAsString));
 
             return me.InternalFileSystem().CreateReadStream(me.CanonicalPathAsString());
         }
@@ -279,8 +279,8 @@ namespace fs4net.Framework
         /// TODO: Revise exceptions
         public static Stream CreateWriteStream(this RootedFile me)
         {
-            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't create the file '{0}' since it's parent directory does not exist.", me.PathAsString));
-            me.VerifyIsNotADirectory(ThrowHelper.CreateUnauthorizedAccessException("Can't create the file '{0}' since the path denotes an existing directory.", me.PathAsString));
+            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't create the file '{0}' since it's parent directory does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.UnauthorizedAccessException("Can't create the file '{0}' since the path denotes an existing directory.", me.PathAsString));
 
             return me.InternalFileSystem().CreateWriteStream(me.CanonicalPathAsString());
         }
@@ -296,8 +296,8 @@ namespace fs4net.Framework
         /// TODO: Revise exceptions
         public static Stream CreateAppendStream(this RootedFile me)
         {
-            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't append to the file '{0}' since it's parent directory does not exist.", me.PathAsString));
-            me.VerifyIsNotADirectory(ThrowHelper.CreateUnauthorizedAccessException("Can't append to the file '{0}' since the path denotes an existing directory.", me.PathAsString));
+            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't append to the file '{0}' since it's parent directory does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.UnauthorizedAccessException("Can't append to the file '{0}' since the path denotes an existing directory.", me.PathAsString));
 
             return me.InternalFileSystem().CreateAppendStream(me.CanonicalPathAsString());
         }
@@ -314,8 +314,8 @@ namespace fs4net.Framework
         /// TODO: Revise exceptions
         public static Stream CreateModifyStream(this RootedFile me)
         {
-            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.CreateDirectoryNotFoundException("Can't modify the file '{0}' since it's parent directory does not exist.", me.PathAsString));
-            me.VerifyIsNotADirectory(ThrowHelper.CreateUnauthorizedAccessException("Can't modify the file '{0}' since the path denotes an existing directory.", me.PathAsString));
+            me.ParentDirectory().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't modify the file '{0}' since it's parent directory does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.UnauthorizedAccessException("Can't modify the file '{0}' since the path denotes an existing directory.", me.PathAsString));
 
             return me.InternalFileSystem().CreateModifyStream(me.CanonicalPathAsString());
         }
@@ -335,7 +335,7 @@ namespace fs4net.Framework
         /// </summary>
         public static RelativeFile RelativeFrom(this RootedFile me, RootedDirectory other)
         {
-            me.VerifyOnSameDriveAs(other, ThrowHelper.CreateArgumentException("Can't find a relative path since '{0}' and '{1}' have different drives.", me.PathAsString, other.PathAsString));
+            me.VerifyOnSameDriveAs(other, ThrowHelper.ArgumentException("Can't find a relative path since '{0}' and '{1}' have different drives.", me.PathAsString, other.PathAsString));
 
             return RelativeFile.FromString(PathUtils.MakeRelativeFrom(me.CanonicalPathAsString().FullPath, other.CanonicalPathAsString().FullPath));
         }

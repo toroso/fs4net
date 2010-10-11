@@ -26,7 +26,7 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void Existing_File_Does_Not_Exists_As_Directory()
         {
-            Assert.That(FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString).Exists(), Is.False);
+            Assert.That(FileSystem.DirectoryDescribing(ExistingFile.PathAsString).Exists(), Is.False);
         }
     }
 }

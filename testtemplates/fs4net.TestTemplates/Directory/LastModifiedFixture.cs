@@ -17,7 +17,7 @@ namespace fs4net.TestTemplates.Directory
         public void LastModified_On_Directory_For_Existing_File_Throws()
         {
             // TODO: Don't like this exception: DirectoryNotFound?
-            Assert.Throws<FileNotFoundException>(() => FileSystem.CreateDirectoryDescribing(ExistingFile.PathAsString).LastModified());
+            Assert.Throws<FileNotFoundException>(() => FileSystem.DirectoryDescribing(ExistingFile.PathAsString).LastModified());
         }
 
         [Test]

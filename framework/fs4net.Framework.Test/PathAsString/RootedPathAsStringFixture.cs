@@ -32,7 +32,7 @@ namespace fs4net.Framework.Test.PathAsString
         [Test, TestCaseSource("RootedPaths")]
         public void RootedFile_PathAsString_Is_Intact(string path)
         {
-            Assert.That(_fileSystem.CreateFileDescribing(path).PathAsString, Is.EqualTo(path));
+            Assert.That(_fileSystem.FileDescribing(path).PathAsString, Is.EqualTo(path));
         }
 
         [Test]
@@ -44,26 +44,26 @@ namespace fs4net.Framework.Test.PathAsString
         [Test, TestCaseSource("RootedPaths")]
         public void RootedDirectory_PathAsString_Is_Intact(string path)
         {
-            Assert.That(_fileSystem.CreateDirectoryDescribing(path).PathAsString, Is.EqualTo(path));
+            Assert.That(_fileSystem.DirectoryDescribing(path).PathAsString, Is.EqualTo(path));
         }
 
 
         [Test]
         public void RootedDirectory_Ending_Backslash_Remains_In_PathAsString()
         {
-            Assert.That(_fileSystem.CreateDirectoryDescribing(@"c:\path\to\").PathAsString, Is.EqualTo(@"c:\path\to\"));
+            Assert.That(_fileSystem.DirectoryDescribing(@"c:\path\to\").PathAsString, Is.EqualTo(@"c:\path\to\"));
         }
 
         [Test]
         public void RootedDirectory_Ending_Dot_Remains_In_PathAsString()
         {
-            Assert.That(_fileSystem.CreateDirectoryDescribing(@"c:\path\to\.").PathAsString, Is.EqualTo(@"c:\path\to\."));
+            Assert.That(_fileSystem.DirectoryDescribing(@"c:\path\to\.").PathAsString, Is.EqualTo(@"c:\path\to\."));
         }
 
         [Test]
         public void RootedDirectory_Ending_DoubleDots_Remains_In_PathAsString()
         {
-            Assert.That(_fileSystem.CreateDirectoryDescribing(@"c:\path\to\..").PathAsString, Is.EqualTo(@"c:\path\to\.."));
+            Assert.That(_fileSystem.DirectoryDescribing(@"c:\path\to\..").PathAsString, Is.EqualTo(@"c:\path\to\.."));
         }
     }
 }

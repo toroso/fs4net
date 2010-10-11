@@ -20,7 +20,7 @@ namespace fs4net.TestTemplates.File
         [Test]
         public void Existing_Directory_Does_Not_Exists_As_File()
         {
-            Assert.That(FileSystem.CreateFileDescribing(ExistingLeafDirectory.PathAsString).Exists(), Is.False);
+            Assert.That(FileSystem.FileDescribing(ExistingLeafDirectory.PathAsString).Exists(), Is.False);
         }
     }
 }
