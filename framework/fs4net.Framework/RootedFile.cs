@@ -11,17 +11,16 @@ namespace fs4net.Framework
     public sealed class RootedFile : IFile<RootedFile>, IRootedFileSystemItem<RootedFile>
     {
         private readonly IInternalFileSystem _fileSystem;
-        private readonly string _rootedPath;
-        private readonly Func<string, string> _pathWasher;
         private readonly string _canonicalFullPath;
 
-        public RootedFile(IInternalFileSystem fileSystem, string rootedPath, Func<string, string> pathWasher)
+        public RootedFile(IInternalFileSystem fileSystem, string rootedPath, Func<string, string> pathWasher, ILogger logger)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             _fileSystem = fileSystem;
-            _rootedPath = pathWasher(rootedPath);
-            _pathWasher = pathWasher;
-            _canonicalFullPath = new CanonicalPathBuilder(_rootedPath).BuildForRootedFile();
+            PathAsString = pathWasher(rootedPath);
+            PathWasher = pathWasher;
+            Logger = logger;
+            _canonicalFullPath = new CanonicalPathBuilder(PathAsString).BuildForRootedFile();
         }
 
         #region Public Interface
@@ -40,15 +39,10 @@ namespace fs4net.Framework
         /// "\". To remove such redundant parts, use the AsCanonical() factory method.
         /// This property succeeds whether the file exists or not.
         /// </summary>
-        public string PathAsString
-        {
-            get { return _rootedPath; }
-        }
+        public string PathAsString { get; private set; }
 
-        public Func<string, string> PathWasher
-        {
-            get { return _pathWasher; }
-        }
+        public Func<string, string> PathWasher { get; private set; }
+        public ILogger Logger { get; private set; }
 
         /// <summary>
         /// Returns a descriptor where the PathAsString property returns the path on canonical form. A canonical
@@ -58,7 +52,7 @@ namespace fs4net.Framework
         /// </summary>
         public RootedFile AsCanonical() // TODO? Make into extension method and add a Clone() method?
         {
-            return new RootedFile(_fileSystem, _canonicalFullPath, PathWasher);
+            return new RootedFile(_fileSystem, _canonicalFullPath, PathWasher, Logger);
         }
 
         #endregion // Public Interface
@@ -214,15 +208,14 @@ namespace fs4net.Framework
         {
             if (me.Exists())
             {
-                //try
+                try
                 {
                     me.Delete();
                 }
-// ReSharper disable EmptyGeneralCatchClause
-                //catch
-                //{
-                //}
-// ReSharper restore EmptyGeneralCatchClause
+                catch (Exception ex) // To fulfil the nothrow contract...
+                {
+                    me.Logger.LogSwallowedException(string.Format("Exception swallowed in File.TryDelete('{0}')", me.PathAsString), ex);
+                }
             }
             return !me.Exists();
         }

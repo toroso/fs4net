@@ -1,4 +1,5 @@
 using System;
+using fs4net.TestTemplates;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test.Creation
@@ -19,7 +20,7 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_FileSystem_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => new Drive(null, "c:"));
+            Assert.Throws<ArgumentNullException>(() => new Drive(null, "c:", AssertLogger.Instance));
         }
         
         [Test]

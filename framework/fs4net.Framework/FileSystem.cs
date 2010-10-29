@@ -8,15 +8,27 @@ namespace fs4net.Framework
     {
         // Cleans the paths before validation.
         private readonly Func<string, string> _pathWasher;
+        private readonly ILogger _logger;
 
         public FileSystem()
+            : this(NullLogger.Instance, PathWashers.NullWasher)
         {
-            _pathWasher = (path => path);
+        }
+
+        public FileSystem(ILogger logger)
+            : this(logger, PathWashers.NullWasher)
+        {
         }
 
         public FileSystem(Func<string, string> pathWasher)
+            : this(NullLogger.Instance, pathWasher)
+        {
+        }
+
+        public FileSystem(ILogger logger, Func<string, string> pathWasher)
         {
             _pathWasher = pathWasher;
+            _logger = logger;
         }
 
         #region Implementation of IFileSystem
@@ -24,13 +36,13 @@ namespace fs4net.Framework
         public RootedFile FileDescribing(string fullPath)
         {
             // TODO: If relative, append it to Current Directory. Or not...?
-            return new RootedFile(this, fullPath, _pathWasher);
+            return new RootedFile(this, fullPath, _pathWasher, _logger);
         }
 
         public RootedDirectory DirectoryDescribing(string fullPath)
         {
             // TODO: If relative, append it to Current Directory. Or not...?
-            return new RootedDirectory(this, fullPath, _pathWasher);
+            return new RootedDirectory(this, fullPath, _pathWasher, _logger);
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
@@ -46,7 +58,7 @@ namespace fs4net.Framework
 
         public Drive DriveDescribing(string driveName)
         {
-            return new Drive(this, driveName);
+            return new Drive(this, driveName, _logger);
         }
 
         #endregion // Implementation of IFileSystem

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using fs4net.TestTemplates;
 
 namespace fs4net.Framework.Test
 {
@@ -10,12 +11,12 @@ namespace fs4net.Framework.Test
 
         public RootedFile FileDescribing(string fullPath)
         {
-            return new RootedFile(this, fullPath, PathWashers.NullWasher);
+            return new RootedFile(this, fullPath, PathWashers.NullWasher, AssertLogger.Instance);
         }
 
         public RootedDirectory DirectoryDescribing(string fullPath)
         {
-            return new RootedDirectory(this, fullPath, PathWashers.NullWasher);
+            return new RootedDirectory(this, fullPath, PathWashers.NullWasher, AssertLogger.Instance);
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory() { throw new NotImplementedException(); }
@@ -23,7 +24,7 @@ namespace fs4net.Framework.Test
 
         public Drive DriveDescribing(string driveName)
         {
-            return new Drive(this, driveName);
+            return new Drive(this, driveName, AssertLogger.Instance);
         }
 
         #endregion // Implementation of IFileSystem

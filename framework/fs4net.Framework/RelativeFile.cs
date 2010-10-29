@@ -9,12 +9,11 @@ namespace fs4net.Framework
     /// </summary>
     public sealed class RelativeFile : IRelativeFile<RelativeFile>
     {
-        private readonly string _relativePath;
         private readonly string _canonicalFullPath;
 
         private RelativeFile(string relativePath)
         {
-            _relativePath = relativePath;
+            PathAsString = relativePath;
             _canonicalFullPath = new CanonicalPathBuilder(relativePath).BuildForRelativeFile();
         }
 
@@ -36,10 +35,7 @@ namespace fs4net.Framework
         /// created with. This means that it can contain redundant parts such as ".", ".." inside paths and multiple
         /// "\". To remove such redundant parts, use the AsCanonical() factory method.
         /// </summary>
-        public string PathAsString
-        {
-            get { return _relativePath; }
-        }
+        public string PathAsString { get; private set; }
 
         public Func<string, string> PathWasher
         {

@@ -45,12 +45,14 @@
     <Compile Include="IFile.cs" />
     <Compile Include="IFileSystem.cs" />
     <Compile Include="IFileSystemItem.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="Impl\CanonicalPathBuilder.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="IInternalFileSystem.cs" />
     <Compile Include="Impl\DateTimeExtensions.cs" />
     <Compile Include="Impl\DriveParser.cs" />
     <Compile Include="Impl\FilenameParser.cs" />
+    <Compile Include="NullLogger.cs" />
     <Compile Include="Impl\StringExtensions.cs" />
     <Compile Include="Impl\ThrowHelper.cs" />
     <Compile Include="IRelativeFile.cs" />

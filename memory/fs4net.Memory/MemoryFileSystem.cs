@@ -12,7 +12,30 @@ namespace fs4net.Memory
         // TODO: Make configurable from test with setter
         private const string TemporaryPathName = @"c:\temp";
 
+        private readonly Func<string, string> _pathWasher;
+        private readonly ILogger _logger;
         private readonly FolderNode _rootNode = FolderNode.CreateRoot();
+
+        public MemoryFileSystem()
+            : this(NullLogger.Instance, PathWashers.NullWasher)
+        {
+        }
+
+        public MemoryFileSystem(ILogger logger)
+            : this(logger, PathWashers.NullWasher)
+        {
+        }
+
+        public MemoryFileSystem(Func<string, string> pathWasher)
+            : this(NullLogger.Instance, pathWasher)
+        {
+        }
+
+        public MemoryFileSystem(ILogger logger, Func<string, string> pathWasher)
+        {
+            _pathWasher = pathWasher;
+            _logger = logger;
+        }
 
         public void Dispose()
         {
@@ -23,12 +46,12 @@ namespace fs4net.Memory
 
         public RootedFile FileDescribing(string fullPath)
         {
-            return new RootedFile(this, fullPath, PathWashers.NullWasher);
+            return new RootedFile(this, fullPath, _pathWasher, _logger);
         }
 
         public RootedDirectory DirectoryDescribing(string fullPath)
         {
-            return new RootedDirectory(this, fullPath, PathWashers.NullWasher);
+            return new RootedDirectory(this, fullPath, _pathWasher, _logger);
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
@@ -43,7 +66,7 @@ namespace fs4net.Memory
 
         public Drive DriveDescribing(string driveName)
         {
-            return new Drive(this, driveName);
+            return new Drive(this, driveName, _logger);
         }
 
         #endregion // Implementation of IFileSystem

@@ -6,27 +6,26 @@ namespace fs4net.Framework
     public sealed class Drive : IRootedDirectory<Drive>
     {
         private readonly IInternalFileSystem _fileSystem;
-        private readonly string _name;
 
-        public Drive(IInternalFileSystem fileSystem, string name)
+        public Drive(IInternalFileSystem fileSystem, string name, ILogger logger)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             _fileSystem = fileSystem;
-            _name = name;
-            new CanonicalPathBuilder(name).BuildForDrive();
+            Name = name;
+            Logger = logger;
+            new CanonicalPathBuilder(Name).BuildForDrive();
         }
 
         #region Public Interface
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name { get; private set; }
 
         public string PathAsString
         {
-            get { return _name; }
+            get { return Name; }
         }
+
+        public ILogger Logger { get; private set; }
 
         public Func<string, string> PathWasher
         {

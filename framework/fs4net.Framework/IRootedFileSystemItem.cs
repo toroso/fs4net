@@ -7,6 +7,7 @@ namespace fs4net.Framework
     public interface IRootedFileSystemItem<T> : IFileSystemItem<T> where T : IRootedFileSystemItem<T>
     {
         IFileSystem FileSystem { get; }
+        ILogger Logger { get; }
     }
 
     public static class RootedFileSystemItemExtensions
@@ -57,7 +58,7 @@ namespace fs4net.Framework
         /// with the current directory it exceeds the system-defined maximum length.</exception>
         public static Drive Drive<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>
         {
-            return new Drive(me.InternalFileSystem(), CanonicalPathBuilder.GetDriveName(me.PathAsString));
+            return new Drive(me.InternalFileSystem(), CanonicalPathBuilder.GetDriveName(me.PathAsString), me.Logger);
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace fs4net.Framework
         public static RootedDirectory ParentDirectory<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>
         {
             // TODO: Throw if there is no parent...?
-            return new RootedDirectory(me.InternalFileSystem(), Path.GetDirectoryName(me.PathAsString).RemoveEndingBackslash(), me.PathWasher);
+            return new RootedDirectory(me.InternalFileSystem(), Path.GetDirectoryName(me.PathAsString).RemoveEndingBackslash(), me.PathWasher, me.Logger);
         }
 
         internal static bool IsFile<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>

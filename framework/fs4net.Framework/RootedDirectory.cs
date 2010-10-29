@@ -6,17 +6,16 @@ namespace fs4net.Framework
     public sealed class RootedDirectory : IRootedDirectory<RootedDirectory>
     {
         private readonly IInternalFileSystem _fileSystem;
-        private readonly string _rootedPath;
-        private readonly Func<string, string> _pathWasher;
         private readonly string _canonicalFullPath;
 
-        public RootedDirectory(IInternalFileSystem fileSystem, string rootedPath, Func<string, string> pathWasher)
+        public RootedDirectory(IInternalFileSystem fileSystem, string rootedPath, Func<string, string> pathWasher, ILogger logger)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             _fileSystem = fileSystem;
-            _rootedPath = pathWasher(rootedPath);
-            _pathWasher = pathWasher;
-            _canonicalFullPath = new CanonicalPathBuilder(_rootedPath).BuildForRootedDirectory();
+            PathAsString = pathWasher(rootedPath);
+            PathWasher = pathWasher;
+            Logger = logger;
+            _canonicalFullPath = new CanonicalPathBuilder(PathAsString).BuildForRootedDirectory();
         }
 
 
@@ -36,15 +35,10 @@ namespace fs4net.Framework
         /// "\". To remove such redundant parts, use the AsCanonical() factory method.
         /// This property succeeds whether the file exists or not.
         /// </summary>
-        public string PathAsString
-        {
-            get { return _rootedPath; }
-        }
+        public string PathAsString { get; private set; }
 
-        public Func<string, string> PathWasher
-        {
-            get { return _pathWasher; }
-        }
+        public Func<string, string> PathWasher { get; private set; }
+        public ILogger Logger { get; private set; }
 
         /// <summary>
         /// Returns a descriptor where the PathAsString property returns the path on canonical form. A canonical
@@ -54,7 +48,7 @@ namespace fs4net.Framework
         /// </summary>
         public RootedDirectory AsCanonical() // TODO? Make into extension method and add a Clone() method?
         {
-            return new RootedDirectory(_fileSystem, _canonicalFullPath, PathWasher);
+            return new RootedDirectory(_fileSystem, _canonicalFullPath, PathWasher, Logger);
         }
 
         /// <summary>
@@ -215,14 +209,15 @@ namespace fs4net.Framework
         {
             var fileSystem = me.InternalFileSystem();
             var path = me.CanonicalPathAsString();
-//            try
+            try
             {
                 fileSystem.DeleteDirectory(path, recursive);
             }
-// ReSharper disable EmptyGeneralCatchClause
-            // DirectoryNotFoundException, ArgumentException, NotSupportedException, IOException, UnauthorizedAccessException...
-//            catch { } // To fulfil the nothrow contract...
-// ReSharper restore EmptyGeneralCatchClause
+            //DirectoryNotFoundException, ArgumentException, NotSupportedException, IOException, UnauthorizedAccessException...
+            catch (Exception ex) // To fulfil the nothrow contract...
+            {
+                me.Logger.LogSwallowedException(string.Format("Exception swallowed in Directory.TryDelete('{0}', recursive:{1})", me.PathAsString, recursive), ex);
+            }
         }
 
         /// <summary>

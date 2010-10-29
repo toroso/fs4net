@@ -8,7 +8,7 @@ namespace fs4net.Framework.Test.File
     {
         protected override IFileSystem CreateFileSystem()
         {
-            return new FileSystem();
+            return FileSystemFactory.CreateFileSystem();
         }
     }
 }

@@ -6,11 +6,9 @@ namespace fs4net.Framework
 {
     public sealed class FileName : IRelativeFile<FileName>
     {
-        private readonly string _fullName;
-
         private FileName(string fullName)
         {
-            _fullName = fullName;
+            FullName = fullName;
             new CanonicalPathBuilder(fullName).BuildForFileName();
         }
 
@@ -42,14 +40,11 @@ namespace fs4net.Framework
         }
 
         /// <summary>Returns the whole filename, including the extension if it exists.</summary>
-        public string FullName
-        {
-            get { return _fullName; }
-        }
+        public string FullName { get; private set; }
 
         public string PathAsString
         {
-            get { return _fullName; }
+            get { return FullName; }
         }
 
         public Func<string, string> PathWasher
