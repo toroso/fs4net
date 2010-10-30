@@ -60,7 +60,6 @@
     <Compile Include="Directory\TryDeleteRecursivelyFixture.cs" />
     <Compile Include="Equality\DriveEqualityFixture.cs" />
     <Compile Include="DriveFixture.cs" />
-    <Compile Include="EnumerableUtils.cs" />
     <Compile Include="Equality\FileNameEqualityFixture.cs" />
     <Compile Include="FileNameFixture.cs" />
     <Compile Include="Creation\FileNameOfRelativeFileFixture.cs" />
