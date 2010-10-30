@@ -139,27 +139,27 @@ namespace fs4net.Framework.Test
         }
 
         [Test]
-        public void LastModifiedTime()
+        public void LastWriteTimeTime()
         {
             Assert.That(System.IO.Directory.GetLastWriteTime(@"c:\this\path\clearly\does\not\exist"), Is.EqualTo(DateTime.FromFileTime(0)));
             Assert.DoesNotThrow(() => System.IO.Directory.GetLastWriteTime(@"c:\windows\regedit.exe"));
 
             //DateTime minimum = new DateTime(1601, 1, 1, 0, 0, 0);
             DateTime minimum = new DateTime(1601, 1, 1, 0, 0, 0).AddMilliseconds(1).ToLocalTime();
-            SetLastModifiedWorksFine(minimum, "Higher");
-            SetLastModifiedFails(minimum.AddMilliseconds(-1), "Lower");
+            SetLastWriteTimeWorksFine(minimum, "Higher");
+            SetLastWriteTimeFails(minimum.AddMilliseconds(-1), "Lower");
 
             DateTime maximum = DateTime.MaxValue;
-            SetLastModifiedWorksFine(maximum, "Lower");
+            SetLastWriteTimeWorksFine(maximum, "Lower");
         }
 
-        private void SetLastModifiedWorksFine(DateTime at, string message)
+        private void SetLastWriteTimeWorksFine(DateTime at, string message)
         {
             Assert.DoesNotThrow(() => System.IO.Directory.SetLastWriteTime(_tempFile, at), message);
             Assert.That(System.IO.Directory.GetLastWriteTime(_tempFile), Is.EqualTo(at), message);
         }
 
-        private void SetLastModifiedFails(DateTime at, string message)
+        private void SetLastWriteTimeFails(DateTime at, string message)
         {
             Assert.DoesNotThrow(delegate
                 {

@@ -34,10 +34,10 @@ namespace fs4net.Framework.Test
 
         public bool IsFile(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public bool IsDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
-        public DateTime GetFileLastModified(RootedCanonicalPath path) { throw new NotImplementedException(); }
-        public void SetFileLastModified(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
-        public DateTime GetDirectoryLastModified(RootedCanonicalPath path) { throw new NotImplementedException(); }
-        public void SetDirectoryLastModified(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
+        public DateTime GetFileLastWriteTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public void SetFileLastWriteTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
+        public DateTime GetDirectoryLastWriteTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public void SetDirectoryLastWriteTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public DateTime GetLastAccessTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetLastAccessTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path) { throw new NotImplementedException(); }

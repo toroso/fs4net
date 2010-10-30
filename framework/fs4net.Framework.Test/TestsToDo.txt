@@ -36,7 +36,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] Equals, GetHashCode
         [x] Exists
         [?] LastAccessTime -- some operations missing...
-        [?] LastModified -- some operations missing...
+        [?] LastWriteTime -- some operations missing...
         [ ] CreationTime
         [ ] Attributes (and/or one property for each attribute?)
         [x] Delete
@@ -61,7 +61,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] Equals, GetHashCode
         [x] Exists
         [?] LastAccessTime -- some operations missing...
-        [?] LastModified -- some operations missing...
+        [?] LastWriteTime -- some operations missing...
         [ ] CreationTime
         [ ] Attributes (and/or one property for each attribute?)
         [x] DeleteRecursively
@@ -130,7 +130,6 @@ PathWashers...
   [ ] ReplaceCharWasher (specify from and to)
 
 
-TODO: Rename LastModified
 TODO: Structure: Move nice-to-have methods to Extensions namespace
 TODO: Access Denied on most operations -- enough to fake it in one way, e.g. making it read-only
 TODO: Open two streams from same file. Also reference counting on open.

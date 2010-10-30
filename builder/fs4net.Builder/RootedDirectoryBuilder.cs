@@ -20,7 +20,7 @@ namespace fs4net.Builder
         protected override void UpdateDates()
         {
             _dir.SetLastAccessTime(LastAccessTime);
-            _dir.SetLastModified(LastModified);
+            _dir.SetLastWriteTime(LastWriteTime);
         }
 
         public static implicit operator RootedDirectory (RootedDirectoryBuilder me)

@@ -2,10 +2,10 @@ using fs4net.Framework;
 using NUnit.Framework;
 using Template = fs4net.TestTemplates;
 
-namespace fs4net.Memory.Test.File
+namespace fs4net.Memory.Test.Directory
 {
     [TestFixture]
-    public class LastModifiedFixture : Template.File.LastModifiedFixture
+    public class LastWriteTimeFixture : Template.Directory.LastWriteTimeFixture
     {
         protected override IFileSystem CreateFileSystem()
         {

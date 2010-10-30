@@ -5,14 +5,14 @@ namespace fs4net.Builder
     public abstract class FileSystemItemBuilder<T> where T : FileSystemItemBuilder<T>
     {
         protected DateTime LastAccessTime { get; set; }
-        protected DateTime LastModified { get; set; }
+        protected DateTime LastWriteTime { get; set; }
 
         protected abstract T Me();
 
         protected FileSystemItemBuilder()
         {
             LastAccessTime = DateTime.Now;
-            LastModified = DateTime.Now;
+            LastWriteTime = DateTime.Now;
         }
 
         public T LastAccessedAt(DateTime at)
@@ -24,7 +24,7 @@ namespace fs4net.Builder
 
         public T LastModifiedAt(DateTime at)
         {
-            LastModified = at;
+            LastWriteTime = at;
             UpdateDates();
             return Me();
         }

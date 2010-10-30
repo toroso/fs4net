@@ -7,7 +7,7 @@ namespace fs4net.Memory.Node
     {
         protected FolderNode Parent { get; private set; }
         public string Name { get; protected internal set; }
-        public DateTime LastModified { get; set; }
+        public DateTime LastWriteTime { get; set; }
         public DateTime LastAccessTime { get; set; }
 
         protected FileSystemNode(FolderNode parent, string name)
@@ -18,7 +18,7 @@ namespace fs4net.Memory.Node
             {
                 Parent.AddChild(this);
             }
-            TouchLastModified();
+            TouchLastWriteTime();
             TouchLastAccessTime();
         }
 
@@ -48,9 +48,9 @@ namespace fs4net.Memory.Node
             Parent.Move(this, destParentNode, destName);
         }
 
-        protected void TouchLastModified()
+        protected void TouchLastWriteTime()
         {
-            LastModified = DateTime.Now; // TODO: Get from a mockable clock
+            LastWriteTime = DateTime.Now; // TODO: Get from a mockable clock
         }
 
         protected void TouchLastAccessTime()

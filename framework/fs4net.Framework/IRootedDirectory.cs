@@ -70,13 +70,13 @@ namespace fs4net.Framework
         /// </summary>
         /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
         /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
-        public static DateTime LastModified<T>(this IRootedDirectory<T> me)
+        public static DateTime LastWriteTime<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
-            me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last modified time for directory '{0}' since it denotes a file.", me.PathAsString));
-            me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last modified time for directory '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last write time for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last write time for directory '{0}' since it does not exist.", me.PathAsString));
 
-            return me.InternalFileSystem().GetDirectoryLastModified(me.CanonicalPathAsString());
+            return me.InternalFileSystem().GetDirectoryLastWriteTime(me.CanonicalPathAsString());
         }
 
         /// <summary>
@@ -86,14 +86,14 @@ namespace fs4net.Framework
         /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">If the time value is outside the range of dates or
         /// times permitted for this operation.</exception>
-        public static void SetLastModified<T>(this IRootedDirectory<T> me, DateTime at)
+        public static void SetLastWriteTime<T>(this IRootedDirectory<T> me, DateTime at)
             where T : IRootedDirectory<T>
         {
             RootedFileSystemItemVerifications.VerifyDateTime(at, "set modified date", "directory");
-            me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last modified time for directory '{0}' since it denotes a file.", me.PathAsString));
-            me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last modified time for directory '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last write time for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last write time for directory '{0}' since it does not exist.", me.PathAsString));
 
-            me.InternalFileSystem().SetDirectoryLastModified(me.CanonicalPathAsString(), at);
+            me.InternalFileSystem().SetDirectoryLastWriteTime(me.CanonicalPathAsString(), at);
         }
 
         /// <summary>

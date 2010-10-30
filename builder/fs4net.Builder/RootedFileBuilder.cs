@@ -21,7 +21,7 @@ namespace fs4net.Builder
         protected override void UpdateDates()
         {
             _file.SetLastAccessTime(LastAccessTime);
-            _file.SetLastModified(LastModified);
+            _file.SetLastWriteTime(LastWriteTime);
         }
 
         public RootedFileBuilder Containing(string contents)
