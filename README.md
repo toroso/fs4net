@@ -26,7 +26,7 @@ Using fs4net is a piece of cake. First you need to create a file system instance
 
     IFileSystem fs = new FileSystem();
 
-This line should preferrably be in the Main() method of your application, or better yet, be created by your IOC container. It's a good thing to have a single instance in your application, although there's nothing that actually stops you from having several.
+This line should preferably be in the Main() method of your application, or better yet, be created by your IOC container. It's a good thing to have a single instance in your application, although there's nothing that actually stops you from having several.
 
 Now that you have a file system you might want to do something with it, like create a directory. Tada:
 
@@ -108,6 +108,13 @@ There are six assemblies in the fs4net solution:
     <td>fs4net.TestTemplates</td><td>Contains tests shared between fs4net.Framework.Test and fs4net.Memory.Test. The two file system implementations are verified with the same tests to assure that they have the same behaviour. If you want to create your own IFileSystem implementation you should use these tests to verify it.</td>
   </tr>
 </table>
+
+
+
+Requirements
+------------
+
+fs4net is targeted for .NET framework 3.5.
 
 
 
