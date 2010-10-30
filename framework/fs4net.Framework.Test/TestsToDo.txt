@@ -130,7 +130,6 @@ PathWashers...
   [ ] ReplaceCharWasher (specify from and to)
 
 
-TODO: Structure: Move nice-to-have methods to Extensions namespace
 TODO: Access Denied on most operations -- enough to fake it in one way, e.g. making it read-only
 TODO: Open two streams from same file. Also reference counting on open.
 TODO: More stream tests... length, position, flush.

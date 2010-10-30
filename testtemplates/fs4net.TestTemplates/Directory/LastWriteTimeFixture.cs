@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using fs4net.Framework;
+using fs4net.Framework.Utils;
 using NUnit.Framework;
 
 namespace fs4net.TestTemplates.Directory
