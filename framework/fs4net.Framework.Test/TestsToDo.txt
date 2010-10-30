@@ -1,11 +1,19 @@
-﻿IFileSystem
+﻿Legend:
+  [x] Test and code written
+  [?] Needs more tests
+  [.] Code written, but no tests
+  [ ] Not started
+
+
+IFileSystem
     [x] DirectoryDescribingTemporaryDirectory
-    [ ] DirectoryDescribingCurrentDirectory
+    [.] DirectoryDescribingCurrentDirectory
     [ ] DirectoryDescribingSpecialFolder
     [ ] Drives
     [ ] ? TryCreateXxxDescribing (or IsValidPath())
     [ ] ? InvalidPathChars
-
+    [.] Logger
+    [.] PathWasher
 
 IRootedFileSystemItem, RootedFileSystemItemExtensions
     [x] FileSystem
@@ -14,8 +22,7 @@ IRootedFileSystemItem, RootedFileSystemItemExtensions
 IFileSystemItem, FileSystemItemExtensions
     [x] PathAsString { get; }
     [x] AsCanonical();
-    [ ] ParentDirectory -- throws if IsRoot
-    [ ] Drive
+    [.] ParentDirectory -- throws if IsRoot
   IFile, FileExtensions
       [x] FileName
     RelativeFile, RelativeFileExtensions
@@ -28,9 +35,8 @@ IFileSystemItem, FileSystemItemExtensions
         [x] Creation (WithFileName)
         [x] Equals, GetHashCode
         [x] Exists
-        [ ] Created
-        [?] LastAccessed -- some operations missing... (rename?)
-        [?] LastModified -- some operations missing... (rename?)
+        [?] LastAccessed -- some operations missing...
+        [?] LastModified -- some operations missing...
         [ ] CreationTime
         [ ] Attributes (and/or one property for each attribute?)
         [x] Delete
@@ -41,12 +47,12 @@ IFileSystemItem, FileSystemItemExtensions
         [x] CreateAppendStream
         [ ] CopyTo -- Check so that the source and the destination are on the same file system
         [x] MoveTo
-        [ ] Size
-        [?] ReadText -- should be far away extension method
-        [?] WriteText -- should be far away extension method
-        [?] AppendText -- should be far away extension method
+        [ ] Size (what is the return type? long or value object?)
+        [x] ReadText -- should be far away extension method
+        [x] WriteText -- should be far away extension method
+        [x] AppendText -- should be far away extension method
   IDirectory, DirectoryExtensions
-      [ ] LeafFolder
+      [.] LeafFolder -- wrong place, it's in IRootedDirectory
     RelativeDirectory, RelativeDirectoryExtensions
         [x] Creation (FromString)
         [x] Equals, GetHashCode
@@ -54,9 +60,8 @@ IFileSystemItem, FileSystemItemExtensions
         [x] Creation
         [x] Equals, GetHashCode
         [x] Exists
-        [ ] Created
-        [?] LastAccessed -- some operations missing... (rename?)
-        [?] LastModified -- some operations missing... (rename?)
+        [?] LastAccessed -- some operations missing...
+        [?] LastModified -- some operations missing...
         [ ] CreationTime
         [ ] Attributes (and/or one property for each attribute?)
         [x] DeleteRecursively
@@ -67,8 +72,8 @@ IFileSystemItem, FileSystemItemExtensions
         [ ] CopyTo -- Check so that the source and the destination are on the same file system
         [x] MoveTo
         [ ] FileSystemItems
-        [ ] Files
-        [ ] Directories
+        [.] Files
+        [.] Directories
         [ ] FileSystemItemsRecursice -- in far away extension method
         [ ] FilesRecursive -- in far away extension method
         [ ] DirectoriesRecursive -- in far away extension method
@@ -114,14 +119,26 @@ named...
   [x] RootedDirectory.RelativeFrom RootedDirectory => RelativeDirectory
   [x] RootedFile.RelativeFrom RootedDirectory => RelativeFile
 
+PathWashers...
+  [.] NullWasher
+  [ ] RemoveEndingBackslashWasher (only for directories?)
+  [ ] TrimSpacesWasher
+  [ ] RemoveIllegalSpacesWasher
+  [ ] ReplaceSlashWithBackslashWasher
+  [ ] RemoveMultipleBackslashesWasher
+  [ ] ReplaceIllegalPathCharsWasher (specify replacement char)
+  [ ] ReplaceCharWasher (specify from and to)
 
+
+TODO: Rename LastAccessed and LastModified
+TODO: Structure: Move nice-to-have methods to Extensions namespace
 TODO: Access Denied on most operations -- enough to fake it in one way, e.g. making it read-only
 TODO: Open two streams from same file. Also reference counting on open.
 TODO: More stream tests... length, position, flush.
 TODO: Let MemoryFileSystem.Dispose() verify that all streams are disposed.
 TODO: Equals() is not tested, only GetHashCode()... what to do about that?
 TODO: Introduce constant: FolderSeparator
-
+TODO: Documentation, especially exceptions
 
 
 
