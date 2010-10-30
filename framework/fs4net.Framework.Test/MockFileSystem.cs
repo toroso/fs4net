@@ -38,10 +38,10 @@ namespace fs4net.Framework.Test
         public void SetFileLastModified(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public DateTime GetDirectoryLastModified(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetDirectoryLastModified(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
-        public DateTime GetFileLastAccessed(RootedCanonicalPath path) { throw new NotImplementedException(); }
-        public void SetFileLastAccessed(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
-        public DateTime GetDirectoryLastAccessed(RootedCanonicalPath path) { throw new NotImplementedException(); }
-        public void SetDirectoryLastAccessed(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
+        public DateTime GetLastAccessTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public void SetLastAccessTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
+        public DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void CreateDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }

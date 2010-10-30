@@ -13,10 +13,10 @@ namespace fs4net.Framework
         void SetFileLastModified(RootedCanonicalPath path, DateTime at);
         DateTime GetDirectoryLastModified(RootedCanonicalPath path);
         void SetDirectoryLastModified(RootedCanonicalPath path, DateTime at);
-        DateTime GetFileLastAccessed(RootedCanonicalPath path);
-        void SetFileLastAccessed(RootedCanonicalPath path, DateTime at);
-        DateTime GetDirectoryLastAccessed(RootedCanonicalPath path);
-        void SetDirectoryLastAccessed(RootedCanonicalPath path, DateTime at);
+        DateTime GetLastAccessTime(RootedCanonicalPath path);
+        void SetLastAccessTime(RootedCanonicalPath path, DateTime at);
+        DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path);
+        void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at);
 
         IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path);
         IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path);

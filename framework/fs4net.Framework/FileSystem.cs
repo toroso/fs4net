@@ -96,22 +96,22 @@ namespace fs4net.Framework
             System.IO.Directory.SetLastWriteTime(path.FullPath, at);
         }
 
-        public DateTime GetFileLastAccessed(RootedCanonicalPath path)
+        public DateTime GetLastAccessTime(RootedCanonicalPath path)
         {
             return System.IO.File.GetLastAccessTime(path.FullPath);
         }
 
-        public void SetFileLastAccessed(RootedCanonicalPath path, DateTime at)
+        public void SetLastAccessTime(RootedCanonicalPath path, DateTime at)
         {
             System.IO.File.SetLastAccessTime(path.FullPath, at);
         }
 
-        public DateTime GetDirectoryLastAccessed(RootedCanonicalPath path)
+        public DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path)
         {
             return System.IO.Directory.GetLastAccessTime(path.FullPath);
         }
 
-        public void SetDirectoryLastAccessed(RootedCanonicalPath path, DateTime at)
+        public void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at)
         {
             System.IO.Directory.SetLastAccessTime(path.FullPath, at);
         }

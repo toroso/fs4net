@@ -47,7 +47,7 @@
     <Compile Include="Directory\DeleteIfEmptyFixture.cs" />
     <Compile Include="Directory\DeleteRecursivelyFixture.cs" />
     <Compile Include="Directory\ExistsFixture.cs" />
-    <Compile Include="Directory\LastAccessedFixture.cs" />
+    <Compile Include="Directory\LastAccessTimeFixture.cs" />
     <Compile Include="Directory\LastModifiedFixture.cs" />
     <Compile Include="Directory\MoveToFixture.cs" />
     <Compile Include="Directory\TryDeleteIfEmptyFixture.cs" />
@@ -58,7 +58,7 @@
     <Compile Include="File\CreateWriteStreamFixture.cs" />
     <Compile Include="File\DeleteFixture.cs" />
     <Compile Include="File\ExistsFixture.cs" />
-    <Compile Include="File\LastAccessedFixture.cs" />
+    <Compile Include="File\LastAccessTimeFixture.cs" />
     <Compile Include="File\LastModifiedFixture.cs" />
     <Compile Include="File\MoveToFixture.cs" />
     <Compile Include="File\TryDeleteFixture.cs" />

@@ -12,17 +12,17 @@ namespace fs4net.TestTemplates
 
         protected RootedFile ExistingFile { get; private set; }
         protected DateTime ExistingFileLastModified { get { return new DateTime(2010, 08, 20); } }
-        protected DateTime ExistingFileLastAccessed { get { return new DateTime(2005, 09, 07); } }
+        protected DateTime ExistingFileLastAccessTime { get { return new DateTime(2005, 09, 07); } }
         protected string ExistingFileContents { get { return "Noviembre"; } }
         protected RootedFile ExistingFile2 { get; private set; }
         protected RootedFile NonExistingFile { get; private set; }
 
         protected RootedDirectory ExistingLeafDirectory { get; private set; }
         protected DateTime ExistingLeafDirectoryLastModified { get { return new DateTime(1998, 11, 15); } }
-        protected DateTime ExistingLeafDirectoryLastAccessed { get { return new DateTime(2001, 09, 11); } }
+        protected DateTime ExistingLeafDirectoryLastAccessTime { get { return new DateTime(2001, 09, 11); } }
         protected RootedDirectory ParentOfExistingLeafDirectory { get; private set; }
         protected DateTime ParentOfExistingLeafDirectoryLastModified { get { return new DateTime(1984, 12, 25); } }
-        protected DateTime ParentOfExistingLeafDirectoryLastAccessed { get { return new DateTime(2004, 06, 12); } }
+        protected DateTime ParentOfExistingLeafDirectoryLastAccessTime { get { return new DateTime(2004, 06, 12); } }
         protected RootedDirectory ExistingEmptyDirectory { get; private set; }
         protected RootedDirectory NonExistingDirectory { get; private set; }
 
@@ -46,7 +46,7 @@ namespace fs4net.TestTemplates
                 .WithFile(@"path\to\file.txt")
                 .Containing(ExistingFileContents)
                 .LastModifiedAt(ExistingFileLastModified)
-                .LastAccessedAt(ExistingFileLastAccessed);
+                .LastAccessedAt(ExistingFileLastAccessTime);
             ExistingFile2 = populateFileSystem
                 .WithFile(@"path\to\file2.txt");
             NonExistingFile = FileSystem.FileDescribing(InTemp(@"path\to\another.txt"));
@@ -54,11 +54,11 @@ namespace fs4net.TestTemplates
             ExistingLeafDirectory = populateFileSystem
                 .WithDir(@"path\to")
                 .LastModifiedAt(ExistingLeafDirectoryLastModified)
-                .LastAccessedAt(ExistingLeafDirectoryLastAccessed);
+                .LastAccessedAt(ExistingLeafDirectoryLastAccessTime);
             ParentOfExistingLeafDirectory = populateFileSystem
                 .WithDir(@"path")
                 .LastModifiedAt(ParentOfExistingLeafDirectoryLastModified)
-                .LastAccessedAt(ParentOfExistingLeafDirectoryLastAccessed);
+                .LastAccessedAt(ParentOfExistingLeafDirectoryLastAccessTime);
             ExistingEmptyDirectory = populateFileSystem
                 .WithDir(@"my\path");
             NonExistingDirectory = FileSystem.DirectoryDescribing(InTemp(@"another\path\to"));

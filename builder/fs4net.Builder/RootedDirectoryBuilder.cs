@@ -19,7 +19,7 @@ namespace fs4net.Builder
 
         protected override void UpdateDates()
         {
-            _dir.SetLastAccessed(LastAccessed);
+            _dir.SetLastAccessTime(LastAccessTime);
             _dir.SetLastModified(LastModified);
         }
 

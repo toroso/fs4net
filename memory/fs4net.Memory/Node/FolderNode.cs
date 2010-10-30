@@ -48,7 +48,7 @@ namespace fs4net.Memory.Node
         {
             Children.Add(node);
             TouchLastModified();
-            TouchLastAccessed();
+            TouchLastAccessTime();
         }
 
         public FileNode CreateFileNode(string filename)
@@ -82,7 +82,7 @@ namespace fs4net.Memory.Node
             if (Children.Remove(nodeToRemove) == false)
                 throw new InvalidOperationException(string.Format("Trying to remove a node '{0}' that doesn't exist.", nodeToRemove));
             TouchLastModified();
-            TouchLastAccessed();
+            TouchLastAccessTime();
         }
 
         internal void Move(FileSystemNode source, FolderNode destParentNode, string destName)

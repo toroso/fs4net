@@ -140,25 +140,25 @@ namespace fs4net.Framework
         /// Returns the date and time the file was last accessed.
         /// </summary>
         /// TODO: Exceptions!
-        public static DateTime LastAccessed(this RootedFile me)
+        public static DateTime LastAccessTime(this RootedFile me)
         {
-            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last accessed time for file '{0}' since it denotes a directory.", me.PathAsString));
-            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last accessed time for file '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last access time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last access time for file '{0}' since it does not exist.", me.PathAsString));
 
-            return me.InternalFileSystem().GetFileLastAccessed(me.CanonicalPathAsString());
+            return me.InternalFileSystem().GetLastAccessTime(me.CanonicalPathAsString());
         }
 
         /// <summary>
-        /// Sets the LastAccessed property on the file denoted by this descriptor.
+        /// Sets the LastAccessTime property on the file denoted by this descriptor.
         /// </summary>
         /// TODO: Exceptions!
-        public static void SetLastAccessed(this RootedFile me, DateTime at)
+        public static void SetLastAccessTime(this RootedFile me, DateTime at)
         {
             RootedFileSystemItemVerifications.VerifyDateTime(at, "set last accessed date", "file");
-            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last accessed time for file '{0}' since it denotes a directory.", me.PathAsString));
-            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last accessed time for file '{0}' since it does not exist.", me.PathAsString));
+            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last access time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last access time for file '{0}' since it does not exist.", me.PathAsString));
 
-            me.InternalFileSystem().SetFileLastAccessed(me.CanonicalPathAsString(), at);
+            me.InternalFileSystem().SetLastAccessTime(me.CanonicalPathAsString(), at);
         }
 
         /// <summary>

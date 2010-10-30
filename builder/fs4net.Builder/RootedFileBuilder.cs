@@ -20,7 +20,7 @@ namespace fs4net.Builder
 
         protected override void UpdateDates()
         {
-            _file.SetLastAccessed(LastAccessed);
+            _file.SetLastAccessTime(LastAccessTime);
             _file.SetLastModified(LastModified);
         }
 

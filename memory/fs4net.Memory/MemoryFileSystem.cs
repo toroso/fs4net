@@ -103,24 +103,24 @@ namespace fs4net.Memory
             FindFolderNodeByPath(path.FullPath).LastModified = at;
         }
 
-        public DateTime GetFileLastAccessed(RootedCanonicalPath path)
+        public DateTime GetLastAccessTime(RootedCanonicalPath path)
         {
-            return FindFileNodeByPath(path.FullPath).LastAccessed;
+            return FindFileNodeByPath(path.FullPath).LastAccessTime;
         }
 
-        public void SetFileLastAccessed(RootedCanonicalPath path, DateTime at)
+        public void SetLastAccessTime(RootedCanonicalPath path, DateTime at)
         {
-            FindFileNodeByPath(path.FullPath).LastAccessed = at;
+            FindFileNodeByPath(path.FullPath).LastAccessTime = at;
         }
 
-        public DateTime GetDirectoryLastAccessed(RootedCanonicalPath path)
+        public DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path)
         {
-            return FindFolderNodeByPath(path.FullPath).LastAccessed;
+            return FindFolderNodeByPath(path.FullPath).LastAccessTime;
         }
 
-        public void SetDirectoryLastAccessed(RootedCanonicalPath path, DateTime at)
+        public void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at)
         {
-            FindFolderNodeByPath(path.FullPath).LastAccessed = at;
+            FindFolderNodeByPath(path.FullPath).LastAccessTime = at;
         }
 
         public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
