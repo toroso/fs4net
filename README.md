@@ -30,10 +30,10 @@ This line should preferably be in the Main() method of your application, or bett
 
 Now that you have a file system you might want to do something with it, like create a directory. Tada:
 
-    RootedDirectory dir = fs.CreateDirectoryDescribing(@"c:\my\path\to\heaven");
+    RootedDirectory dir = fs.DirectoryDescribing(@"c:\my\path\to\heaven");
     dir.Create();
 
-Here, the CreateDirectoryDescribing() method creates a reference to the directory, but it does not actually create the directory. You could say that the RootedDirectory is nothing but a fancy string containing the given path.
+Here, the DirectoryDescribing() method creates a reference to the directory, but it does not actually create the directory. You could say that the RootedDirectory is nothing but a fancy string containing the given path.
 
 The Create() method on the other hand does create the directory. You could say corresponds to the .NET framework (static) method Directory.CreateDirectory().
 
