@@ -34,12 +34,12 @@ namespace fs4net.Framework
         Stream CreateAppendStream(RootedCanonicalPath path);
         Stream CreateModifyStream(RootedCanonicalPath path);
 
-        /// <summary>
-        /// Should return true if the drive is ready to use. A drive that is not ready could be for example an ejected
-        /// USB device, a CD-ROM device without disk or a disconnected network device.
-        /// </summary>
-        /// <param name="drive">Contains the name of the drive/device without ending backslash. Examples are c: or
-        /// \\network\drive.</param>
+        // <summary>
+        // Should return true if the drive is ready to use. A drive that is not ready could be for example an ejected
+        // USB device, a CD-ROM device without disk or a disconnected network device.
+        // </summary>
+        // <param name="drive">Contains the name of the drive/device without ending backslash. Examples are c: or
+        // \\network\drive.</param>
 //        bool IsReady(DriveName drive);
     }
 }
