@@ -77,6 +77,11 @@ namespace fs4net.Framework.Test.PathAsString
             AssertCanonicalEquals(FileSystem.DirectoryDescribing(@"c:\path\to\.."), @"c:\path");
         }
 
+        [Test]
+        public void RootedDirectory_Canonically_Denoting_Drive()
+        {
+            AssertCanonicalEquals(FileSystem.DirectoryDescribing(@"c:\path\.."), @"c:");
+        }
 
         private static void AssertCanonicalEquals<T>(IFileSystemItem<T> file, string expected) where T : IFileSystemItem<T>
         {

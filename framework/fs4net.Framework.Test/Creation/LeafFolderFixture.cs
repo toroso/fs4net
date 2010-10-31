@@ -30,7 +30,6 @@ namespace fs4net.Framework.Test.Creation
         }
 
         [Test]
-        [Ignore(@"Converting the path 'c:\path\..' to canonical form throws")]
         public void LeafFolder_Of_RootedDirectory_With_A_CanonicalPath_That_Denotes_Drive()
         {
             var original = _fileSystem.DirectoryDescribing(@"c:\path\..");

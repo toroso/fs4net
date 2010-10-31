@@ -90,7 +90,8 @@ namespace fs4net.Framework.Impl
             if (mustBeRooted && folderPath.Length > 1 && !hasLeadingBackslash) throw new InvalidPathException(string.Format("Expected a '\\' after the drive but found a '{0}' in the path '{1}'.", folderPath.First(), _fullPath));
 
             string canonicalFolderPath = GetCanonicalFolderPath(folderPath, hasLeadingBackslash, hasEndingBackslash, !mustBeRooted);
-            string canonicalPath = driveName + (hasLeadingBackslash ? @"\" : string.Empty) + canonicalFolderPath + (hasEndingBackslash && includeEndingBackslash ? @"\" : string.Empty) + filename;
+            bool appendLeadingBackslash = hasLeadingBackslash && canonicalFolderPath.Length > 0;
+            string canonicalPath = driveName + (appendLeadingBackslash ? @"\" : string.Empty) + canonicalFolderPath + (hasEndingBackslash && includeEndingBackslash ? @"\" : string.Empty) + filename;
 
             ValidatePathLength(canonicalPath); // TODO: Should path length be validated for relative paths?
             return canonicalPath;
