@@ -39,9 +39,12 @@ namespace fs4net.Framework
         public static RelativeDirectory LeafFolder<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
-            var canonicalPath = me.CanonicalPathAsString().FullPath;
+            ThrowHelper.ThrowIfNull(me, "me");
+            var asCanonical = me.AsCanonical();
+            if (asCanonical.Equals(asCanonical.Drive())) return RelativeDirectory.FromString(string.Empty);
+
+            var canonicalPath = asCanonical.PathAsString;
             var lastBackslashIndex = canonicalPath.LastIndexOf('\\');
-//            if (lastBackslashIndex == -1) return RelativeDirectory.Empty;
             return RelativeDirectory.FromString(canonicalPath.Substring(lastBackslashIndex + 1));
         }
 

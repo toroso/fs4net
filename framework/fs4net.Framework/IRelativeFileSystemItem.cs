@@ -1,6 +1,3 @@
-using System.IO;
-using fs4net.Framework.Impl;
-
 namespace fs4net.Framework
 {
     public interface IRelativeFileSystemItem<T> : IFileSystemItem<T> where T : IRelativeFileSystemItem<T>

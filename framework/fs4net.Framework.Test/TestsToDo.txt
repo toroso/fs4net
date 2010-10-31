@@ -52,7 +52,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] WriteText -- should be far away extension method
         [x] AppendText -- should be far away extension method
   IDirectory, DirectoryExtensions
-      [.] LeafFolder -- wrong place, it's in IRootedDirectory
+      [x] LeafFolder
     RelativeDirectory, RelativeDirectoryExtensions
         [x] Creation (FromString)
         [x] Equals, GetHashCode

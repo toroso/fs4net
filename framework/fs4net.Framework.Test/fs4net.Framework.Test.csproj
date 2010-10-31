@@ -49,6 +49,7 @@
     <Compile Include="Creation\CreateRelativeFileFixture.cs" />
     <Compile Include="Creation\CreateRootedDirectoryFixture.cs" />
     <Compile Include="Creation\CreateRootedFileFixture.cs" />
+    <Compile Include="Creation\LeafFolderFixture.cs" />
     <Compile Include="Creation\ParentFixture.cs" />
     <Compile Include="Directory\CreateFixture.cs" />
     <Compile Include="Directory\DeleteIfEmptyFixture.cs" />

@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
@@ -138,6 +137,21 @@ namespace fs4net.Framework
         {
             ThrowHelper.ThrowIfNull(me, "me");
             return me.Append(RelativeDirectory.FromString("..")).AsCanonical();
+        }
+
+        /// <summary>
+        /// Returns a relative descriptor containing the name of the leaf folder of this path.
+        /// Example: LeafFolder("my\path\to") => "to".
+        /// The method returns the leaf folder in the path's canonical form. This could be an empty directory or even
+        /// "..".
+        /// </summary>
+        // TODO: Exceptions, Allow empty RelativeDirectories
+        public static RelativeDirectory LeafFolder(this RelativeDirectory me)
+        {
+            ThrowHelper.ThrowIfNull(me, "me");
+            var canonicalPath = me.AsCanonical().PathAsString;
+            var lastBackslashIndex = canonicalPath.LastIndexOf('\\');
+            return RelativeDirectory.FromString(canonicalPath.Substring(lastBackslashIndex + 1));
         }
     }
 }
