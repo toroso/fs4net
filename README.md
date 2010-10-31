@@ -111,6 +111,18 @@ There are six assemblies in the fs4net solution:
 
 
 
+Current State
+-------------
+
+The current release is v0.1. It is an alpha release and the purpose of this release is to get feedback on the usage.
+
+It is however quite a useful release. Although fs4net can't yet replace all functionality found in the System.IO file management classes, it supports the most common use cases. It is also stable in the sense that there are no known bugs.
+
+Also, the interfaces are probably quite fixed, so it will most likely be easy to upgrade to upcoming releases.
+
+
+
+
 Requirements
 ------------
 
