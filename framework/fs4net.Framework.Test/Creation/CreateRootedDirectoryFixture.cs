@@ -171,6 +171,7 @@ namespace fs4net.Framework.Test.Creation
         private static readonly string[] ValidPaths =
             {
                 @"c:",
+                @"c:\path\..",
                 @"c:\path\without\ending\backslash\to",
                 @"z:\last\drive\path\to",
                 @"\\network\path",

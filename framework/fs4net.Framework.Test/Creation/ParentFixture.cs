@@ -59,12 +59,11 @@ namespace fs4net.Framework.Test.Creation
         }
 
         [Test]
-        [Ignore(@"Bug detected... Can't create the path 'c:\path\..'")]
         public void Parent_Of_RootedDirectory_With_A_CanonicalPath_That_Denotes_Drive_Throws()
         {
             Assert.Throws<InvalidPathException>(() => _fileSystem.DirectoryDescribing(@"c:\path\..").Parent());
         }
-
+        
         [Test]
         public void Parent_Of_FolderName_Returns_Empty_RelativeDirectory()
         {

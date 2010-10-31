@@ -105,7 +105,7 @@ namespace fs4net.Framework.Impl
                     .TokenizeToFolders(_fullPath)
                     .Canonify()
                     .ToList();
-                if (!canonicalCanStartWithDoubleDots && canonicalFolders.First() == "..")
+                if (!canonicalCanStartWithDoubleDots && canonicalFolders.Any() && canonicalFolders.First() == "..")
                 {
                     throw new InvalidPathException(string.Format("The path '{0}' ascends into a folder above the root level.", _fullPath));
                 }
