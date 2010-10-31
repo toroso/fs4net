@@ -24,6 +24,7 @@ namespace fs4net.TestTemplates
         protected DateTime ParentOfExistingLeafDirectoryLastWriteTime { get { return new DateTime(1984, 12, 25); } }
         protected DateTime ParentOfExistingLeafDirectoryLastAccessTime { get { return new DateTime(2004, 06, 12); } }
         protected RootedDirectory ExistingEmptyDirectory { get; private set; }
+        protected RootedDirectory ExistingEmptyDirectory2 { get; private set; }
         protected RootedDirectory NonExistingDirectory { get; private set; }
 
         protected Drive NonExistingDrive { get; private set; }
@@ -61,6 +62,8 @@ namespace fs4net.TestTemplates
                 .LastAccessedAt(ParentOfExistingLeafDirectoryLastAccessTime);
             ExistingEmptyDirectory = populateFileSystem
                 .WithDir(@"my\path");
+            ExistingEmptyDirectory2 = populateFileSystem
+                .WithDir(@"my\other");
             NonExistingDirectory = FileSystem.DirectoryDescribing(InTemp(@"another\path\to"));
 
             NonExistingDrive = FileSystem.DriveDescribing("c:");

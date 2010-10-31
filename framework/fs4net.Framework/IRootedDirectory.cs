@@ -158,20 +158,10 @@ namespace fs4net.Framework
         public static IEnumerable<RootedDirectory> Directories<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
-            return me.Directories(directory => true);
-        }
+            me.VerifyIsNotAFile(ThrowHelper.IOException(me.PathAsString, "Can't get all directories for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException(me.PathAsString, "Can't get all directories for directory '{0}' since it does not exist.", me.PathAsString));
 
-        /// <summary>
-        /// Returns all directories that exist in this directory and that match the given predicate.
-        /// </summary>
-        /// TODO: Exceptions
-        public static IEnumerable<RootedDirectory> Directories<T>(this IRootedDirectory<T> me, Func<RootedDirectory, bool> predicate)
-            where T : IRootedDirectory<T>
-        {
-            me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get all directories for directory '{0}' since it denotes a file.", me.PathAsString));
-            me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get all directories for directory '{0}' since it does not exist.", me.PathAsString));
-
-            return me.InternalFileSystem().GetDirectoriesInDirectory(me.CanonicalPathAsString()).Where(predicate);
+            return me.InternalFileSystem().GetDirectoriesInDirectory(me.CanonicalPathAsString());
         }
     }
 

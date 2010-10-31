@@ -20,7 +20,7 @@ namespace fs4net.TestTemplates.Directory
         }
 
         [Test]
-        public void Files_For_Directory_With_File_Returns_That_File()
+        public void Files_For_Directory_With_Files_Returns_Those_Files()
         {
             var actual = ExistingLeafDirectory.Files();
             Assert.That(actual, Is.EquivalentTo(new[] { ExistingFile, ExistingFile2 }));
