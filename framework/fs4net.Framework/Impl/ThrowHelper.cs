@@ -33,9 +33,14 @@ namespace fs4net.Framework.Impl
             return () => new ArgumentException(string.Format(template, args));
         }
 
-        public static Func<Exception> UnauthorizedAccessException(string template, params string[] args)
+        public static Func<Exception> UnauthorizedAccessException(string template, params object[] args)
         {
             return () => new UnauthorizedAccessException(string.Format(template, args));
+        }
+
+        public static Func<Exception> InvalidPathException(string template, params object[] args)
+        {
+            return () => new InvalidPathException(string.Format(template, args));
         }
     }
 }

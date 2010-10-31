@@ -76,7 +76,7 @@ namespace fs4net.TestTemplates.Directory
             DateTime before = DateTime.Now.AddSeconds(-1);
             newDir.Create();
             DateTime after = DateTime.Now.AddSeconds(1);
-            Assert.That(ExistingLeafDirectory.ParentDirectory().LastWriteTime(), Is.Not.InRange(before, after));
+            Assert.That(ExistingLeafDirectory.Parent().LastWriteTime(), Is.Not.InRange(before, after));
         }
 
         // TODO: Rename Directory
@@ -105,7 +105,7 @@ namespace fs4net.TestTemplates.Directory
             DateTime before = DateTime.Now.AddSeconds(-1);
             ExistingFile.Delete();
             DateTime after = DateTime.Now.AddSeconds(1);
-            Assert.That(ExistingFile.ParentDirectory().LastWriteTime(), Is.InRange(before, after));
+            Assert.That(ExistingFile.Parent().LastWriteTime(), Is.InRange(before, after));
         }
 
         // TODO: Append
@@ -115,7 +115,7 @@ namespace fs4net.TestTemplates.Directory
         //    DateTime before = DateTime.Now.AddSeconds(-1);
         //    ExistingFile.AppendText("tomte");
         //    DateTime after = DateTime.Now.AddSeconds(1);
-        //    Assert.That(ExistingFile.ParentDirectory().LastWriteTime(), Is.Not.InRange(before, after));
+        //    Assert.That(ExistingFile.Parent().LastWriteTime(), Is.Not.InRange(before, after));
         //}
 
         // TODO: Rename File
@@ -125,7 +125,7 @@ namespace fs4net.TestTemplates.Directory
         //    DateTime before = DateTime.Now.AddSeconds(-1);
         //    ExistingFile.Move(...);
         //    DateTime after = DateTime.Now.AddSeconds(1);
-        //    Assert.That(ExistingFile.ParentDirectory().LastWriteTime(), Is.InRange(before, after));
+        //    Assert.That(ExistingFile.Parent().LastWriteTime(), Is.InRange(before, after));
         //}
 
         // TODO: Move file from one dir to another -- modified source and target directories?

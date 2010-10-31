@@ -10,7 +10,7 @@ namespace fs4net.Builder
         public RootedFileBuilder(RootedFile file)
         {
             _file = file;
-            _file.ParentDirectory().Create();
+            _file.Parent().Create();
             Containing(string.Empty); // Creates the file
         }
 

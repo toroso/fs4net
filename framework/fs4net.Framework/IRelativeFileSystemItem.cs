@@ -1,3 +1,6 @@
+using System.IO;
+using fs4net.Framework.Impl;
+
 namespace fs4net.Framework
 {
     public interface IRelativeFileSystemItem<T> : IFileSystemItem<T> where T : IRelativeFileSystemItem<T>
@@ -16,7 +19,7 @@ namespace fs4net.Framework
             if (ReferenceEquals(null, me)) return false;
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(me, other)) return true;
-            return Equals(me.CanonicalPathAsString(), other.CanonicalPathAsString());
+            return Equals(me.AsCanonical().PathAsString, other.AsCanonical().PathAsString);
         }
 
         /// <summary>
@@ -38,7 +41,7 @@ namespace fs4net.Framework
         internal static int InternalGetHashCode<T>(this IRelativeFileSystemItem<T> me)
             where T : IRelativeFileSystemItem<T>
         {
-            return me.CanonicalPathAsString().GetHashCode();
+            return me.AsCanonical().PathAsString.GetHashCode();
         }
     }
 }

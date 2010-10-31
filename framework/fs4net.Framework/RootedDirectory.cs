@@ -231,7 +231,7 @@ namespace fs4net.Framework
             me.VerifyOnSameDriveAs(destination, ThrowHelper.IOException("Can't move the directory '{0}' to '{1}' since they are located on different drives.", me, destination));
             me.VerifyIsNotAFile(ThrowHelper.DirectoryNotFoundException("Can't move the directory '{0}' since it denotes a file.", me));
             me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't move the directory '{0}' since it does not exist.", me));
-            destination.ParentDirectory().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't move the directory since the destination's parent directory '{0}' does not exist.", destination.ParentDirectory()));
+            destination.Parent().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't move the directory since the destination's parent directory '{0}' does not exist.", destination.Parent()));
             destination.VerifyIsNotAFile(ThrowHelper.IOException("Can't move the directory to the destination '{0}' since a file with that name already exists.", destination));
             destination.VerifyIsNotADirectory(ThrowHelper.IOException("Can't move the directory to the destination '{0}' since a directory with that name already exists.", destination));
             me.VerifyIsNotTheSameAs(destination, ThrowHelper.IOException("Can't move the directory '{0}' since the source and destination denotes the same directory.", destination));

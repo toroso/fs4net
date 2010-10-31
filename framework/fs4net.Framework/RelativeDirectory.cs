@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
@@ -107,18 +108,36 @@ namespace fs4net.Framework
 
     public static class RelativeDirectoryExtensions
     {
+        /// <summary>
+        /// Concatenates the two descriptors into one and returns it.
+        /// </summary>
         public static RelativeFile Append(this RelativeDirectory left, RelativeFile right)
         {
             ThrowHelper.ThrowIfNull(left, "left");
             ThrowHelper.ThrowIfNull(right, "right");
+            if (left.PathAsString.IsEmpty()) return right;
             return RelativeFile.FromString(PathUtils.Combine(left.PathAsString, right.PathAsString));
         }
 
+        /// <summary>
+        /// Concatenates the two descriptors into one and returns it.
+        /// </summary>
         public static RelativeDirectory Append(this RelativeDirectory left, RelativeDirectory right)
         {
             ThrowHelper.ThrowIfNull(left, "left");
             ThrowHelper.ThrowIfNull(right, "right");
+            if (left.PathAsString.IsEmpty()) return right;
+            if (right.PathAsString.IsEmpty()) return left;
             return RelativeDirectory.FromString(PathUtils.Combine(left.PathAsString, right.PathAsString));
+        }
+
+        /// <summary>
+        /// Returns the parent directory of the denoted item.
+        /// </summary>
+        public static RelativeDirectory Parent(this RelativeDirectory me)
+        {
+            ThrowHelper.ThrowIfNull(me, "me");
+            return me.Append(RelativeDirectory.FromString("..")).AsCanonical();
         }
     }
 }

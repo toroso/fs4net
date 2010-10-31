@@ -22,7 +22,7 @@ IRootedFileSystemItem, RootedFileSystemItemExtensions
 IFileSystemItem, FileSystemItemExtensions
     [x] PathAsString { get; }
     [x] AsCanonical();
-    [.] ParentDirectory -- throws if IsRoot
+    [x] Parent
   IFile, FileExtensions
       [x] FileName
     RelativeFile, RelativeFileExtensions

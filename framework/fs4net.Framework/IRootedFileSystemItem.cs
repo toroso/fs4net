@@ -64,9 +64,11 @@ namespace fs4net.Framework
         /// <summary>
         /// Returns the parent directory of the denoted item.
         /// </summary>
-        public static RootedDirectory ParentDirectory<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>
+        public static RootedDirectory Parent<T>(this IRootedFileSystemItem<T> me)
+            where T : IRootedFileSystemItem<T>
         {
-            // TODO: Throw if there is no parent...?
+            ThrowHelper.ThrowIfNull(me, "me");
+            me.VerifyDoesNotDenoteDrive(ThrowHelper.InvalidPathException("Can't get parent directory of drive '{0}'.", me));
             return new RootedDirectory(me.InternalFileSystem(), Path.GetDirectoryName(me.PathAsString).RemoveEndingBackslash(), me.PathWasher, me.Logger);
         }
 
@@ -80,7 +82,7 @@ namespace fs4net.Framework
             return me.InternalFileSystem().IsDirectory(me.CanonicalPathAsString());
         }
 
-        internal static RootedCanonicalPath CanonicalPathAsString<T>(this IFileSystemItem<T> me) where T : IFileSystemItem<T>
+        internal static RootedCanonicalPath CanonicalPathAsString<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>
         {
             return new RootedCanonicalPath(me.AsCanonical().PathAsString);
         }
@@ -163,6 +165,15 @@ namespace fs4net.Framework
             var left = me.CanonicalPathAsString();
             var right = other.CanonicalPathAsString();
             if (right.FullPath.StartsWith(left.FullPath))
+            {
+                throw createException();
+            }
+        }
+
+        internal static void VerifyDoesNotDenoteDrive<T>(this IRootedFileSystemItem<T> me, Func<Exception> createException)
+            where T : IRootedFileSystemItem<T>
+        {
+            if (me.Drive().Equals(me))
             {
                 throw createException();
             }

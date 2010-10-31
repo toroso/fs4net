@@ -11,7 +11,7 @@ namespace fs4net.TestTemplates.Directory
         public void Move_Directory_Containing_FileSystemItems()
         {
             var source = ParentOfExistingLeafDirectory;
-            var destination = source.ParentDirectory() + RelativeDirectory.FromString("new name");
+            var destination = source.Parent() + RelativeDirectory.FromString("new name");
 
             source.MoveTo(destination);
 
@@ -104,7 +104,7 @@ namespace fs4net.TestTemplates.Directory
         public void Move_Between_FileSystems_Throws()
         {
             var source = ParentOfExistingLeafDirectory;
-            var destination = CreateFileSystem().DirectoryDescribing((source.ParentDirectory() + RelativeDirectory.FromString("new name")).PathAsString);
+            var destination = CreateFileSystem().DirectoryDescribing((source.Parent() + RelativeDirectory.FromString("new name")).PathAsString);
 
             Assert.Throws<InvalidOperationException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
