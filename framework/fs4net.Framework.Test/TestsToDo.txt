@@ -72,9 +72,10 @@ IFileSystemItem, FileSystemItemExtensions
         [ ] CopyTo -- Check so that the source and the destination are on the same file system
         [x] MoveTo
         [ ] FileSystemItems
+        [.] Empty
         [.] Files
         [.] Directories
-        [ ] FileSystemItemsRecursice -- in far away extension method
+        [ ] FileSystemItemsRecursive -- in far away extension method
         [ ] FilesRecursive -- in far away extension method
         [ ] DirectoriesRecursive -- in far away extension method
         [ ] Size -- in far away extension method

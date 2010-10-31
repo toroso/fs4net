@@ -132,7 +132,7 @@ namespace fs4net.Framework
         /// <summary>
         /// Returns true if there are no files or folders in the given directory.
         /// </summary>
-        public static bool Empty<T>(this IRootedDirectory<T> me)
+        public static bool IsEmpty<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
             return !(me.Files().Any() || me.Directories().Any());
@@ -145,20 +145,10 @@ namespace fs4net.Framework
         public static IEnumerable<RootedFile> Files<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
-            return me.Files(file => true);
-        }
+            me.VerifyIsNotAFile(ThrowHelper.IOException(me.PathAsString, "Can't get all files for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException(me.PathAsString, "Can't get all files for directory '{0}' since it does not exist.", me.PathAsString));
 
-        /// <summary>
-        /// Returns all files that exist in this directory and that match the given predicate.
-        /// </summary>
-        /// TODO: Exceptions
-        public static IEnumerable<RootedFile> Files<T>(this IRootedDirectory<T> me, Func<RootedFile, bool> predicate)
-            where T : IRootedDirectory<T>
-        {
-            me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get all files for directory '{0}' since it denotes a file.", me.PathAsString));
-            me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get all files for directory '{0}' since it does not exist.", me.PathAsString));
-
-            return me.InternalFileSystem().GetFilesInDirectory(me.CanonicalPathAsString()).Where(predicate);
+            return me.InternalFileSystem().GetFilesInDirectory(me.CanonicalPathAsString());
         }
 
         /// <summary>
@@ -190,7 +180,7 @@ namespace fs4net.Framework
         internal static void VerifyIsEmpty<T>(this IRootedDirectory<T> me, Func<Exception> createException)
             where T : IRootedDirectory<T>
         {
-            if (!me.Empty())
+            if (!me.IsEmpty())
             {
                 throw createException();
             }

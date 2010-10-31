@@ -194,7 +194,7 @@ namespace fs4net.Framework
         {
             if (me.Exists())
             {
-                if (!me.Empty()) return false;
+                if (!me.IsEmpty()) return false;
                 me.TryDelete(false);
             }
             return !me.Exists();
