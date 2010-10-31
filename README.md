@@ -26,7 +26,7 @@ Using fs4net is a piece of cake. First you need to create a file system instance
 
     IFileSystem fs = new FileSystem();
 
-This line should preferably be in the Main() method of your application, or better yet, be created by your IOC container. It's a good thing to have a single instance in your application, although there's nothing that actually stops you from having several.
+This line should preferably be in the Main() method of your application, or better yet, be created by your [IoC container](http://martinfowler.com/articles/injection.html). It's a good thing to have a single instance in your application, although there's nothing that actually stops you from having several.
 
 Now that you have a file system you might want to do something with it, like create a directory. Tada:
 
