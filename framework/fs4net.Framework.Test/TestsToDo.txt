@@ -45,7 +45,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] CreateWriteStream
         [x] CreateModifyStream
         [x] CreateAppendStream
-        [x] CopyTo
+        [?] CopyTo
         [ ] ForceCopyTo -- overwrite existing
         [x] MoveTo
         [ ] Size (what is the return type? long or value object?)
@@ -70,7 +70,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] TryDeleteRecursively
         [x] TryDeleteIfEmpty
         [x] Create
-        [ ] CopyTo -- Check so that the source and the destination are on the same file system
+        [.] CopyTo -- in far away extension method
         [x] MoveTo
         [ ] FileSystemItems
         [.] IsEmpty
@@ -136,6 +136,7 @@ TODO: Access Denied on most operations -- enough to fake it in one way, e.g. mak
 TODO: Open two streams from same file. Also reference counting on open.
 TODO: More stream tests... length, position, flush.
 TODO: Let MemoryFileSystem.Dispose() verify that all streams are disposed.
+TODO: Equals() on Windows file system is case insensitive!
 TODO: Equals() is not tested, only GetHashCode()... what to do about that?
 TODO: Introduce constant: FolderSeparator
 TODO: Documentation, especially exceptions

@@ -78,6 +78,7 @@
     <Compile Include="RootedCanonicalPath.cs" />
     <Compile Include="RootedDirectory.cs" />
     <Compile Include="RootedFile.cs" />
+    <Compile Include="Utils\RootedDirectoryUtilities.cs" />
     <Compile Include="Utils\RootedFileUtilities.cs" />
     <Compile Include="RootedPathException.cs" />
   </ItemGroup>

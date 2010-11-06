@@ -234,7 +234,7 @@ namespace fs4net.Framework
             destination.Parent().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't move the file since the destination's parent directory '{0}' does not exist.", destination.Parent()));
             destination.VerifyIsNotAFile(ThrowHelper.IOException("Can't move the file to the destination '{0}' since a file with that name already exists.", destination));
             destination.VerifyIsNotADirectory(ThrowHelper.IOException("Can't move the file to the destination '{0}' since a directory with that name already exists.", destination));
-            me.VerifyIsNotTheSameAs(destination, ThrowHelper.IOException("Can't move the file '{0}' since the source and destination denotes the same directory.", destination));
+            me.VerifyIsNotTheSameAs(destination, ThrowHelper.IOException("Can't move the file '{0}' since the source and destination denotes the same file.", me));
 
             var src = me.CanonicalPathAsString();
             var dst = destination.CanonicalPathAsString();
@@ -242,15 +242,20 @@ namespace fs4net.Framework
             fileSystem.MoveFile(src, dst);
         }
 
+        /// <summary>
+        /// Copies an existing file to a new file. The new file will have the name specified by the
+        /// destination parameter.
+        /// </summary>
+        /// TODO: Exceptions
         public static void CopyTo(this RootedFile me, RootedFile destination)
         {
             me.VerifyOnSameFileSystemAs(destination);
-            me.VerifyIsNotADirectory(ThrowHelper.UnauthorizedAccessException(me.PathAsString, "Can't move the file '{0}' since it denotes a directory.", me));
-            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't move the file '{0}' since it does not exist.", me));
-            destination.Parent().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't move the file since the destination's parent directory '{0}' does not exist.", destination.Parent()));
-            destination.VerifyIsNotAFile(ThrowHelper.IOException("Can't move the file to the destination '{0}' since a file with that name already exists.", destination));
-            destination.VerifyIsNotADirectory(ThrowHelper.IOException("Can't move the file to the destination '{0}' since a directory with that name already exists.", destination));
-            me.VerifyIsNotTheSameAs(destination, ThrowHelper.IOException("Can't move the file '{0}' since the source and destination denotes the same directory.", destination));
+            me.VerifyIsNotADirectory(ThrowHelper.UnauthorizedAccessException(me.PathAsString, "Can't copy the file '{0}' since it denotes a directory.", me));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't copy the file '{0}' since it does not exist.", me));
+            destination.Parent().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't copy the file since the destination's parent directory '{0}' does not exist.", destination.Parent()));
+            destination.VerifyIsNotAFile(ThrowHelper.IOException("Can't copy the file to the destination '{0}' since a file with that name already exists.", destination));
+            destination.VerifyIsNotADirectory(ThrowHelper.IOException("Can't copy the file to the destination '{0}' since a directory with that name already exists.", destination));
+            me.VerifyIsNotTheSameAs(destination, ThrowHelper.IOException("Can't copy the file '{0}' since the source and destination denotes the same file.", me));
 
             var src = me.CanonicalPathAsString();
             var dst = destination.CanonicalPathAsString();
