@@ -145,7 +145,7 @@ namespace fs4net.Framework
             me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last access time for file '{0}' since it denotes a directory.", me.PathAsString));
             me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last access time for file '{0}' since it does not exist.", me.PathAsString));
 
-            return me.InternalFileSystem().GetLastAccessTime(me.CanonicalPathAsString());
+            return me.InternalFileSystem().GetFileLastAccessTime(me.CanonicalPathAsString());
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace fs4net.Framework
             me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last access time for file '{0}' since it denotes a directory.", me.PathAsString));
             me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last access time for file '{0}' since it does not exist.", me.PathAsString));
 
-            me.InternalFileSystem().SetLastAccessTime(me.CanonicalPathAsString(), at);
+            me.InternalFileSystem().SetFileLastAccessTime(me.CanonicalPathAsString(), at);
         }
 
         /// <summary>
@@ -240,6 +240,22 @@ namespace fs4net.Framework
             var dst = destination.CanonicalPathAsString();
             var fileSystem = me.InternalFileSystem();
             fileSystem.MoveFile(src, dst);
+        }
+
+        public static void CopyTo(this RootedFile me, RootedFile destination)
+        {
+            me.VerifyOnSameFileSystemAs(destination);
+            me.VerifyIsNotADirectory(ThrowHelper.UnauthorizedAccessException(me.PathAsString, "Can't move the file '{0}' since it denotes a directory.", me));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't move the file '{0}' since it does not exist.", me));
+            destination.Parent().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't move the file since the destination's parent directory '{0}' does not exist.", destination.Parent()));
+            destination.VerifyIsNotAFile(ThrowHelper.IOException("Can't move the file to the destination '{0}' since a file with that name already exists.", destination));
+            destination.VerifyIsNotADirectory(ThrowHelper.IOException("Can't move the file to the destination '{0}' since a directory with that name already exists.", destination));
+            me.VerifyIsNotTheSameAs(destination, ThrowHelper.IOException("Can't move the file '{0}' since the source and destination denotes the same directory.", destination));
+
+            var src = me.CanonicalPathAsString();
+            var dst = destination.CanonicalPathAsString();
+            var fileSystem = me.InternalFileSystem();
+            fileSystem.CopyFile(src, dst);
         }
 
         /// <summary>

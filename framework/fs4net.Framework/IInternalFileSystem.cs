@@ -13,8 +13,8 @@ namespace fs4net.Framework
         void SetFileLastWriteTime(RootedCanonicalPath path, DateTime at);
         DateTime GetDirectoryLastWriteTime(RootedCanonicalPath path);
         void SetDirectoryLastWriteTime(RootedCanonicalPath path, DateTime at);
-        DateTime GetLastAccessTime(RootedCanonicalPath path);
-        void SetLastAccessTime(RootedCanonicalPath path, DateTime at);
+        DateTime GetFileLastAccessTime(RootedCanonicalPath path);
+        void SetFileLastAccessTime(RootedCanonicalPath path, DateTime at);
         DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path);
         void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at);
 
@@ -28,6 +28,8 @@ namespace fs4net.Framework
 
         void MoveFile(RootedCanonicalPath source, RootedCanonicalPath destination);
         void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination);
+
+        void CopyFile(RootedCanonicalPath source, RootedCanonicalPath destination);
 
         Stream CreateReadStream(RootedCanonicalPath path);
         Stream CreateWriteStream(RootedCanonicalPath path);

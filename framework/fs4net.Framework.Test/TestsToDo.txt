@@ -45,7 +45,8 @@ IFileSystemItem, FileSystemItemExtensions
         [x] CreateWriteStream
         [x] CreateModifyStream
         [x] CreateAppendStream
-        [ ] CopyTo -- Check so that the source and the destination are on the same file system
+        [x] CopyTo
+        [ ] ForceCopyTo -- overwrite existing
         [x] MoveTo
         [ ] Size (what is the return type? long or value object?)
         [x] ReadText -- should be far away extension method
@@ -138,6 +139,7 @@ TODO: Let MemoryFileSystem.Dispose() verify that all streams are disposed.
 TODO: Equals() is not tested, only GetHashCode()... what to do about that?
 TODO: Introduce constant: FolderSeparator
 TODO: Documentation, especially exceptions
+TODO: Created, Access, Modified in MoveTo() and CopyTo()
 
 
 

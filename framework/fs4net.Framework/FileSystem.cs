@@ -96,12 +96,12 @@ namespace fs4net.Framework
             System.IO.Directory.SetLastWriteTime(path.FullPath, at);
         }
 
-        public DateTime GetLastAccessTime(RootedCanonicalPath path)
+        public DateTime GetFileLastAccessTime(RootedCanonicalPath path)
         {
             return System.IO.File.GetLastAccessTime(path.FullPath);
         }
 
-        public void SetLastAccessTime(RootedCanonicalPath path, DateTime at)
+        public void SetFileLastAccessTime(RootedCanonicalPath path, DateTime at)
         {
             System.IO.File.SetLastAccessTime(path.FullPath, at);
         }
@@ -149,6 +149,11 @@ namespace fs4net.Framework
         public void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination)
         {
             System.IO.Directory.Move(source.FullPath, destination.FullPath);
+        }
+
+        public void CopyFile(RootedCanonicalPath source, RootedCanonicalPath destination)
+        {
+            System.IO.File.Copy(source.FullPath, destination.FullPath);
         }
 
         public System.IO.Stream CreateReadStream(RootedCanonicalPath path)

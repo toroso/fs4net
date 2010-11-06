@@ -103,12 +103,12 @@ namespace fs4net.Memory
             FindFolderNodeByPath(path.FullPath).LastWriteTime = at;
         }
 
-        public DateTime GetLastAccessTime(RootedCanonicalPath path)
+        public DateTime GetFileLastAccessTime(RootedCanonicalPath path)
         {
             return FindFileNodeByPath(path.FullPath).LastAccessTime;
         }
 
-        public void SetLastAccessTime(RootedCanonicalPath path, DateTime at)
+        public void SetFileLastAccessTime(RootedCanonicalPath path, DateTime at)
         {
             FindFileNodeByPath(path.FullPath).LastAccessTime = at;
         }
@@ -175,6 +175,16 @@ namespace fs4net.Memory
             string destName = parser.GetLeafNodeName();
 
             sourceNode.MoveTo(destParentNode, destName);
+        }
+
+        public void CopyFile(RootedCanonicalPath source, RootedCanonicalPath destination)
+        {
+            var sourceNode = FindFileNodeByPath(source.FullPath);
+            var parser = new PathParser(destination.FullPath);
+            var destParentNode = parser.GetParentNode(_rootNode);
+            string destName = parser.GetLeafNodeName();
+
+            sourceNode.CopyTo(destParentNode, destName);
         }
 
         public Stream CreateReadStream(RootedCanonicalPath path)

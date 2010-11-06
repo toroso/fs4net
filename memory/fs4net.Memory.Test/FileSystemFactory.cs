@@ -7,7 +7,7 @@ namespace fs4net.Memory.Test
     {
         internal static IFileSystem CreateFileSystemWithDrives()
         {
-            return new MemoryFileSystem(AssertLogger.Instance).WithDrives("c:");
+            return new MemoryFileSystem(AssertLogger.Instance).WithDrives("c:", "d:");
         }
     }
 }

@@ -38,8 +38,8 @@ namespace fs4net.Framework.Test
         public void SetFileLastWriteTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public DateTime GetDirectoryLastWriteTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetDirectoryLastWriteTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
-        public DateTime GetLastAccessTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
-        public void SetLastAccessTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
+        public DateTime GetFileLastAccessTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public void SetFileLastAccessTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
@@ -49,6 +49,7 @@ namespace fs4net.Framework.Test
         public void DeleteDirectory(RootedCanonicalPath path, bool recursive) { throw new NotImplementedException(); }
         public void MoveFile(RootedCanonicalPath source, RootedCanonicalPath destination) { throw new NotImplementedException(); }
         public void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination) { throw new NotImplementedException(); }
+        public void CopyFile(RootedCanonicalPath source, RootedCanonicalPath destination) { throw new NotImplementedException();}
         public Stream CreateReadStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateWriteStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateAppendStream(RootedCanonicalPath path) { throw new NotImplementedException(); }

@@ -13,6 +13,17 @@ namespace fs4net.Memory.Node
             _content = new MemoryStream();
         }
 
+        private FileNode(FolderNode parent, string name, MemoryStream content)
+            : base(parent, name)
+        {
+            _content = content;
+        }
+
+        public void CopyTo(FolderNode parentNode, string name)
+        {
+            new FileNode(parentNode, name, new MemoryStream(_content.GetBuffer()));
+        }
+
         public override void Dispose()
         {
             _content.Dispose();
