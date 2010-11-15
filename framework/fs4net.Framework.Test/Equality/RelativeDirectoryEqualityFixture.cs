@@ -32,6 +32,15 @@ namespace fs4net.Framework.Test.Equality
             AssertOperatorNotEquals(dirA, dirB);
         }
 
+        [Test]
+        public void Comparison_Is_Case_Insensitive()
+        {
+            var dirA = RelativeDirectory.FromString(@"PaTh\tO");
+            var dirB = RelativeDirectory.FromString(@"patH\To");
+            AssertEqualityEquals(dirA, dirB);
+            AssertOperatorEquals(dirA, dirB);
+        }
+
 
         private static void AssertEqualityEquals(RelativeDirectory left, object right)
         {

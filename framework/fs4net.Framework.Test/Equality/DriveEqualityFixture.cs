@@ -77,6 +77,14 @@ namespace fs4net.Framework.Test.Equality
             AssertOperatorNotEquals(driveA, driveB);
         }
 
+        [Test]
+        public void Comparison_Is_Case_Insensitive()
+        {
+            var driveA = FileSystem.DriveDescribing("c:");
+            var driveB = FileSystem.DriveDescribing("C:");
+            AssertEqualityEquals(driveA, driveB);
+            AssertOperatorEquals(driveA, driveB);
+        }
 
         private static void AssertEqualityEquals(Drive left, object right)
         {

@@ -40,6 +40,15 @@ namespace fs4net.Framework.Test.Equality
             AssertEqualityEquals(filename, file);
         }
 
+        [Test]
+        public void Comparison_Is_Case_Insensitive()
+        {
+            var fileA = FileName.FromString(@"FiLe.tXt");
+            var fileB = FileName.FromString(@"fIle.Txt");
+            AssertEqualityEquals(fileA, fileB);
+            AssertEqualityEquals(fileA, fileB);
+        }
+
 
         private static void AssertEqualityEquals(FileName left, object right)
         {

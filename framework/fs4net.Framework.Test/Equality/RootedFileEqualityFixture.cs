@@ -69,6 +69,15 @@ namespace fs4net.Framework.Test.Equality
             AssertOperatorNotEquals(fileA, fileB);
         }
 
+        [Test]
+        public void Comparison_Is_Case_Insensitive()
+        {
+            var fileA = FileSystem.FileDescribing(@"C:\paTh\tO\fIle.Txt");
+            var fileB = FileSystem.FileDescribing(@"c:\pAth\To\filE.txT");
+            AssertEqualityEquals(fileA, fileB);
+            AssertOperatorEquals(fileA, fileB);
+        }
+
 
         private static void AssertEqualityEquals(RootedFile left, object right)
         {

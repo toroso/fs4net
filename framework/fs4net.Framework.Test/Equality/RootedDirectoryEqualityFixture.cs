@@ -77,6 +77,15 @@ namespace fs4net.Framework.Test.Equality
             AssertOperatorNotEquals(dirA, dirB);
         }
 
+        [Test]
+        public void Comparison_Is_Case_Insensitive()
+        {
+            var dirA = FileSystem.DirectoryDescribing(@"C:\pAth\To");
+            var dirB = FileSystem.DirectoryDescribing(@"c:\paTh\tO");
+            AssertEqualityEquals(dirA, dirB);
+            AssertOperatorEquals(dirA, dirB);
+        }
+
 
         private static void AssertEqualityEquals(RootedDirectory left, object right)
         {

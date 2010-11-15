@@ -16,7 +16,7 @@ namespace fs4net.Framework
             if (ReferenceEquals(null, me)) return false;
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(me, other)) return true;
-            return Equals(me.AsCanonical().PathAsString, other.AsCanonical().PathAsString);
+            return Equals(me.AsLowerCaseCanonicalString(), other.AsLowerCaseCanonicalString());
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace fs4net.Framework
         internal static int InternalGetHashCode<T>(this IRelativeFileSystemItem<T> me)
             where T : IRelativeFileSystemItem<T>
         {
-            return me.AsCanonical().PathAsString.GetHashCode();
+            return me.AsLowerCaseCanonicalString().GetHashCode();
         }
     }
 }

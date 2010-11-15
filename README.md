@@ -126,7 +126,7 @@ Also, the interfaces are probably quite fixed, so it will most likely be easy to
 Requirements
 ------------
 
-fs4net is targeted for .NET framework 3.5.
+fs4net is targeted for .NET framework 3.5. The tests are written using [NUnit](http://www.nunit.org/) 2.5.2. Other than that, there are no dependencies.
 
 
 

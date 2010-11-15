@@ -5,6 +5,7 @@ namespace fs4net.Framework.Utils
     public static class RootedDirectoryUtilities
     {
         /// <summary>
+        /// NOTE: Experimental. Subject to change.
         /// Copies the directory and all its contents to a new location. The new copy will have the name specified by
         /// the destination parameter.
         /// This operation is not atomic. This means that if the operation fails halfways (e.g. out of disk space) half
@@ -13,6 +14,8 @@ namespace fs4net.Framework.Utils
         /// TODO: Exceptions
         public static void CopyTo(this RootedDirectory me, RootedDirectory destination)
         {
+            // TODO: Shouldn't me be IRootedDirectory?
+            // TODO: Isn't it ok if destination exists? What if you want to copy c: to d:?
             me.VerifyOnSameFileSystemAs(destination);
             me.VerifyIsNotAFile(ThrowHelper.DirectoryNotFoundException("Can't copy the directory '{0}' since it denotes a file.", me));
             me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't copy the directory '{0}' since it does not exist.", me));

@@ -176,10 +176,26 @@ namespace fs4net.Framework.Test
         }
 
         [Test]
+        [Ignore("Only works on my computer")]
         public void ValidPaths()
         {
             //using (File.Create(@"C:\Users\busen\temp\fi*le.txt")) { }
             System.IO.Directory.CreateDirectory(@"C:\Users\busen\temp\ space");
+        }
+
+        [Test]
+        [Ignore("Only works on my computer")]
+        public void DriveFormats()
+        {
+            Console.WriteLine("c: -- '{0}'", new DriveInfo("c:").DriveFormat);
+            Console.WriteLine("d: -- '{0}'", new DriveInfo("d:").DriveFormat);
+            Console.WriteLine("k: -- '{0}'", new DriveInfo("k:").DriveFormat);
+            //Console.WriteLine("z: -- '{0}'", new DriveInfo("z:").DriveFormat);
+
+            Console.WriteLine("c: -- '{0}'", new DriveInfo("c:").DriveType);
+            Console.WriteLine("d: -- '{0}'", new DriveInfo("d:").DriveType);
+            Console.WriteLine("k: -- '{0}'", new DriveInfo("k:").DriveType);
+            //Console.WriteLine("z: -- '{0}'", new DriveInfo("z:").DriveType);
         }
     }
 }

@@ -22,7 +22,9 @@ namespace fs4net.Framework
             if (ReferenceEquals(null, me)) return false;
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(me, other)) return true;
-            return Equals(me.FileSystem, other.FileSystem) && Equals(me.CanonicalPathAsString(), other.CanonicalPathAsString());
+            return
+                Equals(me.FileSystem, other.FileSystem) &&
+                Equals(me.AsLowerCaseCanonicalString(), other.AsLowerCaseCanonicalString());
         }
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace fs4net.Framework
         {
             unchecked
             {
-                return (me.FileSystem.GetHashCode() * 397) ^ me.CanonicalPathAsString().GetHashCode();
+                return (me.FileSystem.GetHashCode() * 397) ^ me.AsLowerCaseCanonicalString().GetHashCode();
             }
         }
 

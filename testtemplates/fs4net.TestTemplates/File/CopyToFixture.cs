@@ -32,6 +32,7 @@ namespace fs4net.TestTemplates.File
         }
 
         [Test]
+        [Ignore("Fails if you don't have a writable d: drive")]
         public void Copy_File_To_Another_Drive()
         {
             // IF THIS TEST FAILS:
