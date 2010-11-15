@@ -1,6 +1,5 @@
 ﻿Priotity
 ========
-   * Equals() case insensitive
    * RootedFile.CopyToAndOverwrite(RootedFile)
    * IFileSystem.DirectoryDescribingSpecialFolder(Environment.SpecialFolder)
    * RootedFile.Size()
