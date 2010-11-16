@@ -21,7 +21,7 @@ namespace fs4net.Memory.Node
 
         public void CopyTo(FolderNode parentNode, string name)
         {
-            new FileNode(parentNode, name, new MemoryStream(_content.GetBuffer()));
+            new FileNode(parentNode, name, new MemoryStream(_content.GetBuffer(), 0, (int) _content.Length));
         }
 
         public override void Dispose()

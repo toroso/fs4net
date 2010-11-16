@@ -187,6 +187,16 @@ namespace fs4net.Memory
             sourceNode.CopyTo(destParentNode, destName);
         }
 
+        public void CopyAndOverwriteFile(RootedCanonicalPath source, RootedCanonicalPath destination)
+        {
+            var sourceNode = FindFileNodeByPath(source.FullPath);
+            var parser = new PathParser(destination.FullPath);
+            var destParentNode = parser.GetParentNode(_rootNode);
+            string destName = parser.GetLeafNodeName();
+
+            sourceNode.CopyTo(destParentNode, destName);
+        }
+
         public Stream CreateReadStream(RootedCanonicalPath path)
         {
             return FindFileNodeByPath(path.FullPath).CreateReadStream();

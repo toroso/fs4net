@@ -50,6 +50,7 @@ namespace fs4net.Framework.Test
         public void MoveFile(RootedCanonicalPath source, RootedCanonicalPath destination) { throw new NotImplementedException(); }
         public void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination) { throw new NotImplementedException(); }
         public void CopyFile(RootedCanonicalPath source, RootedCanonicalPath destination) { throw new NotImplementedException();}
+        public void CopyAndOverwriteFile(RootedCanonicalPath source, RootedCanonicalPath destination) { throw new NotImplementedException(); }
         public Stream CreateReadStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateWriteStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateAppendStream(RootedCanonicalPath path) { throw new NotImplementedException(); }

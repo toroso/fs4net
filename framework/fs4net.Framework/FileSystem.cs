@@ -156,6 +156,11 @@ namespace fs4net.Framework
             System.IO.File.Copy(source.FullPath, destination.FullPath);
         }
 
+        public void CopyAndOverwriteFile(RootedCanonicalPath source, RootedCanonicalPath destination)
+        {
+            System.IO.File.Copy(source.FullPath, destination.FullPath, true);
+        }
+
         public System.IO.Stream CreateReadStream(RootedCanonicalPath path)
         {
             return new System.IO.FileInfo(path.FullPath).Open(System.IO.FileMode.Open, System.IO.FileAccess.Read);

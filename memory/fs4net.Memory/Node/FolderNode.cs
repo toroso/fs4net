@@ -46,6 +46,7 @@ namespace fs4net.Memory.Node
 
         public void AddChild(FileSystemNode node)
         {
+            Children.RemoveAll(child => child.Name == node.Name);
             Children.Add(node);
             TouchLastWriteTime();
             TouchLastAccessTime();

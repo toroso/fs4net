@@ -1,6 +1,5 @@
 ﻿Priotity
 ========
-   * RootedFile.CopyToAndOverwrite(RootedFile)
    * IFileSystem.DirectoryDescribingSpecialFolder(Environment.SpecialFolder)
    * RootedFile.Size()
    * IFileSystem.DirectoryDescribingCurrentDirectory()
@@ -65,7 +64,7 @@ IFileSystemItem, FileSystemItemExtensions
         [x] CreateModifyStream
         [x] CreateAppendStream
         [?] CopyTo
-        [ ] CopyToAndOverwrite
+        [?] CopyToAndOverwrite
         [ ] CopyInto -- target is IRootedDirectory
         [ ] CopyIntoAndOverwrite
         [x] MoveTo
@@ -157,11 +156,11 @@ TODO: Access Denied on most operations -- enough to fake it in one way, e.g. mak
 TODO: Open two streams from same file. Also reference counting on open.
 TODO: More stream tests... length, position, flush.
 TODO: Let MemoryFileSystem.Dispose() verify that all streams are disposed.
-TODO: Equals() on Windows file system is case insensitive!
 TODO: Equals() is not tested, only GetHashCode()... what to do about that?
 TODO: Introduce constant: FolderSeparator
 TODO: Documentation, especially exceptions
 TODO: Created, Access, Modified in MoveTo() and CopyTo()
+TODO: Localization support
 
 
 

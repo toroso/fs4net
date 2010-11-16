@@ -30,6 +30,7 @@ namespace fs4net.Framework
         void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination);
 
         void CopyFile(RootedCanonicalPath source, RootedCanonicalPath destination);
+        void CopyAndOverwriteFile(RootedCanonicalPath source, RootedCanonicalPath destination);
 
         Stream CreateReadStream(RootedCanonicalPath path);
         Stream CreateWriteStream(RootedCanonicalPath path);

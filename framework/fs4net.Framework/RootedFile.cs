@@ -244,7 +244,7 @@ namespace fs4net.Framework
 
         /// <summary>
         /// Copies an existing file to a new file. The new file will have the name specified by the
-        /// destination parameter.
+        /// destination parameter. If the destination file already exists this method will fail.
         /// </summary>
         /// TODO: Exceptions
         public static void CopyTo(this RootedFile me, RootedFile destination)
@@ -261,6 +261,26 @@ namespace fs4net.Framework
             var dst = destination.CanonicalPathAsString();
             var fileSystem = me.InternalFileSystem();
             fileSystem.CopyFile(src, dst);
+        }
+
+        /// <summary>
+        /// Copies an existing file to a new file. The new file will have the name specified by the
+        /// destination parameter. If the destination file already exists ir will be overwritten.
+        /// </summary>
+        /// TODO: Exceptions
+        public static void CopyToAndOverwrite(this RootedFile me, RootedFile destination)
+        {
+            me.VerifyOnSameFileSystemAs(destination);
+            me.VerifyIsNotADirectory(ThrowHelper.UnauthorizedAccessException(me.PathAsString, "Can't copy the file '{0}' since it denotes a directory.", me));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't copy the file '{0}' since it does not exist.", me));
+            destination.Parent().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't copy the file since the destination's parent directory '{0}' does not exist.", destination.Parent()));
+            destination.VerifyIsNotADirectory(ThrowHelper.IOException("Can't copy the file to the destination '{0}' since a directory with that name already exists.", destination));
+            me.VerifyIsNotTheSameAs(destination, ThrowHelper.IOException("Can't copy the file '{0}' since the source and destination denotes the same file.", me));
+
+            var src = me.CanonicalPathAsString();
+            var dst = destination.CanonicalPathAsString();
+            var fileSystem = me.InternalFileSystem();
+            fileSystem.CopyAndOverwriteFile(src, dst);
         }
 
         /// <summary>
