@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertLogger.cs" />
+    <Compile Include="Creation\CreateSpecialFolderDirectory.cs" />
     <Compile Include="Directory\CreateFixture.cs" />
     <Compile Include="Directory\DeleteIfEmptyFixture.cs" />
     <Compile Include="Directory\DeleteRecursivelyFixture.cs" />

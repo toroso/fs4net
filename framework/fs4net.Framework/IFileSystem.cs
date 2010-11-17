@@ -1,3 +1,5 @@
+using System;
+
 namespace fs4net.Framework
 {
     public interface IFileSystem
@@ -36,8 +38,10 @@ namespace fs4net.Framework
         /// </summary>
         RootedDirectory DirectoryDescribingCurrentDirectory(); // TODO: There's one per drive, right?
 
-        // TODO:
-        //  Descriptors based on Environment.SpecialFolder enumeration
+        /// <summary>
+        /// Creates a descriptor to the special folder identified by the parameter.
+        /// </summary>
+        RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder);
 
         /// <summary>
         /// Creates a descriptor to a drive from the given drive name. The drive should be given without an ending

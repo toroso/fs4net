@@ -21,6 +21,7 @@ namespace fs4net.Framework.Test
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory() { throw new NotImplementedException(); }
         public RootedDirectory DirectoryDescribingCurrentDirectory() { throw new NotImplementedException(); }
+        public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder) { throw new NotImplementedException(); }
 
         public Drive DriveDescribing(string driveName)
         {

@@ -1,6 +1,5 @@
 ﻿Priotity
 ========
-   * IFileSystem.DirectoryDescribingSpecialFolder(Environment.SpecialFolder)
    * RootedFile.Size()
    * IFileSystem.DirectoryDescribingCurrentDirectory()
    * IFileSystem: PathWasher
@@ -26,7 +25,7 @@ Legend:
 IFileSystem
     [x] DirectoryDescribingTemporaryDirectory
     [.] DirectoryDescribingCurrentDirectory
-    [ ] DirectoryDescribingSpecialFolder
+    [x] DirectoryDescribingSpecialFolder
     [ ] Drives
     [ ] ? TryCreateXxxDescribing (or IsValidPath())
     [ ] ? InvalidPathChars
@@ -161,6 +160,7 @@ TODO: Introduce constant: FolderSeparator
 TODO: Documentation, especially exceptions
 TODO: Created, Access, Modified in MoveTo() and CopyTo()
 TODO: Localization support
+TODO: 64-bit SpecialFolders and more
 
 
 
