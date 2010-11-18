@@ -9,34 +9,35 @@ namespace fs4net.Memory
 {
     public sealed class MemoryFileSystem : IInternalFileSystem, IDisposable
     {
+        // TODO: Make this stuff configurable
         private const string SystemDrive = "c:";
         private const string SpecialFolderRoot = SystemDrive + @"\Users\dude";
-        private readonly IDictionary<Environment.SpecialFolder, string> _specialFolders = new Dictionary<Environment.SpecialFolder, string>
+        private readonly IDictionary<string, string> _specialFolders = new Dictionary<string, string>
             {
-                {Environment.SpecialFolder.ApplicationData, SpecialFolderRoot + @"\AppData\Roaming"},
-                {Environment.SpecialFolder.CommonApplicationData, @"C:\ProgramData"},
-                {Environment.SpecialFolder.CommonProgramFiles, @"C:\Program Files (x86)\Common Files"},
-                {Environment.SpecialFolder.Cookies, SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Cookies"},
-                {Environment.SpecialFolder.Desktop, SpecialFolderRoot + @"\Desktop"},
-                {Environment.SpecialFolder.DesktopDirectory, SpecialFolderRoot + @"\Desktop"},
-                {Environment.SpecialFolder.Favorites, SpecialFolderRoot + @"\NetHood\Favorites"},
-                {Environment.SpecialFolder.History, SpecialFolderRoot + @"\AppData\Local\Microsoft\Windows\History"},
-                {Environment.SpecialFolder.InternetCache, SpecialFolderRoot + @"\AppData\Local\Microsoft\Windows\Temporary Internet Files"},
-                {Environment.SpecialFolder.LocalApplicationData, SpecialFolderRoot + @"\AppData\Local"},
-                {Environment.SpecialFolder.MyMusic, SpecialFolderRoot + @"\Music"},
-                {Environment.SpecialFolder.MyPictures, SpecialFolderRoot + @"\Pictures"},
-                {Environment.SpecialFolder.Personal, SpecialFolderRoot + @"\Documents"},
-                {Environment.SpecialFolder.ProgramFiles, @"C:\Program Files (x86)"},
-                {Environment.SpecialFolder.Programs, SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs"},
-                {Environment.SpecialFolder.Recent, SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Recent"},
-                {Environment.SpecialFolder.SendTo, SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\SendTo"},
-                {Environment.SpecialFolder.StartMenu, SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu"},
-                {Environment.SpecialFolder.Startup, SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"},
-                {Environment.SpecialFolder.System, @"C:\Windows\system32"},
-                {Environment.SpecialFolder.Templates, SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Templates"},
+                {"ApplicationData", SpecialFolderRoot + @"\AppData\Roaming"},
+                {"CommonApplicationData", @"C:\ProgramData"},
+                {"CommonProgramFiles", @"C:\Program Files (x86)\Common Files"},
+                {"Cookies", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Cookies"},
+                {"Desktop", SpecialFolderRoot + @"\Desktop"},
+                {"DesktopDirectory", SpecialFolderRoot + @"\Desktop"},
+                {"Favorites", SpecialFolderRoot + @"\NetHood\Favorites"},
+                {"History", SpecialFolderRoot + @"\AppData\Local\Microsoft\Windows\History"},
+                {"InternetCache", SpecialFolderRoot + @"\AppData\Local\Microsoft\Windows\Temporary Internet Files"},
+                {"LocalApplicationData", SpecialFolderRoot + @"\AppData\Local"},
+                {"MyMusic", SpecialFolderRoot + @"\Music"},
+                {"MyPictures", SpecialFolderRoot + @"\Pictures"},
+                {"Personal", SpecialFolderRoot + @"\Documents"},
+                {"ProgramFiles", @"C:\Program Files (x86)"},
+                {"Programs", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs"},
+                {"Recent", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Recent"},
+                {"SendTo", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\SendTo"},
+                {"StartMenu", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu"},
+                {"Startup", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"},
+                {"System", @"C:\Windows\system32"},
+                {"Templates", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Templates"},
+                // Temp is not a special folder, but it's stored here to simplify logic (besides, why isn't it a special folder?)
+                {"Temp", SpecialFolderRoot + @"\AppData\Local\Temp"},
             };
-        // TODO: Make configurable from test with setter
-        private const string TemporaryPathName = @"c:\temp";
 
         private readonly Func<string, string> _pathWasher;
         private readonly ILogger _logger;
@@ -87,7 +88,7 @@ namespace fs4net.Memory
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
         {
-            return DirectoryDescribing(TemporaryPathName);
+            return DirectoryDescribing(_specialFolders["Temp"]);
         }
 
         public RootedDirectory DirectoryDescribingCurrentDirectory()
@@ -97,8 +98,9 @@ namespace fs4net.Memory
 
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
         {
-            if (!_specialFolders.ContainsKey(folder)) throw new NotSupportedException(string.Format("{0} cannot be denoted by a RootedDirectory.", folder));
-            return DirectoryDescribing(_specialFolders[folder]);
+            var folderKey = folder.ToString();
+            if (!_specialFolders.ContainsKey(folderKey)) throw new NotSupportedException(string.Format("{0} cannot be denoted by a RootedDirectory.", folder));
+            return DirectoryDescribing(_specialFolders[folderKey]);
         }
 
         public Drive DriveDescribing(string driveName)
