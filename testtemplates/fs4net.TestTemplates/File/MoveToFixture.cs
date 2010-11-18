@@ -63,7 +63,7 @@ namespace fs4net.TestTemplates.File
         public void Move_File_To_Existing_File_Throws()
         {
             var source = ExistingFile;
-            var destination = ExistingFile2;
+            var destination = ExistingEmptyFile;
 
             Assert.Throws<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);

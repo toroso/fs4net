@@ -108,6 +108,17 @@ namespace fs4net.Framework
         }
 
         /// <summary>
+        /// Returns the file size in bytes.
+        /// </summary>
+        public static long Size(this RootedFile me)
+        {
+            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get size for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get size for file '{0}' since it does not exist.", me.PathAsString));
+
+            return me.InternalFileSystem().GetFileSize(me.CanonicalPathAsString());
+        }
+
+        /// <summary>
         /// Returns the date and time the file was last written to.
         /// </summary>
         /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>

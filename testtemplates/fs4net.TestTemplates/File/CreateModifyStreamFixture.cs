@@ -12,8 +12,10 @@ namespace fs4net.TestTemplates.File
         public void Append_To_NonExisting_File()
         {
             var file = ExistingEmptyDirectory + RelativeFile.FromString("newfile.txt");
-            file.OverwriteText("Paradise");
-            Assert.That(file.ReadText(), Is.EqualTo("Paradise"));
+            const string contents = "Paradise";
+            file.OverwriteText(contents);
+            Assert.That(file.ReadText(), Is.EqualTo(contents));
+            Assert.That(file.Size(), Is.EqualTo(contents.Length));
         }
 
         [Test]
@@ -50,14 +52,18 @@ namespace fs4net.TestTemplates.File
                 stream.Seek(0, SeekOrigin.End);
                 writer.Write(appendedText);
             }
-            Assert.That(ExistingFile.ReadText(), Is.EqualTo(ExistingFileContents + appendedText));
+            var expectedContents = ExistingFileContents + appendedText;
+            Assert.That(ExistingFile.ReadText(), Is.EqualTo(expectedContents));
+            Assert.That(ExistingFile.Size(), Is.EqualTo(expectedContents.Length));
         }
 
         [Test]
         public void Overwrite_Beginning_Of_Existing_File()
         {
             ExistingFile.OverwriteText("Dec");
-            Assert.That(ExistingFile.ReadText(), Is.EqualTo("Deciembre"));
+            const string expectedContents = "Deciembre";
+            Assert.That(ExistingFile.ReadText(), Is.EqualTo(expectedContents));
+            Assert.That(ExistingFile.Size(), Is.EqualTo(expectedContents.Length));
         }
 
         [Test]
@@ -66,6 +72,7 @@ namespace fs4net.TestTemplates.File
             const string newText = "It was the third of september";
             ExistingFile.OverwriteText(newText);
             Assert.That(ExistingFile.ReadText(), Is.EqualTo(newText));
+            Assert.That(ExistingFile.Size(), Is.EqualTo(newText.Length));
         }
 
         [Test]
@@ -86,6 +93,7 @@ namespace fs4net.TestTemplates.File
                 Assert.That(contents, Is.EqualTo(newContents));
             }
             Assert.That(newFile.ReadText(), Is.EqualTo(newContents));
+            Assert.That(newFile.Size(), Is.EqualTo(newContents.Length));
         }
 
         // TODO: Access denied

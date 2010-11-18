@@ -25,6 +25,7 @@ namespace fs4net.TestTemplates.File
             ExistingFile.WriteText(newContents);
             Assert.That(ExistingFile.Exists(), Is.True);
             Assert.That(ExistingFile.ReadText(), Is.EqualTo(newContents));
+            Assert.That(ExistingFile.Size(), Is.EqualTo(newContents.Length));
         }
 
         [Test]
@@ -62,7 +63,9 @@ namespace fs4net.TestTemplates.File
                 stream.Seek(0, SeekOrigin.Begin);
                 writer.Write(" is Fun!");
             }
-            Assert.That(newFile.ReadText(), Is.EqualTo("Scuba Diving is Fun!"));
+            const string expectedContents = "Scuba Diving is Fun!";
+            Assert.That(newFile.ReadText(), Is.EqualTo(expectedContents));
+            Assert.That(newFile.Size(), Is.EqualTo(expectedContents.Length));
         }
 
         [Test]

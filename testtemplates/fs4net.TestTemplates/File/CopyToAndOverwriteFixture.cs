@@ -89,7 +89,7 @@ namespace fs4net.TestTemplates.File
         public void Copy_File_To_Existing_File_Overwrites()
         {
             var source = ExistingFile;
-            var destination = ExistingFile2;
+            var destination = ExistingEmptyFile;
 
             source.CopyToAndOverwrite(destination);
             Assert.That(source.Exists(), Is.True);

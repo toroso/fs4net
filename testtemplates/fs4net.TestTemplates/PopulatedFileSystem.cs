@@ -14,7 +14,7 @@ namespace fs4net.TestTemplates
         protected DateTime ExistingFileLastWriteTime { get { return new DateTime(2010, 08, 20); } }
         protected DateTime ExistingFileLastAccessTime { get { return new DateTime(2005, 09, 07); } }
         protected string ExistingFileContents { get { return "Noviembre"; } }
-        protected RootedFile ExistingFile2 { get; private set; }
+        protected RootedFile ExistingEmptyFile { get; private set; }
         protected RootedFile NonExistingFile { get; private set; }
 
         protected RootedDirectory ExistingLeafDirectory { get; private set; }
@@ -48,7 +48,7 @@ namespace fs4net.TestTemplates
                 .Containing(ExistingFileContents)
                 .LastModifiedAt(ExistingFileLastWriteTime)
                 .LastAccessedAt(ExistingFileLastAccessTime);
-            ExistingFile2 = populateFileSystem
+            ExistingEmptyFile = populateFileSystem
                 .WithFile(@"path\to\file2.txt");
             NonExistingFile = FileSystem.FileDescribing(InTemp(@"path\to\another.txt"));
 
@@ -66,7 +66,7 @@ namespace fs4net.TestTemplates
                 .WithDir(@"my\other");
             NonExistingDirectory = FileSystem.DirectoryDescribing(InTemp(@"another\path\to"));
 
-            NonExistingDrive = FileSystem.DriveDescribing("c:");
+            NonExistingDrive = FileSystem.DriveDescribing("z:");
         }
 
         private string InTemp(string relativePath)

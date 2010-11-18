@@ -71,6 +71,7 @@
     <Compile Include="File\LastAccessTimeFixture.cs" />
     <Compile Include="File\LastWriteTimeFixture.cs" />
     <Compile Include="File\MoveToFixture.cs" />
+    <Compile Include="File\SizeFixture.cs" />
     <Compile Include="File\TryDeleteFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

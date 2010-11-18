@@ -82,6 +82,11 @@ namespace fs4net.Framework
             return System.IO.Directory.Exists(path.FullPath);
         }
 
+        public long GetFileSize(RootedCanonicalPath path)
+        {
+            return new System.IO.FileInfo(path.FullPath).Length;
+        }
+
         public DateTime GetFileLastWriteTime(RootedCanonicalPath path)
         {
             return System.IO.File.GetLastWriteTime(path.FullPath);

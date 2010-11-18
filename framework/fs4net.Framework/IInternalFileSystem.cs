@@ -9,6 +9,8 @@ namespace fs4net.Framework
         bool IsFile(RootedCanonicalPath path);
         bool IsDirectory(RootedCanonicalPath path);
 
+        long GetFileSize(RootedCanonicalPath path);
+
         DateTime GetFileLastWriteTime(RootedCanonicalPath path);
         void SetFileLastWriteTime(RootedCanonicalPath path, DateTime at);
         DateTime GetDirectoryLastWriteTime(RootedCanonicalPath path);

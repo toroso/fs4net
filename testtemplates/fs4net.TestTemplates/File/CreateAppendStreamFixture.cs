@@ -13,15 +13,19 @@ namespace fs4net.TestTemplates.File
         {
             const string appendText = "Lluvia";
             ExistingFile.AppendText(appendText);
-            Assert.That(ExistingFile.ReadText(), Is.EqualTo(ExistingFileContents + appendText));
+            var expectedContents = ExistingFileContents + appendText;
+            Assert.That(ExistingFile.ReadText(), Is.EqualTo(expectedContents));
+            Assert.That(ExistingFile.Size(), Is.EqualTo(expectedContents.Length));
         }
 
         [Test]
         public void Append_To_NonExisting_File()
         {
             var file = ExistingEmptyDirectory + RelativeFile.FromString("newfile.txt");
-            file.AppendText("Paradise");
-            Assert.That(file.ReadText(), Is.EqualTo("Paradise"));
+            const string contents = "Paradise";
+            file.AppendText(contents);
+            Assert.That(file.ReadText(), Is.EqualTo(contents));
+            Assert.That(file.Size(), Is.EqualTo(contents.Length));
         }
 
         [Test]

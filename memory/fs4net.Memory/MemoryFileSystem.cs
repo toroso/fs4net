@@ -122,6 +122,11 @@ namespace fs4net.Memory
             return (FindFolderNodeByPath(path.FullPath) != null);
         }
 
+        public long GetFileSize(RootedCanonicalPath path)
+        {
+            return FindFileNodeByPath(path.FullPath).Size;
+        }
+
         public DateTime GetFileLastWriteTime(RootedCanonicalPath path)
         {
             return FindFileNodeByPath(path.FullPath).LastWriteTime;

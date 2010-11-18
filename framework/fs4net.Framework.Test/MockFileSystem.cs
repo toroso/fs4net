@@ -35,6 +35,7 @@ namespace fs4net.Framework.Test
 
         public bool IsFile(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public bool IsDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public long GetFileSize(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public DateTime GetFileLastWriteTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetFileLastWriteTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public DateTime GetDirectoryLastWriteTime(RootedCanonicalPath path) { throw new NotImplementedException(); }

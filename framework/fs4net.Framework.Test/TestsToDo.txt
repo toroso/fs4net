@@ -1,6 +1,5 @@
 ﻿Priotity
 ========
-   * RootedFile.Size()
    * IFileSystem.DirectoryDescribingCurrentDirectory()
    * IFileSystem: PathWasher
    * PathWashers
@@ -67,10 +66,10 @@ IFileSystemItem, FileSystemItemExtensions
         [ ] CopyInto -- target is IRootedDirectory
         [ ] CopyIntoAndOverwrite
         [x] MoveTo
-        [ ] Size (what is the return type? long or value object?)
-        [x] ReadText -- should be far away extension method
-        [x] WriteText -- should be far away extension method
-        [x] AppendText -- should be far away extension method
+        [x] Size
+        [x] ReadText
+        [x] WriteText
+        [x] AppendText
   IDirectory, DirectoryExtensions
       [x] LeafFolder
     RelativeDirectory, RelativeDirectoryExtensions
