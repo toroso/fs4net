@@ -36,7 +36,7 @@ namespace fs4net.Memory.Node
 
         public FileSystemNode FindChildNodeNamed(string name)
         {
-            return Children.FirstOrDefault(node => node.Name == name);
+            return Children.FirstOrDefault(node => node.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public static FolderNode CreateRoot()
@@ -46,7 +46,7 @@ namespace fs4net.Memory.Node
 
         public void AddChild(FileSystemNode node)
         {
-            Children.RemoveAll(child => child.Name == node.Name);
+            Children.RemoveAll(child => child.Name.Equals(node.Name, StringComparison.InvariantCultureIgnoreCase));
             Children.Add(node);
             TouchLastWriteTime();
             TouchLastAccessTime();
@@ -68,7 +68,7 @@ namespace fs4net.Memory.Node
 
         private void RemoveNodeIfExists(string nodeName)
         {
-            var toDelete = Children.Find(node => node.Name == nodeName);
+            var toDelete = Children.Find(node => node.Name.Equals(nodeName, StringComparison.InvariantCultureIgnoreCase));
             if (toDelete != null)
             {
                 toDelete.Dispose();

@@ -27,25 +27,55 @@ namespace fs4net.TestTemplates.Creation
         [Test]
         public void CreateAllSpecialFolders()
         {
-            var failures = new StringBuilder();
-            foreach (Environment.SpecialFolder folder in Enum.GetValues(typeof(Environment.SpecialFolder)))
+            var iterator = new FolderIterator(FileSystem);
+            iterator.CheckAll();
+            if (iterator.HasFailures)
             {
-                if (folder != Environment.SpecialFolder.MyComputer) // fs4net can't handle MyComputer... and neither can System.IO!
+                Assert.Fail(iterator.FailuresAsString);
+            }
+        }
+
+        private class FolderIterator
+        {
+            private readonly IFileSystem _fileSystem;
+            private readonly StringBuilder _failures = new StringBuilder();
+
+            public FolderIterator(IFileSystem fileSystem)
+            {
+                _fileSystem = fileSystem;
+            }
+
+            public bool HasFailures
+            {
+                get { return _failures.Length > 0; }
+            }
+
+            public string FailuresAsString
+            {
+                get { return _failures.ToString(); }
+            }
+
+            public void CheckAll()
+            {
+                foreach (Environment.SpecialFolder folder in Enum.GetValues(typeof(Environment.SpecialFolder)))
                 {
-                    try
+                    if (folder != Environment.SpecialFolder.MyComputer) // fs4net can't handle MyComputer... and neither can System.IO!
                     {
-                        FileSystem.DirectoryDescribingSpecialFolder(folder);
-                    }
-                    catch (Exception ex)
-                    {
-                        failures.AppendLine(string.Format("Failed to create '{0}': {1} - '{2}'", folder, ex.GetType(),
-                                                          ex.Message));
+                        try
+                        {
+                            var directory = _fileSystem.DirectoryDescribingSpecialFolder(folder);
+                            if (!directory.Exists())
+                            {
+                                _failures.AppendLine(string.Format("The path '{0}' for '{1}' does not exist", directory, folder));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _failures.AppendLine(string.Format("Failed to create '{0}': {1} - '{2}'", folder, ex.GetType(),
+                                                              ex.Message));
+                        }
                     }
                 }
-            }
-            if (failures.Length > 0)
-            {
-                Assert.Fail(failures.ToString());
             }
         }
 

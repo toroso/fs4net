@@ -9,7 +9,8 @@ namespace fs4net.Memory
 {
     public sealed class MemoryFileSystem : IInternalFileSystem, IDisposable
     {
-        private const string SpecialFolderRoot = @"C:\Users\dude";
+        private const string SystemDrive = "c:";
+        private const string SpecialFolderRoot = SystemDrive + @"\Users\dude";
         private readonly IDictionary<Environment.SpecialFolder, string> _specialFolders = new Dictionary<Environment.SpecialFolder, string>
             {
                 {Environment.SpecialFolder.ApplicationData, SpecialFolderRoot + @"\AppData\Roaming"},
@@ -60,7 +61,11 @@ namespace fs4net.Memory
         {
             _pathWasher = pathWasher;
             _logger = logger;
-
+            _rootNode.CreateOrReuseFolderNode(SystemDrive);
+            foreach (var folder in _specialFolders)
+            {
+                CreateDirectory(folder.Value);
+            }
         }
 
         public void Dispose()
