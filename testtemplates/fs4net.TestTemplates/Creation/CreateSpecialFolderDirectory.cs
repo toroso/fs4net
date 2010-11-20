@@ -61,21 +61,30 @@ namespace fs4net.TestTemplates.Creation
                 {
                     if (folder != Environment.SpecialFolder.MyComputer) // fs4net can't handle MyComputer... and neither can System.IO!
                     {
-                        try
-                        {
-                            var directory = _fileSystem.DirectoryDescribingSpecialFolder(folder);
-                            if (!directory.Exists())
-                            {
-                                _failures.AppendLine(string.Format("The path '{0}' for '{1}' does not exist", directory, folder));
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            _failures.AppendLine(string.Format("Failed to create '{0}': {1} - '{2}'", folder, ex.GetType(),
-                                                              ex.Message));
-                        }
+                        CheckFolder(folder);
                     }
                 }
+            }
+
+            private void CheckFolder(Environment.SpecialFolder folder)
+            {
+                try
+                {
+                    var directory = _fileSystem.DirectoryDescribingSpecialFolder(folder);
+                    if (!directory.Exists())
+                    {
+                        AddFailure(string.Format("The path '{0}' for '{1}' does not exist", directory, folder));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    AddFailure(string.Format("Failed to create '{0}': {1} - '{2}'", folder, ex.GetType(), ex.Message));
+                }
+            }
+
+            private void AddFailure(string failMessage)
+            {
+                _failures.AppendLine(failMessage);
             }
         }
 
