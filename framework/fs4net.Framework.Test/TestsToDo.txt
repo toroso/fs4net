@@ -1,6 +1,5 @@
 ﻿Priotity
 ========
-   * IFileSystem.DirectoryDescribingCurrentDirectory()
    * IFileSystem: PathWasher
    * PathWashers
    * IRootedDirectory.CopyTo(IRootedDirectory) -- and allow target to exist, but be empty
@@ -94,6 +93,7 @@ IFileSystemItem, FileSystemItemExtensions
         [.] IsEmpty
         [x] Files
         [x] Directories
+        [.] SetAsCurrent
         [ ] FileSystemItemsRecursive -- in far away extension method
         [ ] FilesRecursive -- in far away extension method
         [ ] DirectoriesRecursive -- in far away extension method

@@ -36,7 +36,7 @@ namespace fs4net.Framework
         /// <summary>
         /// Creates a descriptor to the current directory.
         /// </summary>
-        RootedDirectory DirectoryDescribingCurrentDirectory(); // TODO: There's one per drive, right?
+        RootedDirectory DirectoryDescribingCurrentDirectory();
 
         /// <summary>
         /// Creates a descriptor to the special folder identified by the parameter.

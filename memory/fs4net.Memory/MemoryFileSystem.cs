@@ -38,6 +38,7 @@ namespace fs4net.Memory
                 // Temp is not a special folder, but it's stored here to simplify logic (besides, why isn't it a special folder?)
                 {"Temp", SpecialFolderRoot + @"\AppData\Local\Temp"},
             };
+        private string _currentDirectory;
 
         private readonly Func<string, string> _pathWasher;
         private readonly ILogger _logger;
@@ -67,6 +68,7 @@ namespace fs4net.Memory
             {
                 CreateDirectory(folder.Value);
             }
+            _currentDirectory = _specialFolders["Temp"]; // Good default? I could use Directory.GetCurrentDirectory(), but it's not predictable... And it must exist.
         }
 
         public void Dispose()
@@ -93,7 +95,7 @@ namespace fs4net.Memory
 
         public RootedDirectory DirectoryDescribingCurrentDirectory()
         {
-            throw new NotImplementedException();
+            return DirectoryDescribing(_currentDirectory);
         }
 
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
@@ -259,6 +261,11 @@ namespace fs4net.Memory
         public Stream CreateModifyStream(RootedCanonicalPath path)
         {
             return CreateOrReuseFile(path.FullPath).CreateModifyStream();
+        }
+
+        public void SetAsCurrent(RootedCanonicalPath path)
+        {
+            _currentDirectory = path.FullPath;
         }
 
         #endregion // Implementation of IInternalFileSystem

@@ -39,6 +39,8 @@ namespace fs4net.Framework
         Stream CreateAppendStream(RootedCanonicalPath path);
         Stream CreateModifyStream(RootedCanonicalPath path);
 
+        void SetAsCurrent(RootedCanonicalPath path);
+
         // <summary>
         // Should return true if the drive is ready to use. A drive that is not ready could be for example an ejected
         // USB device, a CD-ROM device without disk or a disconnected network device.

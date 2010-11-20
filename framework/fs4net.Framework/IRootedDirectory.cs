@@ -163,6 +163,14 @@ namespace fs4net.Framework
 
             return me.InternalFileSystem().GetDirectoriesInDirectory(me.CanonicalPathAsString());
         }
+
+        public static void SetAsCurrent<T>(this IRootedDirectory<T> me)
+            where T : IRootedDirectory<T>
+        {
+            me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException(me.PathAsString, "Can't set directory '{0}' as current since it does not exist.", me.PathAsString));
+
+            me.InternalFileSystem().SetAsCurrent(me.CanonicalPathAsString());
+        }
     }
 
     internal static class RootedDirectoryInterfaceVerifications

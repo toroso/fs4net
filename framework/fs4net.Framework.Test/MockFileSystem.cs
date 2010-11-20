@@ -57,6 +57,7 @@ namespace fs4net.Framework.Test
         public Stream CreateWriteStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateAppendStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateModifyStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public void SetAsCurrent(RootedCanonicalPath path) { throw new NotImplementedException(); }
 
         #endregion // Implementation of IInternalFileSystem
     }

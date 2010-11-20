@@ -192,6 +192,11 @@ namespace fs4net.Framework
             return new System.IO.FileInfo(path.FullPath).Open(System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.ReadWrite);
         }
 
+        public void SetAsCurrent(RootedCanonicalPath path)
+        {
+            System.IO.Directory.SetCurrentDirectory(path.FullPath);
+        }
+
         #endregion // Implementation of IInternalFileSystem
     }
 }
