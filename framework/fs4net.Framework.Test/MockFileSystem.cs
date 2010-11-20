@@ -28,6 +28,8 @@ namespace fs4net.Framework.Test
             return new Drive(this, driveName, AssertLogger.Instance);
         }
 
+        public IEnumerable<Drive> AllDrives() { throw new NotImplementedException(); }
+
         #endregion // Implementation of IFileSystem
 
 

@@ -110,6 +110,13 @@ namespace fs4net.Memory
             return new Drive(this, driveName, _logger);
         }
 
+        public IEnumerable<Drive> AllDrives()
+        {
+            return _rootNode
+                .Children
+                .Select(child => DriveDescribing(child.Name));
+        }
+
         #endregion // Implementation of IFileSystem
 
         #region Implementation of IInternalFileSystem

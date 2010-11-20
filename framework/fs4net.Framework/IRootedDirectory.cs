@@ -167,6 +167,7 @@ namespace fs4net.Framework
         /// <summary>
         /// Sets the application's current working directory to the given directory.
         /// </summary>
+        /// TODO: Exceptions
         public static void SetAsCurrent<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {

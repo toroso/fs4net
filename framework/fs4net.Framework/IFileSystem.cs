@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace fs4net.Framework
 {
@@ -49,5 +50,11 @@ namespace fs4net.Framework
         /// </summary>
         /// TODO: Exception list!
         Drive DriveDescribing(string driveName);
+
+        /// <summary>
+        /// Retrieves descriptors to all logical drives on the computer.
+        /// </summary>
+        /// TODO: Exceptions
+        IEnumerable<Drive> AllDrives();
     }
 }

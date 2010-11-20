@@ -6,7 +6,6 @@
    * RootedDirectory.UniqueDirectory()
    * RootedDirectory.UniqueFileWithoutExtension()
    * RootedDirectory.UniqueFileWithExtension(string)
-   * IFileSystem.Drives()
 
 - - - - - - - - - - - - - - - -
 
@@ -24,7 +23,7 @@ IFileSystem
     [x] DirectoryDescribingTemporaryDirectory
     [.] DirectoryDescribingCurrentDirectory
     [x] DirectoryDescribingSpecialFolder
-    [ ] Drives
+    [?] Drives
     [ ] ? TryCreateXxxDescribing (or IsValidPath())
     [ ] ? InvalidPathChars
     [.] Logger

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
@@ -65,6 +66,12 @@ namespace fs4net.Framework
         public Drive DriveDescribing(string driveName)
         {
             return new Drive(this, driveName, _logger);
+        }
+
+        public IEnumerable<Drive> AllDrives()
+        {
+            return System.IO.DriveInfo.GetDrives()
+                .Select(driveInfo => DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
         }
 
         #endregion // Implementation of IFileSystem

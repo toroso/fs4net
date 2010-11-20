@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace fs4net.TestTemplates.Creation
 {
-    public abstract class CreateSpecialFolderDirectory
+    public abstract class CreateSpecialFolderDirectoryFixture
     {
         protected IFileSystem FileSystem { get; private set; }
 

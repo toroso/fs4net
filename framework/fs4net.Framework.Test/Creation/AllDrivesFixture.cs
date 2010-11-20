@@ -4,7 +4,7 @@ using Template = fs4net.TestTemplates;
 namespace fs4net.Framework.Test.Creation
 {
     [TestFixture]
-    public class CreateSpecialFolderDirectory : Template.Creation.CreateSpecialFolderDirectory
+    public class AllDrivesFixture : Template.Creation.AllDrivesFixture
     {
         protected override IFileSystem CreateFileSystem()
         {

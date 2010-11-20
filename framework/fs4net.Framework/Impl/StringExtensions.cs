@@ -8,5 +8,10 @@ namespace fs4net.Framework.Impl
         {
             return me.Length == 0;
         }
+
+        public static string RemoveTrailingPathSeparators(this String me)
+        {
+            return me.TrimEnd(new[] {'\\'});
+        }
     }
 }
