@@ -164,6 +164,9 @@ namespace fs4net.Framework
             return me.InternalFileSystem().GetDirectoriesInDirectory(me.CanonicalPathAsString());
         }
 
+        /// <summary>
+        /// Sets the application's current working directory to the given directory.
+        /// </summary>
         public static void SetAsCurrent<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {

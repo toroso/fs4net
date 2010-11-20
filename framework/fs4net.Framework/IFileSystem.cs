@@ -34,7 +34,7 @@ namespace fs4net.Framework
         RootedDirectory DirectoryDescribingTemporaryDirectory();
 
         /// <summary>
-        /// Creates a descriptor to the current directory.
+        /// Creates a descriptor to the current current working directory of the application.
         /// </summary>
         RootedDirectory DirectoryDescribingCurrentDirectory();
 
