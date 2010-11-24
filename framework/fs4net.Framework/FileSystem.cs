@@ -16,16 +16,20 @@ namespace fs4net.Framework
         {
         }
 
+        /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
         public FileSystem(ILogger logger)
             : this(logger, PathWashers.NullWasher)
         {
         }
 
+        /// <param name="pathWasher">All paths are cleaned with this PathWasher before the FileSystemItems are created.</param>
         public FileSystem(Func<string, string> pathWasher)
             : this(NullLogger.Instance, pathWasher)
         {
         }
 
+        /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
+        /// <param name="pathWasher">All paths are cleaned with this PathWasher before the FileSystemItems are created.</param>
         public FileSystem(ILogger logger, Func<string, string> pathWasher)
         {
             _pathWasher = pathWasher;

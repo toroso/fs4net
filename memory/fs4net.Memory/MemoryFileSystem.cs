@@ -49,16 +49,20 @@ namespace fs4net.Memory
         {
         }
 
+        /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
         public MemoryFileSystem(ILogger logger)
             : this(logger, PathWashers.NullWasher)
         {
         }
 
+        /// <param name="pathWasher">All paths are cleaned with this PathWasher before the FileSystemItems are created.</param>
         public MemoryFileSystem(Func<string, string> pathWasher)
             : this(NullLogger.Instance, pathWasher)
         {
         }
 
+        /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
+        /// <param name="pathWasher">All paths are cleaned with this PathWasher before the FileSystemItems are created.</param>
         public MemoryFileSystem(ILogger logger, Func<string, string> pathWasher)
         {
             _pathWasher = pathWasher;
@@ -69,6 +73,17 @@ namespace fs4net.Memory
                 CreateDirectory(folder.Value);
             }
             _currentDirectory = _specialFolders["Temp"]; // Good default? I could use Directory.GetCurrentDirectory(), but it's not predictable... And it must exist.
+        }
+
+        /// <summary>
+        /// Specifies the drives that this FileSystem contains (or actually what additional drives it contains: this
+        /// method does not remove drives that are not specified).
+        /// The method returns the same instance of the FileSystem.
+        /// </summary>
+        public MemoryFileSystem WithDrives(params string[] driveNames)
+        {
+            Array.ForEach(driveNames, drive => _rootNode.CreateOrReuseFolderNode(drive));
+            return this;
         }
 
         public void Dispose()
@@ -277,12 +292,6 @@ namespace fs4net.Memory
 
         #endregion // Implementation of IInternalFileSystem
 
-
-        public MemoryFileSystem WithDrives(params string[] driveNames)
-        {
-            Array.ForEach(driveNames, drive => _rootNode.CreateOrReuseFolderNode(drive));
-            return this;
-        }
 
         private FileNode CreateFile(string path)
         {
