@@ -185,7 +185,7 @@ namespace fs4net.Framework
 
         public System.IO.Stream CreateReadStream(RootedCanonicalPath path)
         {
-            return new System.IO.FileInfo(path.FullPath).Open(System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            return new System.IO.FileInfo(path.FullPath).Open(System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
         }
 
         public System.IO.Stream CreateWriteStream(RootedCanonicalPath path)

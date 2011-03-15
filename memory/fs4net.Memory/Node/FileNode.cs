@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace fs4net.Memory.Node
@@ -71,6 +72,7 @@ namespace fs4net.Memory.Node
 
         private class WrappingStream : Stream
         {
+            private long _innerPosition;
             private readonly Stream _inner;
             private readonly FileNode _creator;
             private readonly bool _canRead;
@@ -85,6 +87,7 @@ namespace fs4net.Memory.Node
                 _canWrite = canWrite;
                 _canSeek = canSeek;
                 _inner.Seek(0, initialStreamPosition);
+                _innerPosition = _inner.Position;
             }
 
             protected override void Dispose(bool disposing)
@@ -103,17 +106,32 @@ namespace fs4net.Memory.Node
             public override long Seek(long offset, SeekOrigin origin)
             {
                 if (!CanSeek) throw new IOException("Unable seek backward to overwrite data that previously existed in a file opened in Append mode.");
-                return _inner.Seek(offset, origin);
+                return AtPositionGet(() => _inner.Seek(offset, origin));
             }
 
             public override void SetLength(long value) { _inner.SetLength(value); }
-            public override int Read(byte[] buffer, int offset, int count) { return _inner.Read(buffer, offset, count); }
-            public override void Write(byte[] buffer, int offset, int count) { _inner.Write(buffer, offset, count); }
+            public override int Read(byte[] buffer, int offset, int count) { return AtPositionGet(() => _inner.Read(buffer, offset, count)); }
+            public override void Write(byte[] buffer, int offset, int count) { AtPositionDo(() => _inner.Write(buffer, offset, count)); }
             public override bool CanRead { get { return _canRead; } }
             public override bool CanSeek { get { return _canSeek; } }
             public override bool CanWrite { get { return _canWrite; } }
             public override long Length { get { return _inner.Length; } }
-            public override long Position { get { return _inner.Position; } set { _inner.Position = value; } }
+            public override long Position { get { return _innerPosition; } set { _innerPosition = value; } }
+
+            private T AtPositionGet<T>(Func<T> action)
+            {
+                _inner.Seek(_innerPosition, SeekOrigin.Begin);
+                var result = action();
+                _innerPosition = _inner.Position;
+                return result;
+            }
+
+            private void AtPositionDo(Action action)
+            {
+                _inner.Seek(_innerPosition, SeekOrigin.Begin);
+                action();
+                _innerPosition = _inner.Position;
+            }
 
             public static Stream CreateReadStream(Stream inner, FileNode creator)
             {

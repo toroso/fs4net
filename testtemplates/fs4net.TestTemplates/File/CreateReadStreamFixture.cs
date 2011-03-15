@@ -69,6 +69,16 @@ namespace fs4net.TestTemplates.File
             }
         }
 
+        [Test]
+        public void Two_Concurrent_Readers_On_Same_File()
+        {
+            using (var s1 = ExistingFile.CreateReadStream())
+            using (var s2 = ExistingFile.CreateReadStream())
+            {
+                Assert.That(s2.ReadByte(), Is.EqualTo(s1.ReadByte()));
+            }
+        }
+
         // TODO: Access denied
         // e.g. file is in use for writing
     }
