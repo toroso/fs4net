@@ -57,6 +57,7 @@
     <Compile Include="Creation\CreateSpecialFolderDirectoryFixture.cs" />
     <Compile Include="Creation\LeafFolderFixture.cs" />
     <Compile Include="Creation\ParentFixture.cs" />
+    <Compile Include="Creation\PathWasherFixture.cs" />
     <Compile Include="Directory\CreateFixture.cs" />
     <Compile Include="Directory\DeleteIfEmptyFixture.cs" />
     <Compile Include="Directory\DeleteRecursivelyFixture.cs" />

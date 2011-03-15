@@ -1,6 +1,5 @@
 ﻿Priotity
 ========
-   * IFileSystem: PathWasher
    * PathWashers
    * IRootedDirectory.CopyTo(IRootedDirectory) -- and allow target to exist, but be empty
    * RootedDirectory.UniqueDirectory()
