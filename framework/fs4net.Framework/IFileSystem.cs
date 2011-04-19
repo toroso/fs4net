@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
@@ -56,5 +57,30 @@ namespace fs4net.Framework
         /// </summary>
         /// TODO: Exceptions
         IEnumerable<Drive> AllDrives();
+
+        Func<string, string> PathWasher { get; }
+    }
+
+    public static class FileSystemExtensions
+    {
+        /// <summary>
+        /// Checks if the path is a valid and rooted directory.
+        /// </summary>
+        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
+        public static bool IsValidRootedDirectory(this IFileSystem fs, string path)
+        {
+            ThrowHelper.ThrowIfNull(path, "path");
+            return new CanonicalPathBuilder(fs.PathWasher(path)).IsRootedDirectory;
+        }
+
+        /// <summary>
+        /// Checks if the path is a valid and rooted file.
+        /// </summary>
+        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
+        public static bool IsValidRootedFile(this IFileSystem fs, string path)
+        {
+            ThrowHelper.ThrowIfNull(path, "path");
+            return new CanonicalPathBuilder(fs.PathWasher(path)).IsRootedFile;
+        }
     }
 }

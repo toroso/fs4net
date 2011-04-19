@@ -178,14 +178,14 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_Path_Is_Too_Long()
         {
-            string almostTooLongPath = @"c:\"; // 3 chars
+            string tooLongPath = @"c:\"; // 3 chars
             const string pathWith10Chars = @"123456789\";
             for (int index = 0; index < 25; index++)
             {
-                almostTooLongPath += pathWith10Chars; // 10 * 25 chars
+                tooLongPath += pathWith10Chars; // 10 * 25 chars
             }
-            almostTooLongPath += @"1234567"; // 7 chars
-            Assert.Throws<PathTooLongException>(() => _fileSystem.FileDescribing(almostTooLongPath)); // 260 chars in total
+            tooLongPath += @"1234567"; // 7 chars
+            Assert.Throws<PathTooLongException>(() => _fileSystem.FileDescribing(tooLongPath)); // 260 chars in total
         }
 
         [Test]

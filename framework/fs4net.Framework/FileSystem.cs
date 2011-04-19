@@ -78,6 +78,11 @@ namespace fs4net.Framework
                 .Select(driveInfo => DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
         }
 
+        public Func<string, string> PathWasher
+        {
+            get { return _pathWasher; }
+        }
+
         #endregion // Implementation of IFileSystem
 
 

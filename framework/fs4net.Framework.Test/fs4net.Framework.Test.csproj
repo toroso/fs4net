@@ -55,6 +55,8 @@
     <Compile Include="Creation\CreateRootedDirectoryFixture.cs" />
     <Compile Include="Creation\CreateRootedFileFixture.cs" />
     <Compile Include="Creation\CreateSpecialFolderDirectoryFixture.cs" />
+    <Compile Include="Creation\IsValidRootedDirectoryFixture.cs" />
+    <Compile Include="Creation\IsValidRootedFileFixture.cs" />
     <Compile Include="Creation\LeafFolderFixture.cs" />
     <Compile Include="Creation\ParentFixture.cs" />
     <Compile Include="Creation\PathWasherFixture.cs" />

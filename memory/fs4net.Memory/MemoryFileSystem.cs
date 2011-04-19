@@ -132,6 +132,11 @@ namespace fs4net.Memory
                 .Select(child => DriveDescribing(child.Name));
         }
 
+        public Func<string, string> PathWasher
+        {
+            get { return _pathWasher; }
+        }
+
         #endregion // Implementation of IFileSystem
 
         #region Implementation of IInternalFileSystem

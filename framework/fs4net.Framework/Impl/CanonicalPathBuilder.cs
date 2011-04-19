@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 
@@ -30,9 +31,47 @@ namespace fs4net.Framework.Impl
             }
         }
 
+        public bool IsRootedFile
+        {
+            get
+            {
+                if (!HasDriveName()) return false;
+
+                // TODO: This is a really ugly solution... should not throw in this flow!
+                try
+                {
+                    BuildForRootedFile();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         internal string BuildForRootedFile()
         {
             return GetCanonicalPath(GetDriveName(), GetFilename(), true, true);
+        }
+
+        public bool IsRootedDirectory
+        {
+            get
+            {
+                if (!HasDriveName()) return false;
+
+                // TODO: This is a really ugly solution... should not throw in this flow!
+                try
+                {
+                    BuildForRootedDirectory();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
         }
 
         public string BuildForRootedDirectory()
@@ -62,6 +101,13 @@ namespace fs4net.Framework.Impl
             var driveName = new DriveParser(_fullPath);
             if (driveName.Exists) throw new RootedPathException(string.Format("The path '{0}' is rooted.", _fullPath));
             if (!driveName.IsValid) throw new InvalidPathException(driveName.InvalidErrorMessage);
+        }
+
+        private bool HasDriveName()
+        {
+            var driveName = new DriveParser(_fullPath);
+            if (!driveName.Exists || !driveName.IsValid) return false;
+            return true;
         }
 
         /// <summary>Returns the drive without ending backslash.</summary>

@@ -7,16 +7,18 @@ namespace fs4net.Framework.Test
 {
     internal class MockFileSystem : IInternalFileSystem
     {
+        private Func<string, string> _pathWasher = PathWashers.NullWasher;
+
         #region Implementation of IFileSystem
 
         public RootedFile FileDescribing(string fullPath)
         {
-            return new RootedFile(this, fullPath, PathWashers.NullWasher, AssertLogger.Instance);
+            return new RootedFile(this, fullPath, PathWasher, AssertLogger.Instance);
         }
 
         public RootedDirectory DirectoryDescribing(string fullPath)
         {
-            return new RootedDirectory(this, fullPath, PathWashers.NullWasher, AssertLogger.Instance);
+            return new RootedDirectory(this, fullPath, PathWasher, AssertLogger.Instance);
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory() { throw new NotImplementedException(); }
@@ -29,6 +31,12 @@ namespace fs4net.Framework.Test
         }
 
         public IEnumerable<Drive> AllDrives() { throw new NotImplementedException(); }
+
+        public Func<string, string> PathWasher
+        {
+            get { return _pathWasher; }
+            set { _pathWasher = value; }
+        }
 
         #endregion // Implementation of IFileSystem
 
