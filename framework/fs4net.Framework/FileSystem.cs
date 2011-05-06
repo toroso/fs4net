@@ -7,32 +7,16 @@ namespace fs4net.Framework
 {
     public sealed class FileSystem : IInternalFileSystem
     {
-        // Cleans the paths before validation.
-        private readonly Func<string, string> _pathWasher;
         private readonly ILogger _logger;
 
         public FileSystem()
-            : this(NullLogger.Instance, PathWashers.NullWasher)
+            : this(NullLogger.Instance)
         {
         }
 
         /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
         public FileSystem(ILogger logger)
-            : this(logger, PathWashers.NullWasher)
         {
-        }
-
-        /// <param name="pathWasher">All paths are cleaned with this PathWasher before the FileSystemItems are created.</param>
-        public FileSystem(Func<string, string> pathWasher)
-            : this(NullLogger.Instance, pathWasher)
-        {
-        }
-
-        /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
-        /// <param name="pathWasher">All paths are cleaned with this PathWasher before the FileSystemItems are created.</param>
-        public FileSystem(ILogger logger, Func<string, string> pathWasher)
-        {
-            _pathWasher = pathWasher;
             _logger = logger;
         }
 
@@ -41,13 +25,13 @@ namespace fs4net.Framework
         public RootedFile FileDescribing(string fullPath)
         {
             // TODO: If relative, append it to Current Directory. Or not...?
-            return new RootedFile(this, fullPath, _pathWasher, _logger);
+            return new RootedFile(this, fullPath, _logger);
         }
 
         public RootedDirectory DirectoryDescribing(string fullPath)
         {
             // TODO: If relative, append it to Current Directory. Or not...?
-            return new RootedDirectory(this, fullPath, _pathWasher, _logger);
+            return new RootedDirectory(this, fullPath, _logger);
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
@@ -76,11 +60,6 @@ namespace fs4net.Framework
         {
             return System.IO.DriveInfo.GetDrives()
                 .Select(driveInfo => DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
-        }
-
-        public Func<string, string> PathWasher
-        {
-            get { return _pathWasher; }
         }
 
         #endregion // Implementation of IFileSystem

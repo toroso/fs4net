@@ -40,32 +40,17 @@ namespace fs4net.Memory
             };
         private string _currentDirectory;
 
-        private readonly Func<string, string> _pathWasher;
         private readonly ILogger _logger;
         private readonly FolderNode _rootNode = FolderNode.CreateRoot();
 
         public MemoryFileSystem()
-            : this(NullLogger.Instance, PathWashers.NullWasher)
+            : this(NullLogger.Instance)
         {
         }
 
         /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
         public MemoryFileSystem(ILogger logger)
-            : this(logger, PathWashers.NullWasher)
         {
-        }
-
-        /// <param name="pathWasher">All paths are cleaned with this PathWasher before the FileSystemItems are created.</param>
-        public MemoryFileSystem(Func<string, string> pathWasher)
-            : this(NullLogger.Instance, pathWasher)
-        {
-        }
-
-        /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
-        /// <param name="pathWasher">All paths are cleaned with this PathWasher before the FileSystemItems are created.</param>
-        public MemoryFileSystem(ILogger logger, Func<string, string> pathWasher)
-        {
-            _pathWasher = pathWasher;
             _logger = logger;
             _rootNode.CreateOrReuseFolderNode(SystemDrive);
             foreach (var folder in _specialFolders)
@@ -95,12 +80,12 @@ namespace fs4net.Memory
 
         public RootedFile FileDescribing(string fullPath)
         {
-            return new RootedFile(this, fullPath, _pathWasher, _logger);
+            return new RootedFile(this, fullPath, _logger);
         }
 
         public RootedDirectory DirectoryDescribing(string fullPath)
         {
-            return new RootedDirectory(this, fullPath, _pathWasher, _logger);
+            return new RootedDirectory(this, fullPath, _logger);
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
@@ -130,11 +115,6 @@ namespace fs4net.Memory
             return _rootNode
                 .Children
                 .Select(child => DriveDescribing(child.Name));
-        }
-
-        public Func<string, string> PathWasher
-        {
-            get { return _pathWasher; }
         }
 
         #endregion // Implementation of IFileSystem

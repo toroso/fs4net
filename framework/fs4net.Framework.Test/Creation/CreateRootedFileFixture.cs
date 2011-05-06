@@ -21,7 +21,7 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_FileSystem_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => new RootedFile(null, @"c:\path\to\file.txt", PathWashers.NullWasher, AssertLogger.Instance));
+            Assert.Throws<ArgumentNullException>(() => new RootedFile(null, @"c:\path\to\file.txt", AssertLogger.Instance));
         }
 
         [Test]

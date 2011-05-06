@@ -71,7 +71,7 @@ namespace fs4net.Framework
         {
             ThrowHelper.ThrowIfNull(me, "me");
             me.VerifyDoesNotDenoteDrive(ThrowHelper.InvalidPathException("Can't get parent directory of drive '{0}'.", me));
-            return new RootedDirectory(me.InternalFileSystem(), Path.GetDirectoryName(me.PathAsString).RemoveEndingBackslash(), me.PathWasher, me.Logger);
+            return new RootedDirectory(me.InternalFileSystem(), Path.GetDirectoryName(me.PathAsString).RemoveEndingBackslash(), me.Logger);
         }
 
         internal static bool IsFile<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>

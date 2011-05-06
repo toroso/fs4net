@@ -1,6 +1,10 @@
 ﻿Priotity
 ========
-   * PathWashers
+   * Check if path is valid:
+     * string.IsValidRootedDirectory()
+     * string.IsValidRootedFile()
+     * string.IsValidRelativeDirectory()
+     * string.IsValidRelativeFile()
    * IRootedDirectory.CopyTo(IRootedDirectory) -- and allow target to exist, but be empty
    * RootedDirectory.UniqueDirectory()
    * RootedDirectory.UniqueFileWithoutExtension()
@@ -27,7 +31,6 @@ IFileSystem
     [ ] ? InvalidPathChars
     [ ] IsValidRootedPath
     [.] Logger
-    [.] PathWasher
     [ ] FileFromCurrentDirectory -- (from CD if relative) in far away extension method
     [ ] DirectoryFromCurrentDirectory -- (from CD if relative) in far away extension method
 
@@ -166,7 +169,7 @@ TODO: Localization support
 TODO: 64-bit SpecialFolders and more
 TODO:
   * Rename *Describing to Rooted*Describing (keep as obsolete)
-  * Create Relative*Describing that uses PathWasher (but keep old as well)
+  * PathWashing IFileSystem decorator
   * Create IsValidRootedPath and IsValidRelativePath on IFileSystem
   * Create IsValidRelativePath on IRelativeFileSystemItem -- strict
   * Let Rooted*Describing append to Current Directory if relative

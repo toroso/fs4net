@@ -1,4 +1,3 @@
-using System;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
@@ -32,11 +31,6 @@ namespace fs4net.Framework
         /// "\". To remove such redundant parts, use the AsCanonical() factory method.
         /// </summary>
         public string PathAsString { get; private set; }
-
-        public Func<string, string> PathWasher
-        {
-            get { return PathWashers.NullWasher; }
-        }
 
         /// <summary>
         /// Returns a descriptor where the PathAsString property returns the path on canonical form. A canonical

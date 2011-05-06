@@ -47,11 +47,6 @@ namespace fs4net.Framework
             get { return FullName; }
         }
 
-        public Func<string, string> PathWasher
-        {
-            get { return PathWashers.NullWasher; }
-        }
-
         public FileName AsCanonical()
         {
             return this;

@@ -1,4 +1,3 @@
-using System;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
@@ -26,11 +25,6 @@ namespace fs4net.Framework
         }
 
         public ILogger Logger { get; private set; }
-
-        public Func<string, string> PathWasher
-        {
-            get { return PathWashers.NullWasher; }
-        }
 
         public Drive AsCanonical()
         {

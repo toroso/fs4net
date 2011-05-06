@@ -13,7 +13,7 @@ namespace fs4net.Memory.Test
 
         public static IFileSystem CreateFileSystemWithDrives(Func<string, string> pathWasher)
         {
-            return new MemoryFileSystem(AssertLogger.Instance, pathWasher).WithDrives("c:", "d:");
+            return new MemoryFileSystem(AssertLogger.Instance).WithDrives("c:", "d:");
         }
     }
 }

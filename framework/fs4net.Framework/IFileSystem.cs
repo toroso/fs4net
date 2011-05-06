@@ -57,10 +57,9 @@ namespace fs4net.Framework
         /// </summary>
         /// TODO: Exceptions
         IEnumerable<Drive> AllDrives();
-
-        Func<string, string> PathWasher { get; }
     }
 
+    // TODO: These do not need IFileSystem. Convert to extension methods on string.
     public static class FileSystemExtensions
     {
         /// <summary>
@@ -70,7 +69,7 @@ namespace fs4net.Framework
         public static bool IsValidRootedDirectory(this IFileSystem fs, string path)
         {
             ThrowHelper.ThrowIfNull(path, "path");
-            return new CanonicalPathBuilder(fs.PathWasher(path)).IsRootedDirectory;
+            return new CanonicalPathBuilder(path).IsRootedDirectory;
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace fs4net.Framework
         public static bool IsValidRootedFile(this IFileSystem fs, string path)
         {
             ThrowHelper.ThrowIfNull(path, "path");
-            return new CanonicalPathBuilder(fs.PathWasher(path)).IsRootedFile;
+            return new CanonicalPathBuilder(path).IsRootedFile;
         }
     }
 }

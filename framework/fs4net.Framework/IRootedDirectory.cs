@@ -17,7 +17,7 @@ namespace fs4net.Framework
         public static RootedDirectory Append<T>(this IRootedDirectory<T> left, RelativeDirectory right)
             where T : IRootedDirectory<T>
         {
-            return new RootedDirectory(left.InternalFileSystem(), PathUtils.Combine(left.PathAsString, right.PathAsString), left.PathWasher, left.Logger);
+            return new RootedDirectory(left.InternalFileSystem(), PathUtils.Combine(left.PathAsString, right.PathAsString), left.Logger);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace fs4net.Framework
             where TDir : IRootedDirectory<TDir>
             where TFile : IRelativeFile<TFile>
         {
-            return new RootedFile(left.InternalFileSystem(), PathUtils.Combine(left.PathAsString, right.PathAsString), left.PathWasher, left.Logger);
+            return new RootedFile(left.InternalFileSystem(), PathUtils.Combine(left.PathAsString, right.PathAsString), left.Logger);
         }
 
         /// <summary>

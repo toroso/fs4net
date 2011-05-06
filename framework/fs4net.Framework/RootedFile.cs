@@ -13,12 +13,11 @@ namespace fs4net.Framework
         private readonly IInternalFileSystem _fileSystem;
         private readonly string _canonicalFullPath;
 
-        public RootedFile(IInternalFileSystem fileSystem, string rootedPath, Func<string, string> pathWasher, ILogger logger)
+        public RootedFile(IInternalFileSystem fileSystem, string rootedPath, ILogger logger)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             _fileSystem = fileSystem;
-            PathAsString = pathWasher(rootedPath);
-            PathWasher = pathWasher;
+            PathAsString = rootedPath;
             Logger = logger;
             _canonicalFullPath = new CanonicalPathBuilder(PathAsString).BuildForRootedFile();
         }
@@ -41,7 +40,6 @@ namespace fs4net.Framework
         /// </summary>
         public string PathAsString { get; private set; }
 
-        public Func<string, string> PathWasher { get; private set; }
         public ILogger Logger { get; private set; }
 
         /// <summary>
@@ -52,7 +50,7 @@ namespace fs4net.Framework
         /// </summary>
         public RootedFile AsCanonical() // TODO? Make into extension method and add a Clone() method?
         {
-            return new RootedFile(_fileSystem, _canonicalFullPath, PathWasher, Logger);
+            return new RootedFile(_fileSystem, _canonicalFullPath, Logger);
         }
 
         #endregion // Public Interface

@@ -19,7 +19,6 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_Path_Is_Null()
         {
-            ((MockFileSystem)_fileSystem).PathWasher = (path => path.Substring(0)); // Make sure pathwasher throws if path is null
             AssertThrows<ArgumentNullException>(() => _fileSystem.IsValidRootedFile(null));
         }
 
