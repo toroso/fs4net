@@ -1,4 +1,5 @@
 using System;
+using fs4net.Framework.Utils;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test.Creation
@@ -6,20 +7,10 @@ namespace fs4net.Framework.Test.Creation
     [TestFixture]
     public class IsValidRootedDirectoryFixture
     {
-        private IFileSystem _fileSystem;
-
-
-        [SetUp]
-        public void CreateMockFileSystem()
-        {
-            _fileSystem = new MockFileSystem();
-        }
-
-
         [Test]
         public void Throws_If_Path_Is_Null()
         {
-            AssertThrows<ArgumentNullException>(() => _fileSystem.IsValidRootedDirectory(null));
+            AssertThrows<ArgumentNullException>(() => ValidityCheckers.IsValidRootedDirectory(null));
         }
 
         private static readonly string[] NonValidOrNonRootedDirectory =
@@ -67,7 +58,7 @@ namespace fs4net.Framework.Test.Creation
         [Test, TestCaseSource("NonValidOrNonRootedDirectory")]
         public void Non_Valid_Or_Non_Rooted_Directory_Return_False(string path)
         {
-            Assert.That(_fileSystem.IsValidRootedDirectory(path), Is.False);
+            Assert.That(path.IsValidRootedDirectory(), Is.False);
         }
 
 
@@ -95,7 +86,7 @@ namespace fs4net.Framework.Test.Creation
         [Test, TestCaseSource("ValidRootedDirectory")]
         public void Valid_Rooted_Directory_Return_True(string path)
         {
-            Assert.That(_fileSystem.IsValidRootedDirectory(path), Is.True);
+            Assert.That(path.IsValidRootedDirectory(), Is.True);
         }
 
 
@@ -109,7 +100,7 @@ namespace fs4net.Framework.Test.Creation
                 almostTooLongPath += pathWith10Chars; // 10 * 25 chars
             }
             almostTooLongPath += @"123456"; // 6 chars
-            Assert.That(_fileSystem.IsValidRootedDirectory(almostTooLongPath), Is.True); // 259 chars in total
+            Assert.That(almostTooLongPath.IsValidRootedDirectory(), Is.True); // 259 chars in total
         }
 
         [Test]
@@ -122,7 +113,7 @@ namespace fs4net.Framework.Test.Creation
                 tooLongPath += pathWith10Chars; // 10 * 25 chars
             }
             tooLongPath += @"1234567"; // 7 chars
-            Assert.That(_fileSystem.IsValidRootedDirectory(tooLongPath), Is.False); // 260 chars in total
+            Assert.That(tooLongPath.IsValidRootedDirectory(), Is.False); // 260 chars in total
         }
 
 

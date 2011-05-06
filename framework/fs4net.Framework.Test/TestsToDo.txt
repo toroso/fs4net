@@ -1,8 +1,8 @@
 ﻿Priotity
 ========
    * Check if path is valid:
-     * string.IsValidRootedDirectory()
-     * string.IsValidRootedFile()
+     * x string.IsValidRootedDirectory()
+     * x string.IsValidRootedFile()
      * string.IsValidRelativeDirectory()
      * string.IsValidRelativeFile()
    * IRootedDirectory.CopyTo(IRootedDirectory) -- and allow target to exist, but be empty

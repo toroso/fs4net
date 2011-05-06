@@ -38,6 +38,7 @@ namespace fs4net.Framework.Impl
                 if (!HasDriveName()) return false;
 
                 // TODO: This is a really ugly solution... should not throw in this flow!
+                // Replace with Validator class where errors are registered that can later be thrown.
                 try
                 {
                     BuildForRootedFile();
@@ -62,6 +63,7 @@ namespace fs4net.Framework.Impl
                 if (!HasDriveName()) return false;
 
                 // TODO: This is a really ugly solution... should not throw in this flow!
+                // Replace with Validator class where errors are registered that can later be thrown.
                 try
                 {
                     BuildForRootedDirectory();

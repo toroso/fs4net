@@ -81,6 +81,7 @@
     <Compile Include="Utils\RootedDirectoryUtilities.cs" />
     <Compile Include="Utils\RootedFileUtilities.cs" />
     <Compile Include="RootedPathException.cs" />
+    <Compile Include="Utils\ValidityCheckers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

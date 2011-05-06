@@ -58,28 +58,4 @@ namespace fs4net.Framework
         /// TODO: Exceptions
         IEnumerable<Drive> AllDrives();
     }
-
-    // TODO: These do not need IFileSystem. Convert to extension methods on string.
-    public static class FileSystemExtensions
-    {
-        /// <summary>
-        /// Checks if the path is a valid and rooted directory.
-        /// </summary>
-        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
-        public static bool IsValidRootedDirectory(this IFileSystem fs, string path)
-        {
-            ThrowHelper.ThrowIfNull(path, "path");
-            return new CanonicalPathBuilder(path).IsRootedDirectory;
-        }
-
-        /// <summary>
-        /// Checks if the path is a valid and rooted file.
-        /// </summary>
-        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
-        public static bool IsValidRootedFile(this IFileSystem fs, string path)
-        {
-            ThrowHelper.ThrowIfNull(path, "path");
-            return new CanonicalPathBuilder(path).IsRootedFile;
-        }
-    }
 }
