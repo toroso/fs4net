@@ -81,10 +81,50 @@ namespace fs4net.Framework.Impl
             return GetCanonicalPath(GetDriveName(), string.Empty, false, true);
         }
 
+        public bool IsRelativeFile
+        {
+            get
+            {
+                if (HasDriveName()) return false;
+
+                // TODO: This is a really ugly solution... should not throw in this flow!
+                // Replace with Validator class where errors are registered that can later be thrown.
+                try
+                {
+                    BuildForRelativeFile();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         public string BuildForRelativeFile()
         {
             ValidatePathNotRooted();
             return GetCanonicalPath(string.Empty, GetFilename(), true, false);
+        }
+
+        public bool IsRelativeDirectory
+        {
+            get
+            {
+                if (HasDriveName()) return false;
+
+                // TODO: This is a really ugly solution... should not throw in this flow!
+                // Replace with Validator class where errors are registered that can later be thrown.
+                try
+                {
+                    BuildForRelativeDirectory();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
         }
 
         public string BuildForRelativeDirectory()
