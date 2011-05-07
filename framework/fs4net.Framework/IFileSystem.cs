@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using fs4net.Framework.Impl;
+using fs4net.Framework.Utils;
 
 namespace fs4net.Framework
 {
     public interface IFileSystem
     {
         /// <summary>
-        /// Creates a file descriptor from the given path. If the given path is relative, the current directory
-        /// is used to make the descriptor rooted.
-        /// This method throws if the path is invalid.
+        /// Creates a file descriptor from the given path. This method throws if the path is invalid.
         /// </summary>
         /// <exception cref="System.IO.PathTooLongException">The specified path in its canonical form exceeds
         /// the system-defined maximum length.</exception>
@@ -19,14 +18,12 @@ namespace fs4net.Framework
         RootedFile FileDescribing(string fullPath);
 
         /// <summary>
-        /// Creates a descriptor to a directory from the given path. If the given path is relative, the current
-        /// directory is used to make the descriptor rooted.
-        /// This method throws if the path is invalid.
+        /// Creates a descriptor to a directory from the given path. This method throws if the path is invalid.
+        /// </summary>
         /// <exception cref="System.IO.PathTooLongException">The specified path in its canonical form exceeds
         /// the system-defined maximum length.</exception>
         /// <exception cref="System.ArgumentException">The specified path is empty, start or ends with white space,
         /// contains one or more invalid characters or contains an invalid drive letter.</exception>
-        /// </summary>
         /// TODO: The exception list is wrong!
         RootedDirectory DirectoryDescribing(string fullPath);
 
@@ -57,5 +54,42 @@ namespace fs4net.Framework
         /// </summary>
         /// TODO: Exceptions
         IEnumerable<Drive> AllDrives();
+
+        void SetCurrentDirectory(RootedDirectory dir);
+    }
+
+    public static class FileSystemExternsions
+    {
+        /// <summary>
+        /// Creates a file descriptor from the given path. If the given path is relative, the current directory
+        /// is used to make the descriptor rooted.
+        /// This method throws if the path is invalid.
+        /// </summary>
+        /// TODO: Exceptions
+        public static RootedFile FileFromCurrentDirectory(this IFileSystem fileSystem, string fullPath)
+        {
+            ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
+            if (fullPath.IsValidRootedFile())
+            {
+                return fileSystem.FileDescribing(fullPath);
+            }
+            return fileSystem.DirectoryDescribingCurrentDirectory() + RelativeFile.FromString(fullPath);
+        }
+
+        /// <summary>
+        /// Creates a descriptor to a directory from the given path. If the given path is relative, the current
+        /// directory is used to make the descriptor rooted.
+        /// This method throws if the path is invalid.
+        /// </summary>
+        /// TODO: Exceptions
+        public static RootedDirectory DirectoryFromCurrentDirectory(this IFileSystem fileSystem, string fullPath)
+        {
+            ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
+            if (fullPath.IsValidRootedFile())
+            {
+                return fileSystem.DirectoryDescribing(fullPath);
+            }
+            return fileSystem.DirectoryDescribingCurrentDirectory() + RelativeDirectory.FromString(fullPath);
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿Priotity
 ========
-   * Let *Describing append to Current Directory if relative
    * Refactor CanonicalPathBuilder: no throw
    * IRootedDirectory.CopyTo(IRootedDirectory) -- and allow target to exist, but be empty
    * RootedDirectory.UniqueDirectory()
@@ -19,17 +18,16 @@ Legend:
   [ ] Not started
 
 
-IFileSystem
+IFileSystem, IFileSystemExtensions
     [x] DirectoryDescribingTemporaryDirectory
     [.] DirectoryDescribingCurrentDirectory
     [x] DirectoryDescribingSpecialFolder
     [?] Drives
-    [ ] ? TryCreateXxxDescribing (or IsValidPath())
     [ ] ? InvalidPathChars
-    [ ] IsValidRootedPath
     [.] Logger
-    [ ] FileFromCurrentDirectory -- (from CD if relative) in far away extension method
-    [ ] DirectoryFromCurrentDirectory -- (from CD if relative) in far away extension method
+    [x] FileFromCurrentDirectory
+    [x] DirectoryFromCurrentDirectory
+    [.] SetCurrentDirectory
 
 IRootedFileSystemItem, RootedFileSystemItemExtensions
     [x] FileSystem

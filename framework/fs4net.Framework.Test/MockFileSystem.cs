@@ -7,6 +7,8 @@ namespace fs4net.Framework.Test
 {
     internal class MockFileSystem : IInternalFileSystem
     {
+        private RootedDirectory _currentDirectory;
+
         #region Implementation of IFileSystem
 
         public RootedFile FileDescribing(string fullPath)
@@ -20,7 +22,7 @@ namespace fs4net.Framework.Test
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory() { throw new NotImplementedException(); }
-        public RootedDirectory DirectoryDescribingCurrentDirectory() { throw new NotImplementedException(); }
+        public RootedDirectory DirectoryDescribingCurrentDirectory() { return _currentDirectory; }
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder) { throw new NotImplementedException(); }
 
         public Drive DriveDescribing(string driveName)
@@ -29,6 +31,10 @@ namespace fs4net.Framework.Test
         }
 
         public IEnumerable<Drive> AllDrives() { throw new NotImplementedException(); }
+        public void SetCurrentDirectory(RootedDirectory dir)
+        {
+            _currentDirectory = dir;
+        }
 
         #endregion // Implementation of IFileSystem
 

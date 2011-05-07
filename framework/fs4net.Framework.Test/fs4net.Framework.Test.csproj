@@ -48,7 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Creation\AllDrivesFixture.cs" />
+    <Compile Include="Creation\CreateDirectoryFromCurrentDirectoryFixture.cs" />
     <Compile Include="Creation\CreateDriveFixture.cs" />
+    <Compile Include="Creation\CreateFileFromCurrentDirectoryFixture.cs" />
     <Compile Include="Creation\CreateFileNameFixture.cs" />
     <Compile Include="Creation\CreateRelativeDirectoryFixture.cs" />
     <Compile Include="Creation\CreateRelativeFileFixture.cs" />

@@ -27,6 +27,15 @@ namespace fs4net.Framework.Test.Combine
         }
 
         [Test]
+        public void Combine_RootedDirectory_And_Empty_RelativeDirectory_With_Path()
+        {
+            var left = FileSystem.DirectoryDescribing(@"c:\path\is");
+            var right = RelativeDirectory.FromString(string.Empty);
+            var expected = FileSystem.DirectoryDescribing(@"c:\path\is");
+            Assert.That((left + right).PathAsString, Is.EqualTo(expected.PathAsString));
+        }
+
+        [Test]
         public void Combine_Drive_And_Filename_As_RelativeFile()
         {
             var left = FileSystem.DriveDescribing(@"c:");
@@ -99,7 +108,7 @@ namespace fs4net.Framework.Test.Combine
         }
 
         [Test]
-        public void Combine_RelativeDirectory_And_Empry_RelativeDirectory_With_Path()
+        public void Combine_RelativeDirectory_And_Empty_RelativeDirectory_With_Path()
         {
             var left = RelativeDirectory.FromString(@"relative\to");
             var right = RelativeDirectory.FromString(string.Empty);

@@ -117,6 +117,11 @@ namespace fs4net.Memory
                 .Select(child => DriveDescribing(child.Name));
         }
 
+        public void SetCurrentDirectory(RootedDirectory dir)
+        {
+            _currentDirectory = dir.PathAsString;
+        }
+
         #endregion // Implementation of IFileSystem
 
         #region Implementation of IInternalFileSystem

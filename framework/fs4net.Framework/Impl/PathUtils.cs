@@ -14,7 +14,10 @@ namespace fs4net.Framework.Impl
         {
             string leftWithoutEndingBackslash = left.EndsWith(@"\") ? left.Substring(0, left.Length - 1) : left;
             string rightWithoutLeadingBackslash = right.StartsWith(@"\") ? right.Substring(1) : right;
-            return leftWithoutEndingBackslash + @"\" + rightWithoutLeadingBackslash;
+            string separator = (leftWithoutEndingBackslash.IsEmpty() || rightWithoutLeadingBackslash.IsEmpty())
+                                   ? string.Empty
+                                   : @"\";
+            return leftWithoutEndingBackslash + separator + rightWithoutLeadingBackslash;
         }
 
         public static string MakeRelativeFrom(string to, string from)
