@@ -18,20 +18,20 @@ namespace fs4net.TestTemplates.Directory
         public void LastWriteTime_On_Directory_For_Existing_File_Throws()
         {
             // TODO: Don't like this exception: DirectoryNotFound?
-            Assert.Throws<FileNotFoundException>(() => FileSystem.DirectoryDescribing(ExistingFile.PathAsString).LastWriteTime());
+            Should.Throw<FileNotFoundException>(() => FileSystem.DirectoryDescribing(ExistingFile.PathAsString).LastWriteTime());
         }
 
         [Test]
         public void LastWriteTime_On_NonExisting_Directory_Throws()
         {
             // TODO: Don't like this exception: DirectoryNotFound?
-            Assert.Throws<FileNotFoundException>(() => NonExistingDirectory.LastWriteTime());
+            Should.Throw<FileNotFoundException>(() => NonExistingDirectory.LastWriteTime());
         }
 
         [Test]
         public void Set_LastWriteTime_Below_Min_Value_Throws()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ExistingLeafDirectory.SetLastWriteTime(MinimumDate.AddMilliseconds(-1)));
+            Should.Throw<ArgumentOutOfRangeException>(() => ExistingLeafDirectory.SetLastWriteTime(MinimumDate.AddMilliseconds(-1)));
             Assert.That(ExistingLeafDirectory.LastWriteTime(), Is.EqualTo(ExistingLeafDirectoryLastWriteTime));
         }
 

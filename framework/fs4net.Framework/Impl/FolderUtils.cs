@@ -44,6 +44,16 @@ namespace fs4net.Framework.Impl
             return null;
         }
 
+        internal static void ValidatePathCharacters(string folder, string pathPart, Validator validator)
+        {
+            var invalidChars = GetInvalidPathChars();
+            var invalidCharsInPath = folder.Where(invalidChars.Contains);
+            if (invalidCharsInPath.Any())
+            {
+                validator.AddError<InvalidPathException>("The {1} '{2}' in the path '{0}' contains the invalid character '{3}'", pathPart, folder, invalidCharsInPath.First());
+            }
+        }
+
         internal static IEnumerable<char> GetInvalidPathChars()
         {
             return Path.GetInvalidPathChars().Concat(new[] { ':', '*', '?', '/' });

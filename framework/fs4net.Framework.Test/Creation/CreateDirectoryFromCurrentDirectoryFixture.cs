@@ -1,4 +1,5 @@
 using System;
+using fs4net.TestTemplates;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test.Creation
@@ -22,14 +23,14 @@ namespace fs4net.Framework.Test.Creation
         {
 // ReSharper disable PossibleNullReferenceException
             const IFileSystem nullFileSystem = null;
-            Assert.Throws<ArgumentNullException>(() => nullFileSystem.DirectoryFromCurrentDirectory(@"file/system/is/null"));
+            Should.Throw<ArgumentNullException>(() => nullFileSystem.DirectoryFromCurrentDirectory(@"file/system/is/null"));
 // ReSharper restore PossibleNullReferenceException
         }
 
         [Test]
         public void Throws_If_Path_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => _fileSystem.DirectoryFromCurrentDirectory(null));
+            Should.Throw<ArgumentNullException>(() => _fileSystem.DirectoryFromCurrentDirectory(null));
         }
 
         [Test]
@@ -70,7 +71,7 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Create_From_Directory_Above_Root_Throws()
         {
-            Assert.Throws<InvalidPathException>(() => _fileSystem.DirectoryFromCurrentDirectory(@"..\..\..\path\to"));
+            Should.Throw<InvalidPathException>(() => _fileSystem.DirectoryFromCurrentDirectory(@"..\..\..\path\to"));
         }
     }
 }

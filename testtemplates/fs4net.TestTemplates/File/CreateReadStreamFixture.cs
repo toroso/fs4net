@@ -18,7 +18,7 @@ namespace fs4net.TestTemplates.File
         public void Read_NonExisting_File_In_Existing_Directory()
         {
             var file = ExistingEmptyDirectory + RelativeFile.FromString("nonexisting.txt");
-            Assert.Throws<FileNotFoundException>(() => file.ReadText());
+            Should.Throw<FileNotFoundException>(() => file.ReadText());
             Assert.That(file.Exists(), Is.False);
         }
 
@@ -26,7 +26,7 @@ namespace fs4net.TestTemplates.File
         public void Read_NonExisting_File_In_NonExisting_Directory()
         {
             var file = NonExistingDirectory + RelativeFile.FromString("nonexisting.txt");
-            Assert.Throws<DirectoryNotFoundException>(() => file.ReadText());
+            Should.Throw<DirectoryNotFoundException>(() => file.ReadText());
             Assert.That(NonExistingDirectory.Exists(), Is.False);
             Assert.That(file.Exists(), Is.False);
         }
@@ -35,14 +35,14 @@ namespace fs4net.TestTemplates.File
         public void Read_File_That_Is_An_Existing_Directory()
         {
             var file = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
-            Assert.Throws<UnauthorizedAccessException>(() => file.ReadText());
+            Should.Throw<UnauthorizedAccessException>(() => file.ReadText());
         }
 
         [Test]
         public void Read_NonExisting_File_From_NonExisting_Drive()
         {
             var file = NonExistingDrive + RelativeFile.FromString(@"path\to\nonexisting.txt");
-            Assert.Throws<DirectoryNotFoundException>(() => file.ReadText());
+            Should.Throw<DirectoryNotFoundException>(() => file.ReadText());
             Assert.That(file.Exists(), Is.False);
         }
 
@@ -65,7 +65,7 @@ namespace fs4net.TestTemplates.File
         {
             using (var stream = ExistingFile.CreateReadStream())
             {
-                Assert.Throws<ArgumentException>(() => new StreamWriter(stream));
+                Should.Throw<ArgumentException>(() => new StreamWriter(stream));
             }
         }
 

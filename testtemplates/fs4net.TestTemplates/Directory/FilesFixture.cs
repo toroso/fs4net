@@ -29,14 +29,14 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void Files_For_NonExisting_Directory_Throws()
         {
-            Assert.Throws<DirectoryNotFoundException>(() => NonExistingDirectory.Files());
+            Should.Throw<DirectoryNotFoundException>(() => NonExistingDirectory.Files());
         }
 
         [Test]
         public void Files_For_Directory_That_Is_A_File_Throws()
         {
             var fileAsDirectory = FileSystem.DirectoryDescribing(ExistingFile.PathAsString);
-            Assert.Throws<IOException>(() => fileAsDirectory.Files());
+            Should.Throw<IOException>(() => fileAsDirectory.Files());
         }
 
 

@@ -21,19 +21,19 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_FileSystem_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => new RootedDirectory(null, @"c:\path\to\directory", AssertLogger.Instance));
+            Should.Throw<ArgumentNullException>(() => new RootedDirectory(null, @"c:\path\to\directory", AssertLogger.Instance));
         }
 
         [Test]
         public void Throws_If_Path_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => _fileSystem.DirectoryDescribing(null));
+            Should.Throw<ArgumentNullException>(() => _fileSystem.DirectoryDescribing(null));
         }
 
         [Test]
         public void Throws_If_Path_Is_Empty()
         {
-            AssertThrows<NonRootedPathException>(() => _fileSystem.DirectoryDescribing(string.Empty));
+            Should.Throw<NonRootedPathException>(() => _fileSystem.DirectoryDescribing(string.Empty));
         }
 
 
@@ -159,13 +159,13 @@ namespace fs4net.Framework.Test.Creation
                 tooLongPath += pathWith10Chars; // 10 * 25 chars
             }
             tooLongPath += @"1234567"; // 7 chars
-            Assert.Throws<PathTooLongException>(() => _fileSystem.DirectoryDescribing(tooLongPath)); // 260 chars in total
+            Should.Throw<PathTooLongException>(() => _fileSystem.DirectoryDescribing(tooLongPath)); // 260 chars in total
         }
 
         [Test]
         public void Throws_If_Path_Accends_Above_Root()
         {
-            Assert.Throws<InvalidPathException>(() => _fileSystem.DirectoryDescribing(@"c:\path\..\..\to"));
+            Should.Throw<InvalidPathException>(() => _fileSystem.DirectoryDescribing(@"c:\path\..\..\to"));
         }
 
         private static readonly string[] ValidPaths =
@@ -199,39 +199,12 @@ namespace fs4net.Framework.Test.Creation
 
         private void AssertThrowsInvalidPathExceptionFor(string rootedPath)
         {
-            AssertThrows<InvalidPathException>(() => _fileSystem.DirectoryDescribing(rootedPath), string.Format("for '{0}'", rootedPath));
+            Should.Throw<InvalidPathException>(() => _fileSystem.DirectoryDescribing(rootedPath), string.Format("for '{0}'", rootedPath));
         }
 
         private void AssertThrowsNonRootedPathExceptionFor(string relativePath)
         {
-            AssertThrows<NonRootedPathException>(() => _fileSystem.DirectoryDescribing(relativePath), string.Format("for '{0}'", relativePath));
-        }
-
-        private static void AssertThrows<T>(Action action)
-        {
-            AssertThrows<T>(action, string.Empty);
-        }
-
-        private static void AssertThrows<T>(Action action, string testData)
-        {
-            try
-            {
-                action();
-                FailOnWrongException<T>(testData, "no exception");
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetType() != typeof(T))
-                {
-                    FailOnWrongException<T>(testData, ex.GetType().ToString());
-                }
-            }
-        }
-
-        private static void FailOnWrongException<T>(string testData, string exception)
-        {
-            string forString = (testData == string.Empty) ? string.Empty : string.Format(" for '{0}'", testData);
-            Assert.Fail(string.Format("Expected {0}{1} but got {2}.", typeof(T), forString, exception));
+            Should.Throw<NonRootedPathException>(() => _fileSystem.DirectoryDescribing(relativePath), string.Format("for '{0}'", relativePath));
         }
     }
 }

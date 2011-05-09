@@ -1,5 +1,6 @@
 using System;
 using fs4net.Framework.Utils;
+using fs4net.TestTemplates;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test.Creation
@@ -10,7 +11,7 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_Path_Is_Null()
         {
-            AssertThrows<ArgumentNullException>(() => ValidityCheckers.IsValidRelativeDirectory(null));
+            Should.Throw<ArgumentNullException>(() => ValidityCheckers.IsValidRelativeDirectory(null));
         }
 
         private static readonly string[] NonValidOrNonRelativeDirectory =
@@ -76,34 +77,6 @@ namespace fs4net.Framework.Test.Creation
         public void Valid_Relative_Directory_Return_True(string path)
         {
             Assert.That(path.IsValidRelativeDirectory(), Is.True);
-        }
-
-
-        private static void AssertThrows<T>(Action action)
-        {
-            AssertThrows<T>(action, string.Empty);
-        }
-
-        private static void AssertThrows<T>(Action action, string testData)
-        {
-            try
-            {
-                action();
-                FailOnWrongException<T>(testData, "no exception");
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetType() != typeof(T))
-                {
-                    FailOnWrongException<T>(testData, ex.GetType().ToString());
-                }
-            }
-        }
-
-        private static void FailOnWrongException<T>(string testData, string exception)
-        {
-            string forString = (testData == string.Empty) ? string.Empty : string.Format(" for '{0}'", testData);
-            Assert.Fail(string.Format("Expected {0}{1} but got {2}.", typeof(T), forString, exception));
         }
     }
 }

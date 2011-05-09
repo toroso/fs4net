@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using fs4net.TestTemplates;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test
@@ -25,8 +26,8 @@ namespace fs4net.Framework.Test
         [Test]
         public void GetPathRoot()
         {
-            Assert.Throws<ArgumentException>(() => Path.GetPathRoot(string.Empty));
-            Assert.Throws<ArgumentException>(() => Path.GetPathRoot(@"c :\space\between\letter\and\colon.txt"));
+            Should.Throw<ArgumentException>(() => Path.GetPathRoot(string.Empty));
+            Should.Throw<ArgumentException>(() => Path.GetPathRoot(@"c :\space\between\letter\and\colon.txt"));
             Assert.That(Path.GetPathRoot(@"c:\path\to\file.txt"), Is.EqualTo(@"c:\"));
             Assert.That(Path.GetPathRoot(@"c:\path\to\"), Is.EqualTo(@"c:\"));
             Assert.That(Path.GetPathRoot(@"c: \space\after\colon\to\file.txt"), Is.EqualTo(@"c:\"));
@@ -71,11 +72,11 @@ namespace fs4net.Framework.Test
         [Test]
         public void FileAndDirectoryNames()
         {
-            Assert.DoesNotThrow(() => new FileInfo(@"c:\path\to\file.txt"));
-            Assert.DoesNotThrow(() => new FileInfo(@"c:\path\to\file."));
-            Assert.DoesNotThrow(() => new FileInfo(@"c:\path\to\"));
-            Assert.DoesNotThrow(() => new FileInfo(@"c:\path\to\."));
-            Assert.DoesNotThrow(() => new FileInfo(@"c:\path\to\.."));
+            Should.NotThrow(() => new FileInfo(@"c:\path\to\file.txt"));
+            Should.NotThrow(() => new FileInfo(@"c:\path\to\file."));
+            Should.NotThrow(() => new FileInfo(@"c:\path\to\"));
+            Should.NotThrow(() => new FileInfo(@"c:\path\to\."));
+            Should.NotThrow(() => new FileInfo(@"c:\path\to\.."));
 
             Assert.That(Path.GetFileName(@"c:\path\to\file.txt"), Is.EqualTo(@"file.txt"));
             Assert.That(Path.GetFileName(@"c:\path\to\file"), Is.EqualTo(@"file"));
@@ -119,7 +120,7 @@ namespace fs4net.Framework.Test
             Assert.That(Path.GetDirectoryName(@"c:\path\to\."), Is.EqualTo(@"c:\path\to"));
             Assert.That(Path.GetDirectoryName(@"c:\path\to\.."), Is.EqualTo(@"c:\path\to"));
 
-            Assert.Throws<ArgumentException>(() => Path.GetDirectoryName(string.Empty));
+            Should.Throw<ArgumentException>(() => Path.GetDirectoryName(string.Empty));
             //Assert.That(Path.GetDirectoryName(@"\"), Is.Empty);
             Assert.That(Path.GetDirectoryName(@"."), Is.Empty);
             Assert.That(Path.GetDirectoryName(@".."), Is.Empty);
@@ -142,7 +143,7 @@ namespace fs4net.Framework.Test
         public void LastWriteTimeTime()
         {
             Assert.That(System.IO.Directory.GetLastWriteTime(@"c:\this\path\clearly\does\not\exist"), Is.EqualTo(DateTime.FromFileTime(0)));
-            Assert.DoesNotThrow(() => System.IO.Directory.GetLastWriteTime(@"c:\windows\regedit.exe"));
+            Should.NotThrow(() => System.IO.Directory.GetLastWriteTime(@"c:\windows\regedit.exe"));
 
             //DateTime minimum = new DateTime(1601, 1, 1, 0, 0, 0);
             DateTime minimum = new DateTime(1601, 1, 1, 0, 0, 0).AddMilliseconds(1).ToLocalTime();
@@ -155,13 +156,13 @@ namespace fs4net.Framework.Test
 
         private void SetLastWriteTimeWorksFine(DateTime at, string message)
         {
-            Assert.DoesNotThrow(() => System.IO.Directory.SetLastWriteTime(_tempFile, at), message);
+            Should.NotThrow(() => System.IO.Directory.SetLastWriteTime(_tempFile, at), message);
             Assert.That(System.IO.Directory.GetLastWriteTime(_tempFile), Is.EqualTo(at), message);
         }
 
         private void SetLastWriteTimeFails(DateTime at, string message)
         {
-            Assert.DoesNotThrow(delegate
+            Should.NotThrow(delegate
                 {
                     try
                     {

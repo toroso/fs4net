@@ -17,19 +17,19 @@ namespace fs4net.TestTemplates.File
         [Test]
         public void LastWriteTime_On_File_For_Existing_Directory_Throws()
         {
-            Assert.Throws<FileNotFoundException>(() => FileSystem.FileDescribing(ExistingLeafDirectory.PathAsString).LastWriteTime());
+            Should.Throw<FileNotFoundException>(() => FileSystem.FileDescribing(ExistingLeafDirectory.PathAsString).LastWriteTime());
         }
 
         [Test]
         public void LastWriteTime_On_NonExisting_File_Throws()
         {
-            Assert.Throws<FileNotFoundException>(() => NonExistingFile.LastWriteTime());
+            Should.Throw<FileNotFoundException>(() => NonExistingFile.LastWriteTime());
         }
 
         [Test]
         public void Set_LastWriteTime_Below_Min_Value_Throws()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ExistingFile.SetLastWriteTime(MinimumDate.AddMilliseconds(-1)));
+            Should.Throw<ArgumentOutOfRangeException>(() => ExistingFile.SetLastWriteTime(MinimumDate.AddMilliseconds(-1)));
             Assert.That(ExistingFile.LastWriteTime(), Is.EqualTo(ExistingFileLastWriteTime));
         }
 

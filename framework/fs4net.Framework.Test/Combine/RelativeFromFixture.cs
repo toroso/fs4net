@@ -1,4 +1,5 @@
 using System;
+using fs4net.TestTemplates;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test.Combine
@@ -29,7 +30,7 @@ namespace fs4net.Framework.Test.Combine
         {
             var from = FileSystem.DirectoryDescribing(@"c:\path\on\one\drive");
             var to = FileSystem.DirectoryDescribing(@"d:\path\on\other\drive");
-            Assert.Throws<ArgumentException>(() => to.RelativeFrom(from));
+            Should.Throw<ArgumentException>(() => to.RelativeFrom(from));
         }
 
         [Test]
@@ -56,7 +57,7 @@ namespace fs4net.Framework.Test.Combine
         {
             var from = FileSystem.DirectoryDescribing(@"c:\path\on\one\drive");
             var to = FileSystem.FileDescribing(@"d:\path\on\other\drive.txt");
-            Assert.Throws<ArgumentException>(() => to.RelativeFrom(from));
+            Should.Throw<ArgumentException>(() => to.RelativeFrom(from));
         }
 
         [Test]

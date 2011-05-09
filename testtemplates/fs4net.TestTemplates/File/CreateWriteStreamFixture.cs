@@ -33,7 +33,7 @@ namespace fs4net.TestTemplates.File
         {
             var newFile = NonExistingDirectory + RelativeFile.FromString("newfile.txt");
             Assert.That(newFile.Exists(), Is.False);
-            Assert.Throws<DirectoryNotFoundException>(() => newFile.WriteText(string.Empty));
+            Should.Throw<DirectoryNotFoundException>(() => newFile.WriteText(string.Empty));
             Assert.That(newFile.Exists(), Is.False);
         }
 
@@ -41,14 +41,14 @@ namespace fs4net.TestTemplates.File
         public void Create_File_That_Is_An_Existing_Directory()
         {
             var file = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
-            Assert.Throws<UnauthorizedAccessException>(() => file.WriteText("Onom Mweng"));
+            Should.Throw<UnauthorizedAccessException>(() => file.WriteText("Onom Mweng"));
         }
 
         [Test]
         public void Create_File_On_NonExisting_Drive()
         {
             var file = NonExistingDrive + RelativeFile.FromString(@"path\to\nonexisting.txt");
-            Assert.Throws<DirectoryNotFoundException>(() => file.WriteText("Funky for you"));
+            Should.Throw<DirectoryNotFoundException>(() => file.WriteText("Funky for you"));
             Assert.That(file.Exists(), Is.False);
         }
 
@@ -74,7 +74,7 @@ namespace fs4net.TestTemplates.File
             var newFile = ExistingEmptyDirectory + RelativeFile.FromString("newfile.txt");
             using (var stream = newFile.CreateWriteStream())
             {
-                Assert.Throws<ArgumentException>(() => new StreamReader(stream));
+                Should.Throw<ArgumentException>(() => new StreamReader(stream));
             }
         }
 

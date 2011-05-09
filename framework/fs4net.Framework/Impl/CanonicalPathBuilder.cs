@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -9,12 +10,15 @@ namespace fs4net.Framework.Impl
         private const int MaxPath = 259; // TODO Get from FileSystem
 
         private readonly string _fullPath;
+        private readonly Validator _validator;
+        private string _canonical;
 
         public CanonicalPathBuilder(string fullPath)
         {
             _fullPath = fullPath;
             ThrowHelper.ThrowIfNull(fullPath, "fullPath");
             if (_fullPath == null) throw new InvalidPathException("The path is empty.");
+            _validator = new Validator(_fullPath);
         }
 
         public static string GetDriveName(string fullPath)
@@ -35,50 +39,64 @@ namespace fs4net.Framework.Impl
         {
             get
             {
-                if (!HasDriveName()) return false;
-
-                // TODO: This is a really ugly solution... should not throw in this flow!
-                // Replace with Validator class where errors are registered that can later be thrown.
-                try
-                {
-                    BuildForRootedFile();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
+                InternalBuildForRootedFile();
+                return !_validator.HasError;
             }
         }
 
         internal string BuildForRootedFile()
         {
-            return GetCanonicalPath(GetDriveName(), GetFilename(), true, true);
+            InternalBuildForRootedFile();
+            _validator.ThrowOnError();
+            return _canonical;
+        }
+
+        private void InternalBuildForRootedFile()
+        {
+            var drive = new DriveParser3(_fullPath, _validator);
+            if (_validator.HasError) return;
+
+            var filename = new FilenameParser3(drive.PathWithoutDrive, _validator);
+            if (_validator.HasError) return;
+
+            var folders = FoldersParser3.WithDriveAndFilename(filename.PathWithoutFilename, _validator);
+            if (_validator.HasError) return;
+
+            _canonical = drive.AppendTo(filename.AppendTo(folders.Canonified));
+            ValidateCanonicalPathLength();
         }
 
         public bool IsRootedDirectory
         {
             get
             {
-                if (!HasDriveName()) return false;
-
-                // TODO: This is a really ugly solution... should not throw in this flow!
-                // Replace with Validator class where errors are registered that can later be thrown.
-                try
-                {
-                    BuildForRootedDirectory();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
+                InternalBuildForRootedDirectory();
+                return !_validator.HasError;
             }
         }
 
         public string BuildForRootedDirectory()
         {
-            return GetCanonicalPath(GetDriveName(), string.Empty, false, true);
+            InternalBuildForRootedDirectory();
+            _validator.ThrowOnError();
+            return _canonical;
+        }
+
+        private void InternalBuildForRootedDirectory()
+        {
+            var drive = new DriveParser3(_fullPath, _validator);
+            if (_validator.HasError) return;
+
+            var folders = FoldersParser3.WithDrive(drive.PathWithoutDrive, _validator);
+            if (_validator.HasError) return;
+
+            _canonical = drive.AppendTo(folders.Canonified);
+            ValidateCanonicalPathLength();
+        }
+
+        private void ValidateCanonicalPathLength()
+        {
+            _validator.Ensure<PathTooLongException>(_canonical.Length <= MaxPath, "The path '{0}' contains '{1}' characters in canonical form. Maximum allowed is '{2}'.", _canonical.Length, MaxPath);
         }
 
         public bool IsRelativeFile
@@ -212,6 +230,50 @@ namespace fs4net.Framework.Impl
                 string msg = string.Format("The path '{0}' contains '{1}' characters. Maximum allowed is '{2}'.", fullPath, fullPath.Length, MaxPath);
                 throw new PathTooLongException(msg);
             }
+        }
+    }
+
+    internal class Validator
+    {
+        private readonly string _path;
+        private Exception _exception;
+
+        public Validator(string path)
+        {
+            _path = path;
+        }
+
+        public bool HasError
+        {
+            get { return _exception != null; }
+        }
+
+        public void Ensure<TException>(bool condition, string format, params object[] args)
+            where TException: Exception
+        {
+            if (condition) return;
+            AddError<TException>(format, args);
+        }
+
+        public void AddError<TException>(string format, params object[] args)
+            where TException : Exception
+        {
+            if (_exception == null)
+            {
+                _exception = (Exception)Activator.CreateInstance(typeof(TException), string.Format(format, GetArgsWithPath(args)));
+            }
+        }
+
+        private object[] GetArgsWithPath(IEnumerable<object> args)
+        {
+            var argsWithPath = new List<object> {_path};
+            argsWithPath.AddRange(args);
+            return argsWithPath.ToArray();
+        }
+
+        public void ThrowOnError()
+        {
+            if (_exception != null) throw _exception;
         }
     }
 }

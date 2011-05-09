@@ -25,14 +25,14 @@ namespace fs4net.TestTemplates.File
         public void Delete_NonExisting_File_In_NonExisting_Directory_Throws()
         {
             var toBeDeleted = (NonExistingDirectory + FileName.FromString("file.txt"));
-            Assert.Throws<DirectoryNotFoundException>(() => toBeDeleted.Delete());
+            Should.Throw<DirectoryNotFoundException>(() => toBeDeleted.Delete());
         }
 
         [Test]
         public void Delete_File_That_Is_A_Directory_Throws()
         {
             var directoryAsFile = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
-            Assert.Throws<UnauthorizedAccessException>(() => directoryAsFile.Delete());
+            Should.Throw<UnauthorizedAccessException>(() => directoryAsFile.Delete());
             Assert.That(ExistingEmptyDirectory.Exists(), Is.True);
         }
 
@@ -40,7 +40,7 @@ namespace fs4net.TestTemplates.File
         public void Delete_File_On_NonExisting_Drive_Throws()
         {
             var toBeDeleted = NonExistingDrive + RelativeFile.FromString(@"drive\does\not\exist.txt");
-            Assert.Throws<DirectoryNotFoundException>(() => toBeDeleted.Delete());
+            Should.Throw<DirectoryNotFoundException>(() => toBeDeleted.Delete());
         }
 
         // TODO: Access denied

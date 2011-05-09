@@ -91,7 +91,7 @@ namespace fs4net.TestTemplates.Creation
         [Test]
         public void CreateMyComputer()
         {
-            Assert.Throws<NotSupportedException>(() => FileSystem.DirectoryDescribingSpecialFolder(Environment.SpecialFolder.MyComputer));
+            Should.Throw<NotSupportedException>(() => FileSystem.DirectoryDescribingSpecialFolder(Environment.SpecialFolder.MyComputer));
         }
     }
 }

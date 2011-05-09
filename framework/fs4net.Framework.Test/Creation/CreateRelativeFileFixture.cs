@@ -1,4 +1,5 @@
 using System;
+using fs4net.TestTemplates;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test.Creation
@@ -9,13 +10,13 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_Path_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => RelativeFile.FromString(null));
+            Should.Throw<ArgumentNullException>(() => RelativeFile.FromString(null));
         }
 
         [Test]
         public void Throws_If_Path_Is_Empty()
         {
-            Assert.Throws<InvalidPathException>(() => RelativeFile.FromString(string.Empty));
+            Should.Throw<InvalidPathException>(() => RelativeFile.FromString(string.Empty));
         }
 
 
@@ -135,12 +136,12 @@ namespace fs4net.Framework.Test.Creation
 
         private static void AssertThrowsRootedPathExceptionFor(string invalidPath)
         {
-            Assert.Throws<RootedPathException>(() => RelativeFile.FromString(invalidPath), string.Format("for '{0}'", invalidPath));
+            Should.Throw<RootedPathException>(() => RelativeFile.FromString(invalidPath), string.Format("for '{0}'", invalidPath));
         }
 
         private static void AssertThrowsInvalidPathExceptionFor(string invalidPath)
         {
-            Assert.Throws<InvalidPathException>(() => RelativeFile.FromString(invalidPath), string.Format("for '{0}'", invalidPath));
+            Should.Throw<InvalidPathException>(() => RelativeFile.FromString(invalidPath), string.Format("for '{0}'", invalidPath));
         }
     }
 }

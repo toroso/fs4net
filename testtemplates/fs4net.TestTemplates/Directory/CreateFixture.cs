@@ -18,7 +18,7 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void Create_Existing_Directory()
         {
-            Assert.DoesNotThrow(() => ExistingLeafDirectory.Create());
+            Should.NotThrow(() => ExistingLeafDirectory.Create());
             Assert.That(ExistingLeafDirectory.Exists(), Is.True);
             Assert.That(ExistingFile.Exists(), Is.True);
         }
@@ -27,7 +27,7 @@ namespace fs4net.TestTemplates.Directory
         public void Create_Directory_That_Denotes_Existing_File_Throws()
         {
             var fileAsDirectory = FileSystem.DirectoryDescribing(ExistingFile.PathAsString);
-            Assert.Throws<IOException>(() => fileAsDirectory.Create());
+            Should.Throw<IOException>(() => fileAsDirectory.Create());
             Assert.That(fileAsDirectory.Exists(), Is.False);
             Assert.That(ExistingFile.Exists(), Is.True);
         }
@@ -36,7 +36,7 @@ namespace fs4net.TestTemplates.Directory
         public void Create_Directory_On_NonExisting_Drive_Throws()
         {
             var toBeCreated = FileSystem.DirectoryDescribing(@"z:\drive\does\not\exist");
-            Assert.Throws<DirectoryNotFoundException>(() => toBeCreated.Create());
+            Should.Throw<DirectoryNotFoundException>(() => toBeCreated.Create());
         }
 
         // TODO: Access denied

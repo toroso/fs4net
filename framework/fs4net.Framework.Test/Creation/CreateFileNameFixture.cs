@@ -1,4 +1,5 @@
 using System;
+using fs4net.TestTemplates;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test.Creation
@@ -9,13 +10,13 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_Name_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => FileName.FromString(null));
+            Should.Throw<ArgumentNullException>(() => FileName.FromString(null));
         }
 
         [Test]
         public void Throws_If_Name_Is_Empty()
         {
-            Assert.Throws<InvalidPathException>(() => FileName.FromString(string.Empty));
+            Should.Throw<InvalidPathException>(() => FileName.FromString(string.Empty));
         }
 
 
@@ -86,39 +87,39 @@ namespace fs4net.Framework.Test.Creation
         [Test, TestCaseSource("ValidNames")]
         public void Create_With_Valid_Name(string validName)
         {
-            Assert.DoesNotThrow(() => FileName.FromString(validName));
+            Should.NotThrow(() => FileName.FromString(validName));
         }
 
 
         [Test]
         public void Create_From_Standard_RelativeFile()
         {
-            Assert.DoesNotThrow(() => RelativeFile.FromString(@"path\to\file.txt").FileName());
+            Should.NotThrow(() => RelativeFile.FromString(@"path\to\file.txt").FileName());
         }
 
         [Test]
         public void Create_From_RelativeFile_That_Only_Contain_FileName()
         {
-            Assert.DoesNotThrow(() => RelativeFile.FromString(@"file.txt").FileName());
+            Should.NotThrow(() => RelativeFile.FromString(@"file.txt").FileName());
         }
 
         [Test]
         public void Create_From_RelativeFile_That_Only_Contain_FileName_Without_Extension()
         {
-            Assert.DoesNotThrow(() => RelativeFile.FromString(@"file").FileName());
+            Should.NotThrow(() => RelativeFile.FromString(@"file").FileName());
         }
 
 
         [Test]
         public void Create_From_Standard_RootedFile()
         {
-            Assert.DoesNotThrow(() => new MockFileSystem().FileDescribing(@"c:\path\to\file.txt").FileName());
+            Should.NotThrow(() => new MockFileSystem().FileDescribing(@"c:\path\to\file.txt").FileName());
         }
 
         [Test]
         public void Create_From_RootedFile_With_FileName_Without_Extension()
         {
-            Assert.DoesNotThrow(() => new MockFileSystem().FileDescribing(@"c:\path\to\file").FileName());
+            Should.NotThrow(() => new MockFileSystem().FileDescribing(@"c:\path\to\file").FileName());
         }
 
         [Test]
@@ -136,36 +137,36 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Create_From_Name_And_Extension_Without_Dot_Throws()
         {
-            Assert.Throws<ArgumentException>(() => FileName.FromNameAndExtension("file", "txt"));
+            Should.Throw<ArgumentException>(() => FileName.FromNameAndExtension("file", "txt"));
         }
 
         [Test]
         public void Create_From_Name_That_Ends_With_Dot_Throws()
         {
-            Assert.Throws<ArgumentException>(() => FileName.FromNameAndExtension("file.", ".txt"));
+            Should.Throw<ArgumentException>(() => FileName.FromNameAndExtension("file.", ".txt"));
         }
 
         [Test]
         public void Create_From_Empty_Name_And_Extension_Throws()
         {
-            Assert.Throws<InvalidPathException>(() => FileName.FromNameAndExtension("", ".txt"));
+            Should.Throw<InvalidPathException>(() => FileName.FromNameAndExtension("", ".txt"));
         }
 
         [Test]
         public void Create_From_Null_Name_And_Extension_Throws()
         {
-            Assert.Throws<ArgumentNullException>(() => FileName.FromNameAndExtension(null, ".txt"));
+            Should.Throw<ArgumentNullException>(() => FileName.FromNameAndExtension(null, ".txt"));
         }
 
         [Test]
         public void Create_From_Name_And_Null_Extension_Throws()
         {
-            Assert.Throws<ArgumentNullException>(() => FileName.FromNameAndExtension("file", null));
+            Should.Throw<ArgumentNullException>(() => FileName.FromNameAndExtension("file", null));
         }
 
         private static void AssertThrowsInvalidPathExceptionFor(string invalidPath)
         {
-            Assert.Throws<InvalidPathException>(() => FileName.FromString(invalidPath), string.Format("for '{0}'", invalidPath));
+            Should.Throw<InvalidPathException>(() => FileName.FromString(invalidPath), string.Format("for '{0}'", invalidPath));
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using fs4net.TestTemplates;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test.Creation
@@ -9,13 +10,13 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_Path_Is_Null()
         {
-            Assert.Throws<ArgumentNullException>(() => RelativeDirectory.FromString(null));
+            Should.Throw<ArgumentNullException>(() => RelativeDirectory.FromString(null));
         }
 
         [Test]
         public void Does_Not_Throw_If_Path_Is_Empty()
         {
-            Assert.DoesNotThrow(() => RelativeDirectory.FromString(string.Empty));
+            Should.NotThrow(() => RelativeDirectory.FromString(string.Empty));
         }
 
 
@@ -104,34 +105,12 @@ namespace fs4net.Framework.Test.Creation
 
         private static void AssertThrowsRootedPathExceptionFor(string invalidPath)
         {
-            AssertThrows<RootedPathException>(() => RelativeDirectory.FromString(invalidPath), invalidPath);
-        }
-
-        private static void AssertThrows<T>(Action action, string testData)
-        {
-            try
-            {
-                action();
-                FailOnWrongException<T>(testData, "no exception");
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetType() != typeof(T))
-                {
-                    FailOnWrongException<T>(testData, ex.GetType().ToString());
-                }
-            }
-        }
-
-        private static void FailOnWrongException<T>(string testData, string exception)
-        {
-            string forString = (testData == string.Empty) ? string.Empty : string.Format(" for '{0}'", testData);
-            Assert.Fail(string.Format("Expected {0}{1} but got {2}.", typeof(T), forString, exception));
+            Should.Throw<RootedPathException>(() => RelativeDirectory.FromString(invalidPath), invalidPath);
         }
 
         private static void AssertThrowsInvalidPathExceptionFor(string invalidPath)
         {
-            Assert.Throws<InvalidPathException>(() => RelativeDirectory.FromString(invalidPath), string.Format("for '{0}'", invalidPath));
+            Should.Throw<InvalidPathException>(() => RelativeDirectory.FromString(invalidPath), string.Format("for '{0}'", invalidPath));
         }
     }
 }

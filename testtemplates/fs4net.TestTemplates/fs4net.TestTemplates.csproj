@@ -75,6 +75,7 @@
     <Compile Include="File\TryDeleteFixture.cs" />
     <Compile Include="PopulatedFileSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Should.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\builder\fs4net.Builder\fs4net.Builder.csproj">

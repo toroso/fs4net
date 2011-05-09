@@ -1,5 +1,6 @@
 using System;
 using fs4net.Framework.Utils;
+using fs4net.TestTemplates;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test.Creation
@@ -10,7 +11,7 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Throws_If_Path_Is_Null()
         {
-            AssertThrows<ArgumentNullException>(() => ValidityCheckers.IsValidRootedDirectory(null));
+            Should.Throw<ArgumentNullException>(() => ValidityCheckers.IsValidRootedDirectory(null));
         }
 
         private static readonly string[] NonValidOrNonRootedDirectory =
@@ -114,34 +115,6 @@ namespace fs4net.Framework.Test.Creation
             }
             tooLongPath += @"1234567"; // 7 chars
             Assert.That(tooLongPath.IsValidRootedDirectory(), Is.False); // 260 chars in total
-        }
-
-
-        private static void AssertThrows<T>(Action action)
-        {
-            AssertThrows<T>(action, string.Empty);
-        }
-
-        private static void AssertThrows<T>(Action action, string testData)
-        {
-            try
-            {
-                action();
-                FailOnWrongException<T>(testData, "no exception");
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetType() != typeof(T))
-                {
-                    FailOnWrongException<T>(testData, ex.GetType().ToString());
-                }
-            }
-        }
-
-        private static void FailOnWrongException<T>(string testData, string exception)
-        {
-            string forString = (testData == string.Empty) ? string.Empty : string.Format(" for '{0}'", testData);
-            Assert.Fail(string.Format("Expected {0}{1} but got {2}.", typeof(T), forString, exception));
         }
     }
 }

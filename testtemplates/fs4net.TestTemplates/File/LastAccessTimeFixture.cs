@@ -17,19 +17,19 @@ namespace fs4net.TestTemplates.File
         [Test]
         public void LastAccessTime_On_File_For_Existing_Directory_Throws()
         {
-            Assert.Throws<FileNotFoundException>(() => FileSystem.FileDescribing(ExistingLeafDirectory.PathAsString).LastAccessTime());
+            Should.Throw<FileNotFoundException>(() => FileSystem.FileDescribing(ExistingLeafDirectory.PathAsString).LastAccessTime());
         }
 
         [Test]
         public void LastAccessTime_On_NonExisting_File_Throws()
         {
-            Assert.Throws<FileNotFoundException>(() => NonExistingFile.LastAccessTime());
+            Should.Throw<FileNotFoundException>(() => NonExistingFile.LastAccessTime());
         }
 
         [Test]
         public void Set_LastAccessTime_Below_Min_Value_Throws()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ExistingFile.SetLastAccessTime(MinimumDate.AddMilliseconds(-1)));
+            Should.Throw<ArgumentOutOfRangeException>(() => ExistingFile.SetLastAccessTime(MinimumDate.AddMilliseconds(-1)));
             Assert.That(ExistingFile.LastAccessTime(), Is.EqualTo(ExistingFileLastAccessTime));
         }
 

@@ -63,7 +63,7 @@ namespace fs4net.TestTemplates.File
             var source = NonExistingFile;
             var destination = ExistingLeafDirectory + FileName.FromString("new name.dat");
 
-            Assert.Throws<FileNotFoundException>(() => source.CopyTo(destination));
+            Should.Throw<FileNotFoundException>(() => source.CopyTo(destination));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace fs4net.TestTemplates.File
             var source = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
             var destination = ExistingLeafDirectory + RelativeFile.FromString("new name.dat");
 
-            Assert.Throws<UnauthorizedAccessException>(() => source.CopyTo(destination));
+            Should.Throw<UnauthorizedAccessException>(() => source.CopyTo(destination));
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = NonExistingDirectory + source.FileName();
 
-            Assert.Throws<DirectoryNotFoundException>(() => source.CopyTo(destination));
+            Should.Throw<DirectoryNotFoundException>(() => source.CopyTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -91,7 +91,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = ExistingEmptyFile;
 
-            Assert.Throws<IOException>(() => source.CopyTo(destination));
+            Should.Throw<IOException>(() => source.CopyTo(destination));
             Assert.That(source.Exists(), Is.True);
             Assert.That(destination.Exists(), Is.True);
             Assert.That(source.ReadText(), Is.Not.EqualTo(destination.ReadText()));
@@ -103,7 +103,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
 
-            Assert.Throws<IOException>(() => source.CopyTo(destination));
+            Should.Throw<IOException>(() => source.CopyTo(destination));
             Assert.That(source.Exists(), Is.True);
             Assert.That(ExistingEmptyDirectory.Exists(), Is.True);
         }
@@ -115,7 +115,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = ExistingFile;
 
-            Assert.Throws<IOException>(() => source.CopyTo(destination));
+            Should.Throw<IOException>(() => source.CopyTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -125,7 +125,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = CreateFileSystem().FileDescribing(source.WithFileName(FileName.FromString("new name.dat")).PathAsString);
 
-            Assert.Throws<InvalidOperationException>(() => source.CopyTo(destination));
+            Should.Throw<InvalidOperationException>(() => source.CopyTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 

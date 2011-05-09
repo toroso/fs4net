@@ -37,7 +37,7 @@ namespace fs4net.TestTemplates.File
             var source = NonExistingFile;
             var destination = ExistingLeafDirectory + FileName.FromString("new name.dat");
 
-            Assert.Throws<FileNotFoundException>(() => source.MoveTo(destination));
+            Should.Throw<FileNotFoundException>(() => source.MoveTo(destination));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace fs4net.TestTemplates.File
             var source = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
             var destination = ExistingLeafDirectory + RelativeFile.FromString("new name.dat");
 
-            Assert.Throws<FileNotFoundException>(() => source.MoveTo(destination));
+            Should.Throw<FileNotFoundException>(() => source.MoveTo(destination));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = NonExistingDirectory + source.FileName();
 
-            Assert.Throws<DirectoryNotFoundException>(() => source.MoveTo(destination));
+            Should.Throw<DirectoryNotFoundException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -65,7 +65,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = ExistingEmptyFile;
 
-            Assert.Throws<IOException>(() => source.MoveTo(destination));
+            Should.Throw<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -75,7 +75,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = FileSystem.FileDescribing(ExistingEmptyDirectory.PathAsString);
 
-            Assert.Throws<IOException>(() => source.MoveTo(destination));
+            Should.Throw<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -87,7 +87,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = ExistingFile;
 
-            Assert.Throws<IOException>(() => source.MoveTo(destination));
+            Should.Throw<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -99,7 +99,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = FileSystem.FileDescribing(@"d:\another drive.txt");
 
-            Assert.Throws<IOException>(() => source.MoveTo(destination));
+            Should.Throw<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -109,7 +109,7 @@ namespace fs4net.TestTemplates.File
             var source = ExistingFile;
             var destination = CreateFileSystem().FileDescribing(source.WithFileName(FileName.FromString("new name.dat")).PathAsString);
 
-            Assert.Throws<InvalidOperationException>(() => source.MoveTo(destination));
+            Should.Throw<InvalidOperationException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 

@@ -28,7 +28,7 @@ namespace fs4net.TestTemplates.Directory
             var source = NonExistingDirectory;
             var destination = ExistingLeafDirectory + RelativeDirectory.FromString("new name");
 
-            Assert.Throws<DirectoryNotFoundException>(() => source.MoveTo(destination));
+            Should.Throw<DirectoryNotFoundException>(() => source.MoveTo(destination));
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace fs4net.TestTemplates.Directory
             var source = FileSystem.DirectoryDescribing(ExistingFile.PathAsString);
             var destination = ExistingLeafDirectory + RelativeDirectory.FromString("new name");
 
-            Assert.Throws<DirectoryNotFoundException>(() => source.MoveTo(destination));
+            Should.Throw<DirectoryNotFoundException>(() => source.MoveTo(destination));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace fs4net.TestTemplates.Directory
             var source = ExistingLeafDirectory;
             var destination = NonExistingDirectory + RelativeDirectory.FromString("new name");
 
-            Assert.Throws<DirectoryNotFoundException>(() => source.MoveTo(destination));
+            Should.Throw<DirectoryNotFoundException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -56,7 +56,7 @@ namespace fs4net.TestTemplates.Directory
             var source = ExistingLeafDirectory;
             var destination = ExistingEmptyDirectory;
 
-            Assert.Throws<IOException>(() => source.MoveTo(destination));
+            Should.Throw<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -66,7 +66,7 @@ namespace fs4net.TestTemplates.Directory
             var source = ExistingEmptyDirectory;
             var destination = FileSystem.DirectoryDescribing(ExistingFile.PathAsString);
 
-            Assert.Throws<IOException>(() => source.MoveTo(destination));
+            Should.Throw<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -76,7 +76,7 @@ namespace fs4net.TestTemplates.Directory
             var source = ExistingLeafDirectory;
             var destination = ExistingLeafDirectory;
 
-            Assert.Throws<IOException>(() => source.MoveTo(destination));
+            Should.Throw<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -86,7 +86,7 @@ namespace fs4net.TestTemplates.Directory
             var source = ExistingLeafDirectory;
             var destination = ExistingLeafDirectory + RelativeDirectory.FromString("new name");
 
-            Assert.Throws<IOException>(() => source.MoveTo(destination));
+            Should.Throw<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -96,7 +96,7 @@ namespace fs4net.TestTemplates.Directory
             var source = ExistingLeafDirectory;
             var destination = FileSystem.DirectoryDescribing(@"d:\another drive");
 
-            Assert.Throws<IOException>(() => source.MoveTo(destination));
+            Should.Throw<IOException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 
@@ -106,7 +106,7 @@ namespace fs4net.TestTemplates.Directory
             var source = ParentOfExistingLeafDirectory;
             var destination = CreateFileSystem().DirectoryDescribing((source.Parent() + RelativeDirectory.FromString("new name")).PathAsString);
 
-            Assert.Throws<InvalidOperationException>(() => source.MoveTo(destination));
+            Should.Throw<InvalidOperationException>(() => source.MoveTo(destination));
             Assert.That(source.Exists(), Is.True);
         }
 

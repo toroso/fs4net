@@ -1,3 +1,4 @@
+using fs4net.TestTemplates;
 using NUnit.Framework;
 
 namespace fs4net.Framework.Test.Creation
@@ -49,19 +50,19 @@ namespace fs4net.Framework.Test.Creation
         [Test]
         public void Parent_Of_Drive_Throws()
         {
-            Assert.Throws<InvalidPathException>(() => _fileSystem.DriveDescribing("c:").Parent());
+            Should.Throw<InvalidPathException>(() => _fileSystem.DriveDescribing("c:").Parent());
         }
 
         [Test]
         public void Parent_Of_RootedDirectory_That_Denotes_Drive_Throws()
         {
-            Assert.Throws<InvalidPathException>(() => _fileSystem.DirectoryDescribing("c:").Parent());
+            Should.Throw<InvalidPathException>(() => _fileSystem.DirectoryDescribing("c:").Parent());
         }
 
         [Test]
         public void Parent_Of_RootedDirectory_With_A_CanonicalPath_That_Denotes_Drive_Throws()
         {
-            Assert.Throws<InvalidPathException>(() => _fileSystem.DirectoryDescribing(@"c:\path\..").Parent());
+            Should.Throw<InvalidPathException>(() => _fileSystem.DirectoryDescribing(@"c:\path\..").Parent());
         }
         
         [Test]

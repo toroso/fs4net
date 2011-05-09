@@ -21,19 +21,19 @@ namespace fs4net.TestTemplates.File
         [Test]
         public void NonExisting_File()
         {
-            Assert.Throws<FileNotFoundException>(() => NonExistingFile.Size());
+            Should.Throw<FileNotFoundException>(() => NonExistingFile.Size());
         }
 
         [Test]
         public void File_Denotes_An_Existing_Directory()
         {
-            Assert.Throws<FileNotFoundException>(() => FileSystem.FileDescribing(ExistingLeafDirectory.PathAsString).Size());
+            Should.Throw<FileNotFoundException>(() => FileSystem.FileDescribing(ExistingLeafDirectory.PathAsString).Size());
         }
 
         [Test]
         public void File_On_NonExisting_Drive()
         {
-            Assert.Throws<FileNotFoundException>(() => (NonExistingDrive + FileName.FromString("file.txt")).Size());
+            Should.Throw<FileNotFoundException>(() => (NonExistingDrive + FileName.FromString("file.txt")).Size());
         }
     }
 }
