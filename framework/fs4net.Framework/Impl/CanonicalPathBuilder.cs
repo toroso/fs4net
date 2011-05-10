@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace fs4net.Framework.Impl
 {
@@ -23,16 +20,25 @@ namespace fs4net.Framework.Impl
 
         public static string GetDriveName(string fullPath)
         {
-            var driveName = new DriveParser(fullPath);
-            return driveName.DriveName;
+            var validator = new Validator(fullPath);
+            var drive = new DriveParser(fullPath, validator);
+            validator.ThrowOnError();
+            return drive.AppendTo(string.Empty);
         }
 
         public void BuildForDrive()
         {
-            if (new DriveParser(_fullPath).DriveName != _fullPath)
-            {
-                throw new InvalidPathException(string.Format("The drive name '{0}' is not valid.", _fullPath));
-            }
+            InternalBuildForDrive();
+            _validator.ThrowOnError();
+        }
+
+        private void InternalBuildForDrive()
+        {
+            var validator = new Validator(_fullPath);
+            var drive = new DriveParser(_fullPath, validator);
+            _canonical = drive.AppendTo(string.Empty);
+            _validator.Ensure<InvalidPathException>(!validator.HasError, "The drive name '{0}' is not valid.");
+            _validator.Ensure<InvalidPathException>(_canonical == _fullPath, "The drive name '{0}' is not valid.");
         }
 
         public bool IsRootedFile
@@ -53,13 +59,13 @@ namespace fs4net.Framework.Impl
 
         private void InternalBuildForRootedFile()
         {
-            var drive = new DriveParser3(_fullPath, _validator);
+            var drive = new DriveParser(_fullPath, _validator);
             if (_validator.HasError) return;
 
-            var filename = new FilenameParser3(drive.PathWithoutDrive, _validator);
+            var filename = new FilenameParser(drive.PathWithoutDrive, _validator);
             if (_validator.HasError) return;
 
-            var folders = FoldersParser3.WithDriveAndFilename(filename.PathWithoutFilename, _validator);
+            var folders = FoldersParser.WithDriveAndFilename(filename.PathWithoutFilename, _validator);
             if (_validator.HasError) return;
 
             _canonical = drive.AppendTo(filename.AppendTo(folders.Canonified));
@@ -84,196 +90,99 @@ namespace fs4net.Framework.Impl
 
         private void InternalBuildForRootedDirectory()
         {
-            var drive = new DriveParser3(_fullPath, _validator);
+            var drive = new DriveParser(_fullPath, _validator);
             if (_validator.HasError) return;
 
-            var folders = FoldersParser3.WithDrive(drive.PathWithoutDrive, _validator);
+            var folders = FoldersParser.WithDrive(drive.PathWithoutDrive, _validator);
             if (_validator.HasError) return;
 
             _canonical = drive.AppendTo(folders.Canonified);
             ValidateCanonicalPathLength();
         }
 
-        private void ValidateCanonicalPathLength()
-        {
-            _validator.Ensure<PathTooLongException>(_canonical.Length <= MaxPath, "The path '{0}' contains '{1}' characters in canonical form. Maximum allowed is '{2}'.", _canonical.Length, MaxPath);
-        }
-
         public bool IsRelativeFile
         {
             get
             {
-                if (HasDriveName()) return false;
-
-                // TODO: This is a really ugly solution... should not throw in this flow!
-                // Replace with Validator class where errors are registered that can later be thrown.
-                try
-                {
-                    BuildForRelativeFile();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
+                InternalBuildForRelativeFile();
+                return !_validator.HasError;
             }
         }
 
         public string BuildForRelativeFile()
         {
+            InternalBuildForRelativeFile();
+            _validator.ThrowOnError();
+            return _canonical;
+        }
+
+        private void InternalBuildForRelativeFile()
+        {
             ValidatePathNotRooted();
-            return GetCanonicalPath(string.Empty, GetFilename(), true, false);
+            if (_validator.HasError) return;
+
+            var filename = new FilenameParser(_fullPath, _validator);
+            if (_validator.HasError) return;
+
+            var folders = FoldersParser.WithFilename(filename.PathWithoutFilename, _validator);
+            if (_validator.HasError) return;
+
+            _canonical = filename.AppendTo(folders.Canonified);
+            ValidateCanonicalPathLength(); // TODO: Should path length be validated for relative paths?
         }
 
         public bool IsRelativeDirectory
         {
             get
             {
-                if (HasDriveName()) return false;
-
-                // TODO: This is a really ugly solution... should not throw in this flow!
-                // Replace with Validator class where errors are registered that can later be thrown.
-                try
-                {
-                    BuildForRelativeDirectory();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
+                InternalBuildForRelativeDirectory();
+                return !_validator.HasError;
             }
         }
 
         public string BuildForRelativeDirectory()
         {
-            ValidatePathNotRooted();
-            return GetCanonicalPath(string.Empty, string.Empty, false, false);
+            InternalBuildForRelativeDirectory();
+            _validator.ThrowOnError();
+            return _canonical;
         }
 
-        public void BuildForFileName()
+        private void InternalBuildForRelativeDirectory()
         {
-            if (GetFilename() != _fullPath) throw new InvalidPathException(string.Format("The filename '{0}' is not valid.", _fullPath));
+            ValidatePathNotRooted();
+            if (_validator.HasError) return;
+
+            var folders = FoldersParser.WithFolderOnly(_fullPath, _validator);
+            if (_validator.HasError) return;
+
+            _canonical = folders.Canonified;
+            ValidateCanonicalPathLength(); // TODO: Should path length be validated for relative paths?
         }
 
         private void ValidatePathNotRooted()
         {
-            var driveName = new DriveParser(_fullPath);
-            if (driveName.Exists) throw new RootedPathException(string.Format("The path '{0}' is rooted.", _fullPath));
-            if (!driveName.IsValid) throw new InvalidPathException(driveName.InvalidErrorMessage);
+            var noDriveValidator = new Validator(_fullPath);
+            var drive = new DriveParser(_fullPath, noDriveValidator);
+            _validator.Ensure<RootedPathException>(!drive.Exists, "The path '{0}' is rooted.");
+            _validator.Ensure(!drive.Exists || !noDriveValidator.HasError, noDriveValidator);
         }
 
-        private bool HasDriveName()
+        public void BuildForFileName()
         {
-            var driveName = new DriveParser(_fullPath);
-            if (!driveName.Exists || !driveName.IsValid) return false;
-            return true;
+            InternalBuildForFilename();
+            _validator.ThrowOnError();
         }
 
-        /// <summary>Returns the drive without ending backslash.</summary>
-        private string GetDriveName()
+        private void InternalBuildForFilename()
         {
-            var driveName = new DriveParser(_fullPath);
-            if (!driveName.Exists) throw new NonRootedPathException(string.Format("The path '{0}' is not rooted.", _fullPath));
-            if (!driveName.IsValid) throw new InvalidPathException(driveName.InvalidErrorMessage);
-            return driveName.DriveName;
+            var filename = new FilenameParser(_fullPath, _validator);
+            _canonical = filename.AppendTo(string.Empty);
+            _validator.Ensure<InvalidPathException>(_canonical == _fullPath, "The filename '{0}' is not valid.");
         }
 
-        /// <summary>Returns the filename without leading backslash.</summary>
-        private string GetFilename()
+        private void ValidateCanonicalPathLength()
         {
-            return new FilenameParser(_fullPath).Filename;
-        }
-
-        private string GetCanonicalPath(string driveName, string filename, bool includeEndingBackslash, bool mustBeRooted)
-        {
-            string folderPath = _fullPath.Center(driveName.Length, filename.Length);
-            bool hasLeadingBackslash = folderPath.Length > 1 && folderPath.StartsWith(@"\");
-            bool hasEndingBackslash = folderPath.Length > 0 && folderPath.EndsWith(@"\");
-
-            if (driveName.IsEmpty() && hasLeadingBackslash) throw new InvalidPathException(string.Format("The path '{0}' starts with a '\\' which is not allowed.", _fullPath));
-            if (filename.IsEmpty() && hasEndingBackslash) throw new InvalidPathException(string.Format("The path '{0}' ends with a '\\' which is not allowed.", _fullPath));
-            if (mustBeRooted && folderPath.Length > 1 && !hasLeadingBackslash) throw new InvalidPathException(string.Format("Expected a '\\' after the drive but found a '{0}' in the path '{1}'.", folderPath.First(), _fullPath));
-
-            string canonicalFolderPath = GetCanonicalFolderPath(folderPath, hasLeadingBackslash, hasEndingBackslash, !mustBeRooted);
-            bool appendLeadingBackslash = hasLeadingBackslash && canonicalFolderPath.Length > 0;
-            string canonicalPath = driveName + (appendLeadingBackslash ? @"\" : string.Empty) + canonicalFolderPath + (hasEndingBackslash && includeEndingBackslash ? @"\" : string.Empty) + filename;
-
-            ValidatePathLength(canonicalPath); // TODO: Should path length be validated for relative paths?
-            return canonicalPath;
-        }
-
-        private string GetCanonicalFolderPath(string folderPath, bool hasLeadingBackslash, bool hasEndingBackslash, bool canonicalCanStartWithDoubleDots)
-        {
-            if (folderPath.Length > 1)
-            {
-                var canonicalFolders = folderPath
-                    .Center(hasLeadingBackslash ? 1 : 0, hasEndingBackslash ? 1 : 0)
-                    .TokenizeToFolders(_fullPath)
-                    .Canonify()
-                    .ToList();
-                if (!canonicalCanStartWithDoubleDots && canonicalFolders.Any() && canonicalFolders.First() == "..")
-                {
-                    throw new InvalidPathException(string.Format("The path '{0}' ascends into a folder above the root level.", _fullPath));
-                }
-                return canonicalFolders
-                    .MergeToPath();
-            }
-
-            return string.Empty;
-        }
-
-        private static void ValidatePathLength(string fullPath)
-        {
-            if (fullPath.Length > MaxPath)
-            {
-                string msg = string.Format("The path '{0}' contains '{1}' characters. Maximum allowed is '{2}'.", fullPath, fullPath.Length, MaxPath);
-                throw new PathTooLongException(msg);
-            }
-        }
-    }
-
-    internal class Validator
-    {
-        private readonly string _path;
-        private Exception _exception;
-
-        public Validator(string path)
-        {
-            _path = path;
-        }
-
-        public bool HasError
-        {
-            get { return _exception != null; }
-        }
-
-        public void Ensure<TException>(bool condition, string format, params object[] args)
-            where TException: Exception
-        {
-            if (condition) return;
-            AddError<TException>(format, args);
-        }
-
-        public void AddError<TException>(string format, params object[] args)
-            where TException : Exception
-        {
-            if (_exception == null)
-            {
-                _exception = (Exception)Activator.CreateInstance(typeof(TException), string.Format(format, GetArgsWithPath(args)));
-            }
-        }
-
-        private object[] GetArgsWithPath(IEnumerable<object> args)
-        {
-            var argsWithPath = new List<object> {_path};
-            argsWithPath.AddRange(args);
-            return argsWithPath.ToArray();
-        }
-
-        public void ThrowOnError()
-        {
-            if (_exception != null) throw _exception;
+            _validator.Ensure<PathTooLongException>(_canonical.Length <= MaxPath, "The path '{0}' contains '{1}' characters in canonical form. Maximum allowed is '{2}'.", _canonical.Length, MaxPath);
         }
     }
 }

@@ -4,54 +4,63 @@ using System.Linq;
 
 namespace fs4net.Framework.Impl
 {
-    internal sealed class FilenameParser
+    internal class FilenameParser
     {
-        private readonly string _fullPath;
+        private readonly string _pathWithFilename;
+        private readonly Validator _validator;
         private readonly string _filename;
 
-        public FilenameParser(string fullPath)
+        public FilenameParser(string pathWithFilename, Validator validator)
         {
-            _fullPath = fullPath;
-
+            _pathWithFilename = pathWithFilename;
+            _validator = validator;
             _filename = ExtractFilename();
 
             ValidateWhiteSpaces();
+            if (_validator.HasError) return;
             ValidateFilenameCharacters();
+            if (_validator.HasError) return;
             ValidateExtension();
+        }
+
+        public string PathWithoutFilename
+        {
+            get { return _pathWithFilename.Substring(0, _pathWithFilename.Length - _filename.Length); }
         }
 
         private string ExtractFilename()
         {
-            int lastBackslash = _fullPath.LastIndexOf('\\');
+            int lastBackslash = _pathWithFilename.LastIndexOf('\\');
             return lastBackslash == -1
-                       ? _fullPath
-                       : _fullPath.Substring(lastBackslash + 1);
+                       ? _pathWithFilename
+                       : _pathWithFilename.Substring(lastBackslash + 1);
         }
 
         private void ValidateWhiteSpaces()
         {
-            if (_filename.IsEmpty()) throw new InvalidPathException(String.Format("The filename of the path '{0}' is empty.", _fullPath));
-            if (Char.IsWhiteSpace(_filename.First())) throw new InvalidPathException(String.Format("The filename of the path '{0}' starts with a whitespace which is not allowed.", _fullPath));
-            if (Char.IsWhiteSpace(_filename.Last())) throw new InvalidPathException(String.Format("The filename of the path '{0}' ends with a whitespace which is not allowed.", _fullPath));
-            if (_filename.EndsWith(".")) throw new InvalidPathException(String.Format("The path '{0}' has an empty extension, which is not allowed.", _fullPath));
+            _validator.Ensure<InvalidPathException>(!_filename.IsEmpty(), "The filename of the path '{0}' is empty.");
+            if (_validator.HasError) return; // To avoid empty string logic below
+            _validator.Ensure<InvalidPathException>(!Char.IsWhiteSpace(_filename.First()), "The filename of the path '{0}' starts with a whitespace which is not allowed.");
+            _validator.Ensure<InvalidPathException>(!Char.IsWhiteSpace(_filename.Last()), "The filename of the path '{0}' ends with a whitespace which is not allowed.");
+            _validator.Ensure<InvalidPathException>(!_filename.EndsWith("."), "The path '{0}' has an empty extension, which is not allowed.");
         }
 
         private void ValidateFilenameCharacters()
         {
-            string errorMessage = FolderUtils.ValidatePathCharacters(_filename, _fullPath, "filename");
-            if (errorMessage != null) throw new InvalidPathException(errorMessage);
+            FolderUtils.ValidatePathCharacters(_filename, "filename", _validator);
         }
 
         private void ValidateExtension()
         {
             string filenameWithoutExtension = Path.GetFileNameWithoutExtension(_filename);
-            if (filenameWithoutExtension.IsEmpty()) throw new InvalidPathException(String.Format("The filename of the path '{0}' is empty.", _fullPath));
-            if (Char.IsWhiteSpace(filenameWithoutExtension.Last())) throw new InvalidPathException(String.Format("The filename of the path '{0}' ends with a whitespace which is not allowed.", _fullPath));
+            _validator.Ensure<InvalidPathException>(!filenameWithoutExtension.IsEmpty(), "The filename of the path '{0}' is empty.");
+            if (_validator.HasError) return; // To avoid empty string logic below
+            _validator.Ensure<InvalidPathException>(!Char.IsWhiteSpace(filenameWithoutExtension.Last()), "The filename of the path '{0}' ends with a whitespace which is not allowed.");
         }
 
-        public string Filename
+        public string AppendTo(string pathWithoutFilename)
         {
-            get { return _filename; }
+            return pathWithoutFilename + _filename;
         }
     }
 }
