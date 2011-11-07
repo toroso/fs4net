@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fs4net.Framework", "framework\fs4net.Framework\fs4net.Framework.csproj", "{1050CD0E-F451-40F6-BF70-1B91AEC5482D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fs4net.Framework.Test", "framework\fs4net.Framework.Test\fs4net.Framework.Test.csproj", "{EE5A753E-0542-4BB3-B11C-3BFBDE0808DF}"
