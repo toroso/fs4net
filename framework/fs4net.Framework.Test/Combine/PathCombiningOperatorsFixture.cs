@@ -75,7 +75,7 @@ namespace fs4net.Framework.Test.Combine
         public void Combine_RelativeDirectory_And_Filename_As_RelativeFile()
         {
             var left = RelativeDirectory.FromString(@"relative\to");
-            var right = RelativeFile.FromString(@"file.txt");
+            var right = FileName.FromString(@"file.txt");
             var expected = RelativeFile.FromString(@"relative\to\file.txt");
             Assert.That((left + right).PathAsString, Is.EqualTo(expected.PathAsString));
         }

@@ -109,5 +109,10 @@ namespace fs4net.Framework
             ThrowHelper.ThrowIfNull(me, "me");
             return Path.GetFileNameWithoutExtension(me.FullName);
         }
+
+        internal static RelativeFile AsRelativeFile(this FileName me)
+        {
+            return RelativeFile.FromString(me.PathAsString);
+        }
     }
 }

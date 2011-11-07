@@ -58,6 +58,14 @@ namespace fs4net.Framework
             return left.Append(right);
         }
 
+        /// <summary>
+        /// Returns a descriptor where the two descriptors are concatenated.
+        /// </summary>
+        public static RelativeFile operator +(RelativeDirectory left, FileName right)
+        {
+            return left.Append(right);
+        }
+
         #endregion // Public Interface
 
         #region Value Object
@@ -109,6 +117,17 @@ namespace fs4net.Framework
             ThrowHelper.ThrowIfNull(left, "left");
             ThrowHelper.ThrowIfNull(right, "right");
             if (left.PathAsString.IsEmpty()) return right;
+            return RelativeFile.FromString(PathUtils.Combine(left.PathAsString, right.PathAsString));
+        }
+
+        /// <summary>
+        /// Concatenates the two descriptors into one and returns it.
+        /// </summary>
+        public static RelativeFile Append(this RelativeDirectory left, FileName right)
+        {
+            ThrowHelper.ThrowIfNull(left, "left");
+            ThrowHelper.ThrowIfNull(right, "right");
+            if (left.PathAsString.IsEmpty()) return right.AsRelativeFile();
             return RelativeFile.FromString(PathUtils.Combine(left.PathAsString, right.PathAsString));
         }
 
