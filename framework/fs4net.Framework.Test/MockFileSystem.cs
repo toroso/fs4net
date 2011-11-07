@@ -31,10 +31,6 @@ namespace fs4net.Framework.Test
         }
 
         public IEnumerable<Drive> AllDrives() { throw new NotImplementedException(); }
-        public void SetCurrentDirectory(RootedDirectory dir)
-        {
-            _currentDirectory = dir;
-        }
 
         #endregion // Implementation of IFileSystem
 
@@ -42,7 +38,7 @@ namespace fs4net.Framework.Test
         #region Implementation of IInternalFileSystem
 
         public bool IsFile(RootedCanonicalPath path) { throw new NotImplementedException(); }
-        public bool IsDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public bool IsDirectory(RootedCanonicalPath path) { return true; }
         public long GetFileSize(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public DateTime GetFileLastWriteTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetFileLastWriteTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
@@ -65,7 +61,10 @@ namespace fs4net.Framework.Test
         public Stream CreateWriteStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateAppendStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateModifyStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
-        public void SetAsCurrent(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public void SetAsCurrent(RootedCanonicalPath path)
+        {
+            _currentDirectory = DirectoryDescribing(path.FullPath);
+        }
 
         #endregion // Implementation of IInternalFileSystem
     }

@@ -54,8 +54,6 @@ namespace fs4net.Framework
         /// </summary>
         /// TODO: Exceptions
         IEnumerable<Drive> AllDrives();
-
-        void SetCurrentDirectory(RootedDirectory dir);
     }
 
     public static class FileSystemExternsions

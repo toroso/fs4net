@@ -14,7 +14,7 @@ namespace fs4net.Framework.Test.Creation
         public void CreateMockFileSystem()
         {
             _fileSystem = new MockFileSystem();
-            _fileSystem.SetCurrentDirectory(_fileSystem.DirectoryDescribing(@"c:\current\directory"));
+            _fileSystem.DirectoryDescribing(@"c:\current\directory").SetAsCurrent();
         }
 
 

@@ -62,11 +62,6 @@ namespace fs4net.Framework
                 .Select(driveInfo => DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
         }
 
-        public void SetCurrentDirectory(RootedDirectory dir)
-        {
-            System.IO.Directory.SetCurrentDirectory(dir.PathAsString);
-        }
-
         #endregion // Implementation of IFileSystem
 
 
