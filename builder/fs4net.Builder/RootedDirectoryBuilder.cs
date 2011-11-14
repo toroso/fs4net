@@ -1,3 +1,4 @@
+using System;
 using fs4net.Framework;
 
 namespace fs4net.Builder

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Creation\AllDrivesFixture.cs" />
     <Compile Include="Creation\CreateSpecialFolderDirectoryFixture.cs" />
+    <Compile Include="Directory\AllDirectoriesRecursivelyFixture.cs" />
     <Compile Include="Directory\CreateFixture.cs" />
     <Compile Include="Directory\DeleteIfEmptyFixture.cs" />
     <Compile Include="Directory\DeleteRecursivelyFixture.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Directory\TryDeleteIfEmptyFixture.cs" />
     <Compile Include="Directory\TryDeleteRecursivelyFixture.cs" />
     <Compile Include="FileSystemFactory.cs" />
+    <Compile Include="File\AllFilesRecursivelyFixture.cs" />
     <Compile Include="File\CopyToAndOverwriteFixture.cs" />
     <Compile Include="File\CopyToFixture.cs" />
     <Compile Include="File\CreateAppendStreamFixture.cs" />
@@ -81,6 +83,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\builder\fs4net.Builder\fs4net.Builder.csproj">
+      <Project>{2D20D6D8-8902-4843-B4FA-2CDB6D3942F4}</Project>
+      <Name>fs4net.Builder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\framework\fs4net.Framework\fs4net.Framework.csproj">
       <Project>{1050CD0E-F451-40F6-BF70-1B91AEC5482D}</Project>
       <Name>fs4net.Framework</Name>

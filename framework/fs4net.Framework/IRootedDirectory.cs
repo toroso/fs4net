@@ -175,6 +175,34 @@ namespace fs4net.Framework
 
             me.InternalFileSystem().SetAsCurrent(me.CanonicalPathAsString());
         }
+
+        /// <summary>
+        /// Returns all subdirectories recursively, not including the passed in directory.
+        /// </summary>
+        /// TODO: Exceptions
+        public static IEnumerable<RootedDirectory> AllDirectoriesRecursively<T>(this IRootedDirectory<T> me)
+            where T: IRootedDirectory<T>
+        {
+            foreach (var d in me.Directories())
+            {
+                yield return d;
+            }
+            foreach (var d in me.Directories().SelectMany(each => each.AllDirectoriesRecursively()))
+            {
+                yield return d;
+            }
+        }
+
+        /// <summary>
+        /// Returns all files from the given directory and all it's subdirectories.
+        /// </summary>
+        /// TODO: Exceptions
+        public static IEnumerable<RootedFile> AllFilesRecursively<T>(this IRootedDirectory<T> me)
+            where T: IRootedDirectory<T>
+        {
+            return me.Files()
+                .Concat(me.AllDirectoriesRecursively().SelectMany(d => d.Files()));
+        }
     }
 
     internal static class RootedDirectoryInterfaceVerifications
