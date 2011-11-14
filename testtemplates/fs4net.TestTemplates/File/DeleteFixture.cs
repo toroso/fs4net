@@ -22,10 +22,10 @@ namespace fs4net.TestTemplates.File
         }
 
         [Test]
-        public void Delete_NonExisting_File_In_NonExisting_Directory_Throws()
+        public void Delete_NonExisting_File_In_NonExisting_Directory_Does_Not_Throw()
         {
             var toBeDeleted = (NonExistingDirectory + FileName.FromString("file.txt"));
-            Should.Throw<DirectoryNotFoundException>(() => toBeDeleted.Delete());
+            Should.NotThrow(() => toBeDeleted.Delete());
         }
 
         [Test]

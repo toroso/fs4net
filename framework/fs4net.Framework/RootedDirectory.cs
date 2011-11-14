@@ -133,8 +133,8 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Deletes the directory denoted by this descriptor. If the directory does not exists this method does
-        /// nothing.
+        /// Deletes the directory denoted by this descriptor including all files and directories contained in the
+        /// directory. If the directory does not exists this method does nothing.
         /// </summary>
         /// TODO: Revise these exceptions! More specific?
         /// <exception cref="System.IO.IOException">There is an open handle on the directory or on one of its files,
@@ -146,17 +146,20 @@ namespace fs4net.Framework
         /// is on an unmapped drive).</exception>
         public static void DeleteRecursively(this RootedDirectory me)
         {
+            me.Drive().VerifyExists(ThrowHelper.DirectoryNotFoundException("Can't delete the directory '{0}' since the drive it is located on does not exist.", me.PathAsString));
             me.VerifyIsNotAFile(ThrowHelper.IOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
-            me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't delete the directory '{0}' since it does not exist.", me.PathAsString));
-
-            me.Delete(true);
+            if (me.Exists())
+            {
+                me.Delete(true);
+            }
         }
 
         /// <summary>
-        /// Tries to delete the directory denoted by this descriptor.
+        /// Tries to delete the directory denoted by this descriptor including all files and directories contained in
+        /// the directory. If the directory does not exists this method does nothing.
         /// </summary>
         /// <returns>
-        /// True if the file no longer exists. That is, the directory was either deleted, or it
+        /// True if the directory no longer exists. That is, the directory was either deleted, or it
         /// did not exist to start with. If the descriptor denotes a file this method returns true.
         /// </returns>
         public static bool TryDeleteRecursively(this RootedDirectory me)
@@ -169,20 +172,25 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Deletes the directory denoted by this descriptor.
+        /// Deletes the directory denoted by this descriptor. If the directory does not exists this method does
+        /// nothing.
         /// </summary>
         /// TODO: Exceptions
         public static void DeleteIfEmpty(this RootedDirectory me)
         {
+            me.Drive().VerifyExists(ThrowHelper.DirectoryNotFoundException("Can't delete the directory '{0}' since the drive it is located on does not exist.", me.PathAsString));
             me.VerifyIsNotAFile(ThrowHelper.IOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
-            me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't delete the directory '{0}' since it does not exist.", me.PathAsString));
             me.VerifyIsEmpty(ThrowHelper.IOException("Can't delete the directory '{0}' since it's not empty.", me));
 
-            me.Delete(false);
+            if (me.Exists())
+            {
+                me.Delete(false);
+            }
         }
 
         /// <summary>
-        /// Tries to delete the directory denoted by this descriptor.
+        /// Tries to delete the directory denoted by this descriptor. If the directory does not exists this method does
+        /// nothing.
         /// </summary>
         /// <returns>
         /// True if the file no longer exists. That is, the directory was either deleted, or it

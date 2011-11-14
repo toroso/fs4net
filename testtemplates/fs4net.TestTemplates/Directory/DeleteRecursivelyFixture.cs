@@ -17,18 +17,18 @@ namespace fs4net.TestTemplates.Directory
         }
 
         [Test]
-        public void Delete_NonExisting_Directory_Throws()
+        public void Delete_NonExisting_Directory_Does_Not_Throw()
         {
             var toBeDeleted = (ExistingLeafDirectory + RelativeDirectory.FromString("nonexisting"));
-            Should.Throw<DirectoryNotFoundException>(() => toBeDeleted.DeleteRecursively()); // Not sure if I like this, but that's how .NET works...
+            Should.NotThrow(() => toBeDeleted.DeleteRecursively());
             Assert.That(NonExistingDirectory.Exists(), Is.False);
         }
 
         [Test]
-        public void Delete_NonExisting_Folder_In_NonExisting_Directory_Throws()
+        public void Delete_NonExisting_Folder_In_NonExisting_Directory_Does_Not_Throw()
         {
             var toBeDeleted = (NonExistingDirectory + RelativeDirectory.FromString("nonexisting"));
-            Should.Throw<DirectoryNotFoundException>(() => toBeDeleted.DeleteRecursively());
+            Should.NotThrow(() => toBeDeleted.DeleteRecursively());
         }
 
         [Test]

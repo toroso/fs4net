@@ -181,7 +181,7 @@ namespace fs4net.Framework
         /// is on an unmapped drive).</exception>
         public static void Delete(this RootedFile me)
         {
-            me.Parent().VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException("Can't delete the file '{0}' since the parent directory does not exist.", me.PathAsString));
+            me.Drive().VerifyExists(ThrowHelper.DirectoryNotFoundException("Can't delete the file '{0}' since the drive it is located on does not exist.", me.PathAsString));
             me.VerifyIsNotADirectory(ThrowHelper.UnauthorizedAccessException(me.PathAsString, "Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
             if (me.Exists())
             {

@@ -1,3 +1,4 @@
+using System;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
@@ -101,5 +102,16 @@ namespace fs4net.Framework
         }
 
         #endregion Debugging
+    }
+
+    internal static class DriveVerifications
+    {
+        internal static void VerifyExists(this Drive me, Func<Exception> createException)
+        {
+            if (!me.Exists())
+            {
+                throw createException();
+            }
+        }
     }
 }
