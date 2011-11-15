@@ -124,7 +124,7 @@ The biggest difference compared to the v0.1 releaes is added functionality. Ther
 Requirements
 ------------
 
-fs4net is targeted for .NET framework 3.5. The tests are written using [NUnit](http://www.nunit.org/) 2.5.2. Other than that, there are no dependencies.
+fs4net is targeted for .NET framework 3.5. The tests are written using [NUnit](http://www.nunit.org/). Other than that, there are no dependencies.
 
 
 
