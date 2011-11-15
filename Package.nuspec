@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>fs4net</id>
+    <version>0.3</version>
+    <authors>Torbjörn Kalin</authors>
+    <owners>Torbjörn Kalin</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+    <projectUrl>http://github.org/toroso/fs4net</projectUrl>
+    <iconUrl>http://github.org/toroso/fs4net/blob/master/logo32x32.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An encapsulation of the file system.</description>
+    <copyright>Copyright 2010-2011 Torbjörn Kalin</copyright>
+    <tags>file directory filesystem file-system path test mock fake NUnit xUnit MSTest TDD BDD DDD</tags>
+  </metadata>
+    <files>
+        <file src="framework\fs4net.Framework\bin\Release\fs4net.Framework.dll" target="lib/3.5" />
+        <file src="framework\fs4net.Framework\bin\Release\fs4net.Framework.xml" target="lib/3.5" />
+        <file src="memory\fs4net.Memory\bin\Release\fs4net.Memory.dll" target="lib/3.5" />
+        <file src="builder\fs4net.Builder\bin\Release\fs4net.Builder.dll" target="lib/3.5" />
+    </files>
+</package>
