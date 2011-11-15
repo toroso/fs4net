@@ -24,32 +24,10 @@ namespace fs4net.Framework.Test.PathAsString
             };
 
 
-        [Test]
-        public void RootedFile_Canonical_PathAsString()
-        {
-            OriginalAndExpected.ForEach(RootedFile_Canonical_PathAsString);
-        }
-
-        public void RootedFile_Canonical_PathAsString(string[] testData)
-        {
-            RootedFile_Canonical_PathAsString(testData[0], testData[1]);
-        }
-
         [Test, TestCaseSource("OriginalAndExpected")]
         public void RootedFile_Canonical_PathAsString(string original, string expected)
         {
             AssertCanonicalEquals(FileSystem.FileDescribing(original), expected);
-        }
-
-        [Test]
-        public void RootedDirectory_Canonical_PathAsString()
-        {
-            OriginalAndExpected.ForEach(RootedDirectory_Canonical_PathAsString);
-        }
-
-        public void RootedDirectory_Canonical_PathAsString(string[] testData)
-        {
-            RootedDirectory_Canonical_PathAsString(testData[0], testData[1]);
         }
 
         [Test, TestCaseSource("OriginalAndExpected")]

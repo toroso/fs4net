@@ -37,12 +37,6 @@ namespace fs4net.Framework.Test.Creation
                 @"\path\starting\with\backslash\to\file.txt",
             };
 
-        [Test]
-        public void Throws_If_Path_Contains_Invalid_Character()
-        {
-            ContainsInvalidPathCharacters.ForEach(Throws_If_Path_Contains_Invalid_Character);
-        }
-
         [Test, TestCaseSource("ContainsInvalidPathCharacters")]
         public void Throws_If_Path_Contains_Invalid_Character(string containsInvalidPathCharacters)
         {
@@ -72,12 +66,6 @@ namespace fs4net.Framework.Test.Creation
                 @"filename\contains\pipe\fi|le.txt",
             };
 
-        [Test]
-        public void Throws_If_FileName_Contains_Invalid_Character()
-        {
-            ContainsInvalidFilenameCharacters.ForEach(Throws_If_FileName_Contains_Invalid_Character);
-        }
-
         [Test, TestCaseSource("ContainsInvalidFilenameCharacters")]
         public void Throws_If_FileName_Contains_Invalid_Character(string containsInvalidFilenameCharacters)
         {
@@ -94,12 +82,6 @@ namespace fs4net.Framework.Test.Creation
                 @"\\colon:in\network\name\to\file.txt",
                 @"\\colon\in:share\name\to\file.txt",
             };
-
-        [Test]
-        public void Throws_If_Path_Is_Rooted()
-        {
-            RootedPaths.ForEach(Throws_If_Path_Is_Rooted);
-        }
 
         [Test, TestCaseSource("RootedPaths")]
         public void Throws_If_Path_Is_Rooted(string rootedPath)
@@ -120,12 +102,6 @@ namespace fs4net.Framework.Test.Creation
                 @"path\ending\with\dot\.\file.txt",
                 @"folder\starts\with\ space\to\file.txt", // Can't create it from Windows Explorer, but programmatically is ok
             };
-
-        [Test]
-        public void Create_With_Valid_Path()
-        {
-            ValidPaths.ForEach(Create_With_Valid_Path);
-        }
 
         [Test, TestCaseSource("ValidPaths")]
         public void Create_With_Valid_Path(string validPath)

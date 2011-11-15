@@ -59,12 +59,6 @@ namespace fs4net.Framework.Test.Creation
                 @"\missing\drive\path\to\file.txt",
             };
 
-        [Test]
-        public void Non_Valid_Or_Non_Rooted_File_Return_False()
-        {
-            NonValidOrNonRootedFile.ForEach(Non_Valid_Or_Non_Rooted_File_Return_False);
-        }
-
         [Test, TestCaseSource("NonValidOrNonRootedFile")]
         public void Non_Valid_Or_Non_Rooted_File_Return_False(string path)
         {
@@ -83,12 +77,6 @@ namespace fs4net.Framework.Test.Creation
                 @"c:\path\with\.\dot\to\file.txt",
                 @"c:\folder\starts\with\ space\to\file.txt", // Can't create it from Windows Explorer, but programmatically is ok
             };
-
-        [Test]
-        public void Valid_Rooted_File_Return_True()
-        {
-            ValidRootedFile.ForEach(Valid_Rooted_File_Return_True);
-        }
 
         [Test, TestCaseSource("ValidRootedFile")]
         public void Valid_Rooted_File_Return_True(string path)

@@ -25,12 +25,6 @@ namespace fs4net.Framework.Test.Creation
             };
 
 
-        [Test]
-        public void RootedFile_FileName()
-        {
-            RootedPaths.ForEach(RootedFile_FileName);
-        }
-
         [Test, TestCaseSource("RootedPaths")]
         public void RootedFile_FileName(string path)
         {

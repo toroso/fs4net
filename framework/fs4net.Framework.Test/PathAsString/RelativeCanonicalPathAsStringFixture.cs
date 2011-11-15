@@ -15,32 +15,10 @@ namespace fs4net.Framework.Test.PathAsString
             };
 
 
-        [Test]
-        public void RelativeFile_Canonical_PathAsString()
-        {
-            OriginalAndExpected.ForEach(RelativeFile_Canonical_PathAsString);
-        }
-
-        public void RelativeFile_Canonical_PathAsString(string[] testData)
-        {
-            RelativeFile_Canonical_PathAsString(testData[0], testData[1]);
-        }
-
         [Test, TestCaseSource("OriginalAndExpected")]
         public void RelativeFile_Canonical_PathAsString(string original, string expected)
         {
             Assert.That(RelativeFile.FromString(original).AsCanonical().PathAsString, Is.EqualTo(expected));
-        }
-
-        [Test]
-        public void RelativeDirectory_Canonical_PathAsString()
-        {
-            OriginalAndExpected.ForEach(RelativeDirectory_Canonical_PathAsString);
-        }
-
-        public void RelativeDirectory_Canonical_PathAsString(string[] testData)
-        {
-            RelativeDirectory_Canonical_PathAsString(testData[0], testData[1]);
         }
 
         [Test, TestCaseSource("OriginalAndExpected")]

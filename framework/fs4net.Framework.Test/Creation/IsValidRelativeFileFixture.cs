@@ -57,12 +57,6 @@ namespace fs4net.Framework.Test.Creation
                 @"\\colon\in:share\name\to\file.txt",
             };
 
-        [Test]
-        public void Non_Valid_Or_Non_Relative_File_Return_False()
-        {
-            NonValidOrNonRelativeFile.ForEach(Non_Valid_Or_Non_Relative_File_Return_False);
-        }
-
         [Test, TestCaseSource("NonValidOrNonRelativeFile")]
         public void Non_Valid_Or_Non_Relative_File_Return_False(string path)
         {
@@ -82,12 +76,6 @@ namespace fs4net.Framework.Test.Creation
                 @"path\ending\with\dot\.\file.txt",
                 @"folder\starts\with\ space\to\file.txt", // Can't create it from Windows Explorer, but programmatically is ok
             };
-
-        [Test]
-        public void Valid_Rooted_File_Return_True()
-        {
-            ValidRelativeFile.ForEach(Valid_Relative_File_Return_True);
-        }
 
         [Test, TestCaseSource("ValidRelativeFile")]
         public void Valid_Relative_File_Return_True(string path)

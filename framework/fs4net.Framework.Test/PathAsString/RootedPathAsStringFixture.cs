@@ -23,22 +23,10 @@ namespace fs4net.Framework.Test.PathAsString
             };
 
 
-        [Test]
-        public void RootedFile_PathAsString_Is_Intact()
-        {
-            RootedPaths.ForEach(RootedFile_PathAsString_Is_Intact);
-        }
-
         [Test, TestCaseSource("RootedPaths")]
         public void RootedFile_PathAsString_Is_Intact(string path)
         {
             Assert.That(_fileSystem.FileDescribing(path).PathAsString, Is.EqualTo(path));
-        }
-
-        [Test]
-        public void RootedDirectory_PathAsString_Is_Intact()
-        {
-            RootedPaths.ForEach(RootedDirectory_PathAsString_Is_Intact);
         }
 
         [Test, TestCaseSource("RootedPaths")]

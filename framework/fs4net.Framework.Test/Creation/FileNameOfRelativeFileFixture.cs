@@ -19,12 +19,6 @@ namespace fs4net.Framework.Test.Creation
             };
 
 
-        [Test]
-        public void RelativeFile_FileName()
-        {
-            RelativePaths.ForEach(RelativeFile_FileName);
-        }
-
         [Test, TestCaseSource("RelativePaths")]
         public void RelativeFile_FileName(string path)
         {

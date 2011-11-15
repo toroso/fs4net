@@ -50,12 +50,6 @@ namespace fs4net.Framework.Test.Creation
                 @"\missing\drive\path\to",
             };
 
-        [Test]
-        public void Non_Valid_Or_Non_Rooted_Directory_Return_False()
-        {
-            NonValidOrNonRootedDirectory.ForEach(Non_Valid_Or_Non_Rooted_Directory_Return_False);
-        }
-
         [Test, TestCaseSource("NonValidOrNonRootedDirectory")]
         public void Non_Valid_Or_Non_Rooted_Directory_Return_False(string path)
         {
@@ -77,12 +71,6 @@ namespace fs4net.Framework.Test.Creation
                 @"c:\path\ending\with\dot\.",
                 @"c:\folder\starts\with\ space\to", // Can't create it from Windows Explorer, but programmatically is ok
             };
-
-        [Test]
-        public void Valid_Rooted_Directory_Return_True()
-        {
-            ValidRootedDirectory.ForEach(Valid_Rooted_Directory_Return_True);
-        }
 
         [Test, TestCaseSource("ValidRootedDirectory")]
         public void Valid_Rooted_Directory_Return_True(string path)

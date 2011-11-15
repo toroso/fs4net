@@ -50,12 +50,6 @@ namespace fs4net.Framework.Test.Creation
                 @"\\network\share\",
             };
 
-        [Test]
-        public void Throws_If_Is_Invalid()
-        {
-            InvalidDrives.ForEach(Throws_If_Is_Invalid);
-        }
-
         [Test, TestCaseSource("InvalidDrives")]
         public void Throws_If_Is_Invalid(string invalidDrive)
         {
@@ -71,12 +65,6 @@ namespace fs4net.Framework.Test.Creation
                 @"z:",
                 @"\\network\name",
             };
-
-        [Test]
-        public void Create_With_Valid_Drive()
-        {
-            ValidDrives.ForEach(Create_With_Valid_Drive);
-        }
 
         [Test, TestCaseSource("ValidDrives")]
         public void Create_With_Valid_Drive(string validDrive)

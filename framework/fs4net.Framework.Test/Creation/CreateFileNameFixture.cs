@@ -33,12 +33,6 @@ namespace fs4net.Framework.Test.Creation
                 @"contains\backslash.txt",
             };
 
-        [Test]
-        public void Throws_If_Contains_Invalid_Character()
-        {
-            ContainsInvalidCharacters.ForEach(Throws_If_Contains_Invalid_Character);
-        }
-
         [Test, TestCaseSource("ContainsInvalidCharacters")]
         public void Throws_If_Contains_Invalid_Character(string containsInvalidFilenameCharacters)
         {
@@ -58,12 +52,6 @@ namespace fs4net.Framework.Test.Creation
                 @"c:\rooted.txt",
             };
 
-        [Test]
-        public void Throws_If_Is_Invalid()
-        {
-            InvalidNames.ForEach(Throws_If_Is_Invalid);
-        }
-
         [Test, TestCaseSource("InvalidNames")]
         public void Throws_If_Is_Invalid(string invalidName)
         {
@@ -77,12 +65,6 @@ namespace fs4net.Framework.Test.Creation
                 @"no_extension",
                 @"double_extension.txt.tgz",
             };
-
-        [Test]
-        public void Create_With_Valid_Name()
-        {
-            ValidNames.ForEach(Create_With_Valid_Name);
-        }
 
         [Test, TestCaseSource("ValidNames")]
         public void Create_With_Valid_Name(string validName)

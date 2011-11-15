@@ -13,22 +13,10 @@ namespace fs4net.Framework.Test.PathAsString
             };
 
 
-        [Test]
-        public void RelativeFile_PathAsString_Is_Intact()
-        {
-            RelativePaths.ForEach(RelativeFile_PathAsString_Is_Intact);
-        }
-
         [Test, TestCaseSource("RelativePaths")]
         public void RelativeFile_PathAsString_Is_Intact(string path)
         {
             Assert.That(RelativeFile.FromString(path).PathAsString, Is.EqualTo(path));
-        }
-
-        [Test]
-        public void RelativeDirectory_PathAsString_Is_Intact()
-        {
-            RelativePaths.ForEach(RelativeDirectory_PathAsString_Is_Intact);
         }
 
         [Test, TestCaseSource("RelativePaths")]

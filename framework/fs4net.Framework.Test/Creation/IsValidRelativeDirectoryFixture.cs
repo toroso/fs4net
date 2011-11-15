@@ -39,12 +39,6 @@ namespace fs4net.Framework.Test.Creation
                 @"\\colon\in:share\name",
             };
 
-        [Test]
-        public void Non_Valid_Or_Non_Relative_Directory_Return_False()
-        {
-            NonValidOrNonRelativeDirectory.ForEach(Non_Valid_Or_Non_Relative_Directory_Return_False);
-        }
-
         [Test, TestCaseSource("NonValidOrNonRelativeDirectory")]
         public void Non_Valid_Or_Non_Relative_Directory_Return_False(string path)
         {
@@ -66,12 +60,6 @@ namespace fs4net.Framework.Test.Creation
                 @"path\ending\with\dot\.",
                 @"folder\starts\with\ space\to", // Can't create it from Windows Explorer, but programmatically is ok
             };
-
-        [Test]
-        public void Valid_Relative_Directory_Return_True()
-        {
-            ValidRelativeDirectory.ForEach(Valid_Relative_Directory_Return_True);
-        }
 
         [Test, TestCaseSource("ValidRelativeDirectory")]
         public void Valid_Relative_Directory_Return_True(string path)

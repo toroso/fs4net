@@ -44,12 +44,6 @@ namespace fs4net.Framework.Test.Creation
                 @"path\..\",
             };
 
-        [Test]
-        public void Throws_If_Canonical_Path_Is_Empty()
-        {
-            EmptyCanonicalPaths.ForEach(Throws_If_Canonical_Path_Is_Empty);
-        }
-
         [Test, TestCaseSource("EmptyCanonicalPaths")]
         public void Throws_If_Canonical_Path_Is_Empty(string emptyPath)
         {
@@ -66,12 +60,6 @@ namespace fs4net.Framework.Test.Creation
                 @"\\colon:in\network\name.txt",
                 @"\\colon\in:share\name.txt",
             };
-
-        [Test]
-        public void Throws_If_Drive_Contains_Invalid_Character()
-        {
-            ContainsInvalidDriveCharacters.ForEach(Throws_If_Drive_Contains_Invalid_Character);
-        }
 
         [Test, TestCaseSource("ContainsInvalidDriveCharacters")]
         public void Throws_If_Drive_Contains_Invalid_Character(string startsWithInvalidCharacter)
@@ -95,12 +83,6 @@ namespace fs4net.Framework.Test.Creation
                 @"c:\path\with\space\ \folder\name\to\file.txt",
                 @"c:\path\with\space\three\...\dots\as\folder\name\to\file.txt",
             };
-
-        [Test]
-        public void Throws_If_Path_Contains_Invalid_Character()
-        {
-            ContainsInvalidPathCharacters.ForEach(Throws_If_Path_Contains_Invalid_Character);
-        }
 
         [Test, TestCaseSource("ContainsInvalidPathCharacters")]
         public void Throws_If_Path_Contains_Invalid_Character(string containsInvalidPathCharacters)
@@ -128,12 +110,6 @@ namespace fs4net.Framework.Test.Creation
                 @"c:\filename\contains\pipe\fi|le.txt",
             };
 
-        [Test]
-        public void Throws_If_FileName_Contains_Invalid_Character()
-        {
-            ContainsInvalidFilenameCharacters.ForEach(Throws_If_FileName_Contains_Invalid_Character);
-        }
-
         [Test, TestCaseSource("ContainsInvalidFilenameCharacters")]
         public void Throws_If_FileName_Contains_Invalid_Character(string containsInvalidFilenameCharacters)
         {
@@ -148,12 +124,6 @@ namespace fs4net.Framework.Test.Creation
                 @"..\double\dot\path\to\file.txt",
                 @"\missing\drive\path\to\file.txt",
             };
-
-        [Test]
-        public void Throws_If_Path_Is_Relative()
-        {
-            RelativePaths.ForEach(Throws_If_Path_Is_Relative);
-        }
 
         [Test, TestCaseSource("RelativePaths")]
         public void Throws_If_Path_Is_Relative(string relativePath)
@@ -206,12 +176,6 @@ namespace fs4net.Framework.Test.Creation
                 @"c:\path\with\.\dot\to\file.txt",
                 @"c:\folder\starts\with\ space\to\file.txt", // Can't create it from Windows Explorer, but programmatically is ok
             };
-
-        [Test]
-        public void Create_With_Valid_Path()
-        {
-            ValidPaths.ForEach(Create_With_Valid_Path);
-        }
 
         [Test, TestCaseSource("ValidPaths")]
         public void Create_With_Valid_Path(string validPath)
