@@ -17,6 +17,7 @@
         <file src="framework\fs4net.Framework\bin\Release\fs4net.Framework.dll" target="lib/3.5" />
         <file src="framework\fs4net.Framework\bin\Release\fs4net.Framework.xml" target="lib/3.5" />
         <file src="memory\fs4net.Memory\bin\Release\fs4net.Memory.dll" target="lib/3.5" />
+        <file src="memory\fs4net.Memory\bin\Release\fs4net.Memory.xml" target="lib/3.5" />
         <file src="builder\fs4net.Builder\bin\Release\fs4net.Builder.dll" target="lib/3.5" />
     </files>
 </package>
