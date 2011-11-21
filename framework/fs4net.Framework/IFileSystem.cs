@@ -9,6 +9,7 @@ namespace fs4net.Framework
     {
         /// <summary>
         /// Creates a file descriptor from the given path. This method throws if the path is invalid.
+        /// This method will succeed even if the file does not exist.
         /// </summary>
         /// <exception cref="System.IO.PathTooLongException">The specified path, in its canonical form, exceeds
         /// the system-defined maximum length.</exception>
@@ -20,6 +21,7 @@ namespace fs4net.Framework
 
         /// <summary>
         /// Creates a descriptor to a directory from the given path. This method throws if the path is invalid.
+        /// This method will succeed even if the directory does not exist.
         /// </summary>
         /// <exception cref="System.IO.PathTooLongException">The specified path, in its canonical form, exceeds
         /// the system-defined maximum length.</exception>
@@ -47,9 +49,10 @@ namespace fs4net.Framework
         /// <summary>
         /// Creates a descriptor to a drive from the given drive name. The drive should be given without an ending
         /// backslash. Examples: "c:", "\\network\share".
+        /// This method will succeed even if the drive does not exist.
         /// </summary>
         /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
-        /// <exception cref="fs4net.Framework.InvalidPathException">The specified drive i empty, contains an invalid drive letter.</exception>
+        /// <exception cref="fs4net.Framework.InvalidPathException">The specified path is empty or contains an invalid drive letter.</exception>
         Drive DriveDescribing(string driveName);
 
         /// <summary>

@@ -1,15 +1,30 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
+    /// <summary>
+    /// Represents a path to a directory that starts with a drive. It does not guarantee that the directory exists, but
+    /// rather exposes methods for operating on the path such as creating, modifying and enumerating directory
+    /// content.
+    /// </summary>
     public sealed class RootedDirectory : IRootedDirectory<RootedDirectory>
     {
         private readonly IInternalFileSystem _fileSystem;
         private readonly string _canonicalFullPath;
 
+        /// <summary>
+        /// Initializes a new instance of the class on the specified path
+        /// </summary>
+        /// <param name="fileSystem">The FileSystem with which this descriptor is associated.</param>
+        /// <param name="rootedPath">A string specifying the path that the class should encapsulate.</param>
+        /// <param name="logger">A logger where to this descriptor reports any abnormalities.</param>
+        /// <exception cref="System.IO.PathTooLongException">The specified path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
+        /// <exception cref="fs4net.Framework.InvalidPathException">The specified path contains invalid characters,
+        /// contains an invalid drive letter, or is invalid in some other way.</exception>
+        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
+        /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
         public RootedDirectory(IInternalFileSystem fileSystem, string rootedPath, ILogger logger)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
@@ -22,30 +37,15 @@ namespace fs4net.Framework
 
         #region Public Interface
 
-        /// <summary>
-        /// Returns the FileSystem with which this descriptor is associated.
-        /// </summary>
         public IFileSystem FileSystem
         {
             get { return _fileSystem; }
         }
 
-        /// <summary>
-        /// Returns the path that this descriptor represent as a string. It is returned on the same format as it was
-        /// created with. This means that it can contain redundant parts such as ".", ".." inside paths and multiple
-        /// "\". To remove such redundant parts, use the AsCanonical() factory method.
-        /// This property succeeds whether the file exists or not.
-        /// </summary>
         public string PathAsString { get; private set; }
 
         public ILogger Logger { get; private set; }
 
-        /// <summary>
-        /// Returns a descriptor where the PathAsString property returns the path on canonical form. A canonical
-        /// descriptor does not contain any redundant names, which means that ".", ".." and extra "\" have been removed
-        /// from the string that the descriptor was created with.
-        /// This method succeeds whether the file exists or not.
-        /// </summary>
         public RootedDirectory AsCanonical() // TODO? Make into extension method and add a Clone() method?
         {
             return new RootedDirectory(_fileSystem, _canonicalFullPath, Logger);
@@ -79,6 +79,10 @@ namespace fs4net.Framework
 
         #region Value Object
 
+        /// <summary>
+        /// Determines whether the specified RootedDirectory denotes the same path as the current RootedDirectory. The
+        /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
+        /// </summary>
         public bool Equals<T>(IRootedDirectory<T> other) where T : IRootedDirectory<T>
         {
             return this.DenotesSamePathAs(other);
@@ -94,11 +98,19 @@ namespace fs4net.Framework
             return this.InternalGetHashCode();
         }
 
+        /// <summary>
+        /// Determines whether the left RootedDirectory denotes the same path as the right RootedDirectory. The
+        /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
+        /// </summary>
         public static bool operator ==(RootedDirectory left, RootedDirectory right)
         {
             return Equals(left, right);
         }
 
+        /// <summary>
+        /// Determines whether the left RootedDirectory does not denote the same path as the right RootedDirectory. The
+        /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
+        /// </summary>
         public static bool operator !=(RootedDirectory left, RootedDirectory right)
         {
             return !Equals(left, right);

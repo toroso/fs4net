@@ -6,7 +6,14 @@ namespace fs4net.Framework
 {
     public interface IRootedFileSystemItem<T> : IFileSystemItem<T> where T : IRootedFileSystemItem<T>
     {
+        /// <summary>
+        /// Returns the FileSystem with which this descriptor is associated.
+        /// </summary>
         IFileSystem FileSystem { get; }
+
+        /// <summary>
+        /// Returns the logger object where to this descriptor reports any abnormalities.
+        /// </summary>
         ILogger Logger { get; }
     }
 

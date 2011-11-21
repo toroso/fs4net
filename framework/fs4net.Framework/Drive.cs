@@ -18,8 +18,21 @@ namespace fs4net.Framework
 
         #region Public Interface
 
+        /// <summary>
+        /// Returns the drive name on the same same format as it was created with.
+        /// This property succeeds whether the file exists or not.
+        /// </summary>
         public string Name { get; private set; }
 
+        public IFileSystem FileSystem
+        {
+            get { return _fileSystem; }
+        }
+
+        /// <summary>
+        /// Returns the drive name as a string on the same same format as it was created with.
+        /// This property succeeds whether the file exists or not.
+        /// </summary>
         public string PathAsString
         {
             get { return Name; }
@@ -30,11 +43,6 @@ namespace fs4net.Framework
         public Drive AsCanonical()
         {
             return this;
-        }
-
-        public IFileSystem FileSystem
-        {
-            get { return _fileSystem; }
         }
 
         /// <summary>
