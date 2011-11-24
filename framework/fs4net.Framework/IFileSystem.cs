@@ -5,6 +5,10 @@ using fs4net.Framework.Utils;
 
 namespace fs4net.Framework
 {
+    /// <summary>
+    /// An abstract representation of a file system and can be seen as a factory for rooted path descriptors. The rooted
+    /// path descriptors can be used to operate on the file system.
+    /// </summary>
     public interface IFileSystem
     {
         /// <summary>
@@ -20,7 +24,8 @@ namespace fs4net.Framework
         RootedFile FileDescribing(string fullPath);
 
         /// <summary>
-        /// Creates a descriptor to a directory from the given path. This method throws if the path is invalid.
+        /// Creates a descriptor to a directory from the given path. This method throws if the path is invalid. The
+        /// path may not end with a backslash.
         /// This method will succeed even if the directory does not exist.
         /// </summary>
         /// <exception cref="System.IO.PathTooLongException">The specified path, in its canonical form, exceeds

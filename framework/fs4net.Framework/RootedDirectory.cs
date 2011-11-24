@@ -14,7 +14,7 @@ namespace fs4net.Framework
         private readonly string _canonicalFullPath;
 
         /// <summary>
-        /// Initializes a new instance of the class on the specified path
+        /// Initializes a new instance of the class on the specified path. The path may not end with a backslash.
         /// </summary>
         /// <param name="fileSystem">The FileSystem with which this descriptor is associated.</param>
         /// <param name="rootedPath">A string specifying the path that the class should encapsulate.</param>
@@ -108,7 +108,7 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Determines whether the left RootedDirectory does not denote the same path as the right RootedDirectory. The
+        /// Determines whether the left RootedDirectory denotes a different path than the right RootedDirectory. The
         /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
         /// </summary>
         public static bool operator !=(RootedDirectory left, RootedDirectory right)
@@ -137,6 +137,7 @@ namespace fs4net.Framework
         /// TODO: Exceptions!
         public static void Create(this RootedDirectory me)
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             me.VerifyIsNotAFile(ThrowHelper.IOException("Can't create the directory '{0}' since it denotes a file.", me.PathAsString));
             if (!me.Exists())
             {
