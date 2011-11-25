@@ -1,3 +1,5 @@
+using fs4net.Framework.Impl;
+
 namespace fs4net.Framework
 {
     public interface IFileSystemItem<T> where T: IFileSystemItem<T>
@@ -24,6 +26,7 @@ namespace fs4net.Framework
         internal static string AsLowerCaseCanonicalString<T>(this IFileSystemItem<T> me)
             where T : IFileSystemItem<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             return me.AsCanonical().PathAsString.ToLower();
         }
     }

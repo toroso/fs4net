@@ -1,4 +1,5 @@
 using System.IO;
+using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
@@ -15,6 +16,7 @@ namespace fs4net.Framework
         /// </summary>
         public static FileName FileName<T>(this IFile<T> me) where T : IFile<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             return Framework.FileName.FromString(Path.GetFileName(me.PathAsString));
         }
     }

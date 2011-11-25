@@ -4,6 +4,10 @@ using System.Runtime.Serialization;
 
 namespace fs4net.Framework
 {
+    /// <summary>
+    /// The exception that is thrown when an attempt is made to create a path descriptor with a path that is invalid in
+    /// some way.
+    /// </summary>
     [Serializable]
     public sealed class InvalidPathException : IOException
     {

@@ -14,19 +14,29 @@ namespace fs4net.Framework
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">The resulting path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
+        /// <exception cref="System.ArgumentNullException">One of the parameters is null.</exception>
         public static RootedDirectory Append<T>(this IRootedDirectory<T> left, RelativeDirectory right)
             where T : IRootedDirectory<T>
         {
+            ThrowHelper.ThrowIfNull(left, "left");
+            ThrowHelper.ThrowIfNull(right, "right");
             return new RootedDirectory(left.InternalFileSystem(), PathUtils.Combine(left.PathAsString, right.PathAsString), left.Logger);
         }
 
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">The resulting path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
+        /// <exception cref="System.ArgumentNullException">One of the parameters is null.</exception>
         public static RootedFile Append<TDir, TFile>(this IRootedDirectory<TDir> left, IRelativeFile<TFile> right)
             where TDir : IRootedDirectory<TDir>
             where TFile : IRelativeFile<TFile>
         {
+            ThrowHelper.ThrowIfNull(left, "left");
+            ThrowHelper.ThrowIfNull(right, "right");
             return new RootedFile(left.InternalFileSystem(), PathUtils.Combine(left.PathAsString, right.PathAsString), left.Logger);
         }
 
@@ -35,7 +45,6 @@ namespace fs4net.Framework
         /// Example: LeafFolder("c:\my\path\to") => "to".
         /// If this path has no leaf folder, e.g. it denotes a drive, this method returns an empty descriptor.
         /// </summary>
-        // TODO: Exceptions, Allow empty RelativeDirectories
         public static RelativeDirectory LeafFolder<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
@@ -48,6 +57,12 @@ namespace fs4net.Framework
             return RelativeDirectory.FromString(canonicalPath.Substring(lastBackslashIndex + 1));
         }
 
+        /// <summary>
+        /// Returns a descriptor containing the path as seen from the given descriptor.
+        /// Example: RelativeFrom("c:\path\one", "c:\path\two") => "..\one".
+        /// If the two paths are the same this method returns an empty descriptor.
+        /// </summary>
+        /// <exception cref="System.ArgumentException">The descriptors are on different drives.</exception>
         public static RelativeDirectory RelativeFrom<T, TOther>(this IRootedDirectory<T> me, IRootedDirectory<TOther> other)
             where T : IRootedDirectory<T>
             where TOther : IRootedDirectory<TOther>
@@ -141,7 +156,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Returns all files that exist in this directory.
         /// </summary>
-        /// TODO: Exceptions
+        /// <exception cref="System.IO.IOException">The directory descriptor denotes an existing file.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The directory does not exist.</exception>
         public static IEnumerable<RootedFile> Files<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
@@ -154,7 +170,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Returns all directories that exist in this directory.
         /// </summary>
-        /// TODO: Exceptions
+        /// <exception cref="System.IO.IOException">The directory descriptor denotes an existing file.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The directory does not exist.</exception>
         public static IEnumerable<RootedDirectory> Directories<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
@@ -179,7 +196,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Returns all subdirectories recursively, not including the passed in directory.
         /// </summary>
-        /// TODO: Exceptions
+        /// <exception cref="System.IO.IOException">The directory descriptor denotes an existing file.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The directory does not exist.</exception>
         public static IEnumerable<RootedDirectory> AllDirectoriesRecursively<T>(this IRootedDirectory<T> me)
             where T: IRootedDirectory<T>
         {
@@ -196,7 +214,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Returns all files from the given directory and all it's subdirectories.
         /// </summary>
-        /// TODO: Exceptions
+        /// <exception cref="System.IO.IOException">The directory descriptor denotes an existing file.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The directory does not exist.</exception>
         public static IEnumerable<RootedFile> AllFilesRecursively<T>(this IRootedDirectory<T> me)
             where T: IRootedDirectory<T>
         {
