@@ -63,10 +63,9 @@ namespace fs4net.Framework
         /// Returns the drive that the denoted item is located on.
         /// This property succeeds whether the denoted item exists or not.
         /// </summary>
-        /// <exception cref="System.IO.PathTooLongException">If the file's path is relative and concatenated
-        /// with the current directory it exceeds the system-defined maximum length.</exception>
         public static Drive Drive<T>(this IRootedFileSystemItem<T> me) where T : IRootedFileSystemItem<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             return new Drive(me.InternalFileSystem(), CanonicalPathBuilder.GetDriveName(me.PathAsString), me.Logger);
         }
 

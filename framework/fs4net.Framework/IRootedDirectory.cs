@@ -67,6 +67,7 @@ namespace fs4net.Framework
             where T : IRootedDirectory<T>
             where TOther : IRootedDirectory<TOther>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             me.VerifyOnSameDriveAs(other, ThrowHelper.ArgumentException("Can't find a relative path since '{0}' and '{1}' have different drives.", me.PathAsString, other.PathAsString));
 
             var relative = PathUtils.MakeRelativeFrom(me.CanonicalPathAsString().FullPath, other.CanonicalPathAsString().FullPath);
@@ -80,6 +81,7 @@ namespace fs4net.Framework
         public static bool Exists<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             return me.IsDirectory();
         }
 
@@ -87,10 +89,11 @@ namespace fs4net.Framework
         /// Returns the date and time the directory was last written to.
         /// </summary>
         /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
-        /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the directory does not exist.</exception>
         public static DateTime LastWriteTime<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last write time for directory '{0}' since it denotes a file.", me.PathAsString));
             me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last write time for directory '{0}' since it does not exist.", me.PathAsString));
 
@@ -101,12 +104,13 @@ namespace fs4net.Framework
         /// Sets the date and time the directory was last written to.
         /// </summary>
         /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
-        /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the directory does not exist.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">If the time value is outside the range of dates or
         /// times permitted for this operation.</exception>
         public static void SetLastWriteTime<T>(this IRootedDirectory<T> me, DateTime at)
             where T : IRootedDirectory<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             RootedFileSystemItemVerifications.VerifyDateTime(at, "set modified date", "directory");
             me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last write time for directory '{0}' since it denotes a file.", me.PathAsString));
             me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last write time for directory '{0}' since it does not exist.", me.PathAsString));
@@ -117,10 +121,12 @@ namespace fs4net.Framework
         /// <summary>
         /// Returns the date and time the directory was last accessed.
         /// </summary>
-        /// TODO: Exceptions!
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the directory does not exist.</exception>
         public static DateTime LastAccessTime<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last access time for directory '{0}' since it denotes a file.", me.PathAsString));
             me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get last access time for directory '{0}' since it does not exist.", me.PathAsString));
 
@@ -131,12 +137,13 @@ namespace fs4net.Framework
         /// Sets the date and time the directory was last accessed.
         /// </summary>
         /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
-        /// <exception cref="System.IO.FileNotFoundException">If the file does not exist.</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the directory does not exist.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">If the time value is outside the range of dates or
         /// times permitted for this operation.</exception>
         public static void SetLastAccessTime<T>(this IRootedDirectory<T> me, DateTime at)
             where T : IRootedDirectory<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             RootedFileSystemItemVerifications.VerifyDateTime(at, "set last accessed date", "directory");
             me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last access time for directory '{0}' since it denotes a file.", me.PathAsString));
             me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set last access time for directory '{0}' since it does not exist.", me.PathAsString));
@@ -147,6 +154,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Returns true if there are no files or folders in the given directory.
         /// </summary>
+        /// <exception cref="System.IO.IOException">The directory descriptor denotes an existing file.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The directory does not exist.</exception>
         public static bool IsEmpty<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
@@ -161,6 +170,7 @@ namespace fs4net.Framework
         public static IEnumerable<RootedFile> Files<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             me.VerifyIsNotAFile(ThrowHelper.IOException(me.PathAsString, "Can't get all files for directory '{0}' since it denotes a file.", me.PathAsString));
             me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException(me.PathAsString, "Can't get all files for directory '{0}' since it does not exist.", me.PathAsString));
 
@@ -175,6 +185,7 @@ namespace fs4net.Framework
         public static IEnumerable<RootedDirectory> Directories<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             me.VerifyIsNotAFile(ThrowHelper.IOException(me.PathAsString, "Can't get all directories for directory '{0}' since it denotes a file.", me.PathAsString));
             me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException(me.PathAsString, "Can't get all directories for directory '{0}' since it does not exist.", me.PathAsString));
 
@@ -184,10 +195,12 @@ namespace fs4net.Framework
         /// <summary>
         /// Sets the application's current working directory to the given directory.
         /// </summary>
-        /// TODO: Exceptions
+        /// <exception cref="System.IO.DirectoryNotFoundException">The directory does not exist.</exception>
+        /// TODO: Exceptions: IOException, SecurityException
         public static void SetAsCurrent<T>(this IRootedDirectory<T> me)
             where T : IRootedDirectory<T>
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException(me.PathAsString, "Can't set directory '{0}' as current since it does not exist.", me.PathAsString));
 
             me.InternalFileSystem().SetAsCurrent(me.CanonicalPathAsString());
