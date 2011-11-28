@@ -46,7 +46,7 @@ namespace fs4net.Framework
 
         public ILogger Logger { get; private set; }
 
-        public RootedDirectory AsCanonical() // TODO? Make into extension method and add a Clone() method?
+        public RootedDirectory AsCanonical()
         {
             return new RootedDirectory(_fileSystem, _canonicalFullPath, Logger);
         }
@@ -54,6 +54,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">The resulting path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
         public static RootedDirectory operator +(RootedDirectory left, RelativeDirectory right)
         {
             return left.Append(right);
@@ -62,6 +64,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">The resulting path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
         public static RootedFile operator +(RootedDirectory left, RelativeFile right)
         {
             return left.Append(right);
@@ -70,6 +74,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">The resulting path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
         public static RootedFile operator +(RootedDirectory left, FileName right)
         {
             return left.Append(right);
@@ -80,7 +86,7 @@ namespace fs4net.Framework
         #region Value Object
 
         /// <summary>
-        /// Determines whether the specified RootedDirectory denotes the same path as the current RootedDirectory. The
+        /// Determines whether the specified instance denotes the same path as the current instance. The
         /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
         /// </summary>
         public bool Equals<T>(IRootedDirectory<T> other) where T : IRootedDirectory<T>
@@ -99,7 +105,7 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Determines whether the left RootedDirectory denotes the same path as the right RootedDirectory. The
+        /// Determines whether the left instance denotes the same path as the right instance. The
         /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
         /// </summary>
         public static bool operator ==(RootedDirectory left, RootedDirectory right)
@@ -108,7 +114,7 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Determines whether the left RootedDirectory denotes a different path than the right RootedDirectory. The
+        /// Determines whether the left instance denotes a different path than the right instance. The
         /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
         /// </summary>
         public static bool operator !=(RootedDirectory left, RootedDirectory right)
@@ -134,7 +140,10 @@ namespace fs4net.Framework
         /// Creates the directory denoted by this descriptor. It creates the leaf folder as well as any non-existing
         /// parent folders. If the directory already exists this method does nothing.
         /// </summary>
-        /// TODO: Exceptions!
+        /// <exception cref="System.IO.IOException">The path denotes an existing file.</exception>
+        /// TODO: More reasons for IOException
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission.</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The path is on an unmapped drive.</exception>
         public static void Create(this RootedDirectory me)
         {
             ThrowHelper.ThrowIfNull(me, "me");

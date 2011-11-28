@@ -65,6 +65,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">The resulting path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
         public static RootedDirectory operator +(Drive left, RelativeDirectory right)
         {
             return left.Append(right);
@@ -73,6 +75,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">The resulting path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
         public static RootedFile operator +(Drive left, RelativeFile right)
         {
             return left.Append(right);
@@ -81,6 +85,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Concatenates the two descriptors into one and returns it.
         /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">The resulting path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
         public static RootedFile operator +(Drive left, FileName right)
         {
             return left.Append(right);
@@ -92,7 +98,7 @@ namespace fs4net.Framework
         #region Value Object
 
         /// <summary>
-        /// Determines whether the specified Drive denotes the same drive as the current Drive.
+        /// Determines whether the specified instance denotes the same path as the current instance.
         /// </summary>
         public bool Equals<T>(IRootedDirectory<T> other) where T : IRootedDirectory<T>
         {
@@ -110,7 +116,7 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Determines whether the left Drive denotes the same drive as the right Drive.
+        /// Determines whether the left instance denotes the same path as the right instance.
         /// </summary>
         public static bool operator ==(Drive left, Drive right)
         {
@@ -118,7 +124,7 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Determines whether the left Drive denotes a different drive than the right Drive.
+        /// Determines whether the left instance denotes a different path than the right instance.
         /// </summary>
         public static bool operator !=(Drive left, Drive right)
         {

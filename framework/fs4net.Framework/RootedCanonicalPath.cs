@@ -1,5 +1,9 @@
 namespace fs4net.Framework
 {
+    /// <summary>
+    /// An encapsulation of a path used for communication between path descriptors and an IInternalFileSystem. Do not
+    /// use this type in your code (unless implementing your own IInternalFileSystem).
+    /// </summary>
     public struct RootedCanonicalPath
     {
         public string FullPath { get; private set; }

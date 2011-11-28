@@ -19,29 +19,21 @@ namespace fs4net.Framework
         #region Public Interface
 
         /// <summary>
-        /// Creates a new instance of this descriptor representing the given relative path.
+        /// Initializes a new instance of the class on the specified path.
         /// </summary>
+        /// <param name="relativePath">A string specifying the path that the class should encapsulate.</param>
         /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
-        /// <exception cref="System.ArgumentException">The specified path is invalid, e.g. it's rooted, empty, starts
-        /// or ends with white space or contains one or more invalid characters.</exception>
+        /// <exception cref="fs4net.Framework.InvalidPathException">The specified path is invalid, e.g. it's empty,
+        /// starts or ends with white space or contains one or more invalid characters.</exception>
+        /// <exception cref="fs4net.Framework.RootedPathException">The specified path is rooted.</exception>
         public static RelativeFile FromString(string relativePath)
         {
             return new RelativeFile(relativePath);
         }
 
-        /// <summary>
-        /// Returns the path that this descriptor represent as a string. It is returned on the same format as it was
-        /// created with. This means that it can contain redundant parts such as ".", ".." inside paths and multiple
-        /// "\". To remove such redundant parts, use the AsCanonical() factory method.
-        /// </summary>
         public string PathAsString { get; private set; }
 
-        /// <summary>
-        /// Returns a descriptor where the PathAsString property returns the path on canonical form. A canonical
-        /// descriptor does not contain any redundant names, which means that ".", ".." and extra "\" have been removed
-        /// from the string that the descriptor was created with.
-        /// </summary>
-        public RelativeFile AsCanonical() // TODO: Move to extension method?
+        public RelativeFile AsCanonical()
         {
             return new RelativeFile(_canonicalFullPath);
         }
@@ -50,6 +42,10 @@ namespace fs4net.Framework
 
         #region Value Object
 
+        /// <summary>
+        /// Determines whether the specified instance denotes the same path as the current instance. The
+        /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
+        /// </summary>
         public bool Equals<T>(IRelativeFileSystemItem<T> other)
             where T : IRelativeFileSystemItem<T>
         {
@@ -66,11 +62,19 @@ namespace fs4net.Framework
             return this.InternalGetHashCode();
         }
 
+        /// <summary>
+        /// Determines whether the left instance denotes the same path as the right instance. The
+        /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
+        /// </summary>
         public static bool operator ==(RelativeFile left, RelativeFile right)
         {
             return Equals(left, right);
         }
 
+        /// <summary>
+        /// Determines whether the left instance denotes a different path than the right instance. The
+        /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
+        /// </summary>
         public static bool operator !=(RelativeFile left, RelativeFile right)
         {
             return !Equals(left, right);

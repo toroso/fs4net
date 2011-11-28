@@ -2,6 +2,10 @@ using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
 {
+    /// <summary>
+    /// Represents a relative path to a directory. It is relative, or non-rooted, meaning that that it does not start
+    /// with a drive (e.g. c:, d:, \\network\drive, etc).
+    /// </summary>
     public sealed class RelativeDirectory : IDirectory<RelativeDirectory>, IRelativeFileSystemItem<RelativeDirectory>
     {
         private readonly string _canonicalFullPath;
@@ -15,35 +19,27 @@ namespace fs4net.Framework
         #region Public Interface
 
         /// <summary>
-        /// Creates a new instance of this descriptor representing the given relative path.
+        /// Initializes a new instance of the class on the specified path. The path may not end with a backslash.
         /// </summary>
+        /// <param name="relativePath">A string specifying the path that the class should encapsulate.</param>
         /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
-        /// <exception cref="System.ArgumentException">The specified path is invalid, e.g. it's rooted, empty, starts
-        /// or ends with white space or contains one or more invalid characters.</exception>
+        /// <exception cref="fs4net.Framework.InvalidPathException">The specified path is invalid, e.g. it's empty,
+        /// starts or ends with white space or contains one or more invalid characters.</exception>
+        /// <exception cref="fs4net.Framework.RootedPathException">The specified path is rooted.</exception>
         public static RelativeDirectory FromString(string relativePath)
         {
             return new RelativeDirectory(relativePath);
         }
 
-        /// <summary>
-        /// Returns the path that this descriptor represent as a string. It is returned on the same format as it was
-        /// created with. This means that it can contain redundant parts such as ".", ".." inside paths and multiple
-        /// "\". To remove such redundant parts, use the AsCanonical() factory method.
-        /// </summary>
         public string PathAsString { get; private set; }
 
-        /// <summary>
-        /// Returns a descriptor where the PathAsString property returns the path on canonical form. A canonical
-        /// descriptor does not contain any redundant names, which means that ".", ".." and extra "\" have been removed
-        /// from the string that the descriptor was created with.
-        /// </summary>
         public RelativeDirectory AsCanonical()
         {
             return new RelativeDirectory(_canonicalFullPath);
         }
 
         /// <summary>
-        /// Returns a descriptor where the two descriptors are concatenated.
+        /// Concatenates the two descriptors into one and returns it.
         /// </summary>
         public static RelativeDirectory operator +(RelativeDirectory left, RelativeDirectory right)
         {
@@ -51,7 +47,7 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Returns a descriptor where the two descriptors are concatenated.
+        /// Concatenates the two descriptors into one and returns it.
         /// </summary>
         public static RelativeFile operator +(RelativeDirectory left, RelativeFile right)
         {
@@ -59,7 +55,7 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Returns a descriptor where the two descriptors are concatenated.
+        /// Concatenates the two descriptors into one and returns it.
         /// </summary>
         public static RelativeFile operator +(RelativeDirectory left, FileName right)
         {
@@ -70,6 +66,10 @@ namespace fs4net.Framework
 
         #region Value Object
 
+        /// <summary>
+        /// Determines whether the specified instance denotes the same path as the current instance. The
+        /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
+        /// </summary>
         public bool Equals(RelativeDirectory other)
         {
             return this.DenotesSamePathAs(other);
@@ -85,11 +85,19 @@ namespace fs4net.Framework
             return this.InternalGetHashCode();
         }
 
+        /// <summary>
+        /// Determines whether the left instance denotes the same path as the right instance. The
+        /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
+        /// </summary>
         public static bool operator ==(RelativeDirectory left, RelativeDirectory right)
         {
             return Equals(left, right);
         }
 
+        /// <summary>
+        /// Determines whether the left instance denotes a different path than the right instance. The
+        /// comparison is made using the canonical form, meaning that redundant "." and ".." have been removed.
+        /// </summary>
         public static bool operator !=(RelativeDirectory left, RelativeDirectory right)
         {
             return !Equals(left, right);
@@ -158,7 +166,6 @@ namespace fs4net.Framework
         /// The method returns the leaf folder in the path's canonical form. This could be an empty directory or even
         /// "..".
         /// </summary>
-        // TODO: Exceptions, Allow empty RelativeDirectories
         public static RelativeDirectory LeafFolder(this RelativeDirectory me)
         {
             ThrowHelper.ThrowIfNull(me, "me");

@@ -6,7 +6,6 @@ namespace fs4net.Framework
 {
     /// <summary>
     /// Represents a file name, that is, the file name part of a path.
-    /// the drive.
     /// </summary>
     public sealed class FileName : IRelativeFile<FileName>
     {
@@ -70,7 +69,7 @@ namespace fs4net.Framework
         #endregion // Public Interface
 
         /// <summary>
-        /// Determines whether the specified FileName denotes the same file name as the current FileName.
+        /// Determines whether the specified instance denotes the same file name as the current instance.
         /// </summary>
         public bool Equals<T>(IRelativeFileSystemItem<T> other)
             where T : IRelativeFileSystemItem<T>
@@ -89,7 +88,7 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Determines whether the left FileName denotes the same file name as the right FileName.
+        /// Determines whether the left instance denotes the same file name as the right instance.
         /// </summary>
         public static bool operator ==(FileName left, FileName right)
         {
@@ -97,7 +96,7 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Determines whether the left FileName denotes a different file name than the right FileName.
+        /// Determines whether the left instance denotes a different file name than the right instance.
         /// </summary>
         public static bool operator !=(FileName left, FileName right)
         {
