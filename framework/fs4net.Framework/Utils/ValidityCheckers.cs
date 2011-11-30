@@ -7,7 +7,6 @@ namespace fs4net.Framework.Utils
         /// <summary>
         /// Checks if the path is a valid and rooted directory.
         /// </summary>
-        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
         public static bool IsValidRootedDirectory(this string path)
         {
             ThrowHelper.ThrowIfNull(path, "path");
@@ -17,7 +16,6 @@ namespace fs4net.Framework.Utils
         /// <summary>
         /// Checks if the path is a valid and rooted file.
         /// </summary>
-        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
         public static bool IsValidRootedFile(this string path)
         {
             ThrowHelper.ThrowIfNull(path, "path");
@@ -27,7 +25,6 @@ namespace fs4net.Framework.Utils
         /// <summary>
         /// Checks if the path is a valid and relative directory.
         /// </summary>
-        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
         public static bool IsValidRelativeDirectory(this string path)
         {
             ThrowHelper.ThrowIfNull(path, "path");
@@ -37,7 +34,6 @@ namespace fs4net.Framework.Utils
         /// <summary>
         /// Checks if the path is a valid and relative file.
         /// </summary>
-        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
         public static bool IsValidRelativeFile(this string path)
         {
             ThrowHelper.ThrowIfNull(path, "path");

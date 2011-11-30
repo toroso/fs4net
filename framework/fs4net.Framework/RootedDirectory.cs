@@ -4,9 +4,9 @@ using fs4net.Framework.Impl;
 namespace fs4net.Framework
 {
     /// <summary>
-    /// Represents a path to a directory that starts with a drive. It does not guarantee that the directory exists, but
-    /// rather exposes methods for operating on the path such as creating, modifying and enumerating directory
-    /// content.
+    /// Represents a path to a directory that starts with a drive (e.g. c:, d:, \\network\drive, etc). It does not
+    /// guarantee that the directory exists, but rather exposes methods for operating on the path such as creating,
+    /// modifying and enumerating directory content.
     /// </summary>
     public sealed class RootedDirectory : IRootedDirectory<RootedDirectory>
     {
@@ -142,7 +142,7 @@ namespace fs4net.Framework
         /// </summary>
         /// <exception cref="System.IO.IOException">The path denotes an existing file.</exception>
         /// TODO: More reasons for IOException
-        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission.</exception>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission (according to the MSDN documentation).</exception>
         /// <exception cref="System.IO.DirectoryNotFoundException">The path is on an unmapped drive.</exception>
         public static void Create(this RootedDirectory me)
         {
@@ -160,16 +160,15 @@ namespace fs4net.Framework
         /// Deletes the directory denoted by this descriptor including all files and directories contained in the
         /// directory. If the directory does not exists this method does nothing.
         /// </summary>
-        /// TODO: Revise these exceptions! More specific?
         /// <exception cref="System.IO.IOException">There is an open handle on the directory or on one of its files,
-        /// and the operating system is Windows XP or earlier; A file is denoted by this directory descriptor; The
-        /// directory is not empty; The directory is the application's current working directory; The directory is
-        /// read-only.</exception>
-        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission.</exception>
-        /// <exception cref="System.IO.DirectoryNotFoundException">The specified path is invalid (for example, it
-        /// is on an unmapped drive).</exception>
+        /// and the operating system is Windows XP or earlier (according to the MSDN documentation); A file is denoted
+        /// by this directory descriptor; The directory is the application's current working directory; The directory
+        /// is read-only.</exception>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission (according to the MSDN documentation).</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The path is on an unmapped drive.</exception>
         public static void DeleteRecursively(this RootedDirectory me)
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             me.Drive().VerifyExists(ThrowHelper.DirectoryNotFoundException("Can't delete the directory '{0}' since the drive it is located on does not exist.", me.PathAsString));
             me.VerifyIsNotAFile(ThrowHelper.IOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
             if (me.Exists())
@@ -181,6 +180,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Tries to delete the directory denoted by this descriptor including all files and directories contained in
         /// the directory. If the directory does not exists this method does nothing.
+        /// Since this method has a no-throw contract, there might be occations when it swallows an exception. Such
+        /// exception is logged to the file system's ILogger implementation with which this descriptor was created.
         /// </summary>
         /// <returns>
         /// True if the directory no longer exists. That is, the directory was either deleted, or it
@@ -188,6 +189,7 @@ namespace fs4net.Framework
         /// </returns>
         public static bool TryDeleteRecursively(this RootedDirectory me)
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             if (me.Exists())
             {
                 me.TryDelete(true);
@@ -199,9 +201,15 @@ namespace fs4net.Framework
         /// Deletes the directory denoted by this descriptor. If the directory does not exists this method does
         /// nothing.
         /// </summary>
-        /// TODO: Exceptions
+        /// <exception cref="System.IO.IOException">There is an open handle on the directory, and the operating system
+        /// is Windows XP or earlier (according to the MSDN documentation); A file is denoted by this directory
+        /// descriptor; The directory is the application's current working directory; The directory is read-only; The
+        /// directory is not empty.</exception>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission (according to the MSDN documentation).</exception>
+        /// <exception cref="System.IO.DirectoryNotFoundException">The path is on an unmapped drive.</exception>
         public static void DeleteIfEmpty(this RootedDirectory me)
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             me.Drive().VerifyExists(ThrowHelper.DirectoryNotFoundException("Can't delete the directory '{0}' since the drive it is located on does not exist.", me.PathAsString));
             me.VerifyIsNotAFile(ThrowHelper.IOException("Can't delete the directory '{0}' since it denotes a file.", me.PathAsString));
             me.VerifyIsEmpty(ThrowHelper.IOException("Can't delete the directory '{0}' since it's not empty.", me));
@@ -215,6 +223,8 @@ namespace fs4net.Framework
         /// <summary>
         /// Tries to delete the directory denoted by this descriptor. If the directory does not exists this method does
         /// nothing.
+        /// Since this method has a no-throw contract, there might be occations when it swallows an exception. Such
+        /// exception is logged to the file system's ILogger implementation with which this descriptor was created.
         /// </summary>
         /// <returns>
         /// True if the file no longer exists. That is, the directory was either deleted, or it
@@ -222,6 +232,7 @@ namespace fs4net.Framework
         /// </returns>
         public static bool TryDeleteIfEmpty(this RootedDirectory me)
         {
+            ThrowHelper.ThrowIfNull(me, "me");
             if (me.Exists())
             {
                 if (!me.IsEmpty()) return false;
@@ -254,9 +265,18 @@ namespace fs4net.Framework
         /// Moves the directory and its contents to a new location. After the move, the source directory will have the
         /// name specified by the destination parameter.
         /// </summary>
-        /// TODO: Exceptions
+        /// <exception cref="System.IO.DirectoryNotFoundException">The source directory is not found or an existing
+        /// file is denoted by the source descriptor; The destination's parent directory does not exist.</exception>
+        /// <exception cref="System.IO.IOException">An existing file is denoted by the destination directory; The
+        /// source and destination are the same or destination is a subfolder of source; The source and destination
+        /// folders are located on different drives.</exception>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission (according to the MSDN documentation).</exception>
+        /// <exception cref="System.InvalidOperationException">The source and destination path descriptors where created
+        /// with different IFileSystem implementations.</exception>
         public static void MoveTo(this RootedDirectory me, RootedDirectory destination)
         {
+            ThrowHelper.ThrowIfNull(me, "me");
+            ThrowHelper.ThrowIfNull(destination, "destination");
             me.VerifyOnSameFileSystemAs(destination);
             me.VerifyOnSameDriveAs(destination, ThrowHelper.IOException("Can't move the directory '{0}' to '{1}' since they are located on different drives.", me, destination));
             me.VerifyIsNotAFile(ThrowHelper.DirectoryNotFoundException("Can't move the directory '{0}' since it denotes a file.", me));
