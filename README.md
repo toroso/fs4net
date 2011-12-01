@@ -114,10 +114,13 @@ There are six assemblies in the fs4net solution:
 Current State
 -------------
 
-The current release is v0.2. It is quite a stable release that contains most of the functionality found in the System.IO file management classes. It is also stable in the sense that there are no known bugs.
+fs4net currently supports the most frequently used functionality found in the System.IO file management classes. The API is quite stable so it will most likely be easy to upgrade to upcoming releases.
 
-The biggest difference compared to the v0.1 releaes is added functionality. There have been a few interface changes though since the v0.1 release. Now the interface however feels quite fixed, so it will most likely be easy to upgrade to upcoming releases.
+The design is quite extensible, so in most cases it's quite easy to add your own methods when something is missing (preferrably using extension methods). Or you can contact me and I'll be happy to add it if I see it as something that belongs.
 
+I typically don't add new functionality unless it's something I need or I've received a request which means that development can sometimes be very slow.
+
+The latest version is continuously published on [nuget.org](http://nuget.org/List/Packages/fs4net). All releases can be considered stable.
 
 
 
