@@ -66,7 +66,7 @@ namespace fs4net.Framework
         IEnumerable<Drive> AllDrives();
     }
 
-    public static class FileSystemExternsions
+    public static class FileSystemExtensions
     {
         /// <summary>
         /// Creates a file descriptor from the given path. If the given path is relative, the current directory
@@ -77,14 +77,14 @@ namespace fs4net.Framework
         /// the system-defined maximum length.</exception>
         /// <exception cref="fs4net.Framework.InvalidPathException">The specified path contains invalid characters,
         /// contains an invalid drive letter, or is invalid in some other way.</exception>
-        public static RootedFile FileFromCurrentDirectory(this IFileSystem fileSystem, string fullPath)
+        public static RootedFile FileFromCurrentDirectory(this IFileSystem fileSystem, string path)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
-            if (fullPath.IsValidRootedFile())
+            if (path.IsValidRootedFile())
             {
-                return fileSystem.FileDescribing(fullPath);
+                return fileSystem.FileDescribing(path);
             }
-            return fileSystem.DirectoryDescribingCurrentDirectory() + RelativeFile.FromString(fullPath);
+            return fileSystem.DirectoryDescribingCurrentDirectory() + RelativeFile.FromString(path);
         }
 
         /// <summary>
@@ -96,14 +96,14 @@ namespace fs4net.Framework
         /// the system-defined maximum length.</exception>
         /// <exception cref="fs4net.Framework.InvalidPathException">The specified path contains invalid characters,
         /// contains an invalid drive letter, or is invalid in some other way.</exception>
-        public static RootedDirectory DirectoryFromCurrentDirectory(this IFileSystem fileSystem, string fullPath)
+        public static RootedDirectory DirectoryFromCurrentDirectory(this IFileSystem fileSystem, string path)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
-            if (fullPath.IsValidRootedFile())
+            if (path.IsValidRootedFile())
             {
-                return fileSystem.DirectoryDescribing(fullPath);
+                return fileSystem.DirectoryDescribing(path);
             }
-            return fileSystem.DirectoryDescribingCurrentDirectory() + RelativeDirectory.FromString(fullPath);
+            return fileSystem.DirectoryDescribingCurrentDirectory() + RelativeDirectory.FromString(path);
         }
     }
 }
