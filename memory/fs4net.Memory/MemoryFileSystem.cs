@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using fs4net.Framework;
-using fs4net.Memory.Node;
+using fs4net.Memory.Impl;
 
 namespace fs4net.Memory
 {
@@ -15,41 +13,9 @@ namespace fs4net.Memory
     /// To make the file system usable you ought to call the WithDrives() method to configure what drives exists.
     /// Otherwise the file system has no drives at all.
     /// </summary>
-    public sealed class MemoryFileSystem : IInternalFileSystem, IDisposable
+    public sealed class MemoryFileSystem : IFileSystem, IDisposable
     {
-        // TODO: Make this stuff configurable
-        private const string SystemDrive = "c:";
-        private const string SpecialFolderRoot = SystemDrive + @"\Users\dude";
-        private readonly IDictionary<string, string> _specialFolders = new Dictionary<string, string>
-            {
-                {"ApplicationData", SpecialFolderRoot + @"\AppData\Roaming"},
-                {"CommonApplicationData", @"C:\ProgramData"},
-                {"CommonProgramFiles", @"C:\Program Files (x86)\Common Files"},
-                {"Cookies", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Cookies"},
-                {"Desktop", SpecialFolderRoot + @"\Desktop"},
-                {"DesktopDirectory", SpecialFolderRoot + @"\Desktop"},
-                {"Favorites", SpecialFolderRoot + @"\NetHood\Favorites"},
-                {"History", SpecialFolderRoot + @"\AppData\Local\Microsoft\Windows\History"},
-                {"InternetCache", SpecialFolderRoot + @"\AppData\Local\Microsoft\Windows\Temporary Internet Files"},
-                {"LocalApplicationData", SpecialFolderRoot + @"\AppData\Local"},
-                {"MyMusic", SpecialFolderRoot + @"\Music"},
-                {"MyPictures", SpecialFolderRoot + @"\Pictures"},
-                {"Personal", SpecialFolderRoot + @"\Documents"},
-                {"ProgramFiles", @"C:\Program Files (x86)"},
-                {"Programs", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs"},
-                {"Recent", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Recent"},
-                {"SendTo", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\SendTo"},
-                {"StartMenu", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu"},
-                {"Startup", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"},
-                {"System", @"C:\Windows\system32"},
-                {"Templates", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Templates"},
-                // Temp is not a special folder, but it's stored here to simplify logic (besides, why isn't it a special folder?)
-                {"Temp", SpecialFolderRoot + @"\AppData\Local\Temp"},
-            };
-        private string _currentDirectory;
-
-        private readonly ILogger _logger;
-        private readonly FolderNode _rootNode = FolderNode.CreateRoot();
+        private readonly MemoryFileSystemImpl _impl;
 
         /// <summary>
         /// Instantiate an in-memory file system. The instance is created without a logger which means that all logged
@@ -67,13 +33,7 @@ namespace fs4net.Memory
         /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
         public MemoryFileSystem(ILogger logger)
         {
-            _logger = logger;
-            _rootNode.CreateOrReuseFolderNode(SystemDrive);
-            foreach (var folder in _specialFolders)
-            {
-                CreateDirectory(folder.Value);
-            }
-            _currentDirectory = _specialFolders["Temp"]; // Good default? I could use Directory.GetCurrentDirectory(), but it's not predictable... And it must exist.
+            _impl = new MemoryFileSystemImpl(logger);
         }
 
         /// <summary>
@@ -82,7 +42,7 @@ namespace fs4net.Memory
         /// </summary>
         public MemoryFileSystem WithDrives(params string[] driveNames)
         {
-            Array.ForEach(driveNames, drive => _rootNode.CreateOrReuseFolderNode(drive));
+            _impl.WithDrives(driveNames);
             return this;
         }
 
@@ -91,334 +51,42 @@ namespace fs4net.Memory
         /// </summary>
         public void Dispose()
         {
-            _rootNode.Dispose();
+            _impl.Dispose();
         }
-        
-        #region Implementation of IFileSystem
 
         public RootedFile FileDescribing(string fullPath)
         {
-            return new RootedFile(this, fullPath, _logger);
+            return _impl.FileDescribing(fullPath);
         }
 
         public RootedDirectory DirectoryDescribing(string fullPath)
         {
-            return new RootedDirectory(this, fullPath, _logger);
+            return _impl.DirectoryDescribing(fullPath);
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
         {
-            return DirectoryDescribing(_specialFolders["Temp"]);
+            return _impl.DirectoryDescribingTemporaryDirectory();
         }
 
         public RootedDirectory DirectoryDescribingCurrentDirectory()
         {
-            return DirectoryDescribing(_currentDirectory);
+            return _impl.DirectoryDescribingCurrentDirectory();
         }
 
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
         {
-            var folderKey = folder.ToString();
-            if (!_specialFolders.ContainsKey(folderKey)) throw new NotSupportedException(string.Format("{0} cannot be denoted by a RootedDirectory.", folder));
-            return DirectoryDescribing(_specialFolders[folderKey]);
+            return _impl.DirectoryDescribingSpecialFolder(folder);
         }
 
         public Drive DriveDescribing(string driveName)
         {
-            return new Drive(this, driveName, _logger);
+            return _impl.DriveDescribing(driveName);
         }
 
         public IEnumerable<Drive> AllDrives()
         {
-            return _rootNode
-                .Children
-                .Select(child => DriveDescribing(child.Name));
-        }
-
-        #endregion // Implementation of IFileSystem
-
-        #region Implementation of IInternalFileSystem
-
-        public bool IsFile(RootedCanonicalPath path)
-        {
-            return (FindFileNodeByPath(path.FullPath) != null);
-        }
-
-        public bool IsDirectory(RootedCanonicalPath path)
-        {
-            return (FindFolderNodeByPath(path.FullPath) != null);
-        }
-
-        public long GetFileSize(RootedCanonicalPath path)
-        {
-            return FindFileNodeByPath(path.FullPath).Size;
-        }
-
-        public DateTime GetFileLastWriteTime(RootedCanonicalPath path)
-        {
-            return FindFileNodeByPath(path.FullPath).LastWriteTime;
-        }
-
-        public void SetFileLastWriteTime(RootedCanonicalPath path, DateTime at)
-        {
-            FindFileNodeByPath(path.FullPath).LastWriteTime = at;
-        }
-
-        public DateTime GetDirectoryLastWriteTime(RootedCanonicalPath path)
-        {
-            return FindFolderNodeByPath(path.FullPath).LastWriteTime;
-        }
-
-        public void SetDirectoryLastWriteTime(RootedCanonicalPath path, DateTime at)
-        {
-            FindFolderNodeByPath(path.FullPath).LastWriteTime = at;
-        }
-
-        public DateTime GetFileLastAccessTime(RootedCanonicalPath path)
-        {
-            return FindFileNodeByPath(path.FullPath).LastAccessTime;
-        }
-
-        public void SetFileLastAccessTime(RootedCanonicalPath path, DateTime at)
-        {
-            FindFileNodeByPath(path.FullPath).LastAccessTime = at;
-        }
-
-        public DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path)
-        {
-            return FindFolderNodeByPath(path.FullPath).LastAccessTime;
-        }
-
-        public void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at)
-        {
-            FindFolderNodeByPath(path.FullPath).LastAccessTime = at;
-        }
-
-        public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
-        {
-            return FindFolderNodeByPath(path.FullPath)
-                .Children
-                .OfType<FileNode>()
-                .Select(child => FileDescribing(child.FullPath));
-        }
-
-        public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path)
-        {
-            return FindFolderNodeByPath(path.FullPath)
-                .Children
-                .OfType<FolderNode>()
-                .Select(child => DirectoryDescribing(child.FullPath));
-        }
-
-        public void CreateDirectory(RootedCanonicalPath path)
-        {
-            CreateDirectory(path.FullPath);
-        }
-
-        public void DeleteFile(RootedCanonicalPath path)
-        {
-            // TODO: Tolerant if it doesn't exist.
-            FindFileNodeByPath(path.FullPath).Delete();
-        }
-
-        public void DeleteDirectory(RootedCanonicalPath path, bool recursive)
-        {
-            // TODO: Tolerant if it doesn't exist; Support recursive.
-            FindFolderNodeByPath(path.FullPath).Delete();
-        }
-
-        public void MoveFile(RootedCanonicalPath source, RootedCanonicalPath destination)
-        {
-            var sourceNode = FindFileNodeByPath(source.FullPath);
-            MoveFileSystemItem(sourceNode, destination);
-        }
-
-        public void MoveDirectory(RootedCanonicalPath source, RootedCanonicalPath destination)
-        {
-            var sourceNode = FindFolderNodeByPath(source.FullPath);
-            MoveFileSystemItem(sourceNode, destination);
-        }
-
-        private void MoveFileSystemItem(FileSystemNode sourceNode, RootedCanonicalPath destination)
-        {
-            var parser = new PathParser(destination.FullPath);
-            var destParentNode = parser.GetParentNode(_rootNode);
-            string destName = parser.GetLeafNodeName();
-
-            sourceNode.MoveTo(destParentNode, destName);
-        }
-
-        public void CopyFile(RootedCanonicalPath source, RootedCanonicalPath destination)
-        {
-            var sourceNode = FindFileNodeByPath(source.FullPath);
-            var parser = new PathParser(destination.FullPath);
-            var destParentNode = parser.GetParentNode(_rootNode);
-            string destName = parser.GetLeafNodeName();
-
-            sourceNode.CopyTo(destParentNode, destName);
-        }
-
-        public void CopyAndOverwriteFile(RootedCanonicalPath source, RootedCanonicalPath destination)
-        {
-            var sourceNode = FindFileNodeByPath(source.FullPath);
-            var parser = new PathParser(destination.FullPath);
-            var destParentNode = parser.GetParentNode(_rootNode);
-            string destName = parser.GetLeafNodeName();
-
-            sourceNode.CopyTo(destParentNode, destName);
-        }
-
-        public Stream CreateReadStream(RootedCanonicalPath path)
-        {
-            return FindFileNodeByPath(path.FullPath).CreateReadStream();
-        }
-
-        public Stream CreateWriteStream(RootedCanonicalPath path)
-        {
-            return CreateFile(path.FullPath).CreateWriteStream();
-        }
-
-        public Stream CreateAppendStream(RootedCanonicalPath path)
-        {
-            return CreateOrReuseFile(path.FullPath).CreateAppendStream();
-        }
-
-        public Stream CreateModifyStream(RootedCanonicalPath path)
-        {
-            return CreateOrReuseFile(path.FullPath).CreateModifyStream();
-        }
-
-        public void SetAsCurrent(RootedCanonicalPath path)
-        {
-            _currentDirectory = path.FullPath;
-        }
-
-        #endregion // Implementation of IInternalFileSystem
-
-
-        private FileNode CreateFile(string path)
-        {
-            return CreateFile(path, (parent, filename) => parent.CreateFileNode(filename));
-        }
-
-        private FileNode CreateOrReuseFile(string path)
-        {
-            return CreateFile(path, (parent, filename) => parent.CreateOrReuseFileNode(filename));
-        }
-
-        private FileNode CreateFile(string path, Func<FolderNode, string, FileNode> createStrategy)
-        {
-            FileNode resultNode = null;
-            var currentNode = _rootNode;
-
-            var parser = new PathParser(path);
-            parser.WithEachButLastFileSystemNodeNameDo(folderName => currentNode = currentNode.CreateOrReuseFolderNode(folderName));
-            parser.WithLastFileSystemNodeNameDo(filename => resultNode = createStrategy(currentNode, filename));
-            return resultNode;
-        }
-
-        private void CreateDirectory(string path)
-        {
-            FolderNode currentNode = null;
-
-            var parser = new PathParser(path);
-            parser.WithFirstFileSystemNodeNameDo(driveName => currentNode = (FolderNode) _rootNode.FindChildNodeNamed(driveName));
-            if (currentNode == null) throw new DirectoryNotFoundException(string.Format("Can't create the directory '{0}' since the drive does not exist.", path));
-            parser.WithEachButFirstFileSystemNodeNameDo(folderName => currentNode = currentNode.CreateOrReuseFolderNode(folderName));
-        }
-
-        private FolderNode FindFolderNodeByPath(string path)
-        {
-            return FindNodeByPath(path) as FolderNode;
-        }
-
-        private FileNode FindFileNodeByPath(string path)
-        {
-            return FindNodeByPath(path) as FileNode;
-        }
-
-        private FileSystemNode FindNodeByPath(string path)
-        {
-            FileSystemNode currentNode = _rootNode;
-
-            var parser = new PathParser(path);
-            parser.WithEachFileSystemNodeNameDo(delegate(string folderName)
-                {
-                    if (currentNode != null && currentNode is FolderNode)
-                    {
-                        var folderNode = (FolderNode)currentNode;
-                        currentNode = folderNode.FindChildNodeNamed(folderName);
-                    }
-                });
-
-            return currentNode;
-        }
-
-        public override string ToString()
-        {
-            return _rootNode.TreeAsString(0);
-        }
-    }
-
-    internal class PathParser
-    {
-        private readonly string[] _fileSystemNodeNames;
-
-        internal PathParser(string path)
-        {
-            //if (path == string.Empty) throw new ArgumentException("Path is empty", "path");
-            _fileSystemNodeNames = ParseFileSystemNodeNames(path);
-        }
-
-        private string[] ParseFileSystemNodeNames(string path)
-        {
-            return path.Split('\\');
-        }
-
-        internal void WithEachFileSystemNodeNameDo(Action<string> action)
-        {
-            foreach (string nodeName in _fileSystemNodeNames)
-            {
-                action(nodeName);
-            }
-        }
-
-        internal void WithEachButFirstFileSystemNodeNameDo(Action<string> action)
-        {
-            foreach (string nodeName in _fileSystemNodeNames.Skip(1))
-            {
-                action(nodeName);
-            }
-        }
-
-        internal void WithEachButLastFileSystemNodeNameDo(Action<string> action)
-        {
-            foreach (string nodeName in _fileSystemNodeNames.Take(_fileSystemNodeNames.Length - 1))
-            {
-                action(nodeName);
-            }
-        }
-
-        internal void WithFirstFileSystemNodeNameDo(Action<string> action)
-        {
-            action(_fileSystemNodeNames.First());
-        }
-
-        internal TResult WithLastFileSystemNodeNameDo<TResult>(Func<string, TResult> action)
-        {
-            return action(_fileSystemNodeNames.Last());
-        }
-
-        internal FolderNode GetParentNode(FolderNode rootNode)
-        {
-            var result = rootNode;
-            WithEachButLastFileSystemNodeNameDo(folderName => result = (FolderNode)result.FindChildNodeNamed(folderName));
-            return result;
-        }
-
-        internal string GetLeafNodeName()
-        {
-            return _fileSystemNodeNames.Last();
+            return _impl.AllDrives();
         }
     }
 }
