@@ -61,6 +61,7 @@
     <Compile Include="Impl\DateTimeExtensions.cs" />
     <Compile Include="Impl\DriveParser.cs" />
     <Compile Include="Impl\FilenameParser.cs" />
+    <Compile Include="Impl\FileSystemImpl.cs" />
     <Compile Include="Impl\FoldersParser.cs" />
     <Compile Include="Impl\FolderUtils.cs" />
     <Compile Include="Impl\Validator.cs" />
