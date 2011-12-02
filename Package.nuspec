@@ -1,16 +1,16 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>fs4net</id>
     <version>0.3</version>
-    <authors>Torbj&ouml;rn Kalin</authors>
-    <owners>Torbj&ouml;rn Kalin</owners>
+    <authors>Torbjörn Kalin</authors>
+    <owners>Torbjörn Kalin</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
     <projectUrl>http://github.com/toroso/fs4net</projectUrl>
     <iconUrl>http://github.com/toroso/fs4net/blob/master/logo32x32.png?raw=true</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>An encapsulation of the file system. Makes it easy to fake the file system in your tests.</description>
-    <copyright>Copyright 2010-2011 Torbj&ouml;rn Kalin</copyright>
+    <copyright>Copyright 2010-2011 Torbjörn Kalin</copyright>
     <tags>file directory filesystem file-system path test mock fake NUnit xUnit MSTest TDD BDD DDD</tags>
 	<releaseNotes>Removed some implementation details from the public API.</releaseNotes>
   </metadata>
