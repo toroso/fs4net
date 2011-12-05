@@ -12,7 +12,7 @@
     <description>An encapsulation of the file system. Makes it easy to fake the file system in your tests.</description>
     <copyright>Copyright 2010-2011 Torbjörn Kalin</copyright>
     <tags>file directory filesystem file-system path test mock fake NUnit xUnit MSTest TDD BDD DDD</tags>
-	<releaseNotes>Removed some implementation details from the public API.</releaseNotes>
+	<releaseNotes>Bug fix: Allow creation of files and directories that start with a dot or space.</releaseNotes>
   </metadata>
     <files>
         <file src="framework\fs4net.Framework\bin\Release\fs4net.Framework.dll" target="lib/3.5" />
