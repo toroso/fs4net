@@ -40,7 +40,6 @@ namespace fs4net.Framework.Impl
         {
             _validator.Ensure<InvalidPathException>(!_filename.IsEmpty(), "The filename of the path '{0}' is empty.");
             if (_validator.HasError) return; // To avoid empty string logic below
-            _validator.Ensure<InvalidPathException>(!Char.IsWhiteSpace(_filename.First()), "The filename of the path '{0}' starts with a whitespace which is not allowed.");
             _validator.Ensure<InvalidPathException>(!Char.IsWhiteSpace(_filename.Last()), "The filename of the path '{0}' ends with a whitespace which is not allowed.");
             _validator.Ensure<InvalidPathException>(!_filename.EndsWith("."), "The path '{0}' has an empty extension, which is not allowed.");
         }
@@ -52,10 +51,10 @@ namespace fs4net.Framework.Impl
 
         private void ValidateExtension()
         {
-            string filenameWithoutExtension = Path.GetFileNameWithoutExtension(_filename);
-            _validator.Ensure<InvalidPathException>(!filenameWithoutExtension.IsEmpty(), "The filename of the path '{0}' is empty.");
-            if (_validator.HasError) return; // To avoid empty string logic below
-            _validator.Ensure<InvalidPathException>(!Char.IsWhiteSpace(filenameWithoutExtension.Last()), "The filename of the path '{0}' ends with a whitespace which is not allowed.");
+            var extension = Path.GetExtension(_filename);
+            var filenameWithoutExtension = Path.GetFileNameWithoutExtension(_filename);
+            _validator.Ensure<InvalidPathException>(!filenameWithoutExtension.IsEmpty() || !extension.IsEmpty(), "The filename of the path '{0}' is empty.");
+            _validator.Ensure<InvalidPathException>(filenameWithoutExtension.IsEmpty() || !Char.IsWhiteSpace(filenameWithoutExtension.Last()), "The filename of the path '{0}' ends with a whitespace which is not allowed.");
         }
 
         public string AppendTo(string pathWithoutFilename)

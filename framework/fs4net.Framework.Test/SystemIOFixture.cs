@@ -180,8 +180,20 @@ namespace fs4net.Framework.Test
         [Ignore("Only works on my computer")]
         public void ValidPaths()
         {
-            //using (File.Create(@"C:\Users\busen\temp\fi*le.txt")) { }
-            System.IO.Directory.CreateDirectory(@"C:\Users\busen\temp\ space");
+            //using (File.Create(@"D:\crap\fs4net\fi*le.txt")) { }
+            System.IO.Directory.CreateDirectory(@"D:\crap\fs4net\ space");
+
+            using (System.IO.File.Create(@"D:\crap\fs4net\endingspace ")) { }
+            Assert.IsTrue(System.IO.File.Exists(@"D:\crap\fs4net\endingspace"));
+
+            using (System.IO.File.Create(@"D:\crap\fs4net\ending.space ")) { }
+            Assert.IsTrue(System.IO.File.Exists(@"D:\crap\fs4net\ending.space"));
+
+            using (System.IO.File.Create(@"D:\crap\fs4net\ beginspace")) { }
+            Assert.IsTrue(System.IO.File.Exists(@"D:\crap\fs4net\ beginspace"));
+
+            using (System.IO.File.Create(@"D:\crap\fs4net\emptyextension.")) { }
+            Assert.IsTrue(System.IO.File.Exists(@"D:\crap\fs4net\emptyextension"));
         }
 
         [Test]

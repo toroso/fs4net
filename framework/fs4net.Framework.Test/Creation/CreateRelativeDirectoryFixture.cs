@@ -75,6 +75,7 @@ namespace fs4net.Framework.Test.Creation
                 @"path\with\.\dot\to",
                 @"path\ending\with\dot\.",
                 @"folder\starts\with\ space\to", // Can't create it from Windows Explorer, but programmatically is ok
+                @"path\with\folder\staring\with\.dot\to",
             };
 
         [Test, TestCaseSource("ValidPaths")]

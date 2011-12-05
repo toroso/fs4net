@@ -42,13 +42,13 @@ namespace fs4net.Framework.Test.Creation
 
         private static readonly string[] InvalidNames =
             {
-                @"endingspace ",
-                @"endingspace.txt ",
+                @"endingspace ", // Works with System.IO, but is trimmed
+                @"endingspace.txt ", // Same thing, it's trimmed by System.IO
                 @" ",
                 @".",
                 @"..",
                 @"...",
-                @"endswithdot.",
+                @"endswithdot.", // Works with System.IO, but the dot is removed
                 @"c:\rooted.txt",
             };
 
@@ -61,9 +61,11 @@ namespace fs4net.Framework.Test.Creation
 
         private static readonly string[] ValidNames =
             {
+                @".onlyExtension",
                 @"normal.file",
                 @"no_extension",
                 @"double_extension.txt.tgz",
+                @" leading.space",
             };
 
         [Test, TestCaseSource("ValidNames")]
@@ -129,9 +131,9 @@ namespace fs4net.Framework.Test.Creation
         }
 
         [Test]
-        public void Create_From_Empty_Name_And_Extension_Throws()
+        public void Create_From_Empty_Name_And_Extension_Does_Not_Throw()
         {
-            Should.Throw<InvalidPathException>(() => FileName.FromNameAndExtension("", ".txt"));
+            Should.NotThrow(() => FileName.FromNameAndExtension("", ".txt"));
         }
 
         [Test]

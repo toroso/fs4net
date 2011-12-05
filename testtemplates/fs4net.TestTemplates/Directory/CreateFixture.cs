@@ -39,6 +39,14 @@ namespace fs4net.TestTemplates.Directory
             Should.Throw<DirectoryNotFoundException>(() => toBeCreated.Create());
         }
 
+        [Test]
+        public void Create_Directory_Starting_With_Dot()
+        {
+            var toBeCreated = ExistingLeafDirectory + RelativeDirectory.FromString(@".startsWithDot");
+            toBeCreated.Create();
+            Assert.That(toBeCreated.Exists(), Is.True);
+        }
+
         // TODO: Access denied
     }
 }

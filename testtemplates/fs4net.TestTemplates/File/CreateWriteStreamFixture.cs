@@ -78,6 +78,24 @@ namespace fs4net.TestTemplates.File
             }
         }
 
+        [Test]
+        public void Create_File_With_Filename_Only_Containing_Extension()
+        {
+            var newFile = ExistingEmptyDirectory + RelativeFile.FromString(".onlyExtension");
+            Assert.That(newFile.Exists(), Is.False);
+            newFile.WriteText(string.Empty);
+            Assert.That(newFile.Exists(), Is.True);
+        }
+
+        [Test]
+        public void Create_File_Where_Filename_StartsWith_A_Space()
+        {
+            var newFile = ExistingEmptyDirectory + RelativeFile.FromString(" leading.space");
+            Assert.That(newFile.Exists(), Is.False);
+            newFile.WriteText(string.Empty);
+            Assert.That(newFile.Exists(), Is.True);
+        }
+
         // TODO: Access denied
         // e.g. file is in use, read-only
     }
