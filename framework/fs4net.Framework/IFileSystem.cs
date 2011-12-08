@@ -58,6 +58,7 @@ namespace fs4net.Framework
         /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
         public static RootedFile FileDescribing(this IFileSystem fileSystem, string fullPath)
         {
+            ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             // TODO: If relative, append it to Current Directory. Or not...?
             return new RootedFile(fileSystem.InternalFileSystem, fullPath, fileSystem.Logger);
         }
@@ -75,6 +76,7 @@ namespace fs4net.Framework
         /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
         public static RootedDirectory DirectoryDescribing(this IFileSystem fileSystem, string fullPath)
         {
+            ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             // TODO: If relative, append it to Current Directory. Or not...?
             return new RootedDirectory(fileSystem.InternalFileSystem, fullPath, fileSystem.Logger);
         }
@@ -88,6 +90,7 @@ namespace fs4net.Framework
         /// <exception cref="fs4net.Framework.InvalidPathException">The specified path is empty or contains an invalid drive letter.</exception>
         public static Drive DriveDescribing(this IFileSystem fileSystem, string driveName)
         {
+            ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             return new Drive(fileSystem.InternalFileSystem, driveName, fileSystem.Logger);
         }
 
