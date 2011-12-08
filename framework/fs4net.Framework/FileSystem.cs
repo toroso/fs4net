@@ -10,6 +10,7 @@ namespace fs4net.Framework
     public sealed class FileSystem : IFileSystem
     {
         public IInternalFileSystem InternalFileSystem { get; private set; }
+        public ILogger Logger { get; private set; }
 
         /// <summary>
         /// Instantiate a file system wrapper. The instance is created without a logger which means that all logged
@@ -26,7 +27,8 @@ namespace fs4net.Framework
         /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
         public FileSystem(ILogger logger)
         {
-            InternalFileSystem = new FileSystemImpl(logger);
+            InternalFileSystem = new FileSystemImpl(this);
+            Logger = logger;
         }
     }
 }

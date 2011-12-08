@@ -17,6 +17,11 @@ namespace fs4net.Framework
         /// scenarios it could be useful.
         /// </summary>
         IInternalFileSystem InternalFileSystem { get; }
+
+        /// <summary>
+        /// Returns the logger object where to abnormalities are reported.
+        /// </summary>
+        ILogger Logger { get; }
     }
 
     public static class FileSystemExtensions
@@ -33,7 +38,8 @@ namespace fs4net.Framework
         /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
         public static RootedFile FileDescribing(this IFileSystem fileSystem, string fullPath)
         {
-            return fileSystem.InternalFileSystem.FileDescribing(fullPath);
+            // TODO: If relative, append it to Current Directory. Or not...?
+            return new RootedFile(fileSystem.InternalFileSystem, fullPath, fileSystem.Logger);
         }
 
         /// <summary>
@@ -49,7 +55,8 @@ namespace fs4net.Framework
         /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
         public static RootedDirectory DirectoryDescribing(this IFileSystem fileSystem, string fullPath)
         {
-            return fileSystem.InternalFileSystem.DirectoryDescribing(fullPath);
+            // TODO: If relative, append it to Current Directory. Or not...?
+            return new RootedDirectory(fileSystem.InternalFileSystem, fullPath, fileSystem.Logger);
         }
 
         /// <summary>
@@ -85,7 +92,7 @@ namespace fs4net.Framework
         /// <exception cref="fs4net.Framework.InvalidPathException">The specified path is empty or contains an invalid drive letter.</exception>
         public static Drive DriveDescribing(this IFileSystem fileSystem, string driveName)
         {
-            return fileSystem.InternalFileSystem.DriveDescribing(driveName);
+            return new Drive(fileSystem.InternalFileSystem, driveName, fileSystem.Logger);
         }
 
         /// <summary>

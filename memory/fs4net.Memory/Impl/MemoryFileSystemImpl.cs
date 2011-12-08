@@ -40,26 +40,12 @@ namespace fs4net.Memory.Impl
             };
         private string _currentDirectory;
 
-        private readonly ILogger _logger;
+        private readonly IFileSystem _fileSystem;
         private readonly FolderNode _rootNode = FolderNode.CreateRoot();
 
-        /// <summary>
-        /// Instantiate an in-memory file system. The instance is created without a logger which means that all logged
-        /// events are swallowed.
-        /// </summary>
-        public MemoryFileSystemImpl()
-            : this(NullLogger.Instance)
+        public MemoryFileSystemImpl(IFileSystem fileSystem)
         {
-        }
-
-        /// <summary>
-        /// Instantiate an in-memory file system. The instance is created with a logger where logged events are
-        /// reported.
-        /// </summary>
-        /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
-        public MemoryFileSystemImpl(ILogger logger)
-        {
-            _logger = logger;
+            _fileSystem = fileSystem;
             _rootNode.CreateOrReuseFolderNode(SystemDrive);
             foreach (var folder in _specialFolders)
             {
@@ -77,44 +63,29 @@ namespace fs4net.Memory.Impl
         {
             _rootNode.Dispose();
         }
-        
-        public RootedFile FileDescribing(string fullPath)
-        {
-            return new RootedFile(this, fullPath, _logger);
-        }
-
-        public RootedDirectory DirectoryDescribing(string fullPath)
-        {
-            return new RootedDirectory(this, fullPath, _logger);
-        }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
         {
-            return DirectoryDescribing(_specialFolders["Temp"]);
+            return _fileSystem.DirectoryDescribing(_specialFolders["Temp"]);
         }
 
         public RootedDirectory DirectoryDescribingCurrentDirectory()
         {
-            return DirectoryDescribing(_currentDirectory);
+            return _fileSystem.DirectoryDescribing(_currentDirectory);
         }
 
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
         {
             var folderKey = folder.ToString();
             if (!_specialFolders.ContainsKey(folderKey)) throw new NotSupportedException(string.Format("{0} cannot be denoted by a RootedDirectory.", folder));
-            return DirectoryDescribing(_specialFolders[folderKey]);
-        }
-
-        public Drive DriveDescribing(string driveName)
-        {
-            return new Drive(this, driveName, _logger);
+            return _fileSystem.DirectoryDescribing(_specialFolders[folderKey]);
         }
 
         public IEnumerable<Drive> AllDrives()
         {
             return _rootNode
                 .Children
-                .Select(child => DriveDescribing(child.Name));
+                .Select(child => _fileSystem.DriveDescribing(child.Name));
         }
 
         public bool IsFile(RootedCanonicalPath path)
@@ -177,7 +148,7 @@ namespace fs4net.Memory.Impl
             return FindFolderNodeByPath(path.FullPath)
                 .Children
                 .OfType<FileNode>()
-                .Select(child => FileDescribing(child.FullPath));
+                .Select(child => _fileSystem.FileDescribing(child.FullPath));
         }
 
         public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path)
@@ -185,7 +156,7 @@ namespace fs4net.Memory.Impl
             return FindFolderNodeByPath(path.FullPath)
                 .Children
                 .OfType<FolderNode>()
-                .Select(child => DirectoryDescribing(child.FullPath));
+                .Select(child => _fileSystem.DirectoryDescribing(child.FullPath));
         }
 
         public void CreateDirectory(RootedCanonicalPath path)

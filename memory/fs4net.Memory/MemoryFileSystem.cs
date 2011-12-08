@@ -15,6 +15,7 @@ namespace fs4net.Memory
     public sealed class MemoryFileSystem : IFileSystem, IDisposable
     {
         public IInternalFileSystem InternalFileSystem { get; private set; }
+        public ILogger Logger { get; private set; }
         private readonly MemoryFileSystemImpl _impl;
 
         /// <summary>
@@ -33,8 +34,9 @@ namespace fs4net.Memory
         /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
         public MemoryFileSystem(ILogger logger)
         {
-            _impl = new MemoryFileSystemImpl(logger);
+            _impl = new MemoryFileSystemImpl(this);
             InternalFileSystem = _impl;
+            Logger = logger;
         }
 
         /// <summary>

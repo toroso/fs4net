@@ -14,24 +14,14 @@ namespace fs4net.Framework.Test
             get { return this; }
         }
 
-        public RootedFile FileDescribing(string fullPath)
+        public ILogger Logger
         {
-            return new RootedFile(this, fullPath, AssertLogger.Instance);
-        }
-
-        public RootedDirectory DirectoryDescribing(string fullPath)
-        {
-            return new RootedDirectory(this, fullPath, AssertLogger.Instance);
+            get { return AssertLogger.Instance; }
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory() { throw new NotImplementedException(); }
         public RootedDirectory DirectoryDescribingCurrentDirectory() { return _currentDirectory; }
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder) { throw new NotImplementedException(); }
-
-        public Drive DriveDescribing(string driveName)
-        {
-            return new Drive(this, driveName, AssertLogger.Instance);
-        }
 
         public IEnumerable<Drive> AllDrives() { throw new NotImplementedException(); }
 
@@ -61,7 +51,7 @@ namespace fs4net.Framework.Test
         public Stream CreateModifyStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetAsCurrentDirectory(RootedCanonicalPath path)
         {
-            _currentDirectory = DirectoryDescribing(path.FullPath);
+            _currentDirectory = this.DirectoryDescribing(path.FullPath);
         }
     }
 }

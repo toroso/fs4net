@@ -6,19 +6,9 @@ namespace fs4net.Framework
 {
     public interface IInternalFileSystem
     {
-        /// <summary>Note: Subject to be removed.</summary>
-        RootedFile FileDescribing(string fullPath);
-        /// <summary>Note: Subject to be removed.</summary>
-        RootedDirectory DirectoryDescribing(string fullPath);
-        /// <summary>Note: Subject to be removed.</summary>
         RootedDirectory DirectoryDescribingTemporaryDirectory();
-        /// <summary>Note: Subject to be removed.</summary>
         RootedDirectory DirectoryDescribingCurrentDirectory();
-        /// <summary>Note: Subject to be removed.</summary>
         RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder);
-        /// <summary>Note: Subject to be removed.</summary>
-        Drive DriveDescribing(string driveName);
-        /// <summary>Note: Subject to be removed.</summary>
         IEnumerable<Drive> AllDrives();
 
         bool IsFile(RootedCanonicalPath path);

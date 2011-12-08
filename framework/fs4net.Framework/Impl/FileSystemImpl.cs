@@ -9,51 +9,34 @@ namespace fs4net.Framework.Impl
     /// </summary>
     internal sealed class FileSystemImpl : IInternalFileSystem
     {
-        private readonly ILogger _logger;
+        private readonly IFileSystem _fileSystem;
 
-        public FileSystemImpl(ILogger logger)
+        public FileSystemImpl(IFileSystem fileSystem)
         {
-            _logger = logger;
-        }
-
-        public RootedFile FileDescribing(string fullPath)
-        {
-            // TODO: If relative, append it to Current Directory. Or not...?
-            return new RootedFile(this, fullPath, _logger);
-        }
-
-        public RootedDirectory DirectoryDescribing(string fullPath)
-        {
-            // TODO: If relative, append it to Current Directory. Or not...?
-            return new RootedDirectory(this, fullPath, _logger);
+            _fileSystem = fileSystem;
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
         {
             var tempPathWithBackslash = System.IO.Path.GetTempPath();
-            return DirectoryDescribing(tempPathWithBackslash.Remove(tempPathWithBackslash.Length - 1));
+            return _fileSystem.DirectoryDescribing(tempPathWithBackslash.Remove(tempPathWithBackslash.Length - 1));
         }
 
         public RootedDirectory DirectoryDescribingCurrentDirectory()
         {
-            return DirectoryDescribing(System.IO.Directory.GetCurrentDirectory());
+            return _fileSystem.DirectoryDescribing(System.IO.Directory.GetCurrentDirectory());
         }
 
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
         {
             if (folder == Environment.SpecialFolder.MyComputer) throw new NotSupportedException("MyComputer cannot be denoted by a RootedDirectory.");
-            return DirectoryDescribing(Environment.GetFolderPath(folder));
-        }
-
-        public Drive DriveDescribing(string driveName)
-        {
-            return new Drive(this, driveName, _logger);
+            return _fileSystem.DirectoryDescribing(Environment.GetFolderPath(folder));
         }
 
         public IEnumerable<Drive> AllDrives()
         {
             return System.IO.DriveInfo.GetDrives()
-                .Select(driveInfo => DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
+                .Select(driveInfo => _fileSystem.DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
         }
 
         public bool IsFile(RootedCanonicalPath path)
@@ -113,12 +96,12 @@ namespace fs4net.Framework.Impl
 
         public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetFiles(path.FullPath).Select(FileDescribing);
+            return System.IO.Directory.GetFiles(path.FullPath).Select(s => _fileSystem.FileDescribing(s));
         }
 
         public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetDirectories(path.FullPath).Select(DirectoryDescribing);
+            return System.IO.Directory.GetDirectories(path.FullPath).Select(s => _fileSystem.DirectoryDescribing(s));
         }
 
         public void CreateDirectory(RootedCanonicalPath path)
