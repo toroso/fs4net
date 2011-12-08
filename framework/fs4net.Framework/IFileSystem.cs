@@ -12,6 +12,16 @@ namespace fs4net.Framework
     public interface IFileSystem
     {
         /// <summary>
+        /// The IFileSystem interface is a facade that hides implementation details. This property returns an object
+        /// representing the internal implementation. In most cases you can ignore this property, but in some testing
+        /// scenarios it could be useful.
+        /// </summary>
+        IInternalFileSystem InternalFileSystem { get; }
+    }
+
+    public static class FileSystemExtensions
+    {
+        /// <summary>
         /// Creates a file descriptor from the given path. This method throws if the path is invalid.
         /// This method will succeed even if the file does not exist.
         /// </summary>
@@ -21,7 +31,10 @@ namespace fs4net.Framework
         /// contains an invalid drive letter, or is invalid in some other way.</exception>
         /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
         /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
-        RootedFile FileDescribing(string fullPath);
+        public static RootedFile FileDescribing(this IFileSystem fileSystem, string fullPath)
+        {
+            return fileSystem.InternalFileSystem.FileDescribing(fullPath);
+        }
 
         /// <summary>
         /// Creates a descriptor to a directory from the given path. This method throws if the path is invalid. The
@@ -34,22 +47,34 @@ namespace fs4net.Framework
         /// contains an invalid drive letter, or is invalid in some other way.</exception>
         /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
         /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
-        RootedDirectory DirectoryDescribing(string fullPath);
+        public static RootedDirectory DirectoryDescribing(this IFileSystem fileSystem, string fullPath)
+        {
+            return fileSystem.InternalFileSystem.DirectoryDescribing(fullPath);
+        }
 
         /// <summary>
         /// Creates a descriptor to the temporary directory.
         /// </summary>
-        RootedDirectory DirectoryDescribingTemporaryDirectory();
+        public static RootedDirectory DirectoryDescribingTemporaryDirectory(this IFileSystem fileSystem)
+        {
+            return fileSystem.InternalFileSystem.DirectoryDescribingTemporaryDirectory();
+        }
 
         /// <summary>
         /// Creates a descriptor to the current current working directory of the application.
         /// </summary>
-        RootedDirectory DirectoryDescribingCurrentDirectory();
+        public static RootedDirectory DirectoryDescribingCurrentDirectory(this IFileSystem fileSystem)
+        {
+            return fileSystem.InternalFileSystem.DirectoryDescribingCurrentDirectory();
+        }
 
         /// <summary>
         /// Creates a descriptor to the special folder identified by the parameter.
         /// </summary>
-        RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder);
+        public static RootedDirectory DirectoryDescribingSpecialFolder(this IFileSystem fileSystem, Environment.SpecialFolder folder)
+        {
+            return fileSystem.InternalFileSystem.DirectoryDescribingSpecialFolder(folder);
+        }
 
         /// <summary>
         /// Creates a descriptor to a drive from the given drive name. The drive should be given without an ending
@@ -58,16 +83,19 @@ namespace fs4net.Framework
         /// </summary>
         /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
         /// <exception cref="fs4net.Framework.InvalidPathException">The specified path is empty or contains an invalid drive letter.</exception>
-        Drive DriveDescribing(string driveName);
+        public static Drive DriveDescribing(this IFileSystem fileSystem, string driveName)
+        {
+            return fileSystem.InternalFileSystem.DriveDescribing(driveName);
+        }
 
         /// <summary>
         /// Retrieves descriptors to all logical drives on the computer.
         /// </summary>
-        IEnumerable<Drive> AllDrives();
-    }
+        public static IEnumerable<Drive> AllDrives(this IFileSystem fileSystem)
+        {
+            return fileSystem.InternalFileSystem.AllDrives();
+        }
 
-    public static class FileSystemExtensions
-    {
         /// <summary>
         /// Creates a file descriptor from the given path. If the given path is relative, the current directory
         /// is used to make the descriptor rooted.

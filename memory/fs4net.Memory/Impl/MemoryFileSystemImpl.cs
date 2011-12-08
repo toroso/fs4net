@@ -78,8 +78,6 @@ namespace fs4net.Memory.Impl
             _rootNode.Dispose();
         }
         
-        #region Implementation of IFileSystem
-
         public RootedFile FileDescribing(string fullPath)
         {
             return new RootedFile(this, fullPath, _logger);
@@ -118,10 +116,6 @@ namespace fs4net.Memory.Impl
                 .Children
                 .Select(child => DriveDescribing(child.Name));
         }
-
-        #endregion // Implementation of IFileSystem
-
-        #region Implementation of IInternalFileSystem
 
         public bool IsFile(RootedCanonicalPath path)
         {
@@ -276,8 +270,6 @@ namespace fs4net.Memory.Impl
         {
             _currentDirectory = path.FullPath;
         }
-
-        #endregion // Implementation of IInternalFileSystem
 
 
         private FileNode CreateFile(string path)

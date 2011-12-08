@@ -16,8 +16,6 @@ namespace fs4net.Framework.Impl
             _logger = logger;
         }
 
-        #region Implementation of IFileSystem
-
         public RootedFile FileDescribing(string fullPath)
         {
             // TODO: If relative, append it to Current Directory. Or not...?
@@ -55,12 +53,8 @@ namespace fs4net.Framework.Impl
         public IEnumerable<Drive> AllDrives()
         {
             return System.IO.DriveInfo.GetDrives()
-                .Select(driveInfo => DriveDescribing(StringExtensions.RemoveTrailingPathSeparators(driveInfo.Name)));
+                .Select(driveInfo => DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
         }
-
-        #endregion // Implementation of IFileSystem
-
-        #region Implementation of IInternalFileSystem
 
         public bool IsFile(RootedCanonicalPath path)
         {
@@ -186,7 +180,5 @@ namespace fs4net.Framework.Impl
         {
             System.IO.Directory.SetCurrentDirectory(path.FullPath);
         }
-
-        #endregion // Implementation of IInternalFileSystem
     }
 }

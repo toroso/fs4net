@@ -4,8 +4,23 @@ using System.IO;
 
 namespace fs4net.Framework
 {
-    public interface IInternalFileSystem : IFileSystem
+    public interface IInternalFileSystem
     {
+        /// <summary>Note: Subject to be removed.</summary>
+        RootedFile FileDescribing(string fullPath);
+        /// <summary>Note: Subject to be removed.</summary>
+        RootedDirectory DirectoryDescribing(string fullPath);
+        /// <summary>Note: Subject to be removed.</summary>
+        RootedDirectory DirectoryDescribingTemporaryDirectory();
+        /// <summary>Note: Subject to be removed.</summary>
+        RootedDirectory DirectoryDescribingCurrentDirectory();
+        /// <summary>Note: Subject to be removed.</summary>
+        RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder);
+        /// <summary>Note: Subject to be removed.</summary>
+        Drive DriveDescribing(string driveName);
+        /// <summary>Note: Subject to be removed.</summary>
+        IEnumerable<Drive> AllDrives();
+
         bool IsFile(RootedCanonicalPath path);
         bool IsDirectory(RootedCanonicalPath path);
 
@@ -34,9 +49,13 @@ namespace fs4net.Framework
         void CopyFile(RootedCanonicalPath source, RootedCanonicalPath destination);
         void CopyAndOverwriteFile(RootedCanonicalPath source, RootedCanonicalPath destination);
 
+        /// <summary>Note: Might be replaced with a CreateStream() method.</summary>
         Stream CreateReadStream(RootedCanonicalPath path);
+        /// <summary>Note: Might be replaced with a CreateStream() method.</summary>
         Stream CreateWriteStream(RootedCanonicalPath path);
+        /// <summary>Note: Might be replaced with a CreateStream() method.</summary>
         Stream CreateAppendStream(RootedCanonicalPath path);
+        /// <summary>Note: Might be replaced with a CreateStream() method.</summary>
         Stream CreateModifyStream(RootedCanonicalPath path);
 
         void SetAsCurrent(RootedCanonicalPath path);

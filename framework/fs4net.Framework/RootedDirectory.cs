@@ -37,7 +37,7 @@ namespace fs4net.Framework
 
         #region Public Interface
 
-        public IFileSystem FileSystem
+        public IInternalFileSystem FileSystem
         {
             get { return _fileSystem; }
         }

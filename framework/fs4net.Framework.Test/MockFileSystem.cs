@@ -5,11 +5,14 @@ using fs4net.TestTemplates;
 
 namespace fs4net.Framework.Test
 {
-    internal class MockFileSystem : IInternalFileSystem
+    internal class MockFileSystem : IFileSystem, IInternalFileSystem
     {
         private RootedDirectory _currentDirectory;
 
-        #region Implementation of IFileSystem
+        public IInternalFileSystem InternalFileSystem
+        {
+            get { return this; }
+        }
 
         public RootedFile FileDescribing(string fullPath)
         {
@@ -31,11 +34,6 @@ namespace fs4net.Framework.Test
         }
 
         public IEnumerable<Drive> AllDrives() { throw new NotImplementedException(); }
-
-        #endregion // Implementation of IFileSystem
-
-
-        #region Implementation of IInternalFileSystem
 
         public bool IsFile(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public bool IsDirectory(RootedCanonicalPath path) { return true; }
@@ -65,7 +63,5 @@ namespace fs4net.Framework.Test
         {
             _currentDirectory = DirectoryDescribing(path.FullPath);
         }
-
-        #endregion // Implementation of IInternalFileSystem
     }
 }

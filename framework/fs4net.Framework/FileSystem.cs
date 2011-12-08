@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
@@ -10,7 +9,7 @@ namespace fs4net.Framework
     /// </summary>
     public sealed class FileSystem : IFileSystem
     {
-        private readonly FileSystemImpl _impl;
+        public IInternalFileSystem InternalFileSystem { get; private set; }
 
         /// <summary>
         /// Instantiate a file system wrapper. The instance is created without a logger which means that all logged
@@ -27,42 +26,7 @@ namespace fs4net.Framework
         /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
         public FileSystem(ILogger logger)
         {
-            _impl = new FileSystemImpl(logger);
-        }
-
-        public RootedFile FileDescribing(string fullPath)
-        {
-            return _impl.FileDescribing(fullPath);
-        }
-
-        public RootedDirectory DirectoryDescribing(string fullPath)
-        {
-            return _impl.DirectoryDescribing(fullPath);
-        }
-
-        public RootedDirectory DirectoryDescribingTemporaryDirectory()
-        {
-            return _impl.DirectoryDescribingTemporaryDirectory();
-        }
-
-        public RootedDirectory DirectoryDescribingCurrentDirectory()
-        {
-            return _impl.DirectoryDescribingCurrentDirectory();
-        }
-
-        public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
-        {
-            return _impl.DirectoryDescribingSpecialFolder(folder);
-        }
-
-        public Drive DriveDescribing(string driveName)
-        {
-            return _impl.DriveDescribing(driveName);
-        }
-
-        public IEnumerable<Drive> AllDrives()
-        {
-            return _impl.AllDrives();
+            InternalFileSystem = new FileSystemImpl(logger);
         }
     }
 }

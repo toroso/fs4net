@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using fs4net.Framework;
 using fs4net.Memory.Impl;
 
@@ -15,6 +14,7 @@ namespace fs4net.Memory
     /// </summary>
     public sealed class MemoryFileSystem : IFileSystem, IDisposable
     {
+        public IInternalFileSystem InternalFileSystem { get; private set; }
         private readonly MemoryFileSystemImpl _impl;
 
         /// <summary>
@@ -34,6 +34,7 @@ namespace fs4net.Memory
         public MemoryFileSystem(ILogger logger)
         {
             _impl = new MemoryFileSystemImpl(logger);
+            InternalFileSystem = _impl;
         }
 
         /// <summary>
@@ -52,41 +53,6 @@ namespace fs4net.Memory
         public void Dispose()
         {
             _impl.Dispose();
-        }
-
-        public RootedFile FileDescribing(string fullPath)
-        {
-            return _impl.FileDescribing(fullPath);
-        }
-
-        public RootedDirectory DirectoryDescribing(string fullPath)
-        {
-            return _impl.DirectoryDescribing(fullPath);
-        }
-
-        public RootedDirectory DirectoryDescribingTemporaryDirectory()
-        {
-            return _impl.DirectoryDescribingTemporaryDirectory();
-        }
-
-        public RootedDirectory DirectoryDescribingCurrentDirectory()
-        {
-            return _impl.DirectoryDescribingCurrentDirectory();
-        }
-
-        public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
-        {
-            return _impl.DirectoryDescribingSpecialFolder(folder);
-        }
-
-        public Drive DriveDescribing(string driveName)
-        {
-            return _impl.DriveDescribing(driveName);
-        }
-
-        public IEnumerable<Drive> AllDrives()
-        {
-            return _impl.AllDrives();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace fs4net.Framework
         /// </summary>
         public string Name { get; private set; }
 
-        public IFileSystem FileSystem
+        public IInternalFileSystem FileSystem
         {
             get { return _fileSystem; }
         }
