@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using fs4net.Framework;
-using fs4net.Memory.Impl;
 using fs4net.Memory.Node;
 
-namespace fs4net.Memory
+namespace fs4net.Memory.Impl
 {
     internal sealed class MemoryFileSystemImpl : IInternalFileSystem, IDisposable
     {
