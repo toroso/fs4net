@@ -266,7 +266,7 @@ namespace fs4net.Memory.Impl
             return CreateOrReuseFile(path.FullPath).CreateModifyStream();
         }
 
-        public void SetAsCurrent(RootedCanonicalPath path)
+        public void SetAsCurrentDirectory(RootedCanonicalPath path)
         {
             _currentDirectory = path.FullPath;
         }

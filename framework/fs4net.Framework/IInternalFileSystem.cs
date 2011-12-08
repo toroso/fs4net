@@ -58,7 +58,7 @@ namespace fs4net.Framework
         /// <summary>Note: Might be replaced with a CreateStream() method.</summary>
         Stream CreateModifyStream(RootedCanonicalPath path);
 
-        void SetAsCurrent(RootedCanonicalPath path);
+        void SetAsCurrentDirectory(RootedCanonicalPath path);
 
         // <summary>
         // Should return true if the drive is ready to use. A drive that is not ready could be for example an ejected

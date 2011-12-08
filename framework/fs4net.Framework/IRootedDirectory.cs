@@ -203,7 +203,7 @@ namespace fs4net.Framework
             ThrowHelper.ThrowIfNull(me, "me");
             me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException(me.PathAsString, "Can't set directory '{0}' as current since it does not exist.", me.PathAsString));
 
-            me.InternalFileSystem().SetAsCurrent(me.CanonicalPathAsString());
+            me.InternalFileSystem().SetAsCurrentDirectory(me.CanonicalPathAsString());
         }
 
         /// <summary>

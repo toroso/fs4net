@@ -176,7 +176,7 @@ namespace fs4net.Framework.Impl
             return new System.IO.FileInfo(path.FullPath).Open(System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.ReadWrite);
         }
 
-        public void SetAsCurrent(RootedCanonicalPath path)
+        public void SetAsCurrentDirectory(RootedCanonicalPath path)
         {
             System.IO.Directory.SetCurrentDirectory(path.FullPath);
         }
