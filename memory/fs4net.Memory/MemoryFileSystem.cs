@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using fs4net.Framework;
 using fs4net.Memory.Impl;
 
@@ -55,6 +56,26 @@ namespace fs4net.Memory
         public void Dispose()
         {
             _impl.Dispose();
+        }
+
+        public RootedDirectory DirectoryDescribingTemporaryDirectory()
+        {
+            return _impl.DirectoryDescribingTemporaryDirectory();
+        }
+
+        public RootedDirectory DirectoryDescribingCurrentDirectory()
+        {
+            return _impl.DirectoryDescribingCurrentDirectory();
+        }
+
+        public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
+        {
+            return _impl.DirectoryDescribingSpecialFolder(folder);
+        }
+
+        public IEnumerable<Drive> AllDrives()
+        {
+            return _impl.AllDrives();
         }
     }
 }

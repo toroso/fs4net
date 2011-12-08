@@ -22,6 +22,26 @@ namespace fs4net.Framework
         /// Returns the logger object where to abnormalities are reported.
         /// </summary>
         ILogger Logger { get; }
+
+        /// <summary>
+        /// Creates a descriptor to the temporary directory.
+        /// </summary>
+        RootedDirectory DirectoryDescribingTemporaryDirectory();
+
+        /// <summary>
+        /// Creates a descriptor to the current current working directory of the application.
+        /// </summary>
+        RootedDirectory DirectoryDescribingCurrentDirectory();
+
+        /// <summary>
+        /// Creates a descriptor to the special folder identified by the parameter.
+        /// </summary>
+        RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder);
+
+        /// <summary>
+        /// Retrieves descriptors to all logical drives on the computer.
+        /// </summary>
+        IEnumerable<Drive> AllDrives();
     }
 
     public static class FileSystemExtensions
@@ -60,30 +80,6 @@ namespace fs4net.Framework
         }
 
         /// <summary>
-        /// Creates a descriptor to the temporary directory.
-        /// </summary>
-        public static RootedDirectory DirectoryDescribingTemporaryDirectory(this IFileSystem fileSystem)
-        {
-            return fileSystem.InternalFileSystem.DirectoryDescribingTemporaryDirectory();
-        }
-
-        /// <summary>
-        /// Creates a descriptor to the current current working directory of the application.
-        /// </summary>
-        public static RootedDirectory DirectoryDescribingCurrentDirectory(this IFileSystem fileSystem)
-        {
-            return fileSystem.InternalFileSystem.DirectoryDescribingCurrentDirectory();
-        }
-
-        /// <summary>
-        /// Creates a descriptor to the special folder identified by the parameter.
-        /// </summary>
-        public static RootedDirectory DirectoryDescribingSpecialFolder(this IFileSystem fileSystem, Environment.SpecialFolder folder)
-        {
-            return fileSystem.InternalFileSystem.DirectoryDescribingSpecialFolder(folder);
-        }
-
-        /// <summary>
         /// Creates a descriptor to a drive from the given drive name. The drive should be given without an ending
         /// backslash. Examples: "c:", "\\network\share".
         /// This method will succeed even if the drive does not exist.
@@ -93,14 +89,6 @@ namespace fs4net.Framework
         public static Drive DriveDescribing(this IFileSystem fileSystem, string driveName)
         {
             return new Drive(fileSystem.InternalFileSystem, driveName, fileSystem.Logger);
-        }
-
-        /// <summary>
-        /// Retrieves descriptors to all logical drives on the computer.
-        /// </summary>
-        public static IEnumerable<Drive> AllDrives(this IFileSystem fileSystem)
-        {
-            return fileSystem.InternalFileSystem.AllDrives();
         }
 
         /// <summary>

@@ -6,11 +6,6 @@ namespace fs4net.Framework
 {
     public interface IInternalFileSystem
     {
-        RootedDirectory DirectoryDescribingTemporaryDirectory();
-        RootedDirectory DirectoryDescribingCurrentDirectory();
-        RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder);
-        IEnumerable<Drive> AllDrives();
-
         bool IsFile(RootedCanonicalPath path);
         bool IsDirectory(RootedCanonicalPath path);
 

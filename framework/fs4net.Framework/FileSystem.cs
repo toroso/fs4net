@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using fs4net.Framework.Impl;
 
 namespace fs4net.Framework
@@ -29,6 +31,29 @@ namespace fs4net.Framework
         {
             InternalFileSystem = new FileSystemImpl(this);
             Logger = logger;
+        }
+
+        public RootedDirectory DirectoryDescribingTemporaryDirectory()
+        {
+            var tempPathWithBackslash = System.IO.Path.GetTempPath();
+            return this.DirectoryDescribing(tempPathWithBackslash.Remove(tempPathWithBackslash.Length - 1));
+        }
+
+        public RootedDirectory DirectoryDescribingCurrentDirectory()
+        {
+            return this.DirectoryDescribing(System.IO.Directory.GetCurrentDirectory());
+        }
+
+        public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
+        {
+            if (folder == Environment.SpecialFolder.MyComputer) throw new NotSupportedException("MyComputer cannot be denoted by a RootedDirectory.");
+            return this.DirectoryDescribing(Environment.GetFolderPath(folder));
+        }
+
+        public IEnumerable<Drive> AllDrives()
+        {
+            return System.IO.DriveInfo.GetDrives()
+                .Select(driveInfo => this.DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
         }
     }
 }

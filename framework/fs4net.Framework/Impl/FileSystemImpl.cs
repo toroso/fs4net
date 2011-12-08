@@ -16,29 +16,6 @@ namespace fs4net.Framework.Impl
             _fileSystem = fileSystem;
         }
 
-        public RootedDirectory DirectoryDescribingTemporaryDirectory()
-        {
-            var tempPathWithBackslash = System.IO.Path.GetTempPath();
-            return _fileSystem.DirectoryDescribing(tempPathWithBackslash.Remove(tempPathWithBackslash.Length - 1));
-        }
-
-        public RootedDirectory DirectoryDescribingCurrentDirectory()
-        {
-            return _fileSystem.DirectoryDescribing(System.IO.Directory.GetCurrentDirectory());
-        }
-
-        public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
-        {
-            if (folder == Environment.SpecialFolder.MyComputer) throw new NotSupportedException("MyComputer cannot be denoted by a RootedDirectory.");
-            return _fileSystem.DirectoryDescribing(Environment.GetFolderPath(folder));
-        }
-
-        public IEnumerable<Drive> AllDrives()
-        {
-            return System.IO.DriveInfo.GetDrives()
-                .Select(driveInfo => _fileSystem.DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
-        }
-
         public bool IsFile(RootedCanonicalPath path)
         {
             return System.IO.File.Exists(path.FullPath);
