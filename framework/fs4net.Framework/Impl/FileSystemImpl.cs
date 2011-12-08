@@ -4,9 +4,6 @@ using System.Linq;
 
 namespace fs4net.Framework.Impl
 {
-    /// <summary>
-    /// Contains IInternalFileSystem implementation of the file system to keep the public interface clean.
-    /// </summary>
     internal sealed class FileSystemImpl : IInternalFileSystem
     {
         private readonly IFileSystem _fileSystem;

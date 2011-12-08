@@ -4,6 +4,10 @@ using System.IO;
 
 namespace fs4net.Framework
 {
+    /// <summary>
+    /// An abstract representation of the internals of a file system. This interface contains the operations one
+    /// might want to execute on the file system.
+    /// </summary>
     public interface IInternalFileSystem
     {
         bool IsFile(RootedCanonicalPath path);
