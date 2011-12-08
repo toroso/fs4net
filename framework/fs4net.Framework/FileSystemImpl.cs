@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using fs4net.Framework.Impl;
 
-namespace fs4net.Framework.Impl
+namespace fs4net.Framework
 {
     /// <summary>
     /// Contains IInternalFileSystem implementation of the file system to keep the public interface clean.
