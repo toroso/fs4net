@@ -24,7 +24,7 @@ namespace fs4net.TestTemplates.Creation
         protected abstract IFileSystem CreateFileSystem();
         protected virtual void DisposeFileSystem(IFileSystem fileSystem) { }
 
-        [Test]
+        [Test, Ignore("MyMusic and MyPictures do not exist on Windows Server 2003")]
         public void CreateAllSpecialFolders()
         {
             var iterator = new FolderIterator(FileSystem);

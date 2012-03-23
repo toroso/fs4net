@@ -93,6 +93,11 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void Move_Directory_To_Another_Drive_Throws()
         {
+            if (ExistingLeafDirectory.Drive() == FileSystem.DriveDescribing("d:"))
+            {
+                Assert.Ignore(string.Format("The test assumes that the temp directory is not on the d: drive, but it is on '{0}'", ExistingLeafDirectory.Drive()));
+            }
+
             var source = ExistingLeafDirectory;
             var destination = FileSystem.DirectoryDescribing(@"d:\another drive");
 

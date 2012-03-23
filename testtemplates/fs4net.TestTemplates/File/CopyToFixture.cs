@@ -38,6 +38,11 @@ namespace fs4net.TestTemplates.File
         [Ignore("Fails if you don't have a writable d: drive")]
         public void Copy_File_To_Another_Drive()
         {
+            if (ExistingFile.Drive() == FileSystem.DriveDescribing("d:"))
+            {
+                Assert.Ignore(string.Format("The test assumes that the temp directory is not on the d: drive, but it is on '{0}'", ExistingFile.Drive()));
+            }
+
             // IF THIS TEST FAILS:
             // Unfortunately, this test assumes that you have a writable d: drive. If not, it will fail.
             var source = ExistingFile;

@@ -94,6 +94,11 @@ namespace fs4net.TestTemplates.File
         [Test]
         public void Move_File_To_Another_Drive_Throws()
         {
+            if (ExistingFile.Drive() == FileSystem.DriveDescribing("d:"))
+            {
+                Assert.Ignore(string.Format("The test assumes that the temp directory is not on the d: drive, but it is on '{0}'", ExistingFile.Drive()));
+            }
+
             // System.IO.File.Move() allows this but not System.IO.Directory.Move()...
             // I prefer to be consequent
             var source = ExistingFile;

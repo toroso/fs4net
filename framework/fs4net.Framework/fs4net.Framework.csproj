@@ -76,7 +76,6 @@
     <Compile Include="NonRootedPathException.cs" />
     <Compile Include="Impl\PathUtils.cs" />
     <Compile Include="PathWashers.cs" />
-    <Compile Include="PathWashingFileSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelativeDirectory.cs" />
     <Compile Include="RelativeFile.cs" />
