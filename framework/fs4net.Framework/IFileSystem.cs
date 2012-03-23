@@ -24,6 +24,62 @@ namespace fs4net.Framework
         ILogger Logger { get; }
 
         /// <summary>
+        /// Creates a file descriptor from the given path. This method throws if the path is invalid.
+        /// This method will succeed even if the file does not exist.
+        /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">The specified path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
+        /// <exception cref="fs4net.Framework.InvalidPathException">The specified path contains invalid characters,
+        /// contains an invalid drive letter, or is invalid in some other way.</exception>
+        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
+        /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
+        RootedFile FileDescribing(string fullPath);
+
+        /// <summary>
+        /// Creates a descriptor to a directory from the given path. This method throws if the path is invalid. The
+        /// path may not end with a backslash.
+        /// This method will succeed even if the directory does not exist.
+        /// </summary>
+        /// <exception cref="System.IO.PathTooLongException">The specified path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
+        /// <exception cref="fs4net.Framework.InvalidPathException">The specified path contains invalid characters,
+        /// contains an invalid drive letter, or is invalid in some other way.</exception>
+        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
+        /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
+        RootedDirectory DirectoryDescribing(string fullPath);
+
+        /// <summary>
+        /// Creates a descriptor to a drive from the given drive name. The drive should be given without an ending
+        /// backslash. Examples: "c:", "\\network\share".
+        /// This method will succeed even if the drive does not exist.
+        /// </summary>
+        /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
+        /// <exception cref="fs4net.Framework.InvalidPathException">The specified path is empty or contains an invalid drive letter.</exception>
+        Drive DriveDescribing(string driveName);
+
+        /// <summary>
+        /// Creates a file descriptor from the given path. If the given path is relative, the current directory
+        /// is used to make the descriptor rooted.
+        /// </summary>
+        /// <exception cref="System.ArgumentNullException">The specified file system or the specified path is null.</exception>
+        /// <exception cref="System.IO.PathTooLongException">The specified path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
+        /// <exception cref="fs4net.Framework.InvalidPathException">The specified path contains invalid characters,
+        /// contains an invalid drive letter, or is invalid in some other way.</exception>
+        RootedFile FileFromCurrentDirectory(string path);
+
+        /// <summary>
+        /// Creates a descriptor to a directory from the given path. If the given path is relative, the current
+        /// directory is used to make the descriptor rooted.
+        /// </summary>
+        /// <exception cref="System.ArgumentNullException">The specified file system or the specified path is null.</exception>
+        /// <exception cref="System.IO.PathTooLongException">The specified path, in its canonical form, exceeds
+        /// the system-defined maximum length.</exception>
+        /// <exception cref="fs4net.Framework.InvalidPathException">The specified path contains invalid characters,
+        /// contains an invalid drive letter, or is invalid in some other way.</exception>
+        RootedDirectory DirectoryFromCurrentDirectory(string path);
+
+        /// <summary>
         /// Creates a descriptor to the temporary directory.
         /// </summary>
         RootedDirectory DirectoryDescribingTemporaryDirectory();
@@ -56,7 +112,7 @@ namespace fs4net.Framework
         /// contains an invalid drive letter, or is invalid in some other way.</exception>
         /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
         /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
-        public static RootedFile FileDescribing(this IFileSystem fileSystem, string fullPath)
+        public static RootedFile FileDescribing(IFileSystem fileSystem, string fullPath)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             // TODO: If relative, append it to Current Directory. Or not...?
@@ -74,7 +130,7 @@ namespace fs4net.Framework
         /// contains an invalid drive letter, or is invalid in some other way.</exception>
         /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
         /// <exception cref="fs4net.Framework.NonRootedPathException">The specified path is relative or empty.</exception>
-        public static RootedDirectory DirectoryDescribing(this IFileSystem fileSystem, string fullPath)
+        public static RootedDirectory DirectoryDescribing(IFileSystem fileSystem, string fullPath)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             // TODO: If relative, append it to Current Directory. Or not...?
@@ -88,7 +144,7 @@ namespace fs4net.Framework
         /// </summary>
         /// <exception cref="System.ArgumentNullException">The specified path is null.</exception>
         /// <exception cref="fs4net.Framework.InvalidPathException">The specified path is empty or contains an invalid drive letter.</exception>
-        public static Drive DriveDescribing(this IFileSystem fileSystem, string driveName)
+        public static Drive DriveDescribing(IFileSystem fileSystem, string driveName)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             return new Drive(fileSystem.InternalFileSystem, driveName, fileSystem.Logger);
@@ -103,7 +159,7 @@ namespace fs4net.Framework
         /// the system-defined maximum length.</exception>
         /// <exception cref="fs4net.Framework.InvalidPathException">The specified path contains invalid characters,
         /// contains an invalid drive letter, or is invalid in some other way.</exception>
-        public static RootedFile FileFromCurrentDirectory(this IFileSystem fileSystem, string path)
+        public static RootedFile FileFromCurrentDirectory(IFileSystem fileSystem, string path)
         {
             ThrowHelper.ThrowIfNull(fileSystem, "fileSystem");
             if (path.IsValidRootedFile())

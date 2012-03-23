@@ -19,6 +19,31 @@ namespace fs4net.Framework.Test
             get { return AssertLogger.Instance; }
         }
 
+        public RootedFile FileDescribing(string fullPath)
+        {
+            return FileSystemExtensions.FileDescribing(this, fullPath);
+        }
+
+        public RootedDirectory DirectoryDescribing(string fullPath)
+        {
+            return FileSystemExtensions.DirectoryDescribing(this, fullPath);
+        }
+
+        public Drive DriveDescribing(string driveName)
+        {
+            return FileSystemExtensions.DriveDescribing(this, driveName);
+        }
+
+        public RootedFile FileFromCurrentDirectory(string path)
+        {
+            return FileSystemExtensions.FileFromCurrentDirectory(this, path);
+        }
+
+        public RootedDirectory DirectoryFromCurrentDirectory(string path)
+        {
+            return FileSystemExtensions.DirectoryFromCurrentDirectory(this, path);
+        }
+
         public RootedDirectory DirectoryDescribingTemporaryDirectory() { throw new NotImplementedException(); }
         public RootedDirectory DirectoryDescribingCurrentDirectory() { return _currentDirectory; }
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder) { throw new NotImplementedException(); }
@@ -51,7 +76,7 @@ namespace fs4net.Framework.Test
         public Stream CreateModifyStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetAsCurrentDirectory(RootedCanonicalPath path)
         {
-            _currentDirectory = this.DirectoryDescribing(path.FullPath);
+            _currentDirectory = DirectoryDescribing(path.FullPath);
         }
     }
 }

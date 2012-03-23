@@ -23,7 +23,7 @@ namespace fs4net.Framework.Test.Creation
         {
 // ReSharper disable PossibleNullReferenceException
             const IFileSystem nullFileSystem = null;
-            Should.Throw<ArgumentNullException>(() => nullFileSystem.FileFromCurrentDirectory(@"file/system/is/null"));
+            Should.Throw<NullReferenceException>(() => nullFileSystem.FileFromCurrentDirectory(@"file/system/is/null"));
 // ReSharper restore PossibleNullReferenceException
         }
 

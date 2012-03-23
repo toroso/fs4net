@@ -33,27 +33,52 @@ namespace fs4net.Framework
             Logger = logger;
         }
 
+        public RootedFile FileDescribing(string fullPath)
+        {
+            return FileSystemExtensions.FileDescribing(this, fullPath);
+        }
+
+        public RootedDirectory DirectoryDescribing(string fullPath)
+        {
+            return FileSystemExtensions.DirectoryDescribing(this, fullPath);
+        }
+
+        public Drive DriveDescribing(string driveName)
+        {
+            return FileSystemExtensions.DriveDescribing(this, driveName);
+        }
+
+        public RootedFile FileFromCurrentDirectory(string path)
+        {
+            return FileSystemExtensions.FileFromCurrentDirectory(this, path);
+        }
+
+        public RootedDirectory DirectoryFromCurrentDirectory(string path)
+        {
+            return FileSystemExtensions.DirectoryFromCurrentDirectory(this, path);
+        }
+
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
         {
             var tempPathWithBackslash = System.IO.Path.GetTempPath();
-            return this.DirectoryDescribing(tempPathWithBackslash.Remove(tempPathWithBackslash.Length - 1));
+            return DirectoryDescribing(tempPathWithBackslash.Remove(tempPathWithBackslash.Length - 1));
         }
 
         public RootedDirectory DirectoryDescribingCurrentDirectory()
         {
-            return this.DirectoryDescribing(System.IO.Directory.GetCurrentDirectory());
+            return DirectoryDescribing(System.IO.Directory.GetCurrentDirectory());
         }
 
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
         {
             if (folder == Environment.SpecialFolder.MyComputer) throw new NotSupportedException("MyComputer cannot be denoted by a RootedDirectory.");
-            return this.DirectoryDescribing(Environment.GetFolderPath(folder));
+            return DirectoryDescribing(Environment.GetFolderPath(folder));
         }
 
         public IEnumerable<Drive> AllDrives()
         {
             return System.IO.DriveInfo.GetDrives()
-                .Select(driveInfo => this.DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
+                .Select(driveInfo => DriveDescribing(driveInfo.Name.RemoveTrailingPathSeparators()));
         }
     }
 }
