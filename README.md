@@ -37,7 +37,7 @@ Now that you have a file system you might want to do something with it, like cre
 
 Here, the DirectoryDescribing() method creates a reference to the directory, but it does not actually create the directory. You could say that the RootedDirectory is nothing but a fancy string containing the given path.
 
-The Create() method on the other hand does create the directory. You could say corresponds to the .NET framework (static) method Directory.CreateDirectory().
+The Create() method on the other hand does create the directory. You could say it corresponds to the .NET framework (static) method Directory.CreateDirectory().
 
 The RootedDirectory class has got all kinds of handy methods on it, pretty much the same that you can find on the Directory and DirectoryInfo classes together.
 
@@ -136,4 +136,7 @@ fs4net is targeted for .NET framework 3.5. The tests are written using [NUnit](h
 Licensing and Copyright
 -----------------------
 
-Copyright (c) 2010-2011 Torbj&ouml;rn Kalin. Released under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html).
+Copyright (c) 2010-2012 Torbj&ouml;rn Kalin. Released under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html).
+
+Twitter: @fs4net
+E-mail: &#102;&#115;&#52;&#110;&#101;&#116; &#91;&#97;&#116;&#93; &#107;&#97;&#108;&#105;&#110; &#91;&#100;&#111;&#116;&#93; &#101;&#117;
