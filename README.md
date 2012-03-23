@@ -138,5 +138,5 @@ Licensing and Copyright
 
 Copyright (c) 2010-2012 Torbj&ouml;rn Kalin. Released under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html).
 
-Twitter: @fs4net
+Twitter: @fs4net  
 E-mail: &#102;&#115;&#52;&#110;&#101;&#116; &#91;&#97;&#116;&#93; &#107;&#97;&#108;&#105;&#110; &#91;&#100;&#111;&#116;&#93; &#101;&#117;
