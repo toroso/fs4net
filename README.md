@@ -5,7 +5,7 @@ fs4net is an encapsulation of the .NET framework file system functionality. If y
 
 The .NET framework leaves much to ask for when it comes to working with the file system. fs4net tries to amend at least some of these shortcomings.
 
-Find the latest version on [nuget.org](http://nuget.org/List/Packages/fs4net).
+Find the latest version on [nuget.org](http://nuget.org/List/Packages/fs4net). Find builds on [teamcity.codebetter.com](http://teamcity.codebetter.com/project.html?projectId=project174).
 
 Goals
 -----
