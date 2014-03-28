@@ -7,10 +7,13 @@ namespace fs4net.Framework.Impl
     internal sealed class FileSystemImpl : IInternalFileSystem
     {
         private readonly IFileSystem _fileSystem;
+        private RootedDirectory _internalCurrentWorkingDirectory;
 
         public FileSystemImpl(IFileSystem fileSystem)
         {
             _fileSystem = fileSystem;
+            var applicationCurrentDirectory = System.IO.Directory.GetCurrentDirectory().RemoveEndingBackslash();
+            _internalCurrentWorkingDirectory = new RootedDirectory(this, applicationCurrentDirectory, _fileSystem.Logger);
         }
 
         public bool IsFile(RootedCanonicalPath path)
@@ -133,9 +136,14 @@ namespace fs4net.Framework.Impl
             return new System.IO.FileInfo(path.FullPath).Open(System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.ReadWrite);
         }
 
+        public RootedDirectory GetCurrentDirectory()
+        {
+            return _internalCurrentWorkingDirectory;
+        }
+
         public void SetAsCurrentDirectory(RootedCanonicalPath path)
         {
-            System.IO.Directory.SetCurrentDirectory(path.FullPath);
+            _internalCurrentWorkingDirectory = _fileSystem.DirectoryDescribing(path.FullPath);
         }
     }
 }
