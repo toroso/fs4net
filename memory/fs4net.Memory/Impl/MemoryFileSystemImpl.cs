@@ -237,6 +237,11 @@ namespace fs4net.Memory.Impl
             return CreateOrReuseFile(path.FullPath).CreateModifyStream();
         }
 
+        public RootedDirectory GetCurrentDirectory()
+        {
+            return DirectoryDescribingCurrentDirectory();
+        }
+
         public void SetAsCurrentDirectory(RootedCanonicalPath path)
         {
             _currentDirectory = path.FullPath;

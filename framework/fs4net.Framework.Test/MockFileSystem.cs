@@ -74,6 +74,12 @@ namespace fs4net.Framework.Test
         public Stream CreateWriteStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateAppendStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateModifyStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
+
+        public RootedDirectory GetCurrentDirectory()
+        {
+            return DirectoryDescribingCurrentDirectory();
+        }
+
         public void SetAsCurrentDirectory(RootedCanonicalPath path)
         {
             _currentDirectory = DirectoryDescribing(path.FullPath);

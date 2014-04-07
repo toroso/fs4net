@@ -47,6 +47,7 @@ namespace fs4net.Framework
         /// <summary>Note: Might be replaced with a CreateStream() method.</summary>
         Stream CreateModifyStream(RootedCanonicalPath path);
 
+        RootedDirectory GetCurrentDirectory();
         void SetAsCurrentDirectory(RootedCanonicalPath path);
 
         // <summary>

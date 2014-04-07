@@ -66,7 +66,7 @@ namespace fs4net.Framework
 
         public RootedDirectory DirectoryDescribingCurrentDirectory()
         {
-            return DirectoryDescribing(System.IO.Directory.GetCurrentDirectory());
+            return InternalFileSystem.GetCurrentDirectory();
         }
 
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
