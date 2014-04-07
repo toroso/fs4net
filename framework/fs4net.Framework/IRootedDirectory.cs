@@ -174,7 +174,9 @@ namespace fs4net.Framework
             me.VerifyIsNotAFile(ThrowHelper.IOException(me.PathAsString, "Can't get all files for directory '{0}' since it denotes a file.", me.PathAsString));
             me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException(me.PathAsString, "Can't get all files for directory '{0}' since it does not exist.", me.PathAsString));
 
-            return me.InternalFileSystem().GetFilesInDirectory(me.CanonicalPathAsString());
+            return me.InternalFileSystem()
+                .GetFilesInDirectory(me.CanonicalPathAsString())
+                .Select(s => new RootedFile(me.FileSystem, s, me.Logger));
         }
 
         /// <summary>
@@ -189,7 +191,9 @@ namespace fs4net.Framework
             me.VerifyIsNotAFile(ThrowHelper.IOException(me.PathAsString, "Can't get all directories for directory '{0}' since it denotes a file.", me.PathAsString));
             me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException(me.PathAsString, "Can't get all directories for directory '{0}' since it does not exist.", me.PathAsString));
 
-            return me.InternalFileSystem().GetDirectoriesInDirectory(me.CanonicalPathAsString());
+            return me.InternalFileSystem()
+                .GetDirectoriesInDirectory(me.CanonicalPathAsString())
+                .Select(s => new RootedDirectory(me.FileSystem, s, me.Logger));
         }
 
         /// <summary>
@@ -203,7 +207,7 @@ namespace fs4net.Framework
             ThrowHelper.ThrowIfNull(me, "me");
             me.VerifyIsADirectory(ThrowHelper.DirectoryNotFoundException(me.PathAsString, "Can't set directory '{0}' as current since it does not exist.", me.PathAsString));
 
-            me.InternalFileSystem().SetAsCurrentDirectory(me.CanonicalPathAsString());
+            me.InternalFileSystem().SetCurrentDirectory(me.CanonicalPathAsString());
         }
 
         /// <summary>

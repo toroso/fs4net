@@ -29,7 +29,7 @@ namespace fs4net.Framework
         /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
         public FileSystem(ILogger logger)
         {
-            InternalFileSystem = new FileSystemImpl(this);
+            InternalFileSystem = new FileSystemImpl();
             Logger = logger;
         }
 
@@ -66,7 +66,7 @@ namespace fs4net.Framework
 
         public RootedDirectory DirectoryDescribingCurrentDirectory()
         {
-            return InternalFileSystem.GetCurrentDirectory();
+            return DirectoryDescribing(InternalFileSystem.GetCurrentDirectory());
         }
 
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)

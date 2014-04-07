@@ -24,8 +24,8 @@ namespace fs4net.Framework
         DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path);
         void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at);
 
-        IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path);
-        IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path);
+        IEnumerable<string> GetFilesInDirectory(RootedCanonicalPath path);
+        IEnumerable<string> GetDirectoriesInDirectory(RootedCanonicalPath path);
 
         void CreateDirectory(RootedCanonicalPath path);
 
@@ -47,8 +47,8 @@ namespace fs4net.Framework
         /// <summary>Note: Might be replaced with a CreateStream() method.</summary>
         Stream CreateModifyStream(RootedCanonicalPath path);
 
-        RootedDirectory GetCurrentDirectory();
-        void SetAsCurrentDirectory(RootedCanonicalPath path);
+        string GetCurrentDirectory();
+        void SetCurrentDirectory(RootedCanonicalPath path);
 
         // <summary>
         // Should return true if the drive is ready to use. A drive that is not ready could be for example an ejected

@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace fs4net.Framework.Impl
 {
     internal sealed class FileSystemImpl : IInternalFileSystem
     {
-        private readonly IFileSystem _fileSystem;
-        private RootedDirectory _internalCurrentWorkingDirectory;
+        private string _currentDirectory;
 
-        public FileSystemImpl(IFileSystem fileSystem)
+        public FileSystemImpl()
         {
-            _fileSystem = fileSystem;
-            var applicationCurrentDirectory = System.IO.Directory.GetCurrentDirectory().RemoveEndingBackslash();
-            _internalCurrentWorkingDirectory = new RootedDirectory(this, applicationCurrentDirectory, _fileSystem.Logger);
+            _currentDirectory = System.IO.Directory.GetCurrentDirectory().RemoveEndingBackslash();
         }
 
         public bool IsFile(RootedCanonicalPath path)
@@ -71,14 +67,14 @@ namespace fs4net.Framework.Impl
             System.IO.Directory.SetLastAccessTime(path.FullPath, at);
         }
 
-        public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
+        public IEnumerable<string> GetFilesInDirectory(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetFiles(path.FullPath).Select(s => _fileSystem.FileDescribing(s));
+            return System.IO.Directory.GetFiles(path.FullPath);
         }
 
-        public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path)
+        public IEnumerable<string> GetDirectoriesInDirectory(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetDirectories(path.FullPath).Select(s => _fileSystem.DirectoryDescribing(s));
+            return System.IO.Directory.GetDirectories(path.FullPath);
         }
 
         public void CreateDirectory(RootedCanonicalPath path)
@@ -136,14 +132,14 @@ namespace fs4net.Framework.Impl
             return new System.IO.FileInfo(path.FullPath).Open(System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.ReadWrite);
         }
 
-        public RootedDirectory GetCurrentDirectory()
+        public string GetCurrentDirectory()
         {
-            return _internalCurrentWorkingDirectory;
+            return _currentDirectory;
         }
 
-        public void SetAsCurrentDirectory(RootedCanonicalPath path)
+        public void SetCurrentDirectory(RootedCanonicalPath path)
         {
-            _internalCurrentWorkingDirectory = _fileSystem.DirectoryDescribing(path.FullPath);
+            _currentDirectory = path.FullPath;
         }
     }
 }

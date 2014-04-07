@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using fs4net.Framework;
 using fs4net.Memory.Impl;
 
@@ -35,7 +36,7 @@ namespace fs4net.Memory
         /// <param name="logger">Anything worth reporting inside the fs4net classes are sent to this logger instance.</param>
         public MemoryFileSystem(ILogger logger)
         {
-            _impl = new MemoryFileSystemImpl(this);
+            _impl = new MemoryFileSystemImpl();
             InternalFileSystem = _impl;
             Logger = logger;
         }
@@ -85,22 +86,22 @@ namespace fs4net.Memory
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory()
         {
-            return _impl.DirectoryDescribingTemporaryDirectory();
+            return DirectoryDescribing(_impl.GetTemporaryDirectory());
         }
 
         public RootedDirectory DirectoryDescribingCurrentDirectory()
         {
-            return _impl.DirectoryDescribingCurrentDirectory();
+            return DirectoryDescribing(_impl.GetCurrentDirectory());
         }
 
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
         {
-            return _impl.DirectoryDescribingSpecialFolder(folder);
+            return DirectoryDescribing(_impl.GetSpecialFolder(folder));
         }
 
         public IEnumerable<Drive> AllDrives()
         {
-            return _impl.AllDrives();
+            return _impl.AllDrives().Select(DriveDescribing);
         }
     }
 }

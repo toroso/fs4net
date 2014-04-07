@@ -40,12 +40,10 @@ namespace fs4net.Memory.Impl
             };
         private string _currentDirectory;
 
-        private readonly IFileSystem _fileSystem;
         private readonly FolderNode _rootNode = FolderNode.CreateRoot();
 
-        public MemoryFileSystemImpl(IFileSystem fileSystem)
+        public MemoryFileSystemImpl()
         {
-            _fileSystem = fileSystem;
             _rootNode.CreateOrReuseFolderNode(SystemDrive);
             foreach (var folder in _specialFolders)
             {
@@ -64,28 +62,23 @@ namespace fs4net.Memory.Impl
             _rootNode.Dispose();
         }
 
-        public RootedDirectory DirectoryDescribingTemporaryDirectory()
+        public string GetTemporaryDirectory()
         {
-            return _fileSystem.DirectoryDescribing(_specialFolders["Temp"]);
+            return _specialFolders["Temp"];
         }
 
-        public RootedDirectory DirectoryDescribingCurrentDirectory()
-        {
-            return _fileSystem.DirectoryDescribing(_currentDirectory);
-        }
-
-        public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
+        public string GetSpecialFolder(Environment.SpecialFolder folder)
         {
             var folderKey = folder.ToString();
             if (!_specialFolders.ContainsKey(folderKey)) throw new NotSupportedException(string.Format("{0} cannot be denoted by a RootedDirectory.", folder));
-            return _fileSystem.DirectoryDescribing(_specialFolders[folderKey]);
+            return _specialFolders[folderKey];
         }
 
-        public IEnumerable<Drive> AllDrives()
+        public IEnumerable<string> AllDrives()
         {
             return _rootNode
                 .Children
-                .Select(child => _fileSystem.DriveDescribing(child.Name));
+                .Select(child => child.Name);
         }
 
         public bool IsFile(RootedCanonicalPath path)
@@ -143,20 +136,20 @@ namespace fs4net.Memory.Impl
             FindFolderNodeByPath(path.FullPath).LastAccessTime = at;
         }
 
-        public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path)
+        public IEnumerable<string> GetFilesInDirectory(RootedCanonicalPath path)
         {
             return FindFolderNodeByPath(path.FullPath)
                 .Children
                 .OfType<FileNode>()
-                .Select(child => _fileSystem.FileDescribing(child.FullPath));
+                .Select(child => child.FullPath);
         }
 
-        public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path)
+        public IEnumerable<string> GetDirectoriesInDirectory(RootedCanonicalPath path)
         {
             return FindFolderNodeByPath(path.FullPath)
                 .Children
                 .OfType<FolderNode>()
-                .Select(child => _fileSystem.DirectoryDescribing(child.FullPath));
+                .Select(child => child.FullPath);
         }
 
         public void CreateDirectory(RootedCanonicalPath path)
@@ -237,12 +230,12 @@ namespace fs4net.Memory.Impl
             return CreateOrReuseFile(path.FullPath).CreateModifyStream();
         }
 
-        public RootedDirectory GetCurrentDirectory()
+        public string GetCurrentDirectory()
         {
-            return DirectoryDescribingCurrentDirectory();
+            return _currentDirectory;
         }
 
-        public void SetAsCurrentDirectory(RootedCanonicalPath path)
+        public void SetCurrentDirectory(RootedCanonicalPath path)
         {
             _currentDirectory = path.FullPath;
         }

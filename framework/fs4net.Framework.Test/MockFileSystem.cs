@@ -7,7 +7,7 @@ namespace fs4net.Framework.Test
 {
     internal class MockFileSystem : IFileSystem, IInternalFileSystem
     {
-        private RootedDirectory _currentDirectory;
+        private string _currentDirectory;
 
         public IInternalFileSystem InternalFileSystem
         {
@@ -45,7 +45,12 @@ namespace fs4net.Framework.Test
         }
 
         public RootedDirectory DirectoryDescribingTemporaryDirectory() { throw new NotImplementedException(); }
-        public RootedDirectory DirectoryDescribingCurrentDirectory() { return _currentDirectory; }
+
+        public RootedDirectory DirectoryDescribingCurrentDirectory()
+        {
+            return DirectoryDescribing(_currentDirectory);
+        }
+
         public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder) { throw new NotImplementedException(); }
 
         public IEnumerable<Drive> AllDrives() { throw new NotImplementedException(); }
@@ -61,8 +66,8 @@ namespace fs4net.Framework.Test
         public void SetFileLastAccessTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
-        public IEnumerable<RootedFile> GetFilesInDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
-        public IEnumerable<RootedDirectory> GetDirectoriesInDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public IEnumerable<string> GetFilesInDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public IEnumerable<string> GetDirectoriesInDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void CreateDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void DeleteFile(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void DeleteDirectory(RootedCanonicalPath path, bool recursive) { throw new NotImplementedException(); }
@@ -75,14 +80,14 @@ namespace fs4net.Framework.Test
         public Stream CreateAppendStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public Stream CreateModifyStream(RootedCanonicalPath path) { throw new NotImplementedException(); }
 
-        public RootedDirectory GetCurrentDirectory()
+        public string GetCurrentDirectory()
         {
-            return DirectoryDescribingCurrentDirectory();
+            return _currentDirectory;
         }
 
-        public void SetAsCurrentDirectory(RootedCanonicalPath path)
+        public void SetCurrentDirectory(RootedCanonicalPath path)
         {
-            _currentDirectory = DirectoryDescribing(path.FullPath);
+            _currentDirectory = path.FullPath;
         }
     }
 }
