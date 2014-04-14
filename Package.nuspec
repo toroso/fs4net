@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>fs4net</id>
-    <version>0.5</version>
+    <version>0.6</version>
     <authors>Torbjörn Kalin</authors>
     <owners>Torbjörn Kalin</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
@@ -10,9 +10,9 @@
     <iconUrl>http://github.com/toroso/fs4net/blob/master/logo32x32.png?raw=true</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>An encapsulation of the file system. Makes it easy to fake the file system in your tests.</description>
-    <copyright>Copyright 2010-2012 Torbjörn Kalin</copyright>
+    <copyright>Copyright 2010-2014 Torbjörn Kalin</copyright>
     <tags>file directory filesystem file-system path test mock fake NUnit xUnit MSTest TDD BDD DDD</tags>
-	<releaseNotes>API change: Moved IFileSystem extension methods to the interface to allow creation of decorators.</releaseNotes>
+	<releaseNotes>Bug fix: let the file system keep track of current directory (API behavior change); Removed support for SpecialFolders from IFileSystem and fixed backwards compability by adding an extension method.</releaseNotes>
   </metadata>
     <files>
         <file src="framework\fs4net.Framework\bin\Release\fs4net.Framework.dll" target="lib/3.5" />
