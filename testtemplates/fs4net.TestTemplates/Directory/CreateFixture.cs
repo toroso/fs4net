@@ -33,6 +33,7 @@ namespace fs4net.TestTemplates.Directory
         }
 
         [Test]
+        [Ignore("Don't know what drives exist on the CI")]
         public void Create_Directory_On_NonExisting_Drive_Throws()
         {
             var toBeCreated = FileSystem.DirectoryDescribing(@"z:\drive\does\not\exist");
