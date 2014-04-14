@@ -94,11 +94,6 @@ namespace fs4net.Memory
             return DirectoryDescribing(_impl.GetCurrentDirectory());
         }
 
-        public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
-        {
-            return DirectoryDescribing(_impl.GetSpecialFolder(folder));
-        }
-
         public IEnumerable<Drive> AllDrives()
         {
             return _impl.AllDrives().Select(DriveDescribing);

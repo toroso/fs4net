@@ -11,33 +11,7 @@ namespace fs4net.Memory.Impl
     {
         // TODO: Make this stuff configurable
         private const string SystemDrive = "c:";
-        private const string SpecialFolderRoot = SystemDrive + @"\Users\dude";
-        private readonly IDictionary<string, string> _specialFolders = new Dictionary<string, string>
-            {
-                {"ApplicationData", SpecialFolderRoot + @"\AppData\Roaming"},
-                {"CommonApplicationData", @"C:\ProgramData"},
-                {"CommonProgramFiles", @"C:\Program Files (x86)\Common Files"},
-                {"Cookies", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Cookies"},
-                {"Desktop", SpecialFolderRoot + @"\Desktop"},
-                {"DesktopDirectory", SpecialFolderRoot + @"\Desktop"},
-                {"Favorites", SpecialFolderRoot + @"\NetHood\Favorites"},
-                {"History", SpecialFolderRoot + @"\AppData\Local\Microsoft\Windows\History"},
-                {"InternetCache", SpecialFolderRoot + @"\AppData\Local\Microsoft\Windows\Temporary Internet Files"},
-                {"LocalApplicationData", SpecialFolderRoot + @"\AppData\Local"},
-                {"MyMusic", SpecialFolderRoot + @"\Music"},
-                {"MyPictures", SpecialFolderRoot + @"\Pictures"},
-                {"Personal", SpecialFolderRoot + @"\Documents"},
-                {"ProgramFiles", @"C:\Program Files (x86)"},
-                {"Programs", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs"},
-                {"Recent", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Recent"},
-                {"SendTo", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\SendTo"},
-                {"StartMenu", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu"},
-                {"Startup", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"},
-                {"System", @"C:\Windows\system32"},
-                {"Templates", SpecialFolderRoot + @"\AppData\Roaming\Microsoft\Windows\Templates"},
-                // Temp is not a special folder, but it's stored here to simplify logic (besides, why isn't it a special folder?)
-                {"Temp", SpecialFolderRoot + @"\AppData\Local\Temp"},
-            };
+        private readonly string _temporaryDirectory;
         private string _currentDirectory;
 
         private readonly FolderNode _rootNode = FolderNode.CreateRoot();
@@ -45,11 +19,8 @@ namespace fs4net.Memory.Impl
         public MemoryFileSystemImpl()
         {
             _rootNode.CreateOrReuseFolderNode(SystemDrive);
-            foreach (var folder in _specialFolders)
-            {
-                CreateDirectory(folder.Value);
-            }
-            _currentDirectory = _specialFolders["Temp"]; // Good default? I could use Directory.GetCurrentDirectory(), but it's not predictable... And it must exist.
+            _temporaryDirectory = SystemDrive + "\\Windows\\Temp";
+            _currentDirectory = SystemDrive;
         }
 
         public void WithDrives(string[] driveNames)
@@ -64,14 +35,7 @@ namespace fs4net.Memory.Impl
 
         public string GetTemporaryDirectory()
         {
-            return _specialFolders["Temp"];
-        }
-
-        public string GetSpecialFolder(Environment.SpecialFolder folder)
-        {
-            var folderKey = folder.ToString();
-            if (!_specialFolders.ContainsKey(folderKey)) throw new NotSupportedException(string.Format("{0} cannot be denoted by a RootedDirectory.", folder));
-            return _specialFolders[folderKey];
+            return _temporaryDirectory;
         }
 
         public IEnumerable<string> AllDrives()

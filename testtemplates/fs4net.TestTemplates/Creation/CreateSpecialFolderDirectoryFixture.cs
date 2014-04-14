@@ -70,11 +70,7 @@ namespace fs4net.TestTemplates.Creation
             {
                 try
                 {
-                    var directory = _fileSystem.DirectoryDescribingSpecialFolder(folder);
-                    if (!directory.Exists())
-                    {
-                        AddFailure(string.Format("The path '{0}' for '{1}' does not exist", directory, folder));
-                    }
+                    _fileSystem.DirectoryDescribingSpecialFolder(folder);
                 }
                 catch (Exception ex)
                 {
@@ -91,7 +87,7 @@ namespace fs4net.TestTemplates.Creation
         [Test]
         public void CreateMyComputer()
         {
-            Should.Throw<NotSupportedException>(() => FileSystem.DirectoryDescribingSpecialFolder(Environment.SpecialFolder.MyComputer));
+            Should.Throw<NonRootedPathException>(() => FileSystem.DirectoryDescribingSpecialFolder(Environment.SpecialFolder.MyComputer));
         }
     }
 }

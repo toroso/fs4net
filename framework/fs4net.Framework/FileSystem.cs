@@ -69,12 +69,6 @@ namespace fs4net.Framework
             return DirectoryDescribing(InternalFileSystem.GetCurrentDirectory());
         }
 
-        public RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder)
-        {
-            if (folder == Environment.SpecialFolder.MyComputer) throw new NotSupportedException("MyComputer cannot be denoted by a RootedDirectory.");
-            return DirectoryDescribing(Environment.GetFolderPath(folder));
-        }
-
         public IEnumerable<Drive> AllDrives()
         {
             return System.IO.DriveInfo.GetDrives()

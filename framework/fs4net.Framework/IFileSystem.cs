@@ -90,11 +90,6 @@ namespace fs4net.Framework
         RootedDirectory DirectoryDescribingCurrentDirectory();
 
         /// <summary>
-        /// Creates a descriptor to the special folder identified by the parameter.
-        /// </summary>
-        RootedDirectory DirectoryDescribingSpecialFolder(Environment.SpecialFolder folder);
-
-        /// <summary>
         /// Retrieves descriptors to all logical drives on the computer.
         /// </summary>
         IEnumerable<Drive> AllDrives();
@@ -186,6 +181,17 @@ namespace fs4net.Framework
                 return fileSystem.DirectoryDescribing(path);
             }
             return fileSystem.DirectoryDescribingCurrentDirectory() + RelativeDirectory.FromString(path);
+        }
+
+        /// <summary>
+        /// Creates a descriptor to the special folder identified by the parameter.
+        /// </summary>
+        /// <exception cref="System.ArgumentNullException">The specified file system or the specified path is null.</exception>
+        /// <exception cref="fs4net.Framework.InvalidPathException">The path associated with the specified special folder
+        /// contains invalid characters, contains an invalid drive letter, or is invalid in some other way.</exception>
+        public static RootedDirectory DirectoryDescribingSpecialFolder(this IFileSystem fileSystem, Environment.SpecialFolder folder)
+        {
+            return fileSystem.DirectoryDescribing(Environment.GetFolderPath(folder));
         }
     }
 }
