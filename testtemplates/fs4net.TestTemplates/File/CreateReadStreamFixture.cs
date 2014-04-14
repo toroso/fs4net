@@ -39,6 +39,7 @@ namespace fs4net.TestTemplates.File
         }
 
         [Test]
+        [Ignore("Don't know what drives exist on the CI")]
         public void Read_NonExisting_File_From_NonExisting_Drive()
         {
             var file = NonExistingDrive + RelativeFile.FromString(@"path\to\nonexisting.txt");

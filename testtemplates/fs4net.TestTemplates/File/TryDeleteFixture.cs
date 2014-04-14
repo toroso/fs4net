@@ -35,6 +35,7 @@ namespace fs4net.TestTemplates.File
         }
 
         [Test]
+        [Ignore("Don't know what drives exist on the CI")]
         public void Delete_File_On_NonExisting_Drive_Succeeds()
         {
             var toBeDeleted = NonExistingDrive + RelativeFile.FromString(@"drive\does\not\exist.txt");

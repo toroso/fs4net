@@ -31,6 +31,7 @@ namespace fs4net.TestTemplates.File
         }
 
         [Test]
+        [Ignore("Don't know what drives exist on the CI")]
         public void File_On_NonExisting_Drive()
         {
             Should.Throw<FileNotFoundException>(() => (NonExistingDrive + FileName.FromString("file.txt")).Size());
