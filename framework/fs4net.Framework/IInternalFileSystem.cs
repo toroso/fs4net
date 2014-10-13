@@ -21,6 +21,8 @@ namespace fs4net.Framework
         void SetDirectoryLastWriteTime(RootedCanonicalPath path, DateTime at);
         DateTime GetFileLastAccessTime(RootedCanonicalPath path);
         void SetFileLastAccessTime(RootedCanonicalPath path, DateTime at);
+        DateTime GetFileCreationTime(RootedCanonicalPath path);
+        void SetFileCreationTime(RootedCanonicalPath path, DateTime at);
         DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path);
         void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at);
 
@@ -57,5 +59,7 @@ namespace fs4net.Framework
         // <param name="drive">Contains the name of the drive/device without ending backslash. Examples are c: or
         // \\network\drive.</param>
 //        bool IsReady(DriveName drive);
+        DateTime GetDirectoryCreationTime(RootedCanonicalPath path);
+        void SetDirectoryCreationTime(RootedCanonicalPath path, DateTime at);
     }
 }

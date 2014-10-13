@@ -90,6 +90,16 @@ namespace fs4net.Memory.Impl
             FindFileNodeByPath(path.FullPath).LastAccessTime = at;
         }
 
+        public DateTime GetFileCreationTime(RootedCanonicalPath path)
+        {
+            return FindFileNodeByPath(path.FullPath).CreationTime;
+        }
+
+        public void SetFileCreationTime(RootedCanonicalPath path, DateTime at)
+        {
+            FindFileNodeByPath(path.FullPath).CreationTime = at;
+        }
+
         public DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path)
         {
             return FindFolderNodeByPath(path.FullPath).LastAccessTime;
@@ -98,6 +108,16 @@ namespace fs4net.Memory.Impl
         public void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at)
         {
             FindFolderNodeByPath(path.FullPath).LastAccessTime = at;
+        }
+
+        public DateTime GetDirectoryCreationTime(RootedCanonicalPath path)
+        {
+            return FindFolderNodeByPath(path.FullPath).CreationTime;
+        }
+
+        public void SetDirectoryCreationTime(RootedCanonicalPath path, DateTime at)
+        {
+            FindFolderNodeByPath(path.FullPath).CreationTime = at;
         }
 
         public IEnumerable<string> GetFilesInDirectory(RootedCanonicalPath path)

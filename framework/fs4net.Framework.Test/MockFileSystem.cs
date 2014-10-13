@@ -64,6 +64,11 @@ namespace fs4net.Framework.Test
         public void SetDirectoryLastWriteTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public DateTime GetFileLastAccessTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetFileLastAccessTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
+        public DateTime GetFileCreationTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public void SetFileCreationTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
+        public DateTime GetDirectoryCreationTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
+        public void SetDirectoryCreationTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
+
         public DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path) { throw new NotImplementedException(); }
         public void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at) { throw new NotImplementedException(); }
         public IEnumerable<string> GetFilesInDirectory(RootedCanonicalPath path) { throw new NotImplementedException(); }
