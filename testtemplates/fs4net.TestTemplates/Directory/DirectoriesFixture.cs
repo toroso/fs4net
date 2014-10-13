@@ -36,7 +36,7 @@ namespace fs4net.TestTemplates.Directory
         public void Directories_For_Directory_That_Is_A_File_Throws()
         {
             var fileAsDirectory = FileSystem.DirectoryDescribing(ExistingFile.PathAsString);
-            Should.Throw<IOException>(() => fileAsDirectory.Directories());
+            Should.Throw<DirectoryNotFoundException>(() => fileAsDirectory.Directories());
         }
 
 
