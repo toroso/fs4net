@@ -152,6 +152,39 @@ namespace fs4net.Framework
         }
 
         /// <summary>
+        /// Returns the date and time the directory was created.
+        /// </summary>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the directory does not exist.</exception>
+        public static DateTime CreationTime<T>(this IRootedDirectory<T> me)
+            where T : IRootedDirectory<T>
+        {
+            ThrowHelper.ThrowIfNull(me, "me");
+            me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get creation time for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get creation time for directory '{0}' since it does not exist.", me.PathAsString));
+
+            return me.InternalFileSystem().GetDirectoryCreationTime(me.CanonicalPathAsString());
+        }
+
+        /// <summary>
+        /// Sets the date and time the directory was created.
+        /// </summary>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the directory does not exist.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">If the time value is outside the range of dates or
+        /// times permitted for this operation.</exception>
+        public static void SetCreationTime<T>(this IRootedDirectory<T> me, DateTime at)
+            where T : IRootedDirectory<T>
+        {
+            ThrowHelper.ThrowIfNull(me, "me");
+            RootedFileSystemItemVerifications.VerifyDateTime(at, "set creation date", "directory");
+            me.VerifyIsNotAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set creation time for directory '{0}' since it denotes a file.", me.PathAsString));
+            me.VerifyIsADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set creation time for directory '{0}' since it does not exist.", me.PathAsString));
+
+            me.InternalFileSystem().SetDirectoryCreationTime(me.CanonicalPathAsString(), at);
+        }
+
+        /// <summary>
         /// Returns true if there are no files or folders in the given directory.
         /// </summary>
         /// <exception cref="System.IO.IOException">The directory descriptor denotes an existing file.</exception>

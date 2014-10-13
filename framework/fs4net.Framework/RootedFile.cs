@@ -199,6 +199,39 @@ namespace fs4net.Framework
         }
 
         /// <summary>
+        /// Returns the date and time the file was created.
+        /// </summary>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission (according to the MSDN documentation).</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the file does not exist or the path descriptor
+        /// denotes and existing directory.</exception>
+        public static DateTime CreationTime(this RootedFile me)
+        {
+            ThrowHelper.ThrowIfNull(me, "me");
+            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get creation time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't get creation time for file '{0}' since it does not exist.", me.PathAsString));
+
+            return me.InternalFileSystem().GetFileCreationTime(me.CanonicalPathAsString());
+        }
+
+        /// <summary>
+        /// Sets the CreationTime property on the file denoted by this descriptor.
+        /// </summary>
+        /// <exception cref="System.UnauthorizedAccessException">The caller does not have the required permission (according to the MSDN documentation).</exception>
+        /// <exception cref="System.IO.FileNotFoundException">If the file does not exist or the path descriptor
+        /// denotes an existing directory.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">If the time value is outside the range of dates or
+        /// times permitted for this operation.</exception>
+        public static void SetCreationTime(this RootedFile me, DateTime at)
+        {
+            ThrowHelper.ThrowIfNull(me, "me");
+            RootedFileSystemItemVerifications.VerifyDateTime(at, "set creation date", "file");
+            me.VerifyIsNotADirectory(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set creation time for file '{0}' since it denotes a directory.", me.PathAsString));
+            me.VerifyIsAFile(ThrowHelper.FileNotFoundException(me.PathAsString, "Can't set creation time for file '{0}' since it does not exist.", me.PathAsString));
+
+            me.InternalFileSystem().SetFileCreationTime(me.CanonicalPathAsString(), at);
+        }
+
+        /// <summary>
         /// Deletes the file denoted by this descriptor. If the file does not exists this method does nothing.
         /// </summary>
         /// <exception cref="System.IO.IOException">The file is in use; A directory is denoted by this file

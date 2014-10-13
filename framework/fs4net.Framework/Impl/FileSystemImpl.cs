@@ -67,6 +67,26 @@ namespace fs4net.Framework.Impl
             System.IO.Directory.SetLastAccessTime(path.FullPath, at);
         }
 
+        public DateTime GetDirectoryCreationTime(RootedCanonicalPath path)
+        {
+            return System.IO.Directory.GetCreationTime(path.FullPath);
+        }
+
+        public void SetDirectoryCreationTime(RootedCanonicalPath path, DateTime at)
+        {
+            System.IO.Directory.SetCreationTime(path.FullPath, at);
+        }
+
+        public DateTime GetFileCreationTime(RootedCanonicalPath path)
+        {
+            return System.IO.File.GetCreationTime(path.FullPath);
+        }
+
+        public void SetFileCreationTime(RootedCanonicalPath path, DateTime at)
+        {
+            System.IO.File.SetCreationTime(path.FullPath, at);
+        }
+
         public IEnumerable<string> GetFilesInDirectory(RootedCanonicalPath path)
         {
             return System.IO.Directory.GetFiles(path.FullPath);

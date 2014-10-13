@@ -23,6 +23,7 @@ namespace fs4net.Builder
         {
             _file.SetLastAccessTime(LastAccessTime);
             _file.SetLastWriteTime(LastWriteTime);
+            _file.SetCreationTime(CreationTime);
         }
 
         public RootedFileBuilder Containing(string contents)

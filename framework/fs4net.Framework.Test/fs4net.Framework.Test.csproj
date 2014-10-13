@@ -74,6 +74,7 @@
     <Compile Include="Directory\DirectoriesFixture.cs" />
     <Compile Include="Directory\ExistsFixture.cs" />
     <Compile Include="Directory\FilesFixture.cs" />
+    <Compile Include="Directory\CreationTimeFixture.cs" />
     <Compile Include="Directory\LastAccessTimeFixture.cs" />
     <Compile Include="Directory\LastWriteTimeFixture.cs" />
     <Compile Include="Directory\MoveToFixture.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="File\CreateWriteStreamFixture.cs" />
     <Compile Include="File\DeleteFixture.cs" />
     <Compile Include="File\ExistsFixture.cs" />
+    <Compile Include="File\CreationTimeFixture.cs" />
     <Compile Include="File\LastAccessTimeFixture.cs" />
     <Compile Include="File\LastWriteTimeFixture.cs" />
     <Compile Include="File\MoveToFixture.cs" />

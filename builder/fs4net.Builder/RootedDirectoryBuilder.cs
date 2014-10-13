@@ -22,6 +22,7 @@ namespace fs4net.Builder
         {
             _dir.SetLastAccessTime(LastAccessTime);
             _dir.SetLastWriteTime(LastWriteTime);
+            _dir.SetCreationTime(CreationTime);
         }
 
         public static implicit operator RootedDirectory (RootedDirectoryBuilder me)
