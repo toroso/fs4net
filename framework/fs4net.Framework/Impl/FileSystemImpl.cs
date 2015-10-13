@@ -39,12 +39,12 @@ namespace fs4net.Framework.Impl
 
         public DateTime GetDirectoryLastWriteTime(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetLastWriteTime(path.FullPath);
+            return System.IO.Directory.GetLastWriteTime(FullPathWithBackslashOnDrives(path.FullPath));
         }
 
         public void SetDirectoryLastWriteTime(RootedCanonicalPath path, DateTime at)
         {
-            System.IO.Directory.SetLastWriteTime(path.FullPath, at);
+            System.IO.Directory.SetLastWriteTime(FullPathWithBackslashOnDrives(path.FullPath), at);
         }
 
         public DateTime GetFileLastAccessTime(RootedCanonicalPath path)
@@ -59,22 +59,22 @@ namespace fs4net.Framework.Impl
 
         public DateTime GetDirectoryLastAccessTime(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetLastAccessTime(path.FullPath);
+            return System.IO.Directory.GetLastAccessTime(FullPathWithBackslashOnDrives(path.FullPath));
         }
 
         public void SetDirectoryLastAccessTime(RootedCanonicalPath path, DateTime at)
         {
-            System.IO.Directory.SetLastAccessTime(path.FullPath, at);
+            System.IO.Directory.SetLastAccessTime(FullPathWithBackslashOnDrives(path.FullPath), at);
         }
 
         public DateTime GetDirectoryCreationTime(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetCreationTime(path.FullPath);
+            return System.IO.Directory.GetCreationTime(FullPathWithBackslashOnDrives(path.FullPath));
         }
 
         public void SetDirectoryCreationTime(RootedCanonicalPath path, DateTime at)
         {
-            System.IO.Directory.SetCreationTime(path.FullPath, at);
+            System.IO.Directory.SetCreationTime(FullPathWithBackslashOnDrives(path.FullPath), at);
         }
 
         public DateTime GetFileCreationTime(RootedCanonicalPath path)
@@ -89,12 +89,19 @@ namespace fs4net.Framework.Impl
 
         public IEnumerable<string> GetFilesInDirectory(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetFiles(path.FullPath);
+            return System.IO.Directory.GetFiles(FullPathWithBackslashOnDrives(path.FullPath));
         }
 
         public IEnumerable<string> GetDirectoriesInDirectory(RootedCanonicalPath path)
         {
-            return System.IO.Directory.GetDirectories(path.FullPath);
+            return System.IO.Directory.GetDirectories(FullPathWithBackslashOnDrives(path.FullPath));
+        }
+
+        private static string FullPathWithBackslashOnDrives(string fullPath)
+        {
+            return fullPath.EndsWith(":")
+                ? string.Format("{0}\\", fullPath) // Handle drives
+                : fullPath;
         }
 
         public void CreateDirectory(RootedCanonicalPath path)

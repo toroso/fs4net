@@ -10,9 +10,7 @@ namespace fs4net.Framework
 
         internal RootedCanonicalPath(string fullPath) : this()
         {
-            FullPath = fullPath.EndsWith(":")
-                ? string.Format("{0}\\", fullPath) // Handle drives
-                : fullPath;
+            FullPath = fullPath;
         }
 
         #region Value Object
