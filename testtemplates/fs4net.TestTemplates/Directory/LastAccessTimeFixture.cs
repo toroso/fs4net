@@ -17,15 +17,13 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void LastAccessTime_On_Directory_For_Existing_File_Throws()
         {
-            // TODO: Don't like this exception: DirectoryNotFound?
-            Should.Throw<FileNotFoundException>(() => FileSystem.DirectoryDescribing(ExistingFile.PathAsString).LastAccessTime());
+            Should.Throw<DirectoryNotFoundException>(() => FileSystem.DirectoryDescribing(ExistingFile.PathAsString).LastAccessTime());
         }
 
         [Test]
         public void LastAccessTime_On_NonExisting_Directory_Throws()
         {
-            // TODO: Don't like this exception: DirectoryNotFound?
-            Should.Throw<FileNotFoundException>(() => NonExistingDirectory.LastAccessTime());
+            Should.Throw<DirectoryNotFoundException>(() => NonExistingDirectory.LastAccessTime());
         }
 
         [Test]

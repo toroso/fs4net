@@ -16,15 +16,13 @@ namespace fs4net.TestTemplates.Directory
         [Test]
         public void CreationTime_On_Directory_For_Existing_File_Throws()
         {
-            // TODO: Don't like this exception: DirectoryNotFound?
-            Should.Throw<FileNotFoundException>(() => FileSystem.DirectoryDescribing(ExistingFile.PathAsString).CreationTime());
+            Should.Throw<DirectoryNotFoundException>(() => FileSystem.DirectoryDescribing(ExistingFile.PathAsString).CreationTime());
         }
 
         [Test]
         public void CreationTime_On_NonExisting_Directory_Throws()
         {
-            // TODO: Don't like this exception: DirectoryNotFound?
-            Should.Throw<FileNotFoundException>(() => NonExistingDirectory.CreationTime());
+            Should.Throw<DirectoryNotFoundException>(() => NonExistingDirectory.CreationTime());
         }
 
         [Test]
